@@ -195,17 +195,8 @@
 			<artifactId>derby</artifactId>
 			<version>10.11.1.1</version>
 		</dependency>
-		<dependency>
-			<groupId>org.smslib</groupId>
-			<artifactId>smslib</artifactId>
-			<version>3.4.5</version>
-		</dependency>
-		<dependency>
-			<groupId>javax.comm</groupId>
-			<artifactId>comm</artifactId>
-			<version>2.0.0</version>
-		</dependency>
-		
+
+
 		<dependency>
 			<groupId>org.apache.derby</groupId>
 			<artifactId>derbyclient</artifactId>
