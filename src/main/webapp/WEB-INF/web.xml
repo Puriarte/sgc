@@ -1,11 +1,277 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<web-app id="WebApp_ID" version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+	<display-name>GCP</display-name>
+	<session-config>
+		<session-timeout>30</session-timeout>
+	</session-config>
 
-<web-app version="3.0"
-         xmlns="http://java.sun.com/xml/ns/javaee"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
-         metadata-complete="false">
+	<servlet>
+	    <servlet-name>log4j-init</servlet-name>
+	    <servlet-class>com.puriarte.utils.log4j.Log4jInit</servlet-class>
 
-         
+	    <init-param>
+	      <param-name>log4j-enable</param-name>
+	      <param-value>true</param-value>
+	    </init-param>
+	    <init-param>
+	      <param-name>log4j-watch</param-name>
+	      <param-value>true</param-value>
+	    </init-param>
+	    <init-param>
+	      <param-name>log4j-init-file</param-name>
+	      <param-value>WEB-INF/classes/com/puriarte/utilities/log4j/log4j.properties</param-value>
+	    </init-param>
+
+	    <load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<servlet>
+		<servlet-name>action</servlet-name>
+		<servlet-class>org.apache.struts.action.ActionServlet</servlet-class>
+		<init-param>
+			<param-name>config</param-name>
+			<param-value>/WEB-INF/struts-config.xml</param-value>
+		</init-param>
+		<init-param>
+			<param-name>debug</param-name>
+			<param-value>2</param-value>
+		</init-param>
+    	<init-param>
+      	  	<param-name>listings</param-name>
+      	  	<param-value>false</param-value>
+    	</init-param>
+		<load-on-startup>2</load-on-startup>
+	</servlet>
+
+	<servlet>
+	    <servlet-name>LstSMS</servlet-name>
+	    <servlet-class>com.puriarte.gcp.web.presentation.ajax.SrvLstSMS</servlet-class>
+		<init-param>
+			<param-name>idComponente</param-name>
+			<param-value>13</param-value>
+		</init-param>
+		<init-param>
+			<param-name>idOpMenu</param-name>
+			<param-value>501</param-value>
+		</init-param>
+	    <load-on-startup>5</load-on-startup>
+	</servlet>
+
+	<servlet>
+	    <servlet-name>LstPerson</servlet-name>
+	    <servlet-class>com.puriarte.gcp.web.presentation.ajax.SrvLstPerson</servlet-class>
+		<init-param>
+			<param-name>idComponente</param-name>
+			<param-value>13</param-value>
+		</init-param>
+		<init-param>
+			<param-name>idOpMenu</param-name>
+			<param-value>501</param-value>
+		</init-param>
+	    <load-on-startup>5</load-on-startup>
+	</servlet>
+
+<servlet>
+	    <servlet-name>LstDispatch</servlet-name>
+	    <servlet-class>com.puriarte.gcp.web.presentation.ajax.SrvLstDispatch</servlet-class>
+		<init-param>
+			<param-name>idComponente</param-name>
+			<param-value>13</param-value>
+		</init-param>
+		<init-param>
+			<param-name>idOpMenu</param-name>
+			<param-value>501</param-value>
+		</init-param>
+	    <load-on-startup>5</load-on-startup>
+	</servlet>
+	<servlet>
+	    <servlet-name>LstPersonCategory</servlet-name>
+	    <servlet-class>com.puriarte.gcp.web.presentation.ajax.SrvLstPersonCategory</servlet-class>
+		<init-param>
+			<param-name>idComponente</param-name>
+			<param-value>17</param-value>
+		</init-param>
+		<init-param>
+			<param-name>idOpMenu</param-name>
+			<param-value>1017</param-value>
+		</init-param>
+	    <load-on-startup>8</load-on-startup>
+	</servlet>
+
+	<servlet>
+	    <servlet-name>LstGridPersonCategory</servlet-name>
+	    <servlet-class>com.puriarte.gcp.web.presentation.ajax.SrvLstGridPersonCategory</servlet-class>
+		<init-param>
+			<param-name>idComponente</param-name>
+			<param-value>17</param-value>
+		</init-param>
+		<init-param>
+			<param-name>idOpMenu</param-name>
+			<param-value>1017</param-value>
+		</init-param>
+	    <load-on-startup>8</load-on-startup>
+	</servlet>
+
+	<servlet>
+	    <servlet-name>LstPlace</servlet-name>
+	    <servlet-class>com.puriarte.gcp.web.presentation.ajax.SrvLstPlace</servlet-class>
+		<init-param>
+			<param-name>idComponente</param-name>
+			<param-value>17</param-value>
+		</init-param>
+		<init-param>
+			<param-name>idOpMenu</param-name>
+			<param-value>1017</param-value>
+		</init-param>
+	    <load-on-startup>8</load-on-startup>
+	</servlet>
+
+	<servlet>
+	    <servlet-name>LstGridPlace</servlet-name>
+	    <servlet-class>com.puriarte.gcp.web.presentation.ajax.SrvLstGridPlace</servlet-class>
+		<init-param>
+			<param-name>idComponente</param-name>
+			<param-value>17</param-value>
+		</init-param>
+		<init-param>
+			<param-name>idOpMenu</param-name>
+			<param-value>1017</param-value>
+		</init-param>
+	    <load-on-startup>8</load-on-startup>
+	</servlet>
+
+
+	<servlet>
+		<servlet-name>MostrarEscolaridadPDF</servlet-name>
+		<servlet-class>com.puriarte.gcp.web.presentation.actions.ActionMostrarEscolaridadPDF</servlet-class>
+		<init-param>
+			<param-name>idComponente</param-name>
+			<param-value>2</param-value>
+		</init-param>
+		<init-param>
+			<param-name>idOpMenu</param-name>
+			<param-value>51</param-value>
+		</init-param>
+	</servlet>
+	
+	
+	<servlet>
+		<servlet-name>MostrarConvocatoriasPDF</servlet-name>
+		<servlet-class>com.puriarte.gcp.web.presentation.actions.ActionMostrarConvocatoriasPDF</servlet-class>
+		<init-param>
+			<param-name>idComponente</param-name>
+			<param-value>2</param-value>
+		</init-param>
+		<init-param>
+			<param-name>idOpMenu</param-name>
+			<param-value>51</param-value>
+		</init-param>
+	</servlet>
+
+
+	<!-- Action Servlet Mapping -->
+
+	<servlet-mapping>
+		<servlet-name>action</servlet-name>
+		<url-pattern>*.do</url-pattern>
+	</servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>LstPerson</servlet-name>
+    <url-pattern>/lstPerson</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>LstDispatch</servlet-name>
+    <url-pattern>/lstDispatch</url-pattern>
+  </servlet-mapping>
+  
+  
+
+  <servlet-mapping>
+    <servlet-name>LstSMS</servlet-name>
+    <url-pattern>/lstSMS</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>LstPersonCategory</servlet-name>
+    <url-pattern>/lstPersonCategory</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>LstGridPersonCategory</servlet-name>
+    <url-pattern>/lstGridPersonCategory</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>LstGridPlace</servlet-name>
+    <url-pattern>/lstGridPlace</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>LstPlace</servlet-name>
+    <url-pattern>/lstPlace</url-pattern>
+  </servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>MostrarEscolaridadPDF</servlet-name>
+		<url-pattern>/mostrarEscolaridadPDF</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>MostrarConvocatoriasPDF</servlet-name>
+		<url-pattern>/mostrarConvocatoriasPDF</url-pattern>
+	</servlet-mapping>
+
+
+	<!-- The Welcome File List -->
+	<welcome-file-list>
+		<welcome-file>index.jsp</welcome-file>
+	</welcome-file-list>
+
+	<jsp-config>
+  	<!-- Application Tag Library Descriptor -->
+
+  	<!-- Struts Tag Library Descriptors -->
+	<taglib>
+		<taglib-uri>/WEB-INF/struts-bean.tld</taglib-uri>
+		<taglib-location>/WEB-INF/struts-bean.tld</taglib-location>
+	</taglib>
+	<taglib>
+		<taglib-uri>/WEB-INF/struts-html.tld</taglib-uri>
+		<taglib-location>/WEB-INF/struts-html.tld</taglib-location>
+	</taglib>
+	<taglib>
+		<taglib-uri>/WEB-INF/struts-logic.tld</taglib-uri>
+		<taglib-location>/WEB-INF/struts-logic.tld</taglib-location>
+	</taglib>
+	<taglib>
+		<taglib-uri>/WEB-INF/struts-tiles.tld</taglib-uri>
+		<taglib-location>/WEB-INF/struts-tiles.tld</taglib-location>
+	</taglib>
+	<taglib>
+		<taglib-uri>/WEB-INF/struts-nested.tld</taglib-uri>
+		<taglib-location>/WEB-INF/struts-nested.tld</taglib-location>
+	</taglib>
+  <taglib>
+    <taglib-uri>/WEB-INF/fmt.tld</taglib-uri>
+    <taglib-location>/WEB-INF/fmt.tld</taglib-location>
+  </taglib>
+
+  <taglib>
+    <taglib-uri>/WEB-INF/c.tld</taglib-uri>
+    <taglib-location>/WEB-INF/c.tld</taglib-location>
+  </taglib>
+
+  <taglib>
+    <taglib-uri>/WEB-INF/sql.tld</taglib-uri>
+    <taglib-location>/WEB-INF/sql.tld</taglib-location>
+  </taglib>
+
+  <taglib>
+    <taglib-uri>/WEB-INF/x.tld</taglib-uri>
+    <taglib-location>/WEB-INF/x.tld</taglib-location>
+  </taglib>
+	</jsp-config>
+
 </web-app>
-

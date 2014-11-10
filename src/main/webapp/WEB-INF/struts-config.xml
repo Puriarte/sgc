@@ -1,0 +1,414 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.1//EN" "http://jakarta.apache.org/struts/dtds/struts-config_1_1.dtd">
+<struts-config>
+
+<!-- ========== Form Bean Definitions =================================== -->
+
+<form-beans>
+	<form-bean dynamic="true" name="frmLogin" type="org.apache.struts.action.DynaActionForm">
+		<form-property name="primeraVez" type="java.lang.Boolean" />
+		<form-property name="nombre" type="java.lang.String" />
+		<form-property name="password" type="java.lang.String" />
+	</form-bean>
+
+	<form-bean dynamic="true" name="frmAdmSMS" type="org.apache.struts.action.DynaActionForm">
+		<form-property name="nroDestino" type="java.lang.String" />
+		<form-property name="detalleIn" type="java.lang.String" />
+	</form-bean>
+
+	<form-bean dynamic="true" name="frmLstSMS" type="org.apache.struts.action.DynaActionForm">
+		<form-property name="accion" type="java.lang.String" />
+		<form-property name="allIds" type="java.lang.Integer[]" />
+
+		<form-property name="maxResults" type="java.lang.Integer" />
+
+		<form-property name="fechaDesde" type="java.lang.String" />
+		<form-property name="fechaDesde1" type="java.lang.String" />
+		<form-property name="fechaHasta" type="java.lang.String" />
+
+		<form-property name="fechaVencimientoDesde" type="java.lang.String" />
+		<form-property name="fechaVencimientoHasta" type="java.lang.String" />
+
+		<form-property name="source" type="java.lang.String" />
+		<form-property name="destination" type="java.lang.String" />
+
+		<form-property name="convocatorias" type="java.util.ArrayList" />
+		<form-property name="convocatoria" type="java.lang.String" />
+
+	</form-bean>
+
+	<form-bean dynamic="true" name="frmLstPerson" type="org.apache.struts.action.DynaActionForm">
+		<form-property name="accion" type="java.lang.String" />
+		<form-property name="allIds" type="java.lang.Integer[]" />
+		<form-property name="maxResults" type="java.lang.Integer" />
+
+		<form-property name="categories" type="java.util.ArrayList" />
+		<form-property name="category" type="java.lang.String" />
+		<form-property name="priority" type="java.lang.String" />
+		<form-property name="fechaDesde" type="java.lang.String" />
+		<form-property name="fechaDesde1" type="java.lang.String" />
+		<form-property name="fechaHasta" type="java.lang.String" />
+
+	</form-bean>
+
+	<form-bean dynamic="true" name="frmLstDispatch" type="org.apache.struts.action.DynaActionForm">
+		<form-property name="accion" type="java.lang.String" />
+		<form-property name="allIds" type="java.lang.Integer[]" />
+		<form-property name="maxResults" type="java.lang.Integer" />
+
+		<form-property name="categories" type="java.util.ArrayList" />
+		<form-property name="category" type="java.lang.String" />
+		<form-property name="priority" type="java.lang.String" />
+		<form-property name="fechaDesde" type="java.lang.String" />
+		<form-property name="fechaDesde1" type="java.lang.String" />
+		<form-property name="fechaHasta" type="java.lang.String" />
+
+	</form-bean>
+
+	<form-bean dynamic="true" name="frmLstCategory" type="org.apache.struts.action.DynaActionForm">
+		<form-property name="accion" type="java.lang.String" />
+		<form-property name="allIds" type="java.lang.Integer[]" />
+		<form-property name="maxResults" type="java.lang.Integer" />
+
+		<form-property name="id" type="java.lang.Integer" />
+		<form-property name="name" type="java.lang.String" />
+	</form-bean>
+
+	<form-bean dynamic="true" name="frmAdmCategory" type="org.apache.struts.action.DynaActionForm">
+		<form-property name="NOMBRE" type="java.lang.String" />
+		<form-property name="ID" type="java.lang.String" />
+	</form-bean>
+
+	<form-bean dynamic="true" name="frmLstPlace" type="org.apache.struts.action.DynaActionForm">
+		<form-property name="accion" type="java.lang.String" />
+		<form-property name="allIds" type="java.lang.Integer[]" />
+		<form-property name="maxResults" type="java.lang.Integer" />
+
+		<form-property name="id" type="java.lang.Integer" />
+		<form-property name="name" type="java.lang.String" />
+	</form-bean>
+
+	<form-bean dynamic="true" name="frmAdmPlace" type="org.apache.struts.action.DynaActionForm">
+		<form-property name="NOMBRE" type="java.lang.String" />
+		<form-property name="DIRECCION" type="java.lang.String" />
+		<form-property name="TELEFONO" type="java.lang.String" />
+		<form-property name="ID" type="java.lang.String" />
+	</form-bean>
+
+	<form-bean dynamic="true" name="frmAdmDispatch" type="org.apache.struts.action.DynaActionForm">
+		<form-property name="accion" type="java.lang.String" />
+		<form-property name="nroDestino" type="java.lang.String" />
+		<form-property name="detalleIn" type="java.lang.String" />
+		<form-property name="name" type="java.lang.String" />
+		<form-property name="prefix" type="java.lang.String" />
+		<form-property name="eventDate" type="java.lang.String" />
+		<form-property name="eventHour" type="java.lang.String" />
+		<form-property name="place" type="java.lang.String" />
+		<form-property name="personCategory" type="java.lang.String" />
+		<form-property name="colPerson" type="java.util.ArrayList" />
+		<form-property name="categories" type="java.util.ArrayList" />
+		<form-property name="places" type="java.util.ArrayList" />
+		<form-property name="assignmentsStatus" type="java.util.ArrayList" />
+		<form-property name="personsMovil" type="java.util.ArrayList" />
+		
+		<form-property name="dispatch" type="com.puriarte.convocatoria.persistence.Dispatch" />
+		<form-property name="colAssignment" type="java.util.ArrayList" />		
+
+	</form-bean>
+
+	<form-bean dynamic="true" name="frmAdmPereson" type="org.apache.struts.action.DynaActionForm">
+		<form-property name="NOMBRE" type="java.lang.String" />
+		<form-property name="SOBRENOMBRE" type="java.lang.String" />
+		<form-property name="CATEGORIA" type="java.lang.String" />
+		<form-property name="ORDEN PRELACION" type="java.lang.String" />
+		<form-property name="ID" type="java.lang.String" />
+		<form-property name="NUMERO" type="java.lang.String" />
+		<form-property name="NRO DOCUMENTO" type="java.lang.String" />
+	</form-bean>
+
+	<form-bean dynamic="true" name="frmSchool" type="org.apache.struts.action.DynaActionForm">
+		<form-property name="accion" type="java.lang.String" />
+		<form-property name="fechaDesde" type="java.lang.String" />
+		<form-property name="fechaHasta" type="java.lang.String" />
+		<form-property name="idPerson" type="java.lang.String" />
+
+	</form-bean>
+	</form-beans>
+
+<!-- ========== Global Forward Definitions ============================== -->
+
+<global-forwards>
+	<forward name="notauthorized" path="/sinpermiso.jsp" redirect="true"/>
+	<forward name="notlogged" path="/index.jsp" redirect="true"/>
+	<forward name="error" path="/error.jsp" redirect="true"/>
+	<forward name="inicio" path="/index.jsp" redirect="true"/>
+</global-forwards>
+
+<!-- ========== Action Mapping Definitions ============================== -->
+<action-mappings>
+
+<!-- ========== AUTENTICACION ========================================== -->
+
+<action name="frmLogin"
+		path="/login"
+		scope="request"
+		type="com.puriarte.gcp.web.presentation.actions.ActLogin">
+		<forward name="success" path="/main.jsp"/>
+		<forward name="failure" path="/index.jsp"/>
+
+</action>
+
+<action path="/logout"
+		scope="request"
+		type="com.puriarte.gcp.web.presentation.actions.ActLogout">
+
+		<forward name="success" path="/index.jsp"/>
+		<forward name="failure" path="/index.jsp"/>
+
+</action>
+
+<action className="com.puriarte.gcp.web.presentation.actions.SecurityActionMapping"
+		name="formADMOrdenProveedor"
+		parameter="method"
+		path="/deudores/admOrdenProveedor"
+		scope="session"
+		type="com.puriarte.gcp.web.presentation.actions.ActionAdmOrdenProveedor">
+
+		<set-property property="idOpMenu" value="1100"/>
+		<set-property property="idComponente" value="18"/>
+
+		<forward name="nuevaOrden" path="/deudores/adm_orden_proveedor.jsp"/>
+		<forward name="modificarOrden" path="/deudores/adm_orden_proveedor.jsp"/>
+		<forward name="ordenCreada" path="/deudores/adm_orden_proveedor.jsp"/>
+		<forward name="failure" path="/deudores/adm_orden_proveedor.jsp"/>
+
+</action>
+
+<action className="com.puriarte.gcp.web.presentation.actions.SecurityActionMapping"
+		path="/lstSMS"
+		name="frmLstSMS"
+		scope="request"
+		type="com.puriarte.gcp.web.presentation.actions.ActionReporte40">
+
+		<set-property property="idOpMenu" value="1100"/>
+		<set-property property="idComponente" value="18"/>
+
+		<forward name="success" path="/lst_sms.jsp"/>
+		<forward name="failure" path="/lst_sms.jsp"/>
+		<forward name="resultado" path="/resultado_operacion.jsp"/>
+
+</action>
+
+
+<action className="com.puriarte.gcp.web.presentation.actions.SecurityActionMapping"
+		path="/school"
+		name="frmSchool"
+		scope="request"
+		type="com.puriarte.gcp.web.presentation.actions.ActionSchool">
+
+		<set-property property="idOpMenu" value="1100"/>
+		<set-property property="idComponente" value="18"/>
+
+		<forward name="success" path="/frm_school.jsp"/>
+		<forward name="failure" path="/frm_school.jsp"/>
+		<forward name="resultado" path="/resultado_operacion.jsp"/>
+
+</action>
+
+
+<action className="com.puriarte.gcp.web.presentation.actions.SecurityActionMapping"
+		path="/lstPerson"
+		name="frmLstPerson"
+		scope="request"
+		type="com.puriarte.gcp.web.presentation.actions.ActionListPerson">
+
+		<set-property property="idOpMenu" value="1100"/>
+		<set-property property="idComponente" value="18"/>
+
+		<forward name="success" path="/lst_person.jsp"/>
+		<forward name="failure" path="/lst_person.jsp"/>
+		<forward name="resultado" path="/resultado_operacion.jsp"/>
+
+</action>
+
+
+<action className="com.puriarte.gcp.web.presentation.actions.SecurityActionMapping"
+		path="/lstDispatch"
+		name="frmLstDispatch"
+		scope="request"
+		type="com.puriarte.gcp.web.presentation.actions.ActionListDispatch">
+
+		<set-property property="idOpMenu" value="1100"/>
+		<set-property property="idComponente" value="18"/>
+
+		<forward name="success" path="/lst_dispatch.jsp"/>
+		<forward name="failure" path="/lst_dispatch.jsp"/>
+		<forward name="resultado" path="/resultado_operacion.jsp"/>
+
+</action>
+
+<action className="com.puriarte.gcp.web.presentation.actions.SecurityActionMapping"
+		path="/deudores/verOrden"
+		name="formFactura"
+		scope="request"
+		type="com.puriarte.gcp.web.presentation.actions.ActionVerOrden">
+
+		<set-property property="idOpMenu" value="1100"/>
+		<set-property property="idComponente" value="18"/>
+
+		<forward name="success" path="/deudores/verOrden.jsp"/>
+		<forward name="resultado" path="/deudores/resultado_operacion.jsp"/>
+
+</action>
+
+
+<action className="com.puriarte.gcp.web.presentation.actions.SecurityActionMapping"
+		path="/ingresarSMS"
+		name="frmAdmSMS"
+		scope="request"
+		type="com.puriarte.gcp.web.presentation.actions.ActIngresarSMS">
+
+		<set-property property="idOpMenu" value="502"/>
+		<set-property property="idComponente" value="13"/>
+
+		<forward name="success" path="/resultado_operacion.jsp"/>
+		<forward name="failure" path="/resultado_operacion.jsp"/>
+
+</action>
+
+
+<action className="com.puriarte.gcp.web.presentation.actions.SecurityActionMapping"
+		path="/createDispatch"
+		name="frmAdmDispatch"
+		scope="session"
+		type="com.puriarte.gcp.web.presentation.actions.ActCreateDispatch">
+
+		<set-property property="idOpMenu" value="502"/>
+		<set-property property="idComponente" value="13"/>
+
+		<forward name="load" path="/frm_bulk.jsp"/>
+		<forward name="success" path="/resultado_operacion.jsp"/>
+		<forward name="failure" path="/resultado_operacion.jsp"/>
+
+</action>
+
+<action className="com.puriarte.gcp.web.presentation.actions.SecurityActionMapping"
+		path="/createCategoryDispatch"
+		name="frmAdmDispatch"
+		scope="request"
+		type="com.puriarte.gcp.web.presentation.actions.ActCreateCategoryDispatch">
+
+		<set-property property="idOpMenu" value="502"/>
+		<set-property property="idComponente" value="13"/>
+
+		<forward name="load" path="/frm_dispatch.jsp"/>
+		<forward name="success" path="/resultado_operacion.jsp"/>
+		<forward name="failure" path="/resultado_operacion.jsp"/>
+
+</action>
+
+
+
+<action className="com.puriarte.gcp.web.presentation.actions.SecurityActionMapping"
+		path="/modifyCategoryDispatch"
+		name="frmAdmDispatch"
+		scope="request"
+		type="com.puriarte.gcp.web.presentation.actions.ActModifyCategoryDispatch">
+
+		<set-property property="idOpMenu" value="502"/>
+		<set-property property="idComponente" value="13"/>
+
+		<forward name="load" path="/frm_modifyDispatch.jsp"/>
+		<forward name="success" path="/resultado_operacion.jsp"/>
+		<forward name="failure" path="/resultado_operacion.jsp"/>
+
+</action>
+
+
+<action className="com.puriarte.gcp.web.presentation.actions.SecurityActionMapping"
+		path="/updatePerson"
+		name="frmAdmPereson"
+		scope="request"
+		type="com.puriarte.gcp.web.presentation.actions.ActUpdatePerson">
+
+		<set-property property="idOpMenu" value="502"/>
+		<set-property property="idComponente" value="13"/>
+		<forward name="success" path="/resultado_operacion_json.jsp"/>
+		<forward name="failure" path="/resultado_operacion_json.jsp"/>
+</action>
+
+
+<action className="com.puriarte.gcp.web.presentation.actions.SecurityActionMapping"
+		path="/lstCategory"
+		name="frmLstCategory"
+		scope="request"
+		type="com.puriarte.gcp.web.presentation.actions.ActionListCategory">
+
+		<set-property property="idOpMenu" value="1100"/>
+		<set-property property="idComponente" value="18"/>
+
+		<forward name="success" path="/lst_category.jsp"/>
+		<forward name="failure" path="/lst_category.jsp"/>
+		<forward name="resultado" path="/resultado_operacion.jsp"/>
+
+</action>
+
+<action className="com.puriarte.gcp.web.presentation.actions.SecurityActionMapping"
+		path="/lstPlace"
+		name="frmLstPlace"
+		scope="request"
+		type="com.puriarte.gcp.web.presentation.actions.ActionListPlace">
+
+		<set-property property="idOpMenu" value="1100"/>
+		<set-property property="idComponente" value="18"/>
+
+		<forward name="success" path="/lst_place.jsp"/>
+		<forward name="failure" path="/lst_place.jsp"/>
+		<forward name="resultado" path="/resultado_operacion.jsp"/>
+
+</action>
+
+<action className="com.puriarte.gcp.web.presentation.actions.SecurityActionMapping"
+		path="/updateCategory"
+		name="frmAdmCategory"
+		scope="request"
+		type="com.puriarte.gcp.web.presentation.actions.ActUpdateCategory">
+
+		<set-property property="idOpMenu" value="502"/>
+		<set-property property="idComponente" value="13"/>
+
+		<forward name="success" path="/resultado_operacion.jsp"/>
+		<forward name="failure" path="/resultado_operacion.jsp"/>
+
+</action>
+
+
+<action className="com.puriarte.gcp.web.presentation.actions.SecurityActionMapping"
+		path="/updatePlace"
+		name="frmAdmPlace"
+		scope="request"
+		type="com.puriarte.gcp.web.presentation.actions.ActUpdatePlace">
+
+		<set-property property="idOpMenu" value="502"/>
+		<set-property property="idComponente" value="13"/>
+
+		<forward name="success" path="/resultado_operacion.jsp"/>
+		<forward name="failure" path="/resultado_operacion.jsp"/>
+
+</action>
+
+</action-mappings>
+
+<!-- ========== Message Resources Definitions =========================== -->
+<message-resources parameter="com.puriarte.gcp.resources.messages"/>
+
+<!-- ========== Plug Ins Configuration ================================== -->
+<plug-in className="org.apache.struts.validator.ValidatorPlugIn">
+	<set-property property="pathnames" value="/WEB-INF/validator-rules.xml,/WEB-INF/validation.xml"/>
+</plug-in>
+
+<plug-in className="org.apache.struts.tiles.TilesPlugin">
+	<set-property property="definitions-config" value="/WEB-INF/tiles-defs.xml"/>
+</plug-in>
+
+</struts-config>

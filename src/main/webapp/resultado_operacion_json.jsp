@@ -1,0 +1,3 @@
+<%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean" %><%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %><%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
+<logic:messagesPresent property="error">{"status" : false, "message" : "<html:messages property="error" id="errMsg" ><bean:write name="errMsg"/></html:messages>"} </logic:messagesPresent>
+<logic:messagesNotPresent>{"status" : true,  "message" : ""}</logic:messagesNotPresent>

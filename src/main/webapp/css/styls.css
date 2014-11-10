@@ -1,0 +1,874 @@
+/********************************************************
+	             SECCIONES DEL SISTIO
+********************************************************/
+
+body { 
+	font-family: Arial, Helvetica, sans-serif; 
+	font-size: 11px;
+	color: #333333;
+	margin:0px 0px 0px 0px;
+	background-color: #FDFBFF;
+}
+
+.main {
+	border: 0px dashed #333;
+	margin:0px 0px 0px 0px;
+	width: 750px;
+	background-color: white;
+}
+
+.top {
+  border: 0px dashed #333;
+  height: 77px;
+  width: 748px;
+  margin:0px 0px 0px 0px;
+  background: url(../img/top.jpg);
+}
+
+
+.container {
+  border: 0px dashed #000000;
+  width: 748px;
+  margin:0px 0px 0px 0px;
+}
+
+.copyright {
+  border: 0px dashed #000000;
+  color: white;
+  font-weight: normal;
+  width: 750px;
+  height: 20px;
+  margin:0px;
+  margin-top: 20px;
+  background: url(../img/copyright.jpg);
+}
+
+.usuario {
+    border: 0px dashed #333;
+    width:750px;
+	margin:0px 0px 0px 0px;
+	background-color: #F1F1F1;
+    font-family: arial, sans-serif; 
+	text-align: left; 
+	font-size:11px; 
+}
+
+.infoContacto{
+	margin:0px;
+	text-align:left;
+	border: 0px dashed #000000;
+	width:200px; 
+	height:350px; 
+	float: left;
+	font-family: Verdana, Arial; 
+	font-size: 10px;
+	background: url("../img/fondo_info_contacto.jpg") no-repeat top center;
+	/*background-color:#D6D3E8;*/
+}
+
+
+img.foto {
+	border: 0px solid #000;
+	background: url("../img/cargando.gif") no-repeat center center;
+}
+
+.clista {
+  border: 0px dashed #000000;
+  width: 750px;
+  text-align: left;
+  margin: 10px 0px 0px 0px;
+}
+
+/********************************************************/
+
+/********************************************************
+	             TEXTOS
+********************************************************/
+
+.tituloInfoContacto {
+	font-family: Arial; 
+	font-size: 16px;
+	font-weight:bold;
+	color: #000080;
+	text-decoration: none;
+}
+
+.itemInfoContacto {
+	font-family: Verdana, Arial; 
+	font-size: 10px;
+	font-weight: bold;
+	color: #7F7777;
+}
+
+.txtInfoContacto {
+	font-family: Verdana, Arial; 
+	font-size: 10px;
+	font-weight: normal;
+	color: #4F4F4F;
+}
+
+.tituloInfo {
+/*	font-family: Arial; 
+	font-size: 18px;
+	font-weight: bold;
+	color: #0D3689;
+	text-decoration: none;
+*/
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 15px;
+	font-weight: bold;
+	color: #3e5d7c;
+	text-decoration: underline;
+}
+
+.info {
+	font-family: Arial, Helvetica, sans-serif; 
+	font-size: 11px;
+	color: #333333
+}
+
+.itemInfo {
+	font-family: Verdana, Arial; 
+	font-size: 11px;
+	font-weight: bold;
+	color: #0D3689;
+}
+
+h1 {
+	padding: 4px 6px;
+	background-color: #012677; 
+	color: #FFF;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px; 
+	line-height: normal;
+	margin: 0px;
+	margin-bottom: 2px;
+}
+
+
+
+a.linkDoc:link {
+	font-family: Arial, Helvetica, sans-serif; 
+	font-size: 11px;
+	color: #393CA9;
+	text-decoration: none;
+	font-weight: bold;
+}
+a.linkDoc:visited {
+	font-family: Arial, Helvetica, sans-serif; 
+	font-size: 11px;
+	color: #393CA9;
+	text-decoration: none;
+	font-weight: bold;
+}
+a.linkDoc:active {
+	font-family: Arial, Helvetica, sans-serif; 
+	font-size: 11px;
+	color: #393CA9;
+	text-decoration: none;
+	font-weight: bold;
+}
+a.linkDoc:hover {
+	font-family: Arial, Helvetica, sans-serif; 
+	font-size: 11px;
+	color: #333;
+	text-decoration: none;
+	font-weight: bold;
+}
+
+a.linkCategoria:link {
+	font: "Trebuchet MS",Verdana,sans-serif;
+	font-size: 11px;
+	font-weight: bold;
+	padding: 1px 2px;
+	color: #645C5C;
+	text-decoration: underline;
+}
+
+a.linkCategoria:visited {
+	font: "Trebuchet MS",Verdana,sans-serif;
+	font-size: 11px;
+	font-weight: bold;
+	padding: 1px 2px;
+	color: #9C1F02;
+	text-decoration: underline;
+}
+
+a.linkCategoria:active {
+	font: "Trebuchet MS",Verdana,sans-serif;
+	font-size: 11px;
+	font-weight: bold;
+	padding: 1px 2px;
+	color: #645C5C;
+	text-decoration: underline;
+}
+
+a.linkCategoria:hover {
+	font: "Trebuchet MS",Verdana,sans-serif;
+	font-size: 11px;
+	font-weight: bold;
+	padding: 1px 2px;
+	color: #645C5C;
+	background-color: #FDFEB4;
+	text-decoration: underline;
+}
+
+
+a.linkForm:link {
+	font-family: Arial, Helvetica, sans-serif; 
+	font-size: 10px;
+	color: #393CA9;
+	text-decoration: underline;
+	font-weight: bold;
+}
+a.linkForm:visited {
+	font-family: Arial, Helvetica, sans-serif; 
+	font-size: 10px;
+	color: #393CA9;
+	text-decoration: underline;
+	font-weight: bold;
+}
+a.linkForm:active {
+	font-family: Arial, Helvetica, sans-serif; 
+	font-size: 10px;
+	color: #393CA9;
+	text-decoration: underline;
+	font-weight: bold;
+}
+a.linkForm:hover {
+	font-family: Arial, Helvetica, sans-serif; 
+	font-size: 10px;
+	color: #333;
+	text-decoration: underline;
+	font-weight: bold;
+}
+
+
+/********************************************************/
+
+/********************************************************
+	             PAGINACION
+********************************************************/
+
+.pagination{
+	border: 0px dashed #333;
+	margin-top: 40px;
+	padding: 2px;
+	width: 500px;
+}
+
+.pagination ul{
+	margin: 0;
+	padding: 0;
+	text-align: center;
+	font-size: 10px;
+	font: "Trebuchet MS",Verdana,sans-serif;
+
+}
+
+.pagination li{
+	list-style-type: none;
+	display: inline;
+	padding-bottom: 1px;
+	color: #2c147a;
+}
+
+.pagination a, .pagination a:visited{
+	padding: 0 2px;
+	border: 0px solid #2c147a;
+	text-decoration: none; 
+	color: #2c147a;
+}
+
+.pagination a:hover, .pagination a:active{
+	border: 0px solid #2c147a;
+	color: #2c147a;
+	background-color: #FDFEB4;
+}
+
+.pagination li.page{
+	padding: 0 2px;
+	border: 0px;
+	color: #2c147a;
+}
+
+.pagination li.currentpage{
+	font-weight: bold;
+	padding: 0 2px;
+	border: 0px;
+	color: #2c147a;
+	background-color: #FDFEB4;
+}
+
+.pagination li.disablepage{
+	padding: 0 2px;
+	border: 0px solid #929292;
+	color: #929292;
+}
+
+.pagination li.nextpage{
+	font-weight: bold;
+}
+
+* html .pagination li.currentpage, * html .pagination li.disablepage {
+	margin-right: 2px;
+	padding-right: 0;
+}
+
+/********************************************************/
+
+
+
+/********************************************************
+	             PRESENTACION DE ARTICULOS
+********************************************************/
+
+
+.ctableproducts {
+	border: 0px dashed #333;
+}
+
+.tableproducts {
+	color: #4D4949;
+	font: "Trebuchet MS",Verdana,sans-serif;
+	font-size: 10px;
+	border-collapse: collapse;
+	margin: 0 auto;
+	border: 0px;
+	width:750px;
+}
+
+.tableproducts tbody th {
+	empty-cells: show;
+	border-left: 0px;
+	padding: 4px 4px;
+	height: 25px;
+	border-bottom-style: dotted;
+	border-bottom-color: #C0C0C0;
+	border-bottom-width: 1px;
+}
+
+.tableproducts tbody tr.odd {
+	background-color: #F7F7F7;
+}
+
+.tableproducts tbody tr {
+	background-color: #FFFFFF;
+}
+
+.tableproducts tbody tr.empty {
+	background-color: #D6D3E8;
+}
+
+.tableproducts tbody td.empty {
+	empty-cells: show;
+	background-color: #D6D3E8;
+}
+
+.tableproducts tbody td {
+	empty-cells: show;
+	padding: 4px;
+	height: 50px;
+	border-bottom-style: dotted;
+	border-bottom-color: #C0C0C0;
+	border-bottom-width: 1px;
+}
+
+.tableproducts tbody a {
+	padding: 1px 2px;
+	color: #333;
+	text-decoration: none;
+	border-bottom: 1px dotted #E63C1E
+}
+
+.tableproducts tbody a:active,tbody a:hover,tbody a:focus,tbody a:visited {
+	color: #333;
+}
+
+
+/********************************************************/
+
+/********************************************************
+	          PRESENTACION DE LABORATORIOS
+********************************************************/
+
+.tablelabs {
+	border: 0px dashed #333;
+}
+
+.tablelabs {
+	color: #4D4949;
+	font: "Trebuchet MS",Verdana,sans-serif;
+	font-size: 10px;
+	border-collapse: collapse;
+	margin: 0 auto;
+	border: 0px;
+	width:750px;
+}
+
+.tablelabs tbody th {
+	empty-cells: show;
+	border-left: 0px;
+	padding: 4px 4px;
+	height: 20px;
+	border-bottom-style: dotted;
+	border-bottom-color: #C0C0C0;
+	border-bottom-width: 1px;
+}
+
+.tablelabs tbody tr.odd {
+	background-color: #F7F7F7;
+}
+
+.tablelabs tbody tr {
+	background-color: #FFFFFF;
+}
+
+.tablelabs tbody tr.empty {
+	background-color: #D6D3E8;
+}
+
+.tablelabs tbody td.empty {
+	empty-cells: show;
+	background-color: #D6D3E8;
+}
+
+.tablelabs tbody td {
+	empty-cells: show;
+	padding: 4px;
+	height: 20px;
+	border-bottom-style: dotted;
+	border-bottom-color: #C0C0C0;
+	border-bottom-width: 1px;
+}
+
+.tablelabs tbody a {
+	padding: 1px 2px;
+	color: #333;
+	text-decoration: none;
+	border-bottom: 1px dotted #E63C1E
+}
+
+.tablelabs tbody a:active,tbody a:hover,tbody a:focus,tbody a:visited {
+	color: #333;
+}
+
+
+/********************************************************
+
+
+/********************************************************
+	             ELEMENTOS HTML
+********************************************************/
+
+
+
+/********************************************************/
+
+
+/********************************************************
+	         ESTILOS PARA DETALLE DE PRODUCTO
+********************************************************/
+
+
+.cdetalleproductos {
+	border: 0px dashed #333;
+	width:750px;
+	font-family: Verdana, Arial, Helvetica, sans-serif; 
+	font-size: 10px;
+	
+}
+
+.nombreproducto {
+	color: #333;
+	font: "Trebuchet MS",Verdana,sans-serif;
+	font-size: 14px;
+	font-weight: bold;
+	border-bottom: 1px dotted #E63C1E;
+}
+
+
+.laboratorioproducto {
+	color: #333;
+	font: "Trebuchet MS",Verdana,sans-serif;
+	font-size: 11px;
+	font-weight: bold;
+}
+
+.nombreproducto a {
+	padding: 1px 2px;
+	color: #333;
+	text-decoration: none;
+	border-bottom: 1px dotted #E63C1E
+}
+
+.nombreproducto a:active,a:hover,a:focus,a:visited {
+	color: #333;
+}
+
+.descproducto {
+	color: black;
+	font-family: Helvetica,sans-serif,Arial; 
+	font-size: 11px;
+	font-weight: normal;
+}
+
+.preciocontado{
+	color: #CD2E03;
+	font-family: Arial, Helvetica, sans-serif; 
+	font-size: 11px;
+	font-weight: bold;
+}
+
+
+.preciocredito{
+	color: #CD2E03;
+	font-family: Arial, Helvetica, sans-serif; 
+	font-size: 11px;
+	font-weight: bold;
+	
+}
+
+.ofertas {
+	color: #557555;
+	font-family: Arial, Helvetica, sans-serif; 
+	font-size: 11px;
+	font-weight: bold;	
+}
+
+
+.listaOfertas {
+	
+}
+
+.listaOfertas a, .listaOfertas a:visited{
+	text-decoration: none; 
+	color: #2c147a;
+}
+
+.listaOfertas a:hover, .listaOfertas a:active{
+	border-bottom : 1px solid #2c147a;
+	color: #2c147a;
+	background-color: #FDFEB4;
+}
+
+
+
+/********************************************************
+	         PRESENTACION ORDEN DE COMPRA
+********************************************************/
+
+
+.ctableorden {
+	border: 0px dashed #333;
+}
+
+.table_contendor_orden td.cabezeraOrden {
+	background-color: #9BF09B;
+}
+.table_contendor_orden td.transColorOrden {
+	background: url('../img/orden de compra/fondo%20orden.jpg') repeat-x;
+	background-color: #EFF0FA;
+}
+.table_contendor_orden td.pierOrden {
+	background-color:#EFF0FA;
+}
+
+.tableorden {
+	color: #4D4949;
+	font: "Trebuchet MS",Verdana,sans-serif;
+	font-size: 10px;
+	border-collapse: collapse;
+	margin: 0 auto;
+	border: 0px;
+	width:740px;
+}
+
+.tableorden tbody th {
+	empty-cells: show;
+	padding-bottom:2px;
+	padding-left:8px;
+	padding-right:8px;
+	padding-top:4px;
+	height: 25px;
+	border-bottom-style: dotted;
+	border-bottom-color: #C0C0C0;
+	border-bottom-width: 1px;
+	font-size: 11px;
+	text-align: center;
+	
+}
+
+.tableorden tbody tr.odd {
+	background-color: #F7F7F7;
+}
+
+.tableorden tbody tr {
+	background-color: #FFFFFF;
+}
+
+.tableorden tbody tr.empty {
+	background-color: #D6D3E8;
+}
+
+.tableorden tbody td.empty {
+	empty-cells: show;
+	background-color: #D6D3E8;
+}
+
+.tableorden tbody td {
+	empty-cells: show;
+	padding: 4px;
+	height: 25px;
+	border-bottom-style: dotted;
+	border-bottom-color: #C0C0C0;
+	border-bottom-width: 1px;
+	text-align: left;
+}
+
+.tableorden tbody a {
+	padding: 1px 2px;
+	color: #333;
+	text-decoration: none;
+	border-bottom: 1px dotted #E63C1E
+}
+
+.tableorden tbody a:active, tbody a:hover, tbody a:focus, tbody a:visited {
+	color: #333;
+}
+
+.rbroundbox_fverde { background: url('../img/orden de compra/nt_amarillo.jpg'); }
+.rbtop_fverde div { background: url('../img/orden de compra/tl_amarillo_verde.jpg') no-repeat top left; }
+.rbtop_fverde { background: url('../img/orden de compra/tr_amarillo_verde.jpg') no-repeat top right; }
+.rbbot_fverde div { background: url('../img/orden de compra/bl_amarillo_verde.jpg') no-repeat bottom left; }
+.rbbot_fverde { background: url('../img/orden de compra/br_amarillo_verde.jpg') no-repeat bottom right; }
+
+
+.rbtop_fverde div, .rbtop_fverde, .rbbot_fverde div, .rbbot_fverde {
+width: 100%;
+height: 5px;
+font-size: 11px;
+}
+
+.rbcontent_fverde { margin: 0 7px; }
+.rbroundbox_fverde {margin: 0;}
+
+
+.rbroundbox_fverde {margin: 0px;padding: 0px; }
+
+.rbroundbox_fgris{ background: url('../img/orden de compra/nt_amarillo.jpg'); }
+.rbtop_fgris div { background: url('../img/orden de compra/tl_amarillo_gris.jpg') no-repeat top left; }
+.rbtop_fgris{ background: url('../img/orden de compra/tr_amarillo_gris.jpg') no-repeat top right; }
+.rbbot_fgris div { background: url('../img/orden de compra/bl_amarillo_gris.jpg') no-repeat bottom left; }
+.rbbot_fgris{ background: url('../img/orden de compra/br_amarillo_gris.jpg') no-repeat bottom right; }
+
+
+.rbtop_fgris div, .rbtop_fgris, .rbbot_fgris div, .rbbot_fgris{
+width: 100%;
+height: 5px;
+font-size: 11px;
+
+}
+
+.rbcontent_fgris{ margin: 0 7px; }
+.rbroundbox_fgris{margin: 0; }
+
+
+/* tabla de resumen de orden */
+
+.tableordenres {
+	color: #4D4949;
+	font: "Trebuchet MS",Verdana,sans-serif;
+	font-size: 10px;
+	border-collapse: collapse;
+	margin: 0 auto;
+	border: 0px;
+	width: 500px;
+}
+.tableordenres tbody th {
+	empty-cells: show;
+	padding-bottom:2px;
+	padding-left:4px;
+	padding-right:8px;
+	padding-top:4px;
+	border-bottom-style: dotted;
+	border-bottom-color: #C0C0C0;
+	border-bottom-width: 0px;
+	font-size: 11px;
+	text-align: left;
+}
+.tableordenres tbody tr {
+	background-color: #FFFFCE;
+}
+.tableordenres tbody td {
+	empty-cells: show;
+	padding-left: 4px;
+	border-bottom-style: dotted;
+	border-bottom-color: #C0C0C0;
+	border-bottom-width: 0px;
+	font-size: 11px;
+	text-align: left;
+}
+
+/*****/
+
+/* tabla lineas orden */
+
+.tablelineaorden {
+	color: #4D4949;
+	font: "Trebuchet MS",Verdana,sans-serif;
+	font-size: 10px;
+	border-collapse: collapse;
+	border: 0px;
+}
+
+.tablelineaorden tbody th {
+	empty-cells: show;
+	font-size: 11px;
+	text-align: center;
+	border: 0px;
+}
+
+.tablelineaorden tbody tr.odd {
+	background-color: #F7F7F7;
+	border: 0px;
+}
+
+.tablelineaorden tbody tr {
+	background-color: #FFFFFF;
+	border: 0px;
+}
+
+.tablelineaorden tbody tr.empty {
+	background-color: #D6D3E8;
+	border: 0px;
+}
+
+.tablelineaorden tbody td.empty {
+	empty-cells: show;
+	background-color: #D6D3E8;
+	height: 15px;
+	border: 0px;
+}
+
+.tablelineaorden tbody td {
+	empty-cells: show;
+	text-align: left;
+	height: 15px;
+	border: 0px;
+	
+}
+
+.tablelineaorden tbody a {
+	color: #333;
+	text-decoration: none;
+
+}
+
+.tablelineaorden tbody a:active, tbody a:hover, tbody a:focus, tbody a:visited {
+	color: #333;
+}
+
+/*****/
+
+/********************************************************
+	         PRESENTACION DE CATALOGO
+********************************************************/
+
+
+a.nombregrupocat {
+	color:#4261AF;
+	font-family:Verdana;
+	font-size:11px;
+	font-weight:bold;
+	text-decoration:none;
+}
+a.nombregrupocat:visited {
+	color:#4261AF;
+	font-family:Verdana;
+	font-size:11px;
+	font-weight:bold;
+	text-decoration:none;
+}
+a.nombregrupocat:hover {
+	color:#4261AF;
+	font-family:Verdana;
+	font-size:11px;
+	font-weight:bold;
+	text-decoration:underline;
+}
+
+
+.nombrelabgrupocat {
+	color: #333333;
+	font-family: Arial, Helvetica, sans-serif; 
+	font-size: 11px;
+	font-weight:normal;
+	text-decoration:none;
+}
+
+
+.preciogrupocat {
+	color:#BF0202;
+	font-family:Verdana;
+	font-size:11px;
+	font-weight:bold;
+	text-decoration:none;
+}
+
+.inpuestogrupocat {
+	color:#666666;
+	font-family:Verdana;
+	font-size:9px;
+	font-weight:bold;
+	text-decoration:none;
+}
+
+
+
+/********************************************************/
+
+/***************************
+ICONOS
+***************************/
+
+
+#icoUser { 
+	width: 16px; 
+	height: 16px; 
+	background-image: url("../img/user.gif") !important;
+	background-image: none; 
+	filter: none !important;
+	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='img/user.gif',sizingMethod='image'); 
+}
+
+#icoCart { 
+	width: 16px; 
+	height: 16px;
+	background-image: url("../img/cart.gif") !important;
+	background-image: none; 
+	filter: none !important;
+	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='img/cart.gif',sizingMethod='image'); 
+}
+#icoDoorOpen { 
+	width: 16px; 
+	height: 16px;
+	background-image: url("../img/door_open.gif") !important;
+	background-image: none; 
+	filter: none !important;
+	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='img/door_open.gif',sizingMethod='image'); 
+}
+
+#icoKey { 
+	width: 16px; 
+	height: 16px;
+	background-image: url("../img/icons/key.gif") !important;
+	background-image: none; 
+	filter: none !important;
+	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='img/icons/key.gif',sizingMethod='image'); 
+}
+
+
+
+
+
