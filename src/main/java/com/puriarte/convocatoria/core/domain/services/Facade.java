@@ -26,7 +26,7 @@ import com.puriarte.convocatoria.core.domain.Constants;
 
 public class Facade {
 	
-		private static Facade INSTANCE = null;
+	private static Facade INSTANCE = null;
 	private UserService userService;
 	private SMSService smsService;
 	private PersonService personService;
