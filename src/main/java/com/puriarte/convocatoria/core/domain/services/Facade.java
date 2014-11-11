@@ -84,6 +84,27 @@ public class Facade {
 			e.printStackTrace();
 		}
 	}
+	
+	/**
+	 * PERSONA
+	 */
+	public int insertPerson(Person p) throws SQLException{
+		return this.personService.insertPerson(p);
+	}
+
+	public Person insertPerson(String document) throws SQLException {
+		return personService.getInstance().insertPerson(document );
+	}
+
+
+
+	/**
+	 * Borra lógica de Persona
+	 * @param id
+	 */
+	public void removePerson(Person person)throws SQLException{
+		this.personService.borrarPerson(person);
+	}
 
 	public AssignmentStatus selectAssingmentStatus(int assignmentStatusAssigned) {
 		// TODO Auto-generated method stub
@@ -104,11 +125,7 @@ public class Facade {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-	public int insertPerson(Person person) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+ 
 
 	public void insertMovil(Movil movil) {
 		// TODO Auto-generated method stub
