@@ -28,11 +28,10 @@ public class Facade {
 
 	private static Facade INSTANCE = null;
 	private UserService userService;
-SMSService smsService;
+	private SMSService smsService;
 	private PersonService personService;
 	private MovilService movilService;
-
-DispatchService dispatchService;
+	private DispatchService dispatchService;
 	private DocumentTypeService documentTypeService;
 	private PersonCategoryService personCategoryService;
 	private JobService jobService;
