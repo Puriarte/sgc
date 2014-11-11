@@ -29,7 +29,7 @@ public class Facade {
 	private static Facade INSTANCE = null;
 
 	private UserService userService;
-//	private SMSService smsService;
+	private SMSService smsService;
 	private PersonService personService;
 	private MovilService movilService;
 	//private DispatchService dispatchService;
@@ -43,7 +43,7 @@ public class Facade {
 	
 	private Facade(){
 		this.userService = UserService.getInstance();
-	//	this.smsService = SMSService.getInstance();
+		this.smsService = SMSService.getInstance();
 		this.personService = PersonService.getInstance();
 		this.documentTypeService = DocumentTypeService.getInstance();
 		this.movilService = MovilService.getInstance();
