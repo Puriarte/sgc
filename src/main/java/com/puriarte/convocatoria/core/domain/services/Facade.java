@@ -41,6 +41,21 @@ public class Facade {
 	private PersonMovilService personMovilService;
 	private BulkSMSService bulkSMSService;
 	
+	private Facade(){
+		this.userService = UserService.getInstance();
+	//	this.smsService = SMSService.getInstance();
+		this.personService = PersonService.getInstance();
+		this.documentTypeService = DocumentTypeService.getInstance();
+		this.movilService = MovilService.getInstance();
+	//	this.dispatchService = DispatchService.getInstance();
+		this.personCategoryService = PersonCategoryService.getInstance();
+		this.jobService= JobService.getInstance();
+		this.personMovilService = PersonMovilService.getInstance();
+		this.assignmentStatusService = AssignmentStatusService.getInstance();
+		this.placeService = PlaceService.getInstance();
+		this.bulkSMSService = BulkSMSService.getInstance();
+	}
+	
 	private static synchronized void createInstance(){
 		if(INSTANCE == null){
 			INSTANCE = new Facade();
@@ -51,6 +66,23 @@ public class Facade {
 	public static Facade getInstance(){
 		if(INSTANCE == null) createInstance();
 		return INSTANCE;
+	}
+
+
+	public synchronized void stopAll(){
+		try {
+
+			UserService.getInstance().destroy();
+			Thread.sleep(500L);
+
+			INSTANCE = null;
+		} catch (Exception e) {
+			this.userService = null;
+			e.printStackTrace();
+		} catch (Throwable e) {
+			this.userService = null;
+			e.printStackTrace();
+		}
 	}
 
 	public AssignmentStatus selectAssingmentStatus(int assignmentStatusAssigned) {
