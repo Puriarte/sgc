@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+
+	<persistence-unit name="convocatoria" transaction-type="RESOURCE_LOCAL">
+		<class>com.puriarte.convocatoria.persistence.Assignment</class>
+		<class>com.puriarte.convocatoria.persistence.AssignmentStatus</class>
+		<class>com.puriarte.convocatoria.persistence.Company</class>
+		<class>com.puriarte.convocatoria.persistence.Dispatch</class>
+		<class>com.puriarte.convocatoria.persistence.DocumentType</class>
+		<class>com.puriarte.convocatoria.persistence.Job</class>
+		<class>com.puriarte.convocatoria.persistence.Movil</class>
+		<class>com.puriarte.convocatoria.persistence.MovilStatus</class>
+		<class>com.puriarte.convocatoria.persistence.Person</class>
+		<class>com.puriarte.convocatoria.persistence.PersonCategory</class>
+		<class>com.puriarte.convocatoria.persistence.PersonMovil</class>
+		<class>com.puriarte.convocatoria.persistence.Place</class>
+		<class>com.puriarte.convocatoria.persistence.SMS</class>
+		<class>com.puriarte.convocatoria.persistence.SmsStatus</class>
+		<class>com.puriarte.convocatoria.persistence.User</class>
+		<class>com.puriarte.convocatoria.persistence.SMSIn</class>
+		<class>com.puriarte.convocatoria.persistence.SMSOut</class>
+		<class>com.puriarte.convocatoria.persistence.BulkSMS</class>
+
+<properties>
+		<property name="javax.persistence.jdbc.url" value="jdbc:postgresql://127.0.0.1:5432/sgc"/>
+		<property name="javax.persistence.jdbc.user" value="adminvcpltfr"/>
+		<property name="javax.persistence.jdbc.password" value="P5f3Frhx3KBU"/>
+		<property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
+		<property name="eclipselink.ddl-generation" value="drop-and-create-tables"/>
+		<!--
+		<property name="eclipselink.ddl-generation.output-mode" value="database"/>
+		 <property name="eclipselink.ddl-generation.output-mode" value="sql-script"/>
+		 -->
+		 <property name="eclipselink.logging.level" value="FINEST" />
+	</properties>
+
+	</persistence-unit>
+
+</persistence>
