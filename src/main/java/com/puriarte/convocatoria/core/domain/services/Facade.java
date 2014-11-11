@@ -31,7 +31,7 @@ public class Facade {
 	private SmsService smsService;
 	private PersonService personService;
 	private MovilService movilService;
-	private DispatchService dispatchService;
+	private DispatchsService dispatchService;
 	private DocumentTypeService documentTypeService;
 	private PersonCategoryService personCategoryService;
 	private JobService jobService;
@@ -46,7 +46,7 @@ public class Facade {
 		this.personService = PersonService.getInstance();
 		this.documentTypeService = DocumentTypeService.getInstance();
 		this.movilService = MovilService.getInstance();
-		this.dispatchService = DispatchService.getInstance();
+		this.dispatchService = DispatchsService.getInstance();
 		this.personCategoryService = PersonCategoryService.getInstance();
 		this.jobService= JobService.getInstance();
 		this.personMovilService = PersonMovilService.getInstance();
