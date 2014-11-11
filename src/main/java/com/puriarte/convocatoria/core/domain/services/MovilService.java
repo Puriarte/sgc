@@ -170,7 +170,7 @@ public class MovilService {
 		try{
 			int id = 1;
 
-			//TODO: Hacerlo dinámico
+			//TODO: Hacerlo dinmico
 			if (number.length()<=5)
 				return null;
 			else if (number.startsWith("59891") ||
@@ -278,7 +278,7 @@ public class MovilService {
 //					else
 //						ms= Facade.getInstance().selectMovilStatus(Constants.MOVIL_STATUS_PENDING);
 //
-//					// En este caso el movil está asociado a alguna otra cedula
+//					// En este caso el movil est asociado a alguna otra cedula
 //					Movil newMovil = new Movil();
 //					newMovil.setMovilStatus(ms);
 //					newMovil.setNumber(number);
@@ -291,12 +291,12 @@ public class MovilService {
 //					//      conflicto por haber dos cedulas para un mismo celular.
 //			//		throw new MovilException(MovilException.ALREADY_IN_USE);
 //				}else{
-//					// Me fijo sI el movil ya está asociado a la cedula dada
+//					// Me fijo sI el movil ya est asociado a la cedula dada
 //					if ( ( movil.getPerson().getDocumentNumber()== person.getDocumentNumber()) &&
 //					   (movil.getPerson().getDocumentType() == person.getDocumentType() )){
 //						throw new MovilException(MovilException.DUPLICATED);
 //					}else{
-//						// En este caso el movil está asociado a alguna otra cedula
+//						// En este caso el movil est asociado a alguna otra cedula
 //						Movil newMovil = new Movil();
 //						newMovil.setMovilStatus(new MovilStatus(Constants.MOVIL_STATUS_PENDING));
 //						newMovil.setNumber(number);
