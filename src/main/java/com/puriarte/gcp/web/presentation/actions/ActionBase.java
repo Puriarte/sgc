@@ -1,17 +1,14 @@
 package com.puriarte.gcp.web.presentation.actions;
 
-import java.util.Iterator;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.struts.action.Action;
 
-import com.puriarte.gcp.web.Constantes;
-
 
 abstract public class ActionBase extends Action {
 
+	
   	protected Object getSessionObject(HttpServletRequest req, String attrName) {
 	    Object sessionObj = null;
 	    HttpSession session = req.getSession(false);
