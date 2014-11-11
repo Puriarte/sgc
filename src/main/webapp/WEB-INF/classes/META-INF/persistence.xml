@@ -2,6 +2,9 @@
 <persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
 
 	<persistence-unit name="convocatoria" transaction-type="RESOURCE_LOCAL">
+		<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+		<non-jta-data-source>java:comp/env/jdbc/PostgreSQLDS</non-jta-data-source>
+		
 		<class>com.puriarte.convocatoria.persistence.Assignment</class>
 		<class>com.puriarte.convocatoria.persistence.AssignmentStatus</class>
 		<class>com.puriarte.convocatoria.persistence.Company</class>
@@ -21,7 +24,7 @@
 		<class>com.puriarte.convocatoria.persistence.SMSOut</class>
 		<class>com.puriarte.convocatoria.persistence.BulkSMS</class>
 
-<properties>
+	<properties>
 		<property name="javax.persistence.jdbc.url" value="jdbc:postgresql://127.0.0.1:5432/sgc"/>
 		<property name="javax.persistence.jdbc.user" value="adminvcpltfr"/>
 		<property name="javax.persistence.jdbc.password" value="P5f3Frhx3KBU"/>
