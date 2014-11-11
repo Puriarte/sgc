@@ -28,7 +28,7 @@ public class Facade {
 
 	private static Facade INSTANCE = null;
 	private UserService userService;
-	private SMSService smsService;
+	private static SMSService smsService;
 	private PersonService personService;
 	private MovilService movilService;
 	private DispatchService dispatchService;
