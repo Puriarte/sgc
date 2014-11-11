@@ -22,7 +22,7 @@ import javax.persistence.TemporalType;
 @Table(name = "SMS_IN")
 @NamedQueries({
 	  @NamedQuery(name="SelectSMSInNotSincronyzedList",
-      query="SELECT si FROM SMSIn si where si.isSynchronized =0 or si.isSynchronized = null "),
+      query="SELECT si FROM SMSIn si where si.isSynchronized =0  "),
 	})
 public class SMSIn {
 
