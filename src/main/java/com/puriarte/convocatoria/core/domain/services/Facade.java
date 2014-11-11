@@ -28,10 +28,10 @@ public class Facade {
 
 	private static Facade INSTANCE = null;
 	private UserService userService;
-	private SMSService smsService;
+	private SMSService1 smsService;
 	private PersonService personService;
 	private MovilService movilService;
-	private DispatchService dispatchService;
+	private DispatchService1 dispatchService;
 	private DocumentTypeService documentTypeService;
 	private PersonCategoryService personCategoryService;
 	private JobService jobService;
@@ -42,11 +42,11 @@ public class Facade {
 
 	private Facade(){
 		this.userService = UserService.getInstance();
-		this.smsService = SMSService.getInstance();
+		this.smsService = SMSService1.getInstance();
 		this.personService = PersonService.getInstance();
 		this.documentTypeService = DocumentTypeService.getInstance();
 		this.movilService = MovilService.getInstance();
-		this.dispatchService = DispatchService.getInstance();
+		this.dispatchService = DispatchService1.getInstance();
 		this.personCategoryService = PersonCategoryService.getInstance();
 		this.jobService= JobService.getInstance();
 		this.personMovilService = PersonMovilService.getInstance();
@@ -98,9 +98,8 @@ public class Facade {
 	}
 
 
-
 	/**
-	 * Borra lógica de Persona
+	 * Borra lï¿½gica de Persona
 	 * @param id
 	 */
 	public void removePerson(Person person)throws SQLException{
@@ -183,11 +182,11 @@ public class Facade {
 
 	/// SMS ///
 	/**
-	 * Este método verifica que
-	 * (1. el nro Destino esté asociado a una persona,
-	 *  2- el nro esté activo)
+	 * Este mï¿½todo verifica que
+	 * (1. el nro Destino estï¿½ asociado a una persona,
+	 *  2- el nro estï¿½ activo)
 	 *
-	 *  Si no lo está se cambia al estado a SMS rechazado.
+	 *  Si no lo estï¿½ se cambia al estado a SMS rechazado.
 	 *
 	 * @param nroDestino
 	 * @param string
@@ -208,7 +207,7 @@ public class Facade {
 		String word="";
 
 		// Me voy a fijar si corresponde a una respuesta de una convocatoria y en tal caso si la respuesta es si o no
-		// También veré si el tiempo para responder está superado o no
+		// Tambiï¿½n verï¿½ si el tiempo para responder estï¿½ superado o no
 		List<SMS> smsList = Facade.getInstance().SelectRelatedSMSList(movil, selectSmsStatus(Constants.SMS_STATUS_ENVIADO), 0, 1);
 		if ((smsList!=null) && (smsList.size()>0)){
 			SMS sms = smsList.get(0);
@@ -309,7 +308,7 @@ public class Facade {
 	 * @return
 	 */
 	public List<SMS> getPendingSMS() {
-		return SMSService.getInstance().selectList(Constants.SMS_STATUS_PENDIENTE);
+		return SMSService1.getInstance().selectList(Constants.SMS_STATUS_PENDIENTE);
 	}
 
 
