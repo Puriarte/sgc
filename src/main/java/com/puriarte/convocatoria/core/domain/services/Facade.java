@@ -25,15 +25,13 @@ import com.puriarte.convocatoria.persistence.User;
 import com.puriarte.convocatoria.core.domain.Constants;
 
 public class Facade {
-	
+
 	private static Facade INSTANCE = null;
-
-
 	private UserService userService;
 	private SMSService smsService;
 	private PersonService personService;
 	private MovilService movilService;
-	//private DispatchService dispatchService;
+	private DispatchService dispatchService;
 	private DocumentTypeService documentTypeService;
 	private PersonCategoryService personCategoryService;
 	private JobService jobService;
@@ -41,14 +39,14 @@ public class Facade {
 	private PlaceService placeService;
 	private PersonMovilService personMovilService;
 	private BulkSMSService bulkSMSService;
-	
+
 	private Facade(){
 		this.userService = UserService.getInstance();
-		//this.smsService = SMSService.getInstance();
+		this.smsService = SMSService.getInstance();
 		this.personService = PersonService.getInstance();
 		this.documentTypeService = DocumentTypeService.getInstance();
 		this.movilService = MovilService.getInstance();
-	//	this.dispatchService = DispatchService.getInstance();
+		this.dispatchService = DispatchService.getInstance();
 		this.personCategoryService = PersonCategoryService.getInstance();
 		this.jobService= JobService.getInstance();
 		this.personMovilService = PersonMovilService.getInstance();
@@ -56,7 +54,8 @@ public class Facade {
 		this.placeService = PlaceService.getInstance();
 		this.bulkSMSService = BulkSMSService.getInstance();
 	}
-	
+
+
 	private static synchronized void createInstance(){
 		if(INSTANCE == null){
 			INSTANCE = new Facade();
@@ -85,7 +84,8 @@ public class Facade {
 			e.printStackTrace();
 		}
 	}
-	
+
+
 	/**
 	 * PERSONA
 	 */
@@ -100,13 +100,13 @@ public class Facade {
 
 
 	/**
-	 * Borra l√≥gica de Persona
+	 * Borra lÛgica de Persona
 	 * @param id
 	 */
 	public void removePerson(Person person)throws SQLException{
 		this.personService.borrarPerson(person);
 	}
-	
+
 	/*
 	 * MOVIL
 	 * */
@@ -148,18 +148,18 @@ public class Facade {
 		return movilService.selectList(number, status);
 	}
 
-//	public List<SMS> selectSMSList(Date fechaDesde, Date fechaHasta, Integer estado, Integer convocatoria,  String order,Integer pos, Integer limit) {
-//		if ((convocatoria !=null) && (!(convocatoria==0)) ){
-//			return smsService.selectListByDispatch(fechaDesde, fechaHasta, estado , convocatoria, order, pos,  limit);
-//		}else{
-//			return smsService.selectList(fechaDesde, fechaHasta, estado , order, pos,  limit);
-//		}
-//	}
-	
 
-//	private List<SMS> SelectRelatedSMSList(PersonMovil movil, SmsStatus status, int pos, int limit) {
-//		return smsService.SelectRelatedSMSList(movil, status , pos,  limit);
-//	}
+	public List<SMS> selectSMSList(Date fechaDesde, Date fechaHasta, Integer estado, Integer convocatoria,  String order,Integer pos, Integer limit) {
+		if ((convocatoria !=null) && (!(convocatoria==0)) ){
+			return smsService.selectListByDispatch(fechaDesde, fechaHasta, estado , convocatoria, order, pos,  limit);
+		}else{
+			return smsService.selectList(fechaDesde, fechaHasta, estado , order, pos,  limit);
+		}
+	}
+
+	private List<SMS> SelectRelatedSMSList(PersonMovil movil, SmsStatus status, int pos, int limit) {
+		return smsService.SelectRelatedSMSList(movil, status , pos,  limit);
+	}
 
 
 	public List<Person> selectPersonList(List<String> priorities, int category ,int estado,  String order,Integer pos, Integer limit) {
@@ -176,80 +176,82 @@ public class Facade {
 	}
 
 
-//	public boolean existSMS(String origen , Date date) {
-//		return smsService.exist(origen, date);
-//	}
-	
+	public boolean existSMS(String origen , Date date) {
+		return smsService.exist(origen, date);
+	}
+
 
 	/// SMS ///
 	/**
-	 * Este m√©todo verifica que
-	 * (1. el nro Destino est√© asociado a una persona,
-	 *  2- el nro est√© activo)
+	 * Este mÈtodo verifica que
+	 * (1. el nro Destino estÈ asociado a una persona,
+	 *  2- el nro estÈ activo)
 	 *
-	 *  Si no lo est√° se cambia al estado a SMS rechazado.
+	 *  Si no lo est· se cambia al estado a SMS rechazado.
 	 *
 	 * @param nroDestino
 	 * @param string
 	 * @throws Exception
 	 */
 	public void insertSMSOutcome(PersonMovil movil, String texto) throws Exception {
-//		smsService.getInstance().insert(null,null, null, movil,texto, Constants.SMS_ACTION_OUTCOME, selectSmsStatus(Constants.SMS_STATUS_PENDIENTE), new Date());
+		smsService.getInstance().insert(null,null, null, movil,texto, Constants.SMS_ACTION_OUTCOME, selectSmsStatus(Constants.SMS_STATUS_PENDIENTE), new Date());
 	}
 
 	public void insertSMSIncome(String originator, String text, Date date) throws Exception {
-//		PersonMovil movil = Facade.getInstance().selectPersonMovil(originator,Constants.MOVIL_STATUS_ACTIVE );
-//		if (movil ==null){
-//			DocumentType dt = Facade.getInstance().selectDocumentType(Constants.PERSON_TYPE_CI);
-//			movil = Facade.getInstance().insertPersonMovil(originator, "" ,dt);
-//		}
-//
-//		String order="";
-//		String word="";
-//
-//		// Me voy a fijar si corresponde a una respuesta de una convocatoria y en tal caso si la respuesta es si o no
-//		// Tambi√©n ver√© si el tiempo para responder est√° superado o no
-//		List<SMS> smsList = Facade.getInstance().SelectRelatedSMSList(movil, selectSmsStatus(Constants.SMS_STATUS_ENVIADO), 0, 1);
-//		if ((smsList!=null) && (smsList.size()>0)){
-//			SMS sms = smsList.get(0);
-//			if (sms.getAssignment()!=null){
-//				if (sms.getAssignment().getJob()!=null){
-//					if(sms.getAssignment().getJob().getDispatch()!=null){
-//						Assignment assignment = sms.getAssignment();
-//						if (text.toUpperCase().startsWith("SI"))
-//							word = "SI";
-//						else if (text.toUpperCase().startsWith("NO"))
-//							word = "NO";
-//
-//
-//		/*				if (text.toUpperCase().startsWith("SI"))
-//							smsService.getInstance().insert(idDispatch, movil, text, Constants.SMS_ACTION_INCOME,selectSmsStatus(Constants.SMS_STATUS_RECIBIDO), date);
-//						else
-//			*/				smsService.getInstance().insert(word, assignment, sms, movil, text, Constants.SMS_ACTION_INCOME,selectSmsStatus(Constants.SMS_STATUS_RECIBIDO), date);
-//
-//					}
-//				}
-//
-//			}else{
-//				smsService.getInstance().insert(null,null,null, movil, text, Constants.SMS_ACTION_INCOME,selectSmsStatus(Constants.SMS_STATUS_RECIBIDO), date);
-//			}
-//		}else{
-//			smsService.getInstance().insert(null,null,null, movil, text, Constants.SMS_ACTION_INCOME,selectSmsStatus(Constants.SMS_STATUS_RECIBIDO), date);
-//		}
+		PersonMovil movil = Facade.getInstance().selectPersonMovil(originator,Constants.MOVIL_STATUS_ACTIVE );
+		if (movil ==null){
+			DocumentType dt = Facade.getInstance().selectDocumentType(Constants.PERSON_TYPE_CI);
+			movil = Facade.getInstance().insertPersonMovil(originator, "" ,dt);
+		}
+
+		String order="";
+		String word="";
+
+		// Me voy a fijar si corresponde a una respuesta de una convocatoria y en tal caso si la respuesta es si o no
+		// TambiÈn verÈ si el tiempo para responder est· superado o no
+		List<SMS> smsList = Facade.getInstance().SelectRelatedSMSList(movil, selectSmsStatus(Constants.SMS_STATUS_ENVIADO), 0, 1);
+		if ((smsList!=null) && (smsList.size()>0)){
+			SMS sms = smsList.get(0);
+			if (sms.getAssignment()!=null){
+				if (sms.getAssignment().getJob()!=null){
+					if(sms.getAssignment().getJob().getDispatch()!=null){
+						Assignment assignment = sms.getAssignment();
+						if (text.toUpperCase().startsWith("SI"))
+							word = "SI";
+						else if (text.toUpperCase().startsWith("NO"))
+							word = "NO";
+
+
+		/*				if (text.toUpperCase().startsWith("SI"))
+							smsService.getInstance().insert(idDispatch, movil, text, Constants.SMS_ACTION_INCOME,selectSmsStatus(Constants.SMS_STATUS_RECIBIDO), date);
+						else
+			*/				smsService.getInstance().insert(word, assignment, sms, movil, text, Constants.SMS_ACTION_INCOME,selectSmsStatus(Constants.SMS_STATUS_RECIBIDO), date);
+
+					}
+				}
+
+			}else{
+				smsService.getInstance().insert(null,null,null, movil, text, Constants.SMS_ACTION_INCOME,selectSmsStatus(Constants.SMS_STATUS_RECIBIDO), date);
+			}
+		}else{
+			smsService.getInstance().insert(null,null,null, movil, text, Constants.SMS_ACTION_INCOME,selectSmsStatus(Constants.SMS_STATUS_RECIBIDO), date);
+		}
 	}
 
-//	public int selectCountSMS(int personId, String word,Date  fechaDesde, Date fechaHasta){
-//		return smsService.selectCountSMS(personId, word, fechaDesde, fechaHasta);
-//
-//	}
-//
-//	public int selectCountSentSMS(int personId, Date fechaDesde,Date  fechaHasta){
-//		return smsService.selectCountSentSMS(personId, fechaDesde, fechaHasta);
-//	}
-//
-//	public int selectCountExpiredSMS(int personId, Date fechaDesde,Date  fechaHasta){
-//		return smsService.selectCountExpiredSMS(personId, fechaDesde, fechaHasta);
-//	}
+	public int selectCountSMS(int personId, String word,Date  fechaDesde, Date fechaHasta){
+		return smsService.selectCountSMS(personId, word, fechaDesde, fechaHasta);
+
+	}
+
+	public int selectCountSentSMS(int personId, Date fechaDesde,Date  fechaHasta){
+		return smsService.selectCountSentSMS(personId, fechaDesde, fechaHasta);
+	}
+
+	public int selectCountExpiredSMS(int personId, Date fechaDesde,Date  fechaHasta){
+		return smsService.selectCountExpiredSMS(personId, fechaDesde, fechaHasta);
+	}
+
+
 	/**
 	 * Registro el movil e inserto el SMS
 	 *
@@ -262,11 +264,11 @@ public class Facade {
 		if (dt==null) throw new  PersonException(PersonException.DOCUMENT_TYPE_NOT_FOUND);
 		else{
 			PersonMovil personMovil = Facade.getInstance().insertPersonMovil(originator, text.toUpperCase().replace("REGISTRO", "") ,dt);
-//			if (personMovil == null){
-//				smsService.getInstance().insert("REGISTRO", null,null, personMovil,text, Constants.SMS_ACTION_INCOME, smsService.selectSmsStatus(Constants.SMS_STATUS_REGISTRATION_FAILED), date);
-//			}else{
-//				smsService.getInstance().insert("REGISTRO", null,null, personMovil,text, Constants.SMS_ACTION_INCOME, smsService.selectSmsStatus(Constants.SMS_STATUS_RECIBIDO), date);
-//			}
+			if (personMovil == null){
+				smsService.getInstance().insert("REGISTRO", null,null, personMovil,text, Constants.SMS_ACTION_INCOME, smsService.selectSmsStatus(Constants.SMS_STATUS_REGISTRATION_FAILED), date);
+			}else{
+				smsService.getInstance().insert("REGISTRO", null,null, personMovil,text, Constants.SMS_ACTION_INCOME, smsService.selectSmsStatus(Constants.SMS_STATUS_RECIBIDO), date);
+			}
 		}
 	}
 
@@ -296,7 +298,7 @@ public class Facade {
 	}
 
 	public void updateSMS(SMS sms) {
-//		this.smsService.getInstance().update(sms);
+		this.smsService.getInstance().update(sms);
 	}
 
 
@@ -306,9 +308,9 @@ public class Facade {
 	 * @param i
 	 * @return
 	 */
-//	public List<SMS> getPendingSMS() {
-//		return SMSService.getInstance().selectList(Constants.SMS_STATUS_PENDIENTE);
-//	}
+	public List<SMS> getPendingSMS() {
+		return SMSService.getInstance().selectList(Constants.SMS_STATUS_PENDIENTE);
+	}
 
 
 	public void updatePerson(Person person ) {
@@ -345,40 +347,40 @@ public class Facade {
 		return this.movilService.selectStatus(id);
 	}
 
-//	public SmsStatus selectSmsStatus(int status) {
-//		return  smsService.selectSmsStatus(status);
-//	}
+	public SmsStatus selectSmsStatus(int status) {
+		return  smsService.selectSmsStatus(status);
+	}
 
 
  /* CONVOCATORIA */
-//	public List<Dispatch> selectDispatchList( int estado, String order, Integer pos, Integer limit) {
-//		return dispatchService.selectList(estado , order, pos,  limit);
-//	}
-//
+	public List<Dispatch> selectDispatchList( int estado, String order, Integer pos, Integer limit) {
+		return dispatchService.selectList(estado , order, pos,  limit);
+	}
 
-//	public int insertDispatch(Dispatch dispatch){
-//		return dispatchService.insert(dispatch);
-//	}
-//
-//
-//	public int insertDispatch(String message, String name, Place place, Date creationDate , Date scheduledDate, String[] personIds, HashMap categories) {
-//		SmsStatus status = selectSmsStatus(Constants.SMS_STATUS_PENDIENTE);
-//		return dispatchService.insert(message, name, place, creationDate, scheduledDate, personIds, categories, status);
-//	}
-//
-//	public int insertBulkSMS(String message, String name, Date creationDate , Date scheduledDate, String[] personIds) {
-//		SmsStatus status = selectSmsStatus(Constants.SMS_STATUS_PENDIENTE);
-//		return bulkSMSService.insert(message, name, creationDate, scheduledDate, personIds, status);
-//	}
+
+	public int insertDispatch(Dispatch dispatch){
+		return dispatchService.insert(dispatch);
+	}
+
+
+	public int insertDispatch(String message, String name, Place place, Date creationDate , Date scheduledDate, String[] personIds, HashMap categories) {
+		SmsStatus status = selectSmsStatus(Constants.SMS_STATUS_PENDIENTE);
+		return dispatchService.insert(message, name, place, creationDate, scheduledDate, personIds, categories, status);
+	}
+
+	public int insertBulkSMS(String message, String name, Date creationDate , Date scheduledDate, String[] personIds) {
+		SmsStatus status = selectSmsStatus(Constants.SMS_STATUS_PENDIENTE);
+		return bulkSMSService.insert(message, name, creationDate, scheduledDate, personIds, status);
+	}
 
 	public Person selectPerson(int id) {
 		return personService.selectPerson(id);
 	}
 
 
-//	public Dispatch selectDispatch(Integer id) {
-//		return dispatchService.selectDispatch(id);
-//	}
+	public Dispatch selectDispatch(Integer id) {
+		return dispatchService.selectDispatch(id);
+	}
 
 	//CATEGORY
 	public List<PersonCategory> selectPersonCategoryList() {
@@ -406,12 +408,12 @@ public class Facade {
 		// DISPATCH
 
 		public void updateDispatch(Dispatch dispatch) {
-//			this.dispatchService.update(dispatch);
+			this.dispatchService.update(dispatch);
 		}
 
 
 		public void removeDispatch(Dispatch item1) {
-//			this.dispatchService.delete(item1);
+			this.dispatchService.delete(item1);
 
 		}
 
@@ -474,6 +476,5 @@ public class Facade {
 		public void removePlace(Place cat) {
 			this.placeService.delete(cat);
 		}
- 
 
 }
