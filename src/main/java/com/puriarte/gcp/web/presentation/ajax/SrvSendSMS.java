@@ -27,9 +27,15 @@ import com.puriarte.utils.date.DateUtils;
 public class SrvSendSMS extends HttpServlet {
 
 	private String gatewayId;
+	private String date;
 	private String text;
+	private String refNo;
+	private String recipient;
+	private String from;
+	private String failureCause;
+	private String messageStatus;
 	private String originator;
-
+	
 	public  void doGet(HttpServletRequest request, HttpServletResponse  response)
 			throws IOException, ServletException {
 		try {
@@ -51,7 +57,13 @@ public class SrvSendSMS extends HttpServlet {
 
 	private void cargarParametros(HttpServletRequest request){
 		gatewayId = request.getParameter("gatewayId");
+		date = request.getParameter("date");
 		text = request.getParameter("text");
+		refNo = request.getParameter("refNo");
+		recipient = request.getParameter("recipient");
+		from = request.getParameter("from");
+		failureCause = request.getParameter("failureCause");
+		messageStatus = request.getParameter("messageStatus");
 		originator = request.getParameter("originator");
 	}
 
@@ -65,7 +77,7 @@ public class SrvSendSMS extends HttpServlet {
 
 		try {
 			cargarParametros(request);
-			out.print(jSonItems);
+			out.print("OK");
 
 		} catch(Exception e) {
 			out.print("{\"error\":[{\"errorID\": \""+ i +"\",\"errtext\": \"" + e.getMessage() + "\"}]}");
@@ -74,92 +86,6 @@ public class SrvSendSMS extends HttpServlet {
 		}
 
 	}
-//
-//	private String procesar() throws Exception {
-//		List<SMS> resultados = Facade.getInstance().selectSMSList(fechaInicio,fechaFin,estado,convocatoria,orderBy, null,null);
-//		return procesarItems2(resultados);
-//	}
-//
-//
-//	private String procesarItems2(List<SMS> resultados) {
-//		String jSonItems="";
-//		int i=0;
-//
-//		for(SMS item : resultados) {
-//			try{
-//
-//			jSonItems += "{\"Id\": \"" +item.getId()+ "\",";
-//			jSonItems += "\"Pos\": \"" + i++ + "\",";
-//			jSonItems += "\"Cliente\": \"" +item.getId()+ "\",";
-//			jSonItems += "\"IdDoc\": \"" + item.getId() + "\",";
-//			if (item.getCreationDate()!=null)
-//				jSonItems += "\"Fecha\": \"" + dTF.format(item.getCreationDate()) + "\",";
-//			else
-//				jSonItems += "\"Fecha\": \"" + "\",";
-//
-//			if ((item.getPersonMovil()!=null) && (item.getPersonMovil().getMovil()!=null))
-//				jSonItems += "\"Numero\": \"" +  item.getPersonMovil().getMovil().getNumber() + "\",";
-//			else
-//				jSonItems += "\"Numero\": \"" + "\",";
-//
-//			if ((item.getPersonMovil()!=null) && (item.getPersonMovil().getMovil()!=null) &&(item.getPersonMovil().getPerson()!=null) &&(item.getPersonMovil().getPerson().getName()!=null))
-//				jSonItems += "\"Nombre\": \"" +  item.getPersonMovil().getPerson().getName() + "\",";
-//			else
-//				jSonItems += "\"Nombre\": \"" + "\",";
-//
-//
-//			jSonItems += "\"Texto\": \"" + item.getMensaje()+ "\",";
-//
-//			if (item.getSentDate()!=null)
-//				jSonItems += "\"FechaEnvio\": \"" + dTF.format(item.getSentDate()) + "\",";
-//			else
-//				jSonItems += "\"\": \"" + "\",";
-//
-//			if (item.getAction()==Constants.SMS_ACTION_INCOME)
-//				jSonItems += "\"Action\": \"ENTRANTE\",";
-//			else
-//				jSonItems += "\"Action\": \"SALIENTE\",";
-//
-//			if (item.getStatus()!=null)
-//				jSonItems += "\"Saldo\": \"" +   item.getStatus().getName() + "\",";
-//			else
-//				jSonItems += "\"Saldo\": \"\",";
-//
-//			if (item.getDispatch()!=null)
-//				jSonItems += "\"Dispatch\": \"" +   item.getDispatch().getName()+ "\"},";
-//			else
-//				jSonItems += "\"Dispatch\": \"\"},";
-//			}
-//			catch(Exception e){}
-//		}
-//
-//		jSonItems = jSonItems.replaceAll(System.getProperty("line.separator"), "");
-//
-//		if (jSonItems.lastIndexOf(",")>0) jSonItems=jSonItems.substring(0,jSonItems.lastIndexOf(","));
-//
-//		//totalRegistros=resultados.size();
-//		totalRegistros=(long) 100;
-//		String strXml = "{\"total\": 1," ;
-//		strXml +="\"page\": " + strPage + ",";
-//		strXml +="\"records\": " + totalRegistros + ",";
-//		strXml +="\"total\": " + totalRegistros/strRows + ",";
-//		strXml +="\"rows\": " +"[" + jSonItems + "],";
-//		strXml +="\"footer\": " +"[{\"saldo\":" + totalSaldo + ",\"facturas\":" + totalFacturas + ",\"contados\":" + totalContados + ",\"afavor\":" + totalAFavor + "}]}";
-//
-//		System.out.println(strXml);
-//		return strXml;
-//	}
-//
-//	private Date getDateRequest(HttpServletRequest request, String parameter) {
-//		try{
-//			return DateUtils.parseDate(request.getParameter(parameter), Constants.FORMATO_FECHA_HTML5_REGEX,  Constants.FORMATO_FECHA_HTML5);
-//		}catch(ParseException ex){
-//			return null;
-//		}catch(NullPointerException ex){
-//			return null;
-//		}
-//	}
-
 
 	// Obtenemos un objeto del contexto de la aplicaci�n por su nombre.
 	protected Object getApplicationObject(String attrName) {

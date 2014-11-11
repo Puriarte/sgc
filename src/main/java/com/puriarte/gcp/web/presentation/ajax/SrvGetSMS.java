@@ -26,9 +26,10 @@ import com.puriarte.utils.date.DateUtils;
 
 public class SrvGetSMS extends HttpServlet {
 
-
+	private String pduUserData;
 	private String gatewayId;
 	private String text;
+	private String date;
 	private String originator;
 	
 	public void init(ServletConfig config) throws ServletException {
@@ -54,30 +55,15 @@ public class SrvGetSMS extends HttpServlet {
 
 	}
 
-
 	/**
 	 * @param request
 	 */
 	private void cargarParametros(HttpServletRequest request){
-//
-//		String orderBy = "fMov, ndoc";
-//
-//		strPage = Integer.parseInt(request.getParameter("page"));
-//		strRows = Integer.parseInt(request.getParameter("rows"));
-//		strSort = request.getParameter("sidx");
-//		strOrder = request.getParameter("sord");
-//
-//		fechaInicio = getDateRequest(request, "fechaDesde");
-//		fechaFin = getDateRequest(request, "fechaHasta");
-//
-//		if (fechaFin!=null){
-//			fechaFin.setHours(23);
-//			fechaFin.setMinutes(59);
-//		}
-//
-//		estado = ((request.getParameter("estado")!=null) && NumberUtils.isNumber(request.getParameter("estado")))? Integer.parseInt(request.getParameter("estado")) : 0;
-//		convocatoria = ((request.getParameter("convocatoria")!=null) && NumberUtils.isNumber(request.getParameter("convocatoria")))? Integer.parseInt(request.getParameter("convocatoria")) : 0;
-
+		pduUserData =  request.getParameter("pduUserData");
+		gatewayId =  request.getParameter("gatewayId");
+		text =  request.getParameter("text");
+		date =  request.getParameter("date");
+		originator =  request.getParameter("originator");
 	}
 
 	public void _doProcess(HttpServletRequest request, HttpServletResponse response)
@@ -87,12 +73,9 @@ public class SrvGetSMS extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		int i=0;
 		String jSonItems="";
-
 		try {
 			cargarParametros(request);
-		//	jSonItems=procesar();
-//			out.print("{\"total\": 1,\"page\": 1,\"records\": 100,\"total\": 1,\"rows\": [{\"Id\": \"1\",\"Pos\": \"0\",\"Cliente\": \"1\",\"IdDoc\": \"1\",\"Fecha\": \"03-11-2014 12:00:00\",{\"Id\": \"2\",\"Pos\": \"1\",\"Cliente\": \"2\",\"IdDoc\": \"2\",\"Fecha\": \"03-11-2014 12:00:00\",\"Numero\": \"59898843084\",\"Nombre\": \"\",\"Texto\": \"REGISTRO 33173535\",\"FechaEnvio\": \"03-11-2014 12:00:00\",\"Action\": \"ENTRANTE\",\"Saldo\": \"Recibido\",\"Dispatch\": \"\"},{\"Id\": \"3\",\"Pos\": \"2\",\"Cliente\": \"3\",\"IdDoc\": \"3\",\"Fecha\": \"03-11-2014 12:00:00\",\"Numero\": \"59899627237\",\"Nombre\": \"\",\"Texto\": \"REGISTRO 34023364\",\"FechaEnvio\": \"03-11-2014 12:00:00\",\"Action\": \"ENTRANTE\",\"Saldo\": \"Recibido\",\"Dispatch\": \"\"},{\"Id\": \"4\",\"Pos\": \"3\",\"Cliente\": \"4\",\"IdDoc\": \"4\",\"Fecha\": \"03-11-2014 02:56:07\",\"Numero\": \"59899627237\",\"Nombre\": \"\",\"Texto\": \"CONVOCATORIA AL EVENTOcom.puriarte.convocatoria.persistence.PersonCategory@d481f9\",\"\": \"\",\"Action\": \"SALIENTE\",\"Saldo\": \"Pendiente\",\"Dispatch\": \"Convocatoria 1\"},{\"Id\": \"5\",\"Pos\": \"4\",\"Cliente\": \"5\",\"IdDoc\": \"5\",\"Fecha\": \"03-11-2014 02:56:07\",\"Numero\": \"59898843084\",\"Nombre\": \"\",\"Texto\": \"CONVOCATORIA AL EVENTOcom.puriarte.convocatoria.persistence.PersonCategory@d375b4\",\"\": \"\",\"Action\": \"SALIENTE\",\"Saldo\": \"Pendiente\",\"Dispatch\": \"Convocatoria 1\"}],\"footer\": [{\"saldo\":0,\"facturas\":0,\"contados\":0,\"afavor\":0}]}");
-			out.print(jSonItems);
+			out.print("0");
 
 		} catch(Exception e) {
 			out.print("{\"error\":[{\"errorID\": \""+ i +"\",\"errtext\": \"" + e.getMessage() + "\"}]}");
