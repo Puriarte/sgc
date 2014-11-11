@@ -32,7 +32,7 @@ public class Facade {
 //	private SMSService smsService;
 	private PersonService personService;
 	private MovilService movilService;
-	private DispatchService dispatchService;
+	//private DispatchService dispatchService;
 	private DocumentTypeService documentTypeService;
 	private PersonCategoryService personCategoryService;
 	private JobService jobService;
