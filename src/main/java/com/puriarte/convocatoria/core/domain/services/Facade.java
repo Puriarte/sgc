@@ -44,7 +44,7 @@ public class Facade {
 	
 	private Facade(){
 		this.userService = UserService.getInstance();
-		this.smsService = SMSService.getInstance();
+		//this.smsService = SMSService.getInstance();
 		this.personService = PersonService.getInstance();
 		this.documentTypeService = DocumentTypeService.getInstance();
 		this.movilService = MovilService.getInstance();
