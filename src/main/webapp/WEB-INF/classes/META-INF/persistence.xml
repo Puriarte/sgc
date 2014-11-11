@@ -25,11 +25,11 @@
 		<class>com.puriarte.convocatoria.persistence.BulkSMS</class>
 
 	<properties>
-		<property name="javax.persistence.jdbc.url" value="jdbc:postgresql://127.0.0.1:5432/sgc"/>
+<!-- 		<property name="javax.persistence.jdbc.url" value="jdbc:postgresql://127.0.0.1:5432/sgc"/>
 		<property name="javax.persistence.jdbc.user" value="adminvcpltfr"/>
 		<property name="javax.persistence.jdbc.password" value="P5f3Frhx3KBU"/>
 		<property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
-		<property name="eclipselink.ddl-generation" value="drop-and-create-tables"/>
+ -->		<property name="eclipselink.ddl-generation" value="drop-and-create-tables"/>
 		<!--
 		<property name="eclipselink.ddl-generation.output-mode" value="database"/>
 		 <property name="eclipselink.ddl-generation.output-mode" value="sql-script"/>
