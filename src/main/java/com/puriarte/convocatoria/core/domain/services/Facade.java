@@ -305,9 +305,9 @@ public class Facade {
 	 * @param i
 	 * @return
 	 */
-	public List<SMS> getPendingSMS() {
-		return SMSService.getInstance().selectList(Constants.SMS_STATUS_PENDIENTE);
-	}
+//	public List<SMS> getPendingSMS() {
+//		return SMSService.getInstance().selectList(Constants.SMS_STATUS_PENDIENTE);
+//	}
 
 
 	public void updatePerson(Person person ) {
