@@ -10,6 +10,7 @@ import javax.persistence.Query;
 
 
 
+
 import com.puriarte.convocatoria.core.domain.Constants;
 import com.puriarte.convocatoria.core.exceptions.MovilException;
 import com.puriarte.convocatoria.core.exceptions.PersonException;
@@ -58,6 +59,7 @@ public class MovilService {
 
 	}
 
+	@SuppressWarnings("unchecked")
 	public List<Movil> selectList(String nroDestino , int status) {
 		final EntityManager em = getEntityManager();
 
@@ -170,7 +172,7 @@ public class MovilService {
 		try{
 			int id = 1;
 
-			//TODO: Hacerlo dinámico
+			//TODO: Hacerlo dinï¿½mico
 			if (number.length()<=5)
 				return null;
 			else if (number.startsWith("59891") ||
@@ -231,83 +233,6 @@ public class MovilService {
 			}else {
 				return null;
 			}
-//
-//			if (movil == null){
-//				movil = new Movil();
-//				if (person==null){
-//					MovilStatus ms =null;
-//					if ((document!=null) && (!document.trim().equals(""))){
-//						person = new Person();
-//						person.setDocumentType(documentType);
-//						person.setDocumentNumber(document);
-//						int idPerson = Facade.getInstance().insertPerson(person );
-//						person.setId(idPerson);
-//						ms = Facade.getInstance().selectMovilStatus(Constants.MOVIL_STATUS_ACTIVE);
-//					}else{
-//						ms = Facade.getInstance().selectMovilStatus(Constants.MOVIL_STATUS_PENDING);
-//					}
-//					movil.setNumber(number);
-//					movil.setMovilStatus(ms);
-//					Facade.getInstance().insertMovil(movil);
-//
-//					PersonMovil pm = new PersonMovil();
-//					pm.setMovil(movil);
-//					pm.setPerson(person);
-//
-//					Facade.getInstance().insertPersonMovil(pm);
-//					return pm;
-//				}else{
-//					PersonMovil pm = new PersonMovil();
-//					Facade.getInstance().updatePerson(person);
-//					return null;
-//				}
-//			}else{
-//				return null;
-//				if (person == null){
-//					MovilStatus ms =null;
-//					if ((document!=null) && (!document.equals(""))){
-//						person = new Person();
-//						person.setDocumentType(documentType);
-//						person.setDocumentNumber(document);
-//						Facade.getInstance().insertPerson(person );
-//					}
-//
-//					// SI el estado del movil es pendiente dejo el actual como activo.
-//					if (movil.getMovilStatus().getId()== Constants.MOVIL_STATUS_PENDING)
-//						ms= Facade.getInstance().selectMovilStatus(Constants.MOVIL_STATUS_ACTIVE);
-//					else
-//						ms= Facade.getInstance().selectMovilStatus(Constants.MOVIL_STATUS_PENDING);
-//
-//					// En este caso el movil está asociado a alguna otra cedula
-//					Movil newMovil = new Movil();
-//					newMovil.setMovilStatus(ms);
-//					newMovil.setNumber(number);
-//					newMovil.setPerson(person);
-//
-//					Facade.getInstance().insertMovil(newMovil);
-//
-//					return newMovil;
-//					//TODO: Hay que agregar una tarea para el administrador ya que aca se genera un
-//					//      conflicto por haber dos cedulas para un mismo celular.
-//			//		throw new MovilException(MovilException.ALREADY_IN_USE);
-//				}else{
-//					// Me fijo sI el movil ya está asociado a la cedula dada
-//					if ( ( movil.getPerson().getDocumentNumber()== person.getDocumentNumber()) &&
-//					   (movil.getPerson().getDocumentType() == person.getDocumentType() )){
-//						throw new MovilException(MovilException.DUPLICATED);
-//					}else{
-//						// En este caso el movil está asociado a alguna otra cedula
-//						Movil newMovil = new Movil();
-//						newMovil.setMovilStatus(new MovilStatus(Constants.MOVIL_STATUS_PENDING));
-//						newMovil.setNumber(number);
-//						person.addMovil(newMovil);
-//						Facade.getInstance().updatePerson(person);
-//						//TODO: Hay que agregar una tarea para el administrador ya que aca se genera un
-//						//      conflicto por haber dos cedulas para un mismo celular.
-//						throw new MovilException(MovilException.ALREADY_IN_USE);
-//					}
-//				}
-//			}
 		}catch(PersistenceException pex){
 			throw new PersonException(PersonException.REPEATED);
 		}
@@ -353,34 +278,5 @@ public class MovilService {
 
 		return m.getId();
 	}
-
-
-	/*public List<MovimientoDeudaResult> getMovimientosDeuda(Integer idCuenta, String idRazon,
-			Date fechaInicio, Date fechaFin, Date fechaVencimientoInicio, Date fechaVencimientoFin,
-			Integer nroComprobante, Integer tipoComprobante, boolean soloImpagos,
-			String orden, boolean ascending, Integer pos, Integer limit){
-
-		System.out.println("Inicio (getMovimientosDeudaJPA)  :" + (new Date()).getMinutes() + ":" +(new Date()).getSeconds() );
-
-		if (orden==null) orden ="dmv_fmov";
-
-		Query query = em.createNamedQuery("BuscarMovimientosDeudores")
-			.setParameter(1, idCuenta )
-			.setParameter(2, idRazon)
-			.setParameter(3, tipoComprobante )
-			.setParameter(4, nroComprobante)
-			.setParameter(5, fechaInicio)
-			.setParameter(6, fechaFin)
-			.setParameter(7, soloImpagos)
-			.setParameter(8, orden);
-
-		if((pos!=null) && (limit!=null)) query.setFirstResult(pos).setMaxResults(limit);
-
-		List<MovimientoDeudaResult> a = (List<MovimientoDeudaResult>) query.getResultList();
-
-		System.out.println("Fin (getMovimientosDeudaJPA): " +(new Date()).getMinutes() + ":" +(new Date()).getSeconds() );
-
-		return a;
-	}*/
 
 }
