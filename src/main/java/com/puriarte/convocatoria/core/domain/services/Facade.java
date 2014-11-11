@@ -28,6 +28,8 @@ public class Facade {
 	
 	private static Facade INSTANCE = null;
 
+	private UserService userService;
+	
 
 	private static synchronized void createInstance(){
 		if(INSTANCE == null){
