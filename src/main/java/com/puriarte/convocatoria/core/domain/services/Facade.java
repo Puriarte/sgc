@@ -25,5 +25,10 @@ import com.puriarte.convocatoria.persistence.User;
 import com.puriarte.convocatoria.core.domain.Constants;
 
 public class Facade {
+
+	public static Object getInstance() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }
