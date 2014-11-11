@@ -28,11 +28,10 @@ public class Facade {
 
 	private static Facade INSTANCE = null;
 	private UserService userService;
-SMSService smsService;
+	private SMSService smsService;
 	private PersonService personService;
 	private MovilService movilService;
-
-DispatchService dispatchService;
+	private DispatchService dispatchService;
 	private DocumentTypeService documentTypeService;
 	private PersonCategoryService personCategoryService;
 	private JobService jobService;
@@ -101,7 +100,7 @@ DispatchService dispatchService;
 
 
 	/**
-	 * Borra lgica de Persona
+	 * Borra lógica de Persona
 	 * @param id
 	 */
 	public void removePerson(Person person)throws SQLException{
@@ -184,11 +183,11 @@ DispatchService dispatchService;
 
 	/// SMS ///
 	/**
-	 * Este mtodo verifica que
-	 * (1. el nro Destino est asociado a una persona,
-	 *  2- el nro est activo)
+	 * Este método verifica que
+	 * (1. el nro Destino esté asociado a una persona,
+	 *  2- el nro esté activo)
 	 *
-	 *  Si no lo est se cambia al estado a SMS rechazado.
+	 *  Si no lo está se cambia al estado a SMS rechazado.
 	 *
 	 * @param nroDestino
 	 * @param string
@@ -209,7 +208,7 @@ DispatchService dispatchService;
 		String word="";
 
 		// Me voy a fijar si corresponde a una respuesta de una convocatoria y en tal caso si la respuesta es si o no
-		// Tambin ver si el tiempo para responder est superado o no
+		// También veré si el tiempo para responder está superado o no
 		List<SMS> smsList = Facade.getInstance().SelectRelatedSMSList(movil, selectSmsStatus(Constants.SMS_STATUS_ENVIADO), 0, 1);
 		if ((smsList!=null) && (smsList.size()>0)){
 			SMS sms = smsList.get(0);
