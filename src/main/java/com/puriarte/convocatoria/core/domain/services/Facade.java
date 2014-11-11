@@ -32,7 +32,6 @@ public class Facade {
 	private SMSService smsService;
 
 	
-	
 	private static synchronized void createInstance(){
 		if(INSTANCE == null){
 			INSTANCE = new Facade();
