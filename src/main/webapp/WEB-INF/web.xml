@@ -168,6 +168,17 @@
 		</init-param>
 	</servlet>
 
+<!-- ENVIO Y RECEPCIÓN DE SMS
+ -->
+  	<servlet>
+	    <servlet-name>SendSMS</servlet-name>
+	    <servlet-class>com.puriarte.gcp.web.presentation.ajax.SrvSendSMS</servlet-class>
+	</servlet>
+
+ 	<servlet>
+	    <servlet-name>GetSMS</servlet-name>
+	    <servlet-class>com.puriarte.gcp.web.presentation.ajax.SrvGetSMS</servlet-class>
+	</servlet>
 
 	<!-- Action Servlet Mapping -->
 
@@ -221,6 +232,16 @@
 	<servlet-mapping>
 		<servlet-name>MostrarConvocatoriasPDF</servlet-name>
 		<url-pattern>/mostrarConvocatoriasPDF</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>GetSMS</servlet-name>
+		<url-pattern>/getSMS</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>SendSMS</servlet-name>
+		<url-pattern>/sendSMS</url-pattern>
 	</servlet-mapping>
 
 
