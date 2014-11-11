@@ -147,7 +147,13 @@ public class Facade {
 		return movilService.selectList(number, status);
 	}
 
-
+//	public List<SMS> selectSMSList(Date fechaDesde, Date fechaHasta, Integer estado, Integer convocatoria,  String order,Integer pos, Integer limit) {
+//		if ((convocatoria !=null) && (!(convocatoria==0)) ){
+//			return smsService.selectListByDispatch(fechaDesde, fechaHasta, estado , convocatoria, order, pos,  limit);
+//		}else{
+//			return smsService.selectList(fechaDesde, fechaHasta, estado , order, pos,  limit);
+//		}
+//	}
 	public AssignmentStatus selectAssingmentStatus(int assignmentStatusAssigned) {
 		// TODO Auto-generated method stub
 		return null;
