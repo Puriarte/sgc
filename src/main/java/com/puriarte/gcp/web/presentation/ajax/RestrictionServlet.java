@@ -53,7 +53,7 @@ public abstract class RestrictionServlet extends HttpServlet {
 	}
 
 
-	// Obtenemos un objeto de la sesión por su nombre.
+	// Obtenemos un objeto de la sesin por su nombre.
   	protected Object getSessionObject(HttpServletRequest req, String attrName) {
 	    Object sessionObj = null;
 	    HttpSession session = req.getSession(false);
@@ -74,7 +74,7 @@ public abstract class RestrictionServlet extends HttpServlet {
 		getServletContext().setAttribute(attrName,attrValue);
   	}
 
-  	// Obtenemos un objeto del contexto de la aplicación por su nombre.
+  	// Obtenemos un objeto del contexto de la aplicacin por su nombre.
 	protected Object getApplicationObject(String attrName) {
 	    return getServletContext().getAttribute(attrName);
   	}

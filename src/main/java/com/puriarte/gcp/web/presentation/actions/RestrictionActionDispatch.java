@@ -31,7 +31,7 @@ public abstract class RestrictionActionDispatch extends DispatchAction  {
 	    servlet.getServletContext().setAttribute(attrName,attrValue);
   	}
 
-  	// Obtenemos un objeto del contexto de la aplicación por su nombre.
+  	// Obtenemos un objeto del contexto de la aplicacion por su nombre.
 	protected Object getApplicationObject(String attrName) {
 	    return servlet.getServletContext().getAttribute(attrName);
   	}

@@ -234,7 +234,7 @@ public class SrvLstPerson extends HttpServlet {
 		}
 	}
 
-	// Obtenemos un objeto del contexto de la aplicación por su nombre.
+	// Obtenemos un objeto del contexto de la aplicacin por su nombre.
 	protected Object getApplicationObject(String attrName) {
 		return this.getServletContext().getAttribute(attrName);
 	}
