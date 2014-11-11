@@ -30,7 +30,16 @@ public class Facade {
 
 	private UserService userService;
 //	private SMSService smsService;
-
+	private PersonService personService;
+	private MovilService movilService;
+	private DispatchService dispatchService;
+	private DocumentTypeService documentTypeService;
+	private PersonCategoryService personCategoryService;
+	private JobService jobService;
+	private AssignmentStatusService assignmentStatusService;
+	private PlaceService placeService;
+	private PersonMovilService personMovilService;
+	private BulkSMSService bulkSMSService;
 	
 	private static synchronized void createInstance(){
 		if(INSTANCE == null){
