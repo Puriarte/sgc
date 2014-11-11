@@ -105,6 +105,48 @@ public class Facade {
 	public void removePerson(Person person)throws SQLException{
 		this.personService.borrarPerson(person);
 	}
+	
+	/*
+	 * MOVIL
+	 * */
+
+
+	/**
+	 * Obtener un movil a parteir de su nro.
+	 * @param nroDestinoSMS1
+	 * @return
+	 */
+	public PersonMovil selectPersonMovil(String numero, Integer status) {
+		return this.personMovilService.select(numero, status);
+	}
+
+	/**
+	 * Obtener un movil a parteir de su id
+	 * @param nroDestinoSMS1
+	 * @return
+	 */
+	public PersonMovil selectPersonMovil(Integer id) {
+		return this.personMovilService.select(id);
+	}
+
+//	public Movil selectMovilActiveFirst(String numero) {
+//		return this.movilService.selectMovilActiveFirst(numero);
+//	}
+
+	public Movil selectMovil(String number, int status){
+		return movilService.select(number, status);
+	}
+
+	/**
+	 * Obtener una lista de moviles a parteir de su nro.
+	 *
+	 * @param nroDestino
+	 * @return
+	 */
+	public List<Movil> selectMovils(String number, int status) {
+		return movilService.selectList(number, status);
+	}
+
 
 	public AssignmentStatus selectAssingmentStatus(int assignmentStatusAssigned) {
 		// TODO Auto-generated method stub
@@ -142,10 +184,6 @@ public class Facade {
 		return null;
 	}
 
-	public Object selectMovil(String movilNumber, int movilStatusActive) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
+ 
 
 }
