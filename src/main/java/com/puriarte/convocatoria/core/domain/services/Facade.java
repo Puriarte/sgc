@@ -249,43 +249,230 @@ public class Facade {
 //	public int selectCountExpiredSMS(int personId, Date fechaDesde,Date  fechaHasta){
 //		return smsService.selectCountExpiredSMS(personId, fechaDesde, fechaHasta);
 //	}
-	
-	public AssignmentStatus selectAssingmentStatus(int assignmentStatusAssigned) {
-		// TODO Auto-generated method stub
-		return null;
+	/**
+	 * Registro el movil e inserto el SMS
+	 *
+	 * @param originator
+	 * @param text
+	 * @throws Exception
+	 */
+	public void insertSMSIncomeAndRegisterMovil(String originator, String text, Date date) throws Exception {
+		DocumentType dt = Facade.getInstance().selectDocumentType(Constants.PERSON_TYPE_CI);
+		if (dt==null) throw new  PersonException(PersonException.DOCUMENT_TYPE_NOT_FOUND);
+		else{
+			PersonMovil personMovil = Facade.getInstance().insertPersonMovil(originator, text.toUpperCase().replace("REGISTRO", "") ,dt);
+//			if (personMovil == null){
+//				smsService.getInstance().insert("REGISTRO", null,null, personMovil,text, Constants.SMS_ACTION_INCOME, smsService.selectSmsStatus(Constants.SMS_STATUS_REGISTRATION_FAILED), date);
+//			}else{
+//				smsService.getInstance().insert("REGISTRO", null,null, personMovil,text, Constants.SMS_ACTION_INCOME, smsService.selectSmsStatus(Constants.SMS_STATUS_RECIBIDO), date);
+//			}
+		}
 	}
 
-	public PersonMovil selectPersonMovil(int parseInt) {
-		// TODO Auto-generated method stub
-		return null;
+
+	/**
+	 * Inserto el movil asociado a un documento de cedula de una persona
+	 *
+	 * @param nroDestino
+	 * @param document
+	 * @param documentType
+	 * @return
+	 * @throws SMSException
+	 * @throws PersonException
+	 * @throws SQLException
+	 */
+	public PersonMovil insertPersonMovil(String number, String document, DocumentType documentType) throws SMSException,PersonException,MovilException, SQLException {
+		return movilService.getInstance().insert(number, document, documentType);
 	}
 
-	public PersonCategory selectPersonCategory(int categoryId) {
-		// TODO Auto-generated method stub
-		return null;
+	public PersonMovil insertPersonMovil(Person person, String movilNumber) throws SMSException,PersonException,MovilException, SQLException {
+		return movilService.getInstance().insert(person,movilNumber);
 	}
 
-	public MovilStatus selectMovilStatus(int movilStatusPending) {
-		// TODO Auto-generated method stub
-		return null;
-	}
- 
 
-	public void insertMovil(Movil movil) {
-		// TODO Auto-generated method stub
-		
+	public int insertMovil(Movil m) throws SQLException{
+		return this.movilService.insert(m);
 	}
 
-	public void insertPersonMovil(PersonMovil pm) {
-		// TODO Auto-generated method stub
-		
+	public void updateSMS(SMS sms) {
+//		this.smsService.getInstance().update(sms);
 	}
 
-	public Person getPerson(String document, int id) {
-		// TODO Auto-generated method stub
-		return null;
+
+	/**
+	 * Obtiene la lista de SMS pendientes de envio
+	 *
+	 * @param i
+	 * @return
+	 */
+	public List<SMS> getPendingSMS() {
+		return SMSService.getInstance().selectList(Constants.SMS_STATUS_PENDIENTE);
 	}
 
+
+	public void updatePerson(Person person ) {
+		personService.getInstance().updatePerson(person);
+	}
+
+
+	Person getPerson(String document, int documentType) {
+		return personService.getInstance().selectPerson(document, documentType);
+	}
+
+
+	/*
+	 * MOVIL
+	 * */
+
+
+	/**
+	 * Obtener un movil a parteir de su nro.
+	 * @param nroDestinoSMS1
+	 * @return
+	 */
+	public User selectUser(String name, String string) {
+		return this.userService.select(name, string);
+	}
+
+
+	public DocumentType selectDocumentType (int id ){
+		return this.documentTypeService.select(id);
+	}
+
+
+	public MovilStatus selectMovilStatus(int id) {
+		return this.movilService.selectStatus(id);
+	}
+
+//	public SmsStatus selectSmsStatus(int status) {
+//		return  smsService.selectSmsStatus(status);
+//	}
+
+
+ /* CONVOCATORIA */
+//	public List<Dispatch> selectDispatchList( int estado, String order, Integer pos, Integer limit) {
+//		return dispatchService.selectList(estado , order, pos,  limit);
+//	}
+//
+
+//	public int insertDispatch(Dispatch dispatch){
+//		return dispatchService.insert(dispatch);
+//	}
+//
+//
+//	public int insertDispatch(String message, String name, Place place, Date creationDate , Date scheduledDate, String[] personIds, HashMap categories) {
+//		SmsStatus status = selectSmsStatus(Constants.SMS_STATUS_PENDIENTE);
+//		return dispatchService.insert(message, name, place, creationDate, scheduledDate, personIds, categories, status);
+//	}
+//
+//	public int insertBulkSMS(String message, String name, Date creationDate , Date scheduledDate, String[] personIds) {
+//		SmsStatus status = selectSmsStatus(Constants.SMS_STATUS_PENDIENTE);
+//		return bulkSMSService.insert(message, name, creationDate, scheduledDate, personIds, status);
+//	}
+
+	public Person selectPerson(int id) {
+		return personService.selectPerson(id);
+	}
+
+
+//	public Dispatch selectDispatch(Integer id) {
+//		return dispatchService.selectDispatch(id);
+//	}
+
+	//CATEGORY
+	public List<PersonCategory> selectPersonCategoryList() {
+		return this.personCategoryService.selectList();
+	}
+
+
+		public PersonCategory selectPersonCategory (int id ){
+			return this.personCategoryService.select(id);
+		}
+
+		public int insertPersonCategory(PersonCategory cat) throws SQLException{
+			return this.personCategoryService.insert(cat);
+		}
+
+		public void updatePersonCategory(PersonCategory cat) {
+			this.personCategoryService.update(cat);
+		}
+
+
+		public void removePersonCategory(PersonCategory cat) {
+			this.personCategoryService.delete(cat);
+		}
+
+		// DISPATCH
+
+		public void updateDispatch(Dispatch dispatch) {
+//			this.dispatchService.update(dispatch);
+		}
+
+
+		public void removeDispatch(Dispatch item1) {
+//			this.dispatchService.delete(item1);
+
+		}
+
+		// JOB
+		public List<Job> selectJobList(int i, String string, int j, int k) {
+			return this.jobService.selectList();
+		}
+
+
+		public void insertJob(Job job) throws SQLException {
+			this.jobService.insertJob(job);
+		}
+
+
+		public void updateJob(Job job) {
+			this.jobService.update(job);
+
+		}
+
+		public void removeJob(Job job) {
+			this.jobService.delete(job);
+
+		}
+
+
+		// PERSONMOVIL
+
+		public void insertPersonMovil(PersonMovil pm) {
+			this.personMovilService.insert(pm);
+
+		}
+
+
+		//ASSIGNMENT STATUS
+		public AssignmentStatus selectAssingmentStatus(	int id) {
+			return this.assignmentStatusService.select(id);
+		}
+
+		public List<AssignmentStatus> selectAssingmentStatusList() {
+			return this.assignmentStatusService.selectList();
+		}
+
+		//PLACES
+		public List<Place> selectPlaceList() {
+			return this.placeService.selectList();
+		}
+
+		public Place selectPlace (int id ){
+			return this.placeService.select(id);
+		}
+
+		public int insertPlace(Place cat) throws SQLException{
+			return this.placeService.insert(cat);
+		}
+
+		public void updatePlace(Place cat) {
+			this.placeService.update(cat);
+		}
+
+		public void removePlace(Place cat) {
+			this.placeService.delete(cat);
+		}
  
 
 }
