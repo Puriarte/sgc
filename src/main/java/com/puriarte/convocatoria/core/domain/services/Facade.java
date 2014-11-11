@@ -28,10 +28,11 @@ public class Facade {
 
 	private static Facade INSTANCE = null;
 	private UserService userService;
-	private SmsService smsService;
+SMSService smsService;
 	private PersonService personService;
 	private MovilService movilService;
-	private DispatchsService dispatchService;
+
+DispatchService dispatchService;
 	private DocumentTypeService documentTypeService;
 	private PersonCategoryService personCategoryService;
 	private JobService jobService;
@@ -42,11 +43,11 @@ public class Facade {
 
 	private Facade(){
 		this.userService = UserService.getInstance();
-		this.smsService = SmsService.getInstance();
+		this.smsService = SMSService.getInstance();
 		this.personService = PersonService.getInstance();
 		this.documentTypeService = DocumentTypeService.getInstance();
 		this.movilService = MovilService.getInstance();
-		this.dispatchService = DispatchsService.getInstance();
+		this.dispatchService = DispatchService.getInstance();
 		this.personCategoryService = PersonCategoryService.getInstance();
 		this.jobService= JobService.getInstance();
 		this.personMovilService = PersonMovilService.getInstance();
@@ -309,7 +310,7 @@ public class Facade {
 	 * @return
 	 */
 	public List<SMS> getPendingSMS() {
-		return SmsService.getInstance().selectList(Constants.SMS_STATUS_PENDIENTE);
+		return SMSService.getInstance().selectList(Constants.SMS_STATUS_PENDIENTE);
 	}
 
 
