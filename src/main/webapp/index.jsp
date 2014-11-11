@@ -47,9 +47,6 @@
 					<div class="ui-state-error" align="left" style="margin:5px;">
 						<span class="ui-icon ui-icon-alert" style="float:left;"></span>
 						<ol>
-							<html:messages property="error" id="errMsg" >
-								<li><bean:write name="errMsg"/></li>
-							</html:messages>
 						</ol>
 					</div>
 		</logic:messagesPresent>
