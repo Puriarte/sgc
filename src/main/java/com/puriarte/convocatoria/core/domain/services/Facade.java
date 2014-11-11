@@ -154,6 +154,102 @@ public class Facade {
 //			return smsService.selectList(fechaDesde, fechaHasta, estado , order, pos,  limit);
 //		}
 //	}
+	
+
+//	private List<SMS> SelectRelatedSMSList(PersonMovil movil, SmsStatus status, int pos, int limit) {
+//		return smsService.SelectRelatedSMSList(movil, status , pos,  limit);
+//	}
+
+
+	public List<Person> selectPersonList(List<String> priorities, int category ,int estado,  String order,Integer pos, Integer limit) {
+		return personService.selectList(priorities, category , estado , order, pos,  limit);
+	}
+
+	public List<PersonMovil> selectPersonMovilList(List<String> priorities, int category ,int estado,  String order, Integer pos, Integer limit) {
+		return personMovilService.selectList(priorities, category , estado , order, pos,  limit);
+	}
+
+
+	public List<PersonMovil> selectPersonMovilList( String order, Integer pos, Integer limit) {
+		return this.selectPersonMovilList(null, 0,0,  "", pos, limit);
+	}
+
+
+//	public boolean existSMS(String origen , Date date) {
+//		return smsService.exist(origen, date);
+//	}
+	
+
+	/// SMS ///
+	/**
+	 * Este método verifica que
+	 * (1. el nro Destino esté asociado a una persona,
+	 *  2- el nro esté activo)
+	 *
+	 *  Si no lo está se cambia al estado a SMS rechazado.
+	 *
+	 * @param nroDestino
+	 * @param string
+	 * @throws Exception
+	 */
+	public void insertSMSOutcome(PersonMovil movil, String texto) throws Exception {
+//		smsService.getInstance().insert(null,null, null, movil,texto, Constants.SMS_ACTION_OUTCOME, selectSmsStatus(Constants.SMS_STATUS_PENDIENTE), new Date());
+	}
+
+	public void insertSMSIncome(String originator, String text, Date date) throws Exception {
+//		PersonMovil movil = Facade.getInstance().selectPersonMovil(originator,Constants.MOVIL_STATUS_ACTIVE );
+//		if (movil ==null){
+//			DocumentType dt = Facade.getInstance().selectDocumentType(Constants.PERSON_TYPE_CI);
+//			movil = Facade.getInstance().insertPersonMovil(originator, "" ,dt);
+//		}
+//
+//		String order="";
+//		String word="";
+//
+//		// Me voy a fijar si corresponde a una respuesta de una convocatoria y en tal caso si la respuesta es si o no
+//		// También veré si el tiempo para responder está superado o no
+//		List<SMS> smsList = Facade.getInstance().SelectRelatedSMSList(movil, selectSmsStatus(Constants.SMS_STATUS_ENVIADO), 0, 1);
+//		if ((smsList!=null) && (smsList.size()>0)){
+//			SMS sms = smsList.get(0);
+//			if (sms.getAssignment()!=null){
+//				if (sms.getAssignment().getJob()!=null){
+//					if(sms.getAssignment().getJob().getDispatch()!=null){
+//						Assignment assignment = sms.getAssignment();
+//						if (text.toUpperCase().startsWith("SI"))
+//							word = "SI";
+//						else if (text.toUpperCase().startsWith("NO"))
+//							word = "NO";
+//
+//
+//		/*				if (text.toUpperCase().startsWith("SI"))
+//							smsService.getInstance().insert(idDispatch, movil, text, Constants.SMS_ACTION_INCOME,selectSmsStatus(Constants.SMS_STATUS_RECIBIDO), date);
+//						else
+//			*/				smsService.getInstance().insert(word, assignment, sms, movil, text, Constants.SMS_ACTION_INCOME,selectSmsStatus(Constants.SMS_STATUS_RECIBIDO), date);
+//
+//					}
+//				}
+//
+//			}else{
+//				smsService.getInstance().insert(null,null,null, movil, text, Constants.SMS_ACTION_INCOME,selectSmsStatus(Constants.SMS_STATUS_RECIBIDO), date);
+//			}
+//		}else{
+//			smsService.getInstance().insert(null,null,null, movil, text, Constants.SMS_ACTION_INCOME,selectSmsStatus(Constants.SMS_STATUS_RECIBIDO), date);
+//		}
+	}
+
+//	public int selectCountSMS(int personId, String word,Date  fechaDesde, Date fechaHasta){
+//		return smsService.selectCountSMS(personId, word, fechaDesde, fechaHasta);
+//
+//	}
+//
+//	public int selectCountSentSMS(int personId, Date fechaDesde,Date  fechaHasta){
+//		return smsService.selectCountSentSMS(personId, fechaDesde, fechaHasta);
+//	}
+//
+//	public int selectCountExpiredSMS(int personId, Date fechaDesde,Date  fechaHasta){
+//		return smsService.selectCountExpiredSMS(personId, fechaDesde, fechaHasta);
+//	}
+	
 	public AssignmentStatus selectAssingmentStatus(int assignmentStatusAssigned) {
 		// TODO Auto-generated method stub
 		return null;
