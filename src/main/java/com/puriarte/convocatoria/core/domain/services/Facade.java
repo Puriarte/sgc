@@ -25,8 +25,22 @@ import com.puriarte.convocatoria.persistence.User;
 import com.puriarte.convocatoria.core.domain.Constants;
 
 public class Facade {
-
+	
 	private static Facade INSTANCE = null;
+	private UserService userService;
+	private SMSService smsService;
+	private PersonService personService;
+	private MovilService movilService;
+	private DispatchService dispatchService;
+	private DocumentTypeService documentTypeService;
+	private PersonCategoryService personCategoryService;
+	private JobService jobService;
+	private AssignmentStatusService assignmentStatusService;
+	private PlaceService placeService;
+	private PersonMovilService personMovilService;
+	private BulkSMSService bulkSMSService;
+
+
 	private static synchronized void createInstance(){
 		if(INSTANCE == null){
 			INSTANCE = new Facade();
