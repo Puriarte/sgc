@@ -37,6 +37,9 @@ public class ActLogin extends ActionBase {
 
 		try {
 
+			System.out.print("TRATO DE LOGUEAR");
+			
+			logger.error("TRATO DE LOG");
 			usuarioForm.set("primeraVez", new Boolean(false));
 
 			if ((usuarioForm.get("nombre") == null) || (usuarioForm.get("nombre").toString().length() == 0)) {
@@ -52,13 +55,13 @@ public class ActLogin extends ActionBase {
 					errors.add("error", new ActionError("login.error.usuario.inexistente"));
 				} else {
 
-					//Genero una cookie con los datos del usuario logeado
-					Cookie cookie = new Cookie(Constantes.COOKIE_USUARIO_KEY, usuario.getId() + Constantes.COOKIE_SEPARADOR + usuario.getPassword());
-					//Cuando cierre el explorador
-					//cookie.setMaxAge(24*60*60);
-					cookie.setMaxAge(-1);
-					cookie.setPath("/");
-					response.addCookie(cookie);
+//					//Genero una cookie con los datos del usuario logeado
+//					Cookie cookie = new Cookie(Constantes.COOKIE_USUARIO_KEY, usuario.getId() + Constantes.COOKIE_SEPARADOR + usuario.getPassword());
+//					//Cuando cierre el explorador
+//					//cookie.setMaxAge(24*60*60);
+//					cookie.setMaxAge(-1);
+//					cookie.setPath("/");
+//					response.addCookie(cookie);
 				}
 
 			}
