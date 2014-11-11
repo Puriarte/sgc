@@ -206,7 +206,7 @@ public class SrvLstSMS extends HttpServlet {
 	}
 
 
-	// Obtenemos un objeto del contexto de la aplicación por su nombre.
+	// Obtenemos un objeto del contexto de la aplicacion por su nombre.
 	protected Object getApplicationObject(String attrName) {
 		return this.getServletContext().getAttribute(attrName);
 	}

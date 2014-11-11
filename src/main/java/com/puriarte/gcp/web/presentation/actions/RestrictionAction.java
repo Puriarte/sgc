@@ -37,7 +37,7 @@ public abstract class RestrictionAction extends Action  {
 
 
 
-	// Obtenemos un objeto de la sesión por su nombre.
+	// Obtenemos un objeto de la sesion por su nombre.
   	protected Object getSessionObject(HttpServletRequest req, String attrName) {
 	    Object sessionObj = null;
 	    HttpSession session = req.getSession(false);
@@ -58,7 +58,7 @@ public abstract class RestrictionAction extends Action  {
 	    servlet.getServletContext().setAttribute(attrName,attrValue);
   	}
 
-  	// Obtenemos un objeto del contexto de la aplicación por su nombre.
+  	// Obtenemos un objeto del contexto de la aplicacon por su nombre.
 	protected Object getApplicationObject(String attrName) {
 	    return servlet.getServletContext().getAttribute(attrName);
   	}

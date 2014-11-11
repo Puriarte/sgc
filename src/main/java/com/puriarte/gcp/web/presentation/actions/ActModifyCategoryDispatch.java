@@ -58,7 +58,7 @@ public class ActModifyCategoryDispatch extends RestrictionAction {
 						Dispatch dispatch = Facade.getInstance().selectDispatch(id);
 						ArrayList<Assignment> assignments = new ArrayList<Assignment>();
 						for(Job job : dispatch.getJobList()){
-//							//TODO: En esta versión se está trabajando con una sola asignación por puesto. 							
+//							//TODO: En esta version se esta trabajando con una sola asignacion por puesto. 							
 							assignments.add(job.getAssignmentList().get(0));
 						}
 //
