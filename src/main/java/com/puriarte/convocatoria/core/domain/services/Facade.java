@@ -29,7 +29,7 @@ public class Facade {
 	private static Facade INSTANCE = null;
 
 	private UserService userService;
-	private SMSService smsService;
+//	private SMSService smsService;
 
 	
 	private static synchronized void createInstance(){
