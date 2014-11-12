@@ -104,7 +104,8 @@ public class SrvGetSMS extends HttpServlet {
 			sms.setText(text);
 			sms.setType(type);
 			Facade.getInstance().insertSMSIn(sms);
-			out.print("0");
+			
+		 	out.print("0");
 
 		} catch(Exception e) {
 			out.print("1");
