@@ -108,7 +108,7 @@ public class SrvGetSMS extends HttpServlet {
 	
 	private Date parseDate(String date) {
 		try{
-			return DateUtils.parseDate(date, Constants.FORMATO_FECHA_HTML5_REGEX,  Constants.FORMATO_FECHA_HTML5);
+			return DateUtils.parseDate(date, Constants.FORMATO_FECHA_HORA_HTML5_REGEX,  Constants.FORMATO_FECHA_HORA_HTML5);
 		}catch(ParseException ex){
 			return null;
 		}catch(NullPointerException ex){
