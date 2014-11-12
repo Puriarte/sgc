@@ -80,12 +80,12 @@ public class SrvGetSMS extends HttpServlet {
 				  if (jsonObj.get("process")!=null)  sms.setProcess(Integer.parseInt(jsonObj.get("process").toString()));
 				  if (jsonObj.get("id")!=null)  sms.setId(Long.parseLong(jsonObj.get("id").toString()));
 				  if (jsonObj.get("text")!=null)  sms.setText(jsonObj.get("text").toString());
-				  if (jsonObj.get("message_date")!=null)  sms.setMessageDate(parseDate((jsonObj.get("message_date").toString())));
+				  if (jsonObj.get("message_date")!=null)  sms.setMessageDate(parseDate((jsonObj.get("message_date").toString().substring(0, 19))));
 				  if (jsonObj.get("gateway_id")!=null)  sms.setGatewayId(jsonObj.get("gateway_id").toString());
-				  if (jsonObj.get("original_receive_date")!=null)  sms.setOriginalRecibeDate(parseDate(jsonObj.get("original_receive_date").toString()));
+				  if (jsonObj.get("original_receive_date")!=null)  sms.setOriginalRecibeDate(parseDate(jsonObj.get("original_receive_date").toString().substring(0, 19)));
 				  if (jsonObj.get("encoding")!=null)  sms.setEncoding(jsonObj.get("encoding").toString().charAt(0));
 				  if (jsonObj.get("type")!=null)  sms.setType(jsonObj.get("type").toString());
-				  if (jsonObj.get("receive_date")!=null)  sms.setReceiveDate(parseDate(jsonObj.get("receive_date").toString()));
+				  if (jsonObj.get("receive_date")!=null)  sms.setReceiveDate(parseDate(jsonObj.get("receive_date").toString().substring(0, 19)));
 				  if (jsonObj.get("originator")!=null)  sms.setOriginator(jsonObj.get("originator").toString());
 				  if (jsonObj.get("original_ref_no")!=null)  sms.setOriginalRefNo(jsonObj.get("original_ref_no").toString());
 				  
