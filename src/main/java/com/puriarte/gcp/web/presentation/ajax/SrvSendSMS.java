@@ -39,6 +39,14 @@ public class SrvSendSMS extends HttpServlet {
 	private String failureCause;
 	private String messageStatus;
 	private String originator;
+
+	private String data;
+	private SimpleDateFormat dTF;
+
+	public void init(ServletConfig config) throws ServletException {
+		super.init(config);
+		dTF = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss", new Locale("ES"));
+	}
 	
 	public  void doGet(HttpServletRequest request, HttpServletResponse  response)
 			throws IOException, ServletException {
@@ -89,7 +97,7 @@ public class SrvSendSMS extends HttpServlet {
 				msg.put("id", sms.getId());
 				msg.put("text", sms.getMensaje());
 				msg.put("recipient", sms.getPersonMovil().getMovil().getNumber());
-				msg.put("createDate", sms.getCreationDate());
+				msg.put("createDate", dTF.format(sms.getCreationDate()));
 				list.add(msg);				
 			}
 			
