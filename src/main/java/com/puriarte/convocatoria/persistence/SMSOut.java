@@ -64,6 +64,9 @@ public class SMSOut {
     @Column(name = "GATEWAY_ID")
     private String gatewayId;
 
+    @Column(name = "IS_SINCHRONIZED")
+    private int isSynchronized;
+
     public SMSOut(){}
 
 	public Long getId() {
@@ -224,6 +227,14 @@ public class SMSOut {
 
 	public void setWapExpiryDate(Date wapExpiryDate) {
 		this.wapExpiryDate = wapExpiryDate;
+	}
+
+	public int getIsSynchronized() {
+		return isSynchronized;
+	}
+
+	public void setIsSynchronized(int isSynchronized) {
+		this.isSynchronized = isSynchronized;
 	}
 
 
