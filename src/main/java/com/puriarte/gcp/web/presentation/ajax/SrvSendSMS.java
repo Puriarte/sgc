@@ -2,13 +2,16 @@ package com.puriarte.gcp.web.presentation.ajax;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -18,6 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.log4j.Logger;
+import org.json.simple.JSONArray;
 
 import com.puriarte.convocatoria.core.domain.Constants;
 import com.puriarte.convocatoria.core.domain.services.Facade;
@@ -77,10 +81,24 @@ public class SrvSendSMS extends HttpServlet {
 
 		try {
 			cargarParametros(request);
-			out.print("OK");
+			JSONArray list = new JSONArray();
+			
+			List<SMS> smsOutList = Facade.getInstance().getPendingSMS();
+			for(SMS sms : smsOutList){
+				Map msg = new LinkedHashMap();
+				msg.put("id", sms.getId());
+				msg.put("text", sms.getMensaje());
+				msg.put("recipient", sms.getPersonMovil().getMovil().getNumber());
+				msg.put("createDate", sms.getCreationDate());
+				list.add(msg);				
+			}
+			
+			StringWriter wrt = new StringWriter();
+			list.writeJSONString(wrt);
+			out.print(wrt.toString());
 
 		} catch(Exception e) {
-			out.print("{\"error\":[{\"errorID\": \""+ i +"\",\"errtext\": \"" + e.getMessage() + "\"}]}");
+			out.print("");
 		} finally {
 			out.close();
 		}
