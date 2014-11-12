@@ -1,6 +1,7 @@
 package com.puriarte.convocatoria.core.domain.services;
 
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -20,6 +21,8 @@ import com.puriarte.convocatoria.persistence.PersonCategory;
 import com.puriarte.convocatoria.persistence.PersonMovil;
 import com.puriarte.convocatoria.persistence.Place;
 import com.puriarte.convocatoria.persistence.SMS;
+import com.puriarte.convocatoria.persistence.SMSIn;
+import com.puriarte.convocatoria.persistence.SMSOut;
 import com.puriarte.convocatoria.persistence.SmsStatus;
 import com.puriarte.convocatoria.persistence.User;
 import com.puriarte.convocatoria.core.domain.Constants;
@@ -39,7 +42,9 @@ public class Facade {
 	private PlaceService placeService;
 	private PersonMovilService personMovilService;
 	private BulkSMSService bulkSMSService;
-
+	private SMSInService smsInService;
+	private SMSOutService smsOutService;
+	
 	private Facade(){
 		this.userService = UserService.getInstance();
 		this.smsService = SMSService1.getInstance();
@@ -53,6 +58,8 @@ public class Facade {
 		this.assignmentStatusService = AssignmentStatusService.getInstance();
 		this.placeService = PlaceService.getInstance();
 		this.bulkSMSService = BulkSMSService.getInstance();
+		this.smsInService = SMSInService.getInstance();
+		this.smsOutService = SMSOutService.getInstance();
 	}
 
 
@@ -474,6 +481,17 @@ public class Facade {
 
 		public void removePlace(Place cat) {
 			this.placeService.delete(cat);
+		}
+
+
+		public void insertSMSIn(SMSIn sms) {
+			this.smsInService.insert(sms);
+			
+		}
+		
+		public void insertSMSOut(SMSOut sms) {
+			this.smsOutService.insert(sms);
+			
 		}
 
 }
