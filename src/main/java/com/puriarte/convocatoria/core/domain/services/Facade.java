@@ -215,27 +215,31 @@ public class Facade {
 
 		// Me voy a fijar si corresponde a una respuesta de una convocatoria y en tal caso si la respuesta es si o no
 		// Tambi�n ver� si el tiempo para responder est� superado o no
-		List<SMS> smsList = Facade.getInstance().SelectRelatedSMSList(movil, selectSmsStatus(Constants.SMS_STATUS_ENVIADO), 0, 1);
-		if ((smsList!=null) && (smsList.size()>0)){
-			SMS sms = smsList.get(0);
-			if (sms.getAssignment()!=null){
-				if (sms.getAssignment().getJob()!=null){
-					if(sms.getAssignment().getJob().getDispatch()!=null){
-						Assignment assignment = sms.getAssignment();
-						if (text.toUpperCase().startsWith("SI"))
-							word = "SI";
-						else if (text.toUpperCase().startsWith("NO"))
-							word = "NO";
-
-
-		/*				if (text.toUpperCase().startsWith("SI"))
-							smsService.getInstance().insert(idDispatch, movil, text, Constants.SMS_ACTION_INCOME,selectSmsStatus(Constants.SMS_STATUS_RECIBIDO), date);
-						else
-			*/				smsService.getInstance().insert(word, assignment, sms, movil, text, Constants.SMS_ACTION_INCOME,selectSmsStatus(Constants.SMS_STATUS_RECIBIDO), date);
-
+		if (movil !=null){
+			List<SMS> smsList = Facade.getInstance().SelectRelatedSMSList(movil, selectSmsStatus(Constants.SMS_STATUS_ENVIADO), 0, 1);
+			if ((smsList!=null) && (smsList.size()>0)){
+				SMS sms = smsList.get(0);
+				if (sms.getAssignment()!=null){
+					if (sms.getAssignment().getJob()!=null){
+						if(sms.getAssignment().getJob().getDispatch()!=null){
+							Assignment assignment = sms.getAssignment();
+							if (text.toUpperCase().startsWith("SI"))
+								word = "SI";
+							else if (text.toUpperCase().startsWith("NO"))
+								word = "NO";
+	
+	
+			/*				if (text.toUpperCase().startsWith("SI"))
+								smsService.getInstance().insert(idDispatch, movil, text, Constants.SMS_ACTION_INCOME,selectSmsStatus(Constants.SMS_STATUS_RECIBIDO), date);
+							else
+				*/				smsService.getInstance().insert(word, assignment, sms, movil, text, Constants.SMS_ACTION_INCOME,selectSmsStatus(Constants.SMS_STATUS_RECIBIDO), date);
+	
+						}
 					}
+	
+				}else{
+					smsService.getInstance().insert(null,null,null, movil, text, Constants.SMS_ACTION_INCOME,selectSmsStatus(Constants.SMS_STATUS_RECIBIDO), date);
 				}
-
 			}else{
 				smsService.getInstance().insert(null,null,null, movil, text, Constants.SMS_ACTION_INCOME,selectSmsStatus(Constants.SMS_STATUS_RECIBIDO), date);
 			}

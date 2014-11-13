@@ -24,7 +24,7 @@ import javax.persistence.TemporalType;
 	  @NamedQuery(name="SelectSMSInNotSincronyzedList",
 	      query="SELECT si FROM SMSIn si where si.isSynchronized =0  "),
 	  @NamedQuery(name="SelectSMSByUUId",
-	      query="SELECT si FROM SMSIn si where si.UUId=:uuid and si.originator=:originator and messageDate=:messageDate  "),
+	      query="SELECT si FROM SMSIn si where si.UUId=:uuid and si.originator=:originator and si.messageDate=:messageDate  "),
 	})
 public class SMSIn {
 
