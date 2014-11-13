@@ -88,7 +88,7 @@ public class SrvGetSMS extends HttpServlet {
 				  if (jsonObj.get("receive_date")!=null)  sms.setReceiveDate(parseDate(jsonObj.get("receive_date").toString().substring(0, 19)));
 				  if (jsonObj.get("originator")!=null)  sms.setOriginator(jsonObj.get("originator").toString());
 				  if (jsonObj.get("original_ref_no")!=null)  sms.setOriginalRefNo(jsonObj.get("original_ref_no").toString());
-				  
+				  if (jsonObj.get("uu_id")!=null) sms.setUUId(jsonObj.get("uu_id").toString());
 				  
 				  Facade.getInstance().insertSMSIn(sms);
 

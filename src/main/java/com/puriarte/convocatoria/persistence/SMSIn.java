@@ -22,7 +22,9 @@ import javax.persistence.TemporalType;
 @Table(name = "SMS_IN")
 @NamedQueries({
 	  @NamedQuery(name="SelectSMSInNotSincronyzedList",
-      query="SELECT si FROM SMSIn si where si.isSynchronized =0  "),
+	      query="SELECT si FROM SMSIn si where si.isSynchronized =0  "),
+	  @NamedQuery(name="SelectSMSByUUId",
+	      query="SELECT si FROM SMSIn si where si.UUId=:uuid and si.originator=:originator and messageDate=:messageDate  "),
 	})
 public class SMSIn {
 
@@ -49,6 +51,9 @@ public class SMSIn {
     private String gatewayId;
     @Column(name = "IS_SINCHRONIZED")
     private int isSynchronized;
+    
+    @Column(name = "UU_ID")
+    private String UUId;
 
     public SMSIn(){}
 
@@ -148,6 +153,15 @@ public class SMSIn {
 		this.isSynchronized = isSynchronized;
 	}
 
+	public String getUUId() {
+		return UUId;
+	}
+
+	public void setUUId(String uUId) {
+		UUId = uUId;
+	}
+
+	
 
 
 }

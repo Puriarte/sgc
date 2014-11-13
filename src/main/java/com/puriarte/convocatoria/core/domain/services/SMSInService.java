@@ -38,9 +38,22 @@ public class SMSInService {
 	public void insert(SMSIn sms) {
 		final EntityManager em = getEntityManager();
 		em.getTransaction().begin();
+		
+		Query query = em.createNamedQuery("SelectSMSByUUId");
+		List<SMSIn> a = (List<SMSIn>) query
+				.setParameter("uuid", sms.getUUId())
+				.setParameter("originator", sms.getOriginator())
+				.setParameter("messageDate", sms.getMessageDate())
+				.getResultList();
 
-		em.persist(sms);
-		em.getTransaction().commit();
+		if (a.size()==0){					
+			em.persist(sms);
+			em.getTransaction().commit();
+			em.close();
+		}else{
+			em.close();
+		}
+
 	}
 	
 	
