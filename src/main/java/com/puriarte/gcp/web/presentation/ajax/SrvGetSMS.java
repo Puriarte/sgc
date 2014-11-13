@@ -76,6 +76,7 @@ public class SrvGetSMS extends HttpServlet {
 			try{
 				  Object obj=JSONValue.parse(data);
 				  JSONObject jsonObj=(JSONObject)obj;
+
 				  SMSIn sms = new SMSIn();
 				  if (jsonObj.get("process")!=null)  sms.setProcess(Integer.parseInt(jsonObj.get("process").toString()));
 				  if (jsonObj.get("id")!=null)  sms.setId(Long.parseLong(jsonObj.get("id").toString()));
@@ -89,9 +90,13 @@ public class SrvGetSMS extends HttpServlet {
 				  if (jsonObj.get("originator")!=null)  sms.setOriginator(jsonObj.get("originator").toString());
 				  if (jsonObj.get("original_ref_no")!=null)  sms.setOriginalRefNo(jsonObj.get("original_ref_no").toString());
 				  if (jsonObj.get("uu_id")!=null) sms.setUUId(jsonObj.get("uu_id").toString());
-				  
-				  Facade.getInstance().insertSMSIn(sms);
 
+				  // Si el SMS se inicia con el texto REGISTRO creo el movil en la base de datos.
+				  if (sms.getText().toUpperCase().startsWith("REGISTRO")){
+					  Facade.getInstance().insertSMSIncomeAndRegisterMovil(sms.getOriginator(), sms.getText(),sms.getReceiveDate());
+				  }else{
+					  Facade.getInstance().insertSMSIncome(sms.getOriginator(), sms.getText(),sms.getReceiveDate());
+				  }
 				  out.print("0");
 				  
 			}catch(Exception e){
