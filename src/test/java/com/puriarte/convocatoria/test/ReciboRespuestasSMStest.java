@@ -43,14 +43,14 @@ public class ReciboRespuestasSMStest {
 			c.set(Calendar.MILLISECOND, 0);
 
 			// Me fijo si el mensaje ya existe // ESTO PARA LA DEMO
-			if(!Facade.getInstance().existSMS(movil, c.getTime())){
-				// Si el SMS se inicia con el texto REGISTRO creo el movil en la base de datos.
-				if (text.toUpperCase().startsWith("REGISTRO")){
-					Facade.getInstance().insertSMSIncomeAndRegisterMovil(movil, text,c.getTime());
-				}else{
-					Facade.getInstance().insertSMSIncome(movil, text,  c.getTime());
-				}
-			}
+//			if(!Facade.getInstance().existSMS(movil, c.getTime())){
+//				// Si el SMS se inicia con el texto REGISTRO creo el movil en la base de datos.
+//				if (text.toUpperCase().startsWith("REGISTRO")){
+//					Facade.getInstance().insertSMSIncomeAndRegisterMovil(movil, text,c.getTime());
+//				}else{
+//					Facade.getInstance().insertSMSIncome(movil, text,  c.getTime());
+//				}
+//			}
 		}catch(Exception e){
 			e.printStackTrace();
 		}

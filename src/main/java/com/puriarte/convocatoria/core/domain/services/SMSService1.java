@@ -48,7 +48,7 @@ public class SMSService1 {
 
 	}
 
-	public void insert(String word, Assignment assignment, SMS referencedSms,  PersonMovil personMovil, String text, int action, SmsStatus status, Date date) throws Exception {
+	public void insert(String word, Assignment assignment, SMS referencedSms,  PersonMovil personMovil, String text, int action, SmsStatus status, Date date, String uuid) throws Exception {
 
 		final EntityManager em = getEntityManager();
 
@@ -72,6 +72,7 @@ public class SMSService1 {
 		sms.setMensaje(text);
 		sms.setAction(action);
 
+		sms.setUuid(uuid);
 		em.getTransaction().begin();
 		em.persist(sms);
 		em.getTransaction().commit();
@@ -253,19 +254,33 @@ public class SMSService1 {
 	 * @param limit
 	 * @return
 	 */
-	public boolean exist(String movilNumber, Date date){
+//	public boolean exist(String movilNumber, Date date){
+//		final EntityManager em = getEntityManager();
+//
+//		Query query = em.createNamedQuery("SelectSMS")
+//			.setParameter("movilNumber", movilNumber )
+//			.setParameter("creationDate", date);
+//		Vector e = (Vector) query.setMaxResults(1).getResultList();
+//		if (e.size()>0)
+//			return true;
+//		else
+//			return false;
+//
+//
+//	}
+
+	public boolean existSms(String originator, Date date, String uuid) {
 		final EntityManager em = getEntityManager();
 
 		Query query = em.createNamedQuery("SelectSMS")
-			.setParameter("movilNumber", movilNumber )
-			.setParameter("creationDate", date);
+			.setParameter("originator", originator )
+			.setParameter("creationDate", date)
+			.setParameter("uuid", uuid);
 		Vector e = (Vector) query.setMaxResults(1).getResultList();
 		if (e.size()>0)
 			return true;
 		else
 			return false;
-
-
 	}
 
 }

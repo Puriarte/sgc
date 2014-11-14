@@ -182,9 +182,9 @@ public class Facade {
 	}
 
 
-	public boolean existSMS(String origen , Date date) {
-		return smsService.exist(origen, date);
-	}
+//	public boolean existSMS(String origen , Date date) {
+//		return smsService.exist(origen, date);
+//	}
 
 
 	/// SMS ///
@@ -199,11 +199,11 @@ public class Facade {
 	 * @param string
 	 * @throws Exception
 	 */
-	public void insertSMSOutcome(PersonMovil movil, String texto) throws Exception {
-		smsService.getInstance().insert(null,null, null, movil,texto, Constants.SMS_ACTION_OUTCOME, selectSmsStatus(Constants.SMS_STATUS_PENDIENTE), new Date());
+	public void insertSMSOutcome(PersonMovil movil, String texto, String uuid) throws Exception {
+		smsService.getInstance().insert(null,null, null, movil,texto, Constants.SMS_ACTION_OUTCOME, selectSmsStatus(Constants.SMS_STATUS_PENDIENTE), new Date(),uuid);
 	}
 
-	public void insertSMSIncome(String originator, String text, Date date) throws Exception {
+	public void insertSMSIncome(String originator, String text, Date date, String uuid) throws Exception {
 		PersonMovil movil = Facade.getInstance().selectPersonMovil(originator,Constants.MOVIL_STATUS_ACTIVE );
 		if (movil ==null){
 			DocumentType dt = Facade.getInstance().selectDocumentType(Constants.PERSON_TYPE_CI);
@@ -232,19 +232,19 @@ public class Facade {
 			/*				if (text.toUpperCase().startsWith("SI"))
 								smsService.getInstance().insert(idDispatch, movil, text, Constants.SMS_ACTION_INCOME,selectSmsStatus(Constants.SMS_STATUS_RECIBIDO), date);
 							else
-				*/				smsService.getInstance().insert(word, assignment, sms, movil, text, Constants.SMS_ACTION_INCOME,selectSmsStatus(Constants.SMS_STATUS_RECIBIDO), date);
+				*/				smsService.getInstance().insert(word, assignment, sms, movil, text, Constants.SMS_ACTION_INCOME,selectSmsStatus(Constants.SMS_STATUS_RECIBIDO), date,uuid);
 	
 						}
 					}
 	
 				}else{
-					smsService.getInstance().insert(null,null,null, movil, text, Constants.SMS_ACTION_INCOME,selectSmsStatus(Constants.SMS_STATUS_RECIBIDO), date);
+					smsService.getInstance().insert(null,null,null, movil, text, Constants.SMS_ACTION_INCOME,selectSmsStatus(Constants.SMS_STATUS_RECIBIDO), date, uuid);
 				}
 			}else{
-				smsService.getInstance().insert(null,null,null, movil, text, Constants.SMS_ACTION_INCOME,selectSmsStatus(Constants.SMS_STATUS_RECIBIDO), date);
+				smsService.getInstance().insert(null,null,null, movil, text, Constants.SMS_ACTION_INCOME,selectSmsStatus(Constants.SMS_STATUS_RECIBIDO), date, uuid);
 			}
 		}else{
-			smsService.getInstance().insert(null,null,null, movil, text, Constants.SMS_ACTION_INCOME,selectSmsStatus(Constants.SMS_STATUS_RECIBIDO), date);
+			smsService.getInstance().insert(null,null,null, movil, text, Constants.SMS_ACTION_INCOME,selectSmsStatus(Constants.SMS_STATUS_RECIBIDO), date, uuid);
 		}
 	}
 
@@ -267,17 +267,20 @@ public class Facade {
 	 *
 	 * @param originator
 	 * @param text
+	 * @param uuid 
 	 * @throws Exception
 	 */
-	public void insertSMSIncomeAndRegisterMovil(String originator, String text, Date date) throws Exception {
+	public void insertSMSIncomeAndRegisterMovil(String originator, String text, Date date, String uuid) throws Exception {
 		DocumentType dt = Facade.getInstance().selectDocumentType(Constants.PERSON_TYPE_CI);
 		if (dt==null) throw new  PersonException(PersonException.DOCUMENT_TYPE_NOT_FOUND);
 		else{
-			PersonMovil personMovil = Facade.getInstance().insertPersonMovil(originator, text.toUpperCase().replace("REGISTRO", "") ,dt);
-			if (personMovil == null){
-				smsService.getInstance().insert("REGISTRO", null,null, personMovil,text, Constants.SMS_ACTION_INCOME, smsService.selectSmsStatus(Constants.SMS_STATUS_REGISTRATION_FAILED), date);
-			}else{
-				smsService.getInstance().insert("REGISTRO", null,null, personMovil,text, Constants.SMS_ACTION_INCOME, smsService.selectSmsStatus(Constants.SMS_STATUS_RECIBIDO), date);
+			if (!smsService.getInstance().existSms(originator, date, uuid)){
+				PersonMovil personMovil = Facade.getInstance().insertPersonMovil(originator, text.toUpperCase().replace("REGISTRO", "") ,dt);
+				if (personMovil == null){
+					smsService.getInstance().insert("REGISTRO", null,null, personMovil,text, Constants.SMS_ACTION_INCOME, smsService.selectSmsStatus(Constants.SMS_STATUS_REGISTRATION_FAILED), date, uuid);
+				}else{
+					smsService.getInstance().insert("REGISTRO", null,null, personMovil,text, Constants.SMS_ACTION_INCOME, smsService.selectSmsStatus(Constants.SMS_STATUS_RECIBIDO), date, uuid);
+				}
 			}
 		}
 	}

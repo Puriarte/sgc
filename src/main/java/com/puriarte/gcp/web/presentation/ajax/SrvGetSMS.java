@@ -93,9 +93,9 @@ public class SrvGetSMS extends HttpServlet {
 
 				  // Si el SMS se inicia con el texto REGISTRO creo el movil en la base de datos.
 				  if (sms.getText().toUpperCase().startsWith("REGISTRO")){
-					  Facade.getInstance().insertSMSIncomeAndRegisterMovil(sms.getOriginator(), sms.getText(),sms.getReceiveDate());
+					  Facade.getInstance().insertSMSIncomeAndRegisterMovil(sms.getOriginator(), sms.getText(),sms.getReceiveDate(), jsonObj.get("uu_id").toString());
 				  }else{
-					  Facade.getInstance().insertSMSIncome(sms.getOriginator(), sms.getText(),sms.getReceiveDate());
+					  Facade.getInstance().insertSMSIncome(sms.getOriginator(), sms.getText(),sms.getReceiveDate(),jsonObj.get("uu_id").toString());
 				  }
 				  out.print("0");
 				  

@@ -32,24 +32,24 @@ public class TestSMS {
 	@Test
 	public void registrarSMSEntrante() throws SMSException, PersonException, MovilException, SQLException {
 
-		try {
-			Facade.getInstance().insertSMSIncome("59898312914", "Saludos", new Date());
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		try {
-			Facade.getInstance().insertSMSIncomeAndRegisterMovil("59898312914", "REGISTRO 36025670", new Date());
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		try {
-			Facade.getInstance().insertSMSIncome("59899607218", "Hola amroso!!!!", new Date());
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		try {
+//			Facade.getInstance().insertSMSIncome("59898312914", "Saludos", new Date());
+//		} catch (Exception e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		try {
+//			Facade.getInstance().insertSMSIncomeAndRegisterMovil("59898312914", "REGISTRO 36025670", new Date());
+//		} catch (Exception e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		try {
+//			Facade.getInstance().insertSMSIncome("59899607218", "Hola amroso!!!!", new Date());
+//		} catch (Exception e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 
 
 	/*	try{

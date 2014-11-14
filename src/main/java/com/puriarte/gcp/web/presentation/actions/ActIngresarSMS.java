@@ -40,7 +40,7 @@ public class ActIngresarSMS extends RestrictionAction {
 				if (movil==null){
 					errors.add("error", new ActionError("sms.error.movil.not.active"));
 				}else{
-					Facade.getInstance().insertSMSOutcome(movil, usuarioForm.get("detalleIn").toString());
+					Facade.getInstance().insertSMSOutcome(movil, usuarioForm.get("detalleIn").toString(), "");
 				}
 			}
 

@@ -25,7 +25,7 @@ import javax.persistence.TemporalType;
         query="SELECT s FROM SMS s " +
         		" where s.creationDate BETWEEN :from AND :to and ((:estado =0) or (s.status.id = :estado) ) and  (s.assignment.job.dispatch.id = :convocatoria)   "),
         @NamedQuery(name="SelectSMS",
-        query="SELECT s FROM SMS s where s.personMovil.movil.number = :movilNumber AND s.creationDate = :creationDate "),
+        query="SELECT s FROM SMS s where s.personMovil.movil.number = :movilNumber AND s.creationDate = :creationDate  AND s.uuid = :uuid "),
         @NamedQuery(name="SelectSMSListByStatus",
         query="SELECT s FROM SMS s where s.status.id = :status "),
         @NamedQuery(name="SelectRelatedSMSList",
@@ -69,6 +69,8 @@ public class SMS {
 
     @Temporal(TemporalType.TIMESTAMP)
     protected java.util.Date creationDate;
+
+    protected String uuid;
 
 
     public SMS(){}
@@ -155,6 +157,16 @@ public class SMS {
 
 	public void setCreationDate(java.util.Date creationDate) {
 		this.creationDate = creationDate;
+	}
+
+	
+	
+	public String getUuid() {
+		return uuid;
+	}
+
+	public void setUuid(String uuid) {
+		this.uuid = uuid;
 	}
 
 	public Dispatch getDispatch(){
