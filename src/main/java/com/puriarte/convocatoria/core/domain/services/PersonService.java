@@ -60,7 +60,6 @@ public class PersonService {
 	 */
 	public Person insertPerson(String document) throws SQLException {
 
-
 		Person person = new Person();
 //		person.setDocumentType(new DocumentType(documentType));
 		person.setDocumentNumber(document);
@@ -70,7 +69,6 @@ public class PersonService {
 		return person;
 
 	}
-
 
 
 	public void borrarPerson(Person p) {
@@ -138,40 +136,12 @@ public class PersonService {
 
 		if((pos!=null) && (limit!=null)) query.setFirstResult(pos).setMaxResults(limit);
 
+		query.setHint("javax.persistence.cache.storeMode", "REFRESH");
+		query.setHint("eclipselink.refresh", "true");
+		
 		List<Person> a = (List<Person>) query.getResultList();
-//		a.get(0).getMovils();
-//		a.get(1).getMovils();
 		return a;
 	}
-
-//	public PersonCategory selectPersonCategory(int id) {
-//		final EntityManager em = getEntityManager();
-//
-//		try{
-//			Query query = em.createNamedQuery("SelectPersonCategory")
-//					.setParameter("id", id);
-//
-//			PersonCategory a = (PersonCategory) query.getSingleResult();
-//
-//			return a;
-//		}catch(Exception e){
-//			return null;
-//		}
-//	}
-//
-//	public List<PersonCategory> selectPersonCategories() {
-//		final EntityManager em = getEntityManager();
-//
-//		try{
-//			Query query = em.createNamedQuery("SelectPersonCategoryList");
-//
-//			List<PersonCategory> a =  query.getResultList();
-//
-//			return a;
-//		}catch(Exception e){
-//			return null;
-//		}
-//	}
 
 
 }
