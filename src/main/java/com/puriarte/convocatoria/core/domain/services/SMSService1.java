@@ -273,7 +273,7 @@ public class SMSService1 {
 		final EntityManager em = getEntityManager();
 
 		Query query = em.createNamedQuery("SelectSMS")
-			.setParameter("originator", originator )
+			.setParameter("movilNumber", originator )
 			.setParameter("creationDate", date)
 			.setParameter("uuid", uuid);
 		Vector e = (Vector) query.setMaxResults(1).getResultList();
