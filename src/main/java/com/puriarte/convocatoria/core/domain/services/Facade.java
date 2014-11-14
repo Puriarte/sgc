@@ -501,4 +501,9 @@ public class Facade {
 			
 		}
 
+
+		public SMS selectSMS(int idRef) {
+			return this.smsService.selectSMS(idRef);
+		}
+
 }

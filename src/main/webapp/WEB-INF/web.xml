@@ -180,6 +180,12 @@
 	    <servlet-class>com.puriarte.gcp.web.presentation.ajax.SrvGetSMS</servlet-class>
 	</servlet>
 
+ 	<servlet>
+	    <servlet-name>ConfirmSMS</servlet-name>
+	    <servlet-class>com.puriarte.gcp.web.presentation.ajax.SrvConfirmSMS</servlet-class>
+	</servlet>
+
+
 	<!-- Action Servlet Mapping -->
 
 	<servlet-mapping>
@@ -239,6 +245,12 @@
 		<url-pattern>/getSMS</url-pattern>
 	</servlet-mapping>
 
+
+	<servlet-mapping>
+		<servlet-name>ConfirmSMS</servlet-name>
+		<url-pattern>/confirmSMS</url-pattern>
+	</servlet-mapping>
+	
 	<servlet-mapping>
 		<servlet-name>SendSMS</servlet-name>
 		<url-pattern>/sendSMS</url-pattern>

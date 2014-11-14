@@ -24,7 +24,9 @@ import javax.persistence.TemporalType;
         @NamedQuery(name="SelectSMSByDispatchList",
         query="SELECT s FROM SMS s " +
         		" where s.creationDate BETWEEN :from AND :to and ((:estado =0) or (s.status.id = :estado) ) and  (s.assignment.job.dispatch.id = :convocatoria)   "),
-        @NamedQuery(name="SelectSMS2",
+   		@NamedQuery(name="SelectSMSById",
+        query="SELECT s FROM SMS s where s.id = :id "),
+   		@NamedQuery(name="SelectSMS2",
         query="SELECT s FROM SMS s LEFT OUTER JOIN s.personMovil pm LEFT OUTER JOIN pm.movil m where m.number = :movilNumber AND s.creationDate = :creationDate  AND s.uuid = :uuid "),
         @NamedQuery(name="SelectSMS",
         query="SELECT s FROM SMS s WHERE s.uuid = :uuid "),

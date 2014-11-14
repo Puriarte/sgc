@@ -9,7 +9,6 @@ import javax.persistence.Query;
 
 import com.puriarte.convocatoria.persistence.Assignment;
 import com.puriarte.convocatoria.persistence.EntityManagerHelper;
-import com.puriarte.convocatoria.persistence.Movil;
 import com.puriarte.convocatoria.persistence.PersonMovil;
 import com.puriarte.convocatoria.persistence.SMS;
 import com.puriarte.convocatoria.persistence.SmsStatus;
@@ -109,6 +108,7 @@ public class SMSService1 {
 			.setParameter("estado", estado);
 
 		query.setHint("javax.persistence.cache.storeMode", "REFRESH");
+		query.setHint("eclipselink.refresh", "true");
 
 		if((pos!=null) && (limit!=null)) query.setFirstResult(pos).setMaxResults(limit);
 
@@ -130,6 +130,7 @@ public class SMSService1 {
 			.setParameter("convocatoria", convocatoria);
 
 		query.setHint("javax.persistence.cache.storeMode", "REFRESH");
+		query.setHint("eclipselink.refresh", "true");
 
 		if((pos!=null) && (limit!=null)) query.setFirstResult(pos).setMaxResults(limit);
 
@@ -279,6 +280,16 @@ public class SMSService1 {
 			return true;
 		else
 			return false;
+	}
+
+	public SMS selectSMS(int id) {
+		final EntityManager em = getEntityManager();
+
+		Query query = em.createNamedQuery("SelectSMSById")
+			.setParameter("id", id);
+		SMS a = (SMS) query.getSingleResult();
+
+		return a;
 	}
 
 }

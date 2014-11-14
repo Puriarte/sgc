@@ -66,6 +66,11 @@ public class SMSOut {
 
     @Column(name = "IS_SINCHRONIZED")
     private int isSynchronized;
+    
+    
+    @Column(name = "REMOTE_ID")
+    private int remoteId;
+    
 
     public SMSOut(){}
 
@@ -236,6 +241,15 @@ public class SMSOut {
 	public void setIsSynchronized(int isSynchronized) {
 		this.isSynchronized = isSynchronized;
 	}
+
+	public int getRemoteId() {
+		return remoteId;
+	}
+
+	public void setRemoteId(int remoteId) {
+		this.remoteId = remoteId;
+	}
+ 
 
 
 
