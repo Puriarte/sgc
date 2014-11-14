@@ -269,13 +269,11 @@ public class SMSService1 {
 //
 //	}
 
-	public boolean existSms(String originator, Date date, String uuid) {
+	public boolean existSms( String uuid) {
 		final EntityManager em = getEntityManager();
 
 		Query query = em.createNamedQuery("SelectSMS")
-			.setParameter("movilNumber", originator )
-			.setParameter("creationDate", date)
-			.setParameter("uuid", uuid);
+				.setParameter("uuid", uuid);
 		Vector e = (Vector) query.setMaxResults(1).getResultList();
 		if (e.size()>0)
 			return true;

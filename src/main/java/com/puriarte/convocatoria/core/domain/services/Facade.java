@@ -274,7 +274,7 @@ public class Facade {
 		DocumentType dt = Facade.getInstance().selectDocumentType(Constants.PERSON_TYPE_CI);
 		if (dt==null) throw new  PersonException(PersonException.DOCUMENT_TYPE_NOT_FOUND);
 		else{
-			if (!smsService.getInstance().existSms(originator, date, uuid)){
+			if (!smsService.getInstance().existSms( uuid)){
 				PersonMovil personMovil = Facade.getInstance().insertPersonMovil(originator, text.toUpperCase().replace("REGISTRO", "") ,dt);
 				if (personMovil == null){
 					smsService.getInstance().insert("REGISTRO", null,null, personMovil,text, Constants.SMS_ACTION_INCOME, smsService.selectSmsStatus(Constants.SMS_STATUS_REGISTRATION_FAILED), date, uuid);
