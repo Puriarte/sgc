@@ -168,10 +168,10 @@
 										value="Modificar" id="btnIngresar"
 										class="ui-button ui-widget ui-state-default ui-corner-all"
 										role="button">
-										<input type="button" name="bcAlta"
+										<!-- <input type="button" name="bcAlta"
 											value="Crear convocatoria" id="btnIngresar"
 											class="ui-button ui-widget ui-state-default ui-corner-all"
-											role="button">										
+											role="button">	 -->									
 										</td>
 								</tr>
 							</table>

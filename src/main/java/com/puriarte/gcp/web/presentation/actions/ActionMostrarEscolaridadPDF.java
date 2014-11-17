@@ -155,7 +155,9 @@ public class ActionMostrarEscolaridadPDF extends HttpServlet {
         String nombrePlantilla = "formularioCliente.xml";
         String nombreArchivoPCL = "fac_" + idPerson + ".fo";
         String nombreArchivoPDF = "fac_" + idPerson + ".pdf";
-        String contextPath = getServletContext().getRealPath("");//.getRealPath(File.separator);
+        
+        String contextPath = "/var/lib/openshift/5460b7b1500446bdfa0003f7/app-root/runtime/repo/src/main/webapp";
+//        String contextPath = getServletContext().getRealPath("");//.getRealPath(File.separator);
         File filePlantilla = new File(contextPath +"/templates/" + nombrePlantilla);
 
     	try{
