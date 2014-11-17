@@ -68,8 +68,8 @@ public class ActUpdateCategory extends RestrictionAction {
 			saveErrors(request, errors);
 			return mapping.findForward("failure");
 		} else {
-			messages.add("msg", new ActionMessage("person.update.ok"));
-			saveMessages(request, messages);
+//			messages.add("msg", new ActionMessage("person.update.ok"));
+//			saveMessages(request, messages);
 			return mapping.findForward("success");
 		}
 	}

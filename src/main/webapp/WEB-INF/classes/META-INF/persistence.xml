@@ -69,8 +69,9 @@
 		<!--
 		<property name="eclipselink.ddl-generation.output-mode" value="database"/>
 		 -->
-		 <property name="eclipselink.ddl-generation.output-mode" value="sql-script"/>
-		 <property name="eclipselink.logging.level" value="FINEST" />
+		<property name="eclipselink.ddl-generation.output-mode" value="sql-script"/>
+		<property name="eclipselink.logging.level" value="FINEST" />
+		<property name="eclipselink.query-results-cache" value="false"/>
 	</properties>
 
 	</persistence-unit>

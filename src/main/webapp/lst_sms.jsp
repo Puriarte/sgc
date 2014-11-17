@@ -171,14 +171,14 @@
 <!-- BOTONES -->
 <tr class="ui-widget-content-btn">
 	<td width="100%">
-		<table border="0" width="100%" cellpadding="0" cellspacing="0">
+<!--  	<table border="0" width="100%" cellpadding="0" cellspacing="0">
 		<tr height="30"  valign="middle">
 			<td align="center">
 				<input type="button" name="bcAlta" value="Enviar SMS" id="btnIngresar" class="ui-button ui-widget ui-state-default ui-corner-all" role="button">
 			</td>
 		</tr>
 		</table>
-	</td>
+-->	</td>
 </tr>
 </table>
 

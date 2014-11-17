@@ -44,23 +44,24 @@
 	<html:hidden  property="accion" styleId="accion"/>
 	<html:hidden property="nroDestino" />
 	<bean:define id="stPrefix" name="frmAdmDispatch" property="prefix"/>
+	<input type="hidden" class="form-control" name="name"  id="name"></textarea>
 
 	<div class="control-group"  id="dialogo_ingresar_sms" title="Enviar SMS">
 	<div class="row">
 			<div class="col-md-12">&nbsp;</div>
 		</div>
-		<div class="row">
+<!-- 		<div class="row">
 			<div class="col-md-2">
 				<label class="control-label">Nombre</label>
 			</div>
 			<div class="col-md-10">
-				<input type="text" class="form-control" name="name"  id="name" required rows="3"></textarea>
+				<input type="hidden" class="form-control" name="name"  id="name" required rows="3"></textarea>
 			</div>
 		</div>
 		<div class="row">
 			<div class="col-md-12">&nbsp;</div>
 		</div>
-
+ -->
 		<div class="row">
 			<div class="col-md-2">
 				<label class="control-label">Mensaje</label>

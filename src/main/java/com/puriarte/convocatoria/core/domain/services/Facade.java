@@ -163,7 +163,7 @@ public class Facade {
 		}
 	}
 
-	public List<SMS> SelectRelatedSMSList(PersonMovil movil, SmsStatus status, int pos, int limit) {
+	private List<SMS> SelectRelatedSMSList(PersonMovil movil, SmsStatus status, int pos, int limit) {
 		return smsService.SelectRelatedSMSList(movil, status , pos,  limit);
 	}
 
