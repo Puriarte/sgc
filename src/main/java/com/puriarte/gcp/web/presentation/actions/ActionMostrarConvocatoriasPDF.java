@@ -89,8 +89,8 @@ public class ActionMostrarConvocatoriasPDF  extends HttpServlet {
     private void devolverClienteComoPDF(HttpServletResponse response,
     		int idPerson, Date fechaDesde, Date fechaHasta) throws Exception {
 
-    	//String contextPath = getServletContext().getRealPath("");//.getRealPath(File.separator);
-        String contextPath = "/var/lib/openshift/5460b7b1500446bdfa0003f7/app-root/runtime/repo/src/main/webapp";
+    	String contextPath = getServletContext().getRealPath("");//.getRealPath(File.separator);
+        //String contextPath = "/var/lib/openshift/5460b7b1500446bdfa0003f7/app-root/runtime/repo/src/main/webapp";
 
 		Logger  logger = Logger.getLogger(ActionMostrarEscolaridadPDF.class.getName());
     	// Genero el pdf

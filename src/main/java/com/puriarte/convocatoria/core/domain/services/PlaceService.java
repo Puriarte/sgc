@@ -57,6 +57,9 @@ public class PlaceService {
 
 		try{
 			Query query = em.createNamedQuery("SelectPlaceList");
+			
+			query.setHint("javax.persistence.cache.storeMode", "REFRESH");
+			query.setHint("eclipselink.refresh", "true");
 
 			List<Place> a = query.getResultList();
 
