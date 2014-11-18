@@ -223,6 +223,7 @@ public class SMSService1 {
 		Query query = em.createNamedQuery("SelectRelatedSMSList")
 			.setParameter("movilId", movil.getId())
 			.setParameter("status", status.getId());
+		
 		query.setHint("javax.persistence.cache.storeMode", "REFRESH");
 		query.setHint("eclipselink.refresh", "true");
 
