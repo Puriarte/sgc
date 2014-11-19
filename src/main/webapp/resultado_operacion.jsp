@@ -24,7 +24,7 @@
 </logic:messagesPresent>
 <logic:messagesPresent message="true">
 	<html:messages id="msg" property="msg" message="true">
-		--- SISIS
+		Creado correctamente
   	</html:messages>
 </logic:messagesPresent>
 
