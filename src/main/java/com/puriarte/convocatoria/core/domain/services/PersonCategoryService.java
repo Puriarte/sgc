@@ -57,6 +57,7 @@ public class PersonCategoryService {
 			Query query = em.createNamedQuery("SelectPersonCategoryList");
 			query.setHint("javax.persistence.cache.storeMode", "REFRESH");
 			query.setHint("eclipselink.refresh", "true");
+			query.setHint("eclipselink.refresh.cascade", "CascadeAllParts");
 
 			List<PersonCategory> a = query.getResultList();
 

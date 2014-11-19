@@ -60,6 +60,7 @@ public class PlaceService {
 			
 			query.setHint("javax.persistence.cache.storeMode", "REFRESH");
 			query.setHint("eclipselink.refresh", "true");
+			query.setHint("eclipselink.refresh.cascade", "CascadeAllParts");
 
 			List<Place> a = query.getResultList();
 

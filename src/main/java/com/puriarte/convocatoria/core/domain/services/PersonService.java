@@ -98,7 +98,8 @@ public class PersonService {
 
 			query.setHint("javax.persistence.cache.storeMode", "REFRESH");
 			query.setHint("eclipselink.refresh", "true");
-		
+			query.setHint("eclipselink.refresh.cascade", "CascadeAllParts");
+
 			Person a = (Person) query.getSingleResult();
 
 			return a;
@@ -117,7 +118,8 @@ public class PersonService {
 
 			query.setHint("javax.persistence.cache.storeMode", "REFRESH");
 			query.setHint("eclipselink.refresh", "true");
-		
+			query.setHint("eclipselink.refresh.cascade", "CascadeAllParts");
+
 			Person a = (Person) query.getSingleResult();
 
 			return a;
@@ -144,7 +146,8 @@ public class PersonService {
 
 		query.setHint("javax.persistence.cache.storeMode", "REFRESH");
 		query.setHint("eclipselink.refresh", "true");
-		
+		query.setHint("eclipselink.refresh.cascade", "CascadeAllParts");
+
 		List<Person> a = (List<Person>) query.getResultList();
 		return a;
 	}
