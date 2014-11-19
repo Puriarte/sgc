@@ -12,6 +12,8 @@
 </head>
 
 <body>
+---------------------
+
 
 
 <logic:messagesPresent property="error">
@@ -25,6 +27,7 @@
 </div>
 </logic:messagesPresent>
 <logic:messagesPresent message="true">
+	---
 	<html:messages id="msg" property="msg" message="true">
 		<li style="color: #000000;"><bean:write name="msg"/></li>
   	</html:messages>
