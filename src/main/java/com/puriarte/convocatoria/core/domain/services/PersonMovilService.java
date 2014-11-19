@@ -99,6 +99,9 @@ public class PersonMovilService {
 					.setParameter("documentTypeId", documentType)
 					.setParameter("document", document );
 
+			query.setHint("javax.persistence.cache.storeMode", "REFRESH");
+			query.setHint("eclipselink.refresh", "true");
+		
 			Person a = (Person) query.getSingleResult();
 
 			return a;
@@ -115,6 +118,9 @@ public class PersonMovilService {
 			Query query = em.createNamedQuery("SelectPersonById")
 					.setParameter("id", id);
 
+			query.setHint("javax.persistence.cache.storeMode", "REFRESH");
+			query.setHint("eclipselink.refresh", "true");
+		
 			Person a = (Person) query.getSingleResult();
 
 			return a;
@@ -137,6 +143,10 @@ public class PersonMovilService {
 			.setParameter("priorities", priorities );
 		}
 
+
+		query.setHint("javax.persistence.cache.storeMode", "REFRESH");
+		query.setHint("eclipselink.refresh", "true");
+	
 		if((pos!=null) && (limit!=null)) query.setFirstResult(pos).setMaxResults(limit);
 
 		List<PersonMovil> a = (List<PersonMovil>) query.getResultList();
@@ -194,6 +204,9 @@ public class PersonMovilService {
 					.setParameter("number", numero )
 					.setParameter("order", "priority");
 
+			query.setHint("javax.persistence.cache.storeMode", "REFRESH");
+			query.setHint("eclipselink.refresh", "true");
+		
 			PersonMovil a = (PersonMovil) query.getSingleResult();
 
 			return a;
@@ -209,6 +222,9 @@ public class PersonMovilService {
 			Query query = em.createNamedQuery("SelectPersonMovil")
 					.setParameter("id", id);
 
+			query.setHint("javax.persistence.cache.storeMode", "REFRESH");
+			query.setHint("eclipselink.refresh", "true");
+		
 			PersonMovil a = (PersonMovil) query.getSingleResult();
 
 			return a;

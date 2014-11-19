@@ -83,12 +83,12 @@ public class ActCreateDispatch extends RestrictionAction {
 			} else {
 				messages.add("msg", new ActionMessage("dispatch.insert.ok"));
 				saveMessages(request, messages);
-				return mapping.findForward("resultado");
+				return mapping.findForward("success");
 			}
 
 		}else{
 			dynaForm.set("accion", "load");
-			return mapping.findForward("resultado");
+			return mapping.findForward("success");
 		}
 	}
 

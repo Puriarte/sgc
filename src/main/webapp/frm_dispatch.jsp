@@ -111,7 +111,12 @@
 							<select class="form-control" name="personCategory_${person.person.id}" id="personCategory_${person.person.id}" required>
 		                    	<option value="">Seleccione</option>
 								<logic:iterate name="frmAdmDispatch" property="categories" id="item" indexId="idx">
+								<c:if test="${person.person.category.id==item.id}">
+		                    		<option value="${item.id}"  selected="selected" >${item.name}</option>
+								</c:if>
+								<c:if test="${person.person.category.id!=item.id}">
 		                    		<option value="${item.id}">${item.name}</option>
+								</c:if>
 								</logic:iterate>
 							</select>
 						</div>

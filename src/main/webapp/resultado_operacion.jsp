@@ -13,6 +13,7 @@
 
 <body>
 
+
 <logic:messagesPresent property="error">
 <div id="div-error" class="ui-state-error ui-corner-all" align="left" style="padding: 10px;">
 	<span class="ui-icon ui-icon-alert" style="float:left;"></span>
@@ -23,7 +24,6 @@
 	</ol>
 </div>
 </logic:messagesPresent>
-
 <logic:messagesPresent message="true">
 	<html:messages id="msg" property="msg" message="true">
 		<li style="color: #000000;"><bean:write name="msg"/></li>

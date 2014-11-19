@@ -96,6 +96,9 @@ public class PersonService {
 					.setParameter("documentTypeId", documentType)
 					.setParameter("document", document );
 
+			query.setHint("javax.persistence.cache.storeMode", "REFRESH");
+			query.setHint("eclipselink.refresh", "true");
+		
 			Person a = (Person) query.getSingleResult();
 
 			return a;
@@ -112,6 +115,9 @@ public class PersonService {
 			Query query = em.createNamedQuery("SelectPersonById")
 					.setParameter("id", id);
 
+			query.setHint("javax.persistence.cache.storeMode", "REFRESH");
+			query.setHint("eclipselink.refresh", "true");
+		
 			Person a = (Person) query.getSingleResult();
 
 			return a;
