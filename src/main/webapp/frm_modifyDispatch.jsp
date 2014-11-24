@@ -183,16 +183,16 @@
 			<div class="col-md-5">&nbsp;</div>
 		</div>
 		<div class="row">
-			<div class="col-md-9">
+			<div class="col-md-6">
+			<div class="col-md-2">
+				<button class="btn btn-lg btn-primary btn-block" id="btnEnviar" type="submit" onclick="{this.form.action='mostrarEscolaridadPDF';}" style="display:none;" >Enviar 1</button>
+			</div>
 			</div>
 			<div class="col-md-3">
-				<button class="btn btn-lg btn-primary btn-block" id="btnEnviar" type="button"  onclick="addAssignmentRow(this, ${counter});return false;" >Agregar Destinatario</button>
+				<button class="btn btn-lg btn-primary btn-block" id="btnAddaAsignment" type="button"  onclick="addAssignmentRow(this, ${counter});return false;" >Agregar Destinatario</button>
 			</div>
 		</div>
 		<div></div>
-			<div class="col-md-2">
-				<button class="btn btn-lg btn-primary btn-block" id="btnEnviar" type="submit" style="display:none;" >Enviar</button>
-			</div>
 	</div>
 
 </html:form>

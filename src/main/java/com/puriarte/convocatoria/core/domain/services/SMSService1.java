@@ -110,7 +110,7 @@ public class SMSService1 {
 		query.setHint("javax.persistence.cache.storeMode", "REFRESH");
 		query.setHint("eclipselink.refresh", "true");
 		query.setHint("eclipselink.refresh.cascade", "CascadeAllParts");
-
+		
 		if((pos!=null) && (limit!=null)) query.setFirstResult(pos).setMaxResults(limit);
 
 		List<SMS> a = (List<SMS>) query.getResultList();
@@ -135,8 +135,7 @@ public class SMSService1 {
 		query.setHint("eclipselink.refresh.cascade", "CascadeAllParts");
 
 		if((pos!=null) && (limit!=null)) query.setFirstResult(pos).setMaxResults(limit);
-
-		List<SMS> a = (List<SMS>) query.getResultList();
+	 	List<SMS> a = (List<SMS>) query.getResultList();
 
 
 		return a;

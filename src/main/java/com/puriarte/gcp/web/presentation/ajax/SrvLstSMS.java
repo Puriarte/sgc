@@ -78,7 +78,7 @@ public class SrvLstSMS extends HttpServlet {
 	 */
 	private void cargarParametros(HttpServletRequest request){
 
-		String orderBy = "fMov, ndoc";
+		orderBy = "s.creationDate desc";
 
 		strPage = Integer.parseInt(request.getParameter("page"));
 		strRows = Integer.parseInt(request.getParameter("rows"));
@@ -121,7 +121,7 @@ public class SrvLstSMS extends HttpServlet {
 	}
 
 	private String procesar() throws Exception {
-		List<SMS> resultados = Facade.getInstance().selectSMSList(fechaInicio,fechaFin,estado,convocatoria,orderBy, null,null);
+		List<SMS> resultados = Facade.getInstance().selectSMSList(fechaInicio,fechaFin,estado,convocatoria,orderBy, (strPage-1)*strRows,strRows);
 		return procesarItems2(resultados);
 	}
 
