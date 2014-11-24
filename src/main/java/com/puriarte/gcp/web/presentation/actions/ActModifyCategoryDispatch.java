@@ -144,17 +144,20 @@ public class ActModifyCategoryDispatch extends RestrictionAction {
 					HashMap arPersonCategory = getCategoryRequest(request,"personCategory_");
 
 					String[] arPersonIds = dynaForm.get("nroDestino").toString().split(",");
+					String[] arAssignmentIds = dynaForm.get("assignment").toString().split(",");
+					String[] arStatusIds = dynaForm.get("assignmentStatus").toString().split(",");
+					
 
 					String strName = (String) dynaForm.get("name");
 					String strMensaje = (String) dynaForm.get("detalleIn");
 					String strDate = (String) dynaForm.get("eventDate") ;
 					String strHour = (String) dynaForm.get("eventHour");
-					if ((strHour!=null) && (strHour.trim().toString().length()==5)) strHour += ":00";
-					else strHour = "00:00:00";
-					
+//					if ((strHour!=null) && (strHour.trim().toString().length()==5)) strHour += ":00";
+//					else strHour = "00:00:00";
+//					
 					String placeId = (String) dynaForm.get("place");
 					String prefix = (String) dynaForm.get("prefix");
-
+					int id = (int) dynaForm.get("dispatchId");
 					Date creationDate = new Date();
 			 
 				 	Date scheduledDate = com.puriarte.utils.date.DateUtils.parseDate(strDate + " " + strHour , Constants.FORMATO_FECHA_HORA_HTML5_REGEX, Constants.FORMATO_FECHA_HORA_HTML5);
@@ -168,7 +171,8 @@ public class ActModifyCategoryDispatch extends RestrictionAction {
 					}finally{}
 					
 					strMensaje = strName;
-					int id = Facade.getInstance().insertDispatch(strMensaje, strName, place, creationDate, scheduledDate , arPersonIds, arPersonCategory);
+					 Facade.getInstance().updateDispatch(id, strMensaje, strName, place, creationDate, scheduledDate , 
+							 arPersonIds, arPersonCategory, arStatusIds, arAssignmentIds);
 
 				}
 

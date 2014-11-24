@@ -51,7 +51,7 @@
 
 						<div class="row" id="assignmentRowModel" style="display: none" >
 							<div class="col-md-4">
-							<select class="form-control" name="personMovil_" id="personMovil_"  required>
+							<select class="form-control" name="personMovil_" id="personMovil_">
 		                    	<option value="">Seleccione</option>
 								<logic:iterate name="frmAdmDispatch" property="personsMovil" id="item" indexId="idx">
 			                    		<option value="${item.id}">${item.person.name}</option>
@@ -89,6 +89,7 @@
 			</div>
 			<div class="col-md-10">
 				<input type="text" class="form-control" value="${objDispatch.name}" disabled="disabled" >
+				<input type="hidden" class="form-control"   name="dispatchId"  id="dispatchId" value="${objDispatch.id}" >
 			</div>
 		</div>
 		<div class="row">
@@ -99,19 +100,22 @@
 				<label class="control-label">Prefijo</label>
 			</div>
 			<div class="col-md-2">
-				<input type="text" class="form-control" name="prefix" value="${prefix}" id="prefix"  disabled="disabled" >
+				<input type="text" class="form-control" value="${prefix}"  disabled="disabled" >
+     			<input type="hidden" value="${prefix}" name="prefix" id="prefix"  />
 			</div>
 			<div class="col-md-1">
 				<label class="control-label">Fecha</label>
 			</div>
 			<div class="col-md-3">
-     			<input type="date" value="${stEventDate}"  class="form-control"  disabled="disabled"/>
+     			<input type="date" value="${stEventDate}"  name="eventDate"  id="eventDate"  class="form-control"  disabled="disabled"/>
+     			<input type="hidden" value="${stEventDate}" name="eventDate" id="eventDate"  />
 			</div>
 			<div class="col-md-1">
 				<label class="control-label">Hora</label>
 			</div>
 			<div class="col-md-3">
-     			<input type="time" value="${stEventHour}"  class="form-control"  disabled="disabled"/>
+     			<input type="time" value="${stEventHour}" class="form-control"  disabled="disabled"/>
+     			<input type="hidden" value="${stEventHour}" name="eventHour" id="eventHour"  />
 			</div>
 
 		</div>
@@ -126,6 +130,7 @@
 			</div>
 			<div class="col-md-10">
 				<input type="text" value="${objDispatch.place.name}"  class="form-control"  disabled="disabled"/>
+	 			<input type="hidden" value="${objDispatch.place.id}" name="place" id="place"  />
 			</div>
 		</div>
 		<div class="row">	
@@ -144,10 +149,11 @@
 	       			<div class="row" id="assignmentRow${counter}">
 						<div class="col-md-4">
 							<label class="control-label">${assignment.personMovil.person.name}</label>
-							<label class="control-label">${assignment.job.category.id}</label>
+	 						<input type="text" value="${assignment.id}" name="assignment" id="assignment"  />
+	 						<input type="text" value="${assignment.status.id}" name="assignmentStatus" id="assignmentStatus"  />
 						</div>
 						<div class="col-md-3">
-							<select class="form-control" name="personCategory_${assignment.personMovil.person.id}" id="personCategory_${assignment.personMovil.person.id}"  required>
+							<select class="form-control" name="personCategory_${assignment.personMovil.person.id}" id="personCategory_${assignment.personMovil.person.id}"  >
 		                    	<option value="">Seleccione</option>
 								<logic:iterate name="frmAdmDispatch" property="categories" id="item" indexId="idx">
 									<c:if test="${item.id==assignment.job.category.id}">
@@ -160,7 +166,7 @@
 							</select>
 						</div>
 						<div class="col-md-3">
-							<select class="form-control" name="assignmentStatus_${assignment.personMovil.person.id}" id="assignmentStatus_${assignment.personMovil.person.id}"  required>
+							<select class="form-control" name="assignmentStatus_${assignment.personMovil.person.id}" id="assignmentStatus_${assignment.personMovil.person.id}"  >
 		                    	<option value="">Seleccione</option>
 								<logic:iterate name="frmAdmDispatch" property="assignmentsStatus" id="item" indexId="idx">
 									<c:if test="${item.id==assignment.status.id}">
@@ -184,8 +190,8 @@
 		</div>
 		<div class="row">
 			<div class="col-md-6">
-			<div class="col-md-2">
-				<button class="btn btn-lg btn-primary btn-block" id="btnEnviar" type="submit" onclick="{this.form.action='mostrarEscolaridadPDF';}" style="display:none;" >Enviar 1</button>
+			<div class="col-md-4">
+				<button class="btn btn-lg btn-primary btn-block" id="btnEnviar" type="submit" style="display:none;" >Enviar</button>
 			</div>
 			</div>
 			<div class="col-md-3">

@@ -111,4 +111,17 @@ public class Dispatch implements Serializable {
 
 	}
 
+	public Assignment getAssignment(Long id) {
+		if (jobList==null)
+			return null;
+		
+		for(Job job : jobList){
+			for(Assignment assignment: job.getAssignmentList()){
+				if (assignment.getId().equals(id))
+					return assignment;
+			}
+		}
+		return null;
+	}
+
 }

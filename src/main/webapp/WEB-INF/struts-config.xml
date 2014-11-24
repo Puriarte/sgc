@@ -98,6 +98,8 @@
 	<form-bean dynamic="true" name="frmAdmDispatch" type="org.apache.struts.action.DynaActionForm">
 		<form-property name="accion" type="java.lang.String" />
 		<form-property name="nroDestino" type="java.lang.String" />
+		<form-property name="assignment" type="java.lang.String" />
+		<form-property name="assignmentStatus" type="java.lang.String" />
 		<form-property name="detalleIn" type="java.lang.String" />
 		<form-property name="name" type="java.lang.String" />
 		<form-property name="prefix" type="java.lang.String" />
@@ -112,6 +114,7 @@
 		<form-property name="personsMovil" type="java.util.ArrayList" />
 		
 		<form-property name="dispatch" type="com.puriarte.convocatoria.persistence.Dispatch" />
+		<form-property name="dispatchId" type="java.lang.Integer" />
 		<form-property name="colAssignment" type="java.util.ArrayList" />		
 
 	</form-bean>

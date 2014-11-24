@@ -6,6 +6,8 @@ var documento_nc=3;
 var documento_fav=11;
 var documento_pag=21;
 var urlReload = "lstDispatch";
+var urlReloadSubQuery = "lstAssignment";
+
 var formName = "#frmLstDispatch";
 var counter = 0;
 
@@ -100,8 +102,7 @@ jQuery(document).ready(function(){
 		closeAfterEdit:true,
 		editurl:"updateDispatch.do",
 		jsonReader: { repeatitems : false, root:"rows" },
-		loadComplete: function(data) {
-		},
+		loadComplete: function(data) {},
 		onSelectRow: function(id){
 			$("#idsValesSel").val(id);
 		},
@@ -141,7 +142,7 @@ jQuery(document).ready(function(){
 				return data;
 			}
 			}
-		}
+		}		
 	}).navGrid('#pagerArticulos',{edit:false,add:false,del:false});
 
 	$("#bedata").click(function(){
@@ -291,10 +292,10 @@ function ingresarListaSMS(){
 			"Aceptar": function() {
 				var isValidForm = $('#frmAdmDispatch')[0].checkValidity();
 				if (!isValidForm) {
-					document.getElementById("btnEnviar").click();
+					 $('#btnEnviar').click();
 				}else{
 					$.ajax({
-						url: "createCategoryDispatch.do",
+						url: "modifyCategoryDispatch.do",
 						data: $("#frmAdmDispatch").serialize(),
 						type: $("#frmAdmDispatch").attr("method"),
 						dataType: "html",
@@ -365,6 +366,7 @@ function removeOptions(selectbox)
 
 function addAssignmentRow(element, elementCounter){
 	
+	
 	try{
 		if (counter==0)	counter = elementCounter;
 		counter = counter +1;
@@ -376,6 +378,7 @@ function addAssignmentRow(element, elementCounter){
 		
 		innerDiv.childNodes[1].childNodes[1].id="personMovil_"+counter;
 		innerDiv.childNodes[1].childNodes[1].name="personMovil_"+counter;
+		innerDiv.childNodes[1].childNodes[1].required=true;	
 
 		innerDiv.childNodes[3].childNodes[1].id="personCategory_"+counter;
 		innerDiv.childNodes[3].childNodes[1].name="personCategory_"+counter;

@@ -71,7 +71,22 @@
 	    <load-on-startup>5</load-on-startup>
 	</servlet>
 
-<servlet>
+	
+	<servlet>
+	    <servlet-name>LstAssignment</servlet-name>
+	    <servlet-class>com.puriarte.gcp.web.presentation.ajax.SrvLstAssignment</servlet-class>
+		<init-param>
+			<param-name>idComponente</param-name>
+			<param-value>13</param-value>
+		</init-param>
+		<init-param>
+			<param-name>idOpMenu</param-name>
+			<param-value>501</param-value>
+		</init-param>
+	    <load-on-startup>5</load-on-startup>
+	</servlet>
+
+	<servlet>
 	    <servlet-name>LstDispatch</servlet-name>
 	    <servlet-class>com.puriarte.gcp.web.presentation.ajax.SrvLstDispatch</servlet-class>
 		<init-param>
@@ -202,8 +217,11 @@
     <servlet-name>LstDispatch</servlet-name>
     <url-pattern>/lstDispatch</url-pattern>
   </servlet-mapping>
-  
-  
+
+  <servlet-mapping>
+    <servlet-name>LstAssignment</servlet-name>
+    <url-pattern>/lstAssignment</url-pattern>
+  </servlet-mapping>
 
   <servlet-mapping>
     <servlet-name>LstSMS</servlet-name>

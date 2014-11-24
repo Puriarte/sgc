@@ -381,6 +381,11 @@ public class Facade {
 		return dispatchService.insert(message, name, place, creationDate, scheduledDate, personIds, categories, status);
 	}
 
+	public int updateDispatch(int id, String mensaje, String name, Place place, Date creationDate, Date scheduledDate,String[] personIds, HashMap categories, String[] arStatusIds, String[] arAssignmentIds) {
+		SmsStatus status = selectSmsStatus(Constants.SMS_STATUS_PENDIENTE);
+		return dispatchService.update(id,mensaje, name, place, creationDate, scheduledDate, personIds, categories, arAssignmentIds,arStatusIds, status);
+	}
+
 	public int insertBulkSMS(String message, String name, Date creationDate , Date scheduledDate, String[] personIds) {
 		SmsStatus status = selectSmsStatus(Constants.SMS_STATUS_PENDIENTE);
 		return bulkSMSService.insert(message, name, creationDate, scheduledDate, personIds, status);

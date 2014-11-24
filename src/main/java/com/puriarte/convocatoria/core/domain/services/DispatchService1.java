@@ -159,6 +159,114 @@ public class DispatchService1 {
 		return this.insert(dispatch);
 	}
 
+
+	public int update(int id, String mensaje, String name, Place place,
+			Date creationDate, Date scheduledDate, String[] personIds,
+			HashMap categories, String[] arAssignmentIds,String[] arStatus, SmsStatus status) {
+
+		AssignmentStatus assignmentstatus = Facade.getInstance().selectAssingmentStatus(Constants.ASSIGNMENT_STATUS_ASSIGNED);
+		
+		// Obtengo la convocatoria
+		// Recorro para cada asignación 
+		Dispatch dispatch2 = this.selectDispatch(id);
+		
+		for(int i=0; i<arAssignmentIds.length;i++){
+			Assignment assignment1= dispatch2.getAssignment(Long.parseLong(arAssignmentIds[i]));
+			int idCategory = (int) categories.get(i+1);
+			int idStatus = Integer.parseInt(arStatus[i]);
+			if (!(assignment1.getJob().getCategory().getId()==idCategory)){
+				// Cambio el dato sobre el puesto y mando un SMS avisando
+				PersonCategory pc = Facade.getInstance().selectPersonCategory(idCategory);
+				assignment1.getJob().setCategory(pc);
+			
+//				Facade.getInstance().updateJob(assignment1.getJob());
+				
+				// Creo el SMS
+				SMS sms = new SMS();
+				sms.setMensaje(mensaje.trim());
+				sms.setMensaje(sms.getMensaje().trim() + " CAMBIO DE CATEGORIA " + pc.getName().trim());
+
+				sms.setPersonMovil(assignment1.getPersonMovil());
+				sms.setStatus(status);
+				sms.setAction(Constants.SMS_ACTION_OUTCOME);
+				sms.setCreationDate(creationDate);
+				
+				assignment1.setStatus(assignmentstatus);
+				List smsList = assignment1.getSmsList();
+				smsList.add(sms);
+				assignment1.setSmsList(smsList);
+				this.update(dispatch2);
+				
+			}else if  (!(assignment1.getStatus().getId()==idStatus)){
+				AssignmentStatus newStatus = Facade.getInstance().selectAssingmentStatus(idStatus);
+				assignment1.setStatus(newStatus);
+				this.update(dispatch2);
+			}
+		}
+//		
+//		for(Job job:dispatch2.getJobList()){
+//			for(Assignment assignment:job.getAssignmentList()){
+//				AssignmentStatus  as1 = assignment.getStatus();
+//				
+//
+//			}
+//			
+//			
+//		}
+		
+//		
+//		
+//		// Inicializo la convocatoria
+//		Dispatch dispatch = new Dispatch();
+//		dispatch.setName(name);
+//		dispatch.setScheduledDate(scheduledDate);
+//		dispatch.setPlace(place);
+//
+//		for(String idPerson: personIds){
+//			PersonMovil person = Facade.getInstance().selectPersonMovil(Integer.parseInt(idPerson));
+//			if (person!=null){
+//				PersonCategory category=new PersonCategory();
+//				try{
+//					if(categories.containsKey(person.getId())){
+//						int categoryId = (int) categories.get(person.getId());
+//						category = Facade.getInstance().selectPersonCategory(categoryId);
+//					}
+//				}catch(Exception e){}
+//
+//				if ((person.getMovil()!=null)){
+//					// Creo el SMS
+//					SMS sms = new SMS();
+//					sms.setMensaje(message.trim());
+// 					if (category !=null)
+//						sms.setMensaje(sms.getMensaje().trim() + " " + category.getName().trim());
+//
+//					sms.setPersonMovil(person);
+//					sms.setStatus(status);
+//					sms.setAction(Constants.SMS_ACTION_OUTCOME);
+//					sms.setCreationDate(creationDate);
+//
+//					// Agrego el SMS a una nueva asignaciï¿½n de trabajo
+//					Assignment assignment = new Assignment();
+//					assignment.setStatus(assignmentstatus);
+//					assignment.setPersonMovil(person);
+//					assignment.addSms (sms);
+//					assignment.setAssignmentDate(creationDate);
+//
+//					// Creo el puesto de trabajo
+//					Job job = new Job();
+//					job.setCategory(category);
+//					job.addAssignment(assignment);
+//
+//					dispatch.addJob(job);
+//				}
+//			}
+//		}
+		//return this.insert(dispatch);
+			return 0;
+	}
+
+	
+	
 	public void update(Dispatch dispatch) {
 		final EntityManager em = getEntityManager();
 
@@ -176,5 +284,6 @@ public class DispatchService1 {
 		em.remove(item1);
 		em.getTransaction().commit();
 	}
+
 
 }
