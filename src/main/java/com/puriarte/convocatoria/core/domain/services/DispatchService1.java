@@ -162,7 +162,7 @@ public class DispatchService1 {
 
 	public int update(int id, String mensaje, String name, Place place,
 			Date creationDate, Date scheduledDate, String[] personIds,
-			HashMap categories, String[] arAssignmentIds,String[] arStatus, SmsStatus status) {
+			HashMap categories, HashMap arStatus, String[] arAssignmentIds, SmsStatus status) {
 
 		AssignmentStatus assignmentstatus = Facade.getInstance().selectAssingmentStatus(Constants.ASSIGNMENT_STATUS_ASSIGNED);
 		
@@ -173,7 +173,7 @@ public class DispatchService1 {
 		for(int i=0; i<arAssignmentIds.length;i++){
 			Assignment assignment1= dispatch2.getAssignment(Long.parseLong(arAssignmentIds[i]));
 			int idCategory = (int) categories.get(i+1);
-			int idStatus = Integer.parseInt(arStatus[i]);
+			int idStatus = (int) arStatus.get(i+1); 
 			if (!(assignment1.getJob().getCategory().getId()==idCategory)){
 				// Cambio el dato sobre el puesto y mando un SMS avisando
 				PersonCategory pc = Facade.getInstance().selectPersonCategory(idCategory);

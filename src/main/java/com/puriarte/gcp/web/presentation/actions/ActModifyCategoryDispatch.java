@@ -142,10 +142,11 @@ public class ActModifyCategoryDispatch extends RestrictionAction {
 				if (dynaForm.get("nroDestino")!=null){
 
 					HashMap arPersonCategory = getCategoryRequest(request,"personCategory_");
+					HashMap arStatusIds = getCategoryRequest(request,"assignmentStatus_");
 
 					String[] arPersonIds = dynaForm.get("nroDestino").toString().split(",");
 					String[] arAssignmentIds = dynaForm.get("assignment").toString().split(",");
-					String[] arStatusIds = dynaForm.get("assignmentStatus").toString().split(",");
+//					String[] arStatusIds = dynaForm.get("assignmentStatus").toString().split(",");
 					
 
 					String strName = (String) dynaForm.get("name");
