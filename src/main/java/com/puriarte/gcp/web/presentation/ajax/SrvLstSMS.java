@@ -121,12 +121,13 @@ public class SrvLstSMS extends HttpServlet {
 	}
 
 	private String procesar() throws Exception {
+		int count = Facade.getInstance().selectCountSMS(fechaInicio,fechaFin,estado,convocatoria);
 		List<SMS> resultados = Facade.getInstance().selectSMSList(fechaInicio,fechaFin,estado,convocatoria,orderBy, (strPage-1)*strRows,strRows);
-		return procesarItems2(resultados);
+		return procesarItems2(resultados, count);
 	}
 
 
-	private String procesarItems2(List<SMS> resultados) {
+	private String procesarItems2(List<SMS> resultados, int totalRegistros) {
 		String jSonItems="";
 		int i=0;
 
@@ -182,14 +183,22 @@ public class SrvLstSMS extends HttpServlet {
 
 		if (jSonItems.lastIndexOf(",")>0) jSonItems=jSonItems.substring(0,jSonItems.lastIndexOf(","));
 
-		//totalRegistros=resultados.size();
-		totalRegistros=(long) 100;
-		String strXml = "{\"total\": 1," ;
+
+		int totalPaginas=  totalRegistros/strRows;
+		if ((totalRegistros % strRows)!=0) totalPaginas++;
+			
+		String strXml = "{\"total\": " + totalPaginas + ", ";
 		strXml +="\"page\": " + strPage + ",";
 		strXml +="\"records\": " + totalRegistros + ",";
-		strXml +="\"total\": " + totalRegistros/strRows + ",";
-		strXml +="\"rows\": " +"[" + jSonItems + "],";
-		strXml +="\"footer\": " +"[{\"saldo\":" + totalSaldo + ",\"facturas\":" + totalFacturas + ",\"contados\":" + totalContados + ",\"afavor\":" + totalAFavor + "}]}";
+		strXml +="\"rows\": " +"[" + jSonItems + "]}";
+
+//		
+//		String strXml = "{\"total\": ," ;
+//		strXml +="\"page\": " + strPage + ",";
+//		strXml +="\"records\": " + totalRegistros + ",";
+//		strXml +="\"total\": " + totalRegistros/strRows + ",";
+//		strXml +="\"rows\": " +"[" + jSonItems + "],";
+//		strXml +="\"footer\": " +"[{\"saldo\":" + totalSaldo + ",\"facturas\":" + totalFacturas + ",\"contados\":" + totalContados + ",\"afavor\":" + totalAFavor + "}]}";
 
 		System.out.println(strXml);
 		return strXml;

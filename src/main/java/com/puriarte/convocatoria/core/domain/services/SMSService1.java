@@ -1,11 +1,20 @@
 package com.puriarte.convocatoria.core.domain.services;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Vector;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.JoinType;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+
+import org.eclipse.persistence.internal.jpa.querydef.CriteriaQueryImpl;
 
 import com.puriarte.convocatoria.persistence.Assignment;
 import com.puriarte.convocatoria.persistence.EntityManagerHelper;
@@ -157,7 +166,36 @@ public class SMSService1 {
 			return (Integer)a;
 	}
 
+	public int selectCountSMS(Date fechaInicio, Date fechaFin, int estado,int convocatoria) {
+		final EntityManager em = getEntityManager();
+		CriteriaBuilder cb = em.getCriteriaBuilder();
+		
+		CriteriaQuery q = cb.createQuery(SMS.class);
+		Root<SMS> from = q.from(SMS.class);
+		Join status = from.join("status");
+		Join assignment= from.join("assignment", JoinType.LEFT);
+		Join job= assignment.join("job", JoinType.LEFT);
+		Join dispatch= job.join("dispatch", JoinType.LEFT);
+		
+		List<Predicate> predicateList = new ArrayList<Predicate>();
+		if (fechaInicio != null) predicateList.add(cb.greaterThanOrEqualTo(from.<Date>get("creationDate"), fechaInicio));
+		if (fechaFin != null) predicateList.add(cb.lessThanOrEqualTo(from.<Date>get("creationDate"), fechaFin));
+		if (estado>0) predicateList.add(cb.equal(status.get("id"), estado));
+		if (convocatoria>0) predicateList.add(cb.equal(dispatch.get("id"), convocatoria));
 
+		Predicate[] predicates = new Predicate[predicateList.size()];
+		predicateList.toArray(predicates);
+		q.select(cb.count(from));
+		q.where(predicates);
+		
+		Object a = em.createQuery(q).getSingleResult();
+		
+		if (a.getClass().getName().equals("java.lang.Long"))
+			return Integer.parseInt(a.toString());
+		else
+			return (Integer)a;
+	}
+	
 	/**
 	 * Cuanta los SMS que expiraron antes de responderse
 	 *
@@ -304,5 +342,7 @@ public class SMSService1 {
 
 		return a;
 	}
+
+	
 
 }

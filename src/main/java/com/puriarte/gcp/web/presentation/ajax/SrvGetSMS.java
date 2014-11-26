@@ -95,7 +95,7 @@ public class SrvGetSMS extends HttpServlet {
 				  if (sms.getText().toUpperCase().startsWith("REGISTRO")){
 					  Facade.getInstance().insertSMSIncomeAndRegisterMovil(sms.getOriginator(), sms.getText(),sms.getReceiveDate(), jsonObj.get("uu_id").toString());
 				  }else{
-					  Facade.getInstance().insertSMSIncome(sms.getOriginator(), sms.getText(),sms.getReceiveDate(),jsonObj.get("uu_id").toString());
+					  Facade.getInstance().insertSMSIncome(sms.getOriginator(), sms.getText(), sms.getReceiveDate(),jsonObj.get("uu_id").toString());
 				  }
 				  out.print("0");
 				  

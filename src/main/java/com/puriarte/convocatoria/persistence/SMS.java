@@ -36,6 +36,8 @@ import javax.persistence.TemporalType;
         query="SELECT s FROM SMS s where s.personMovil.id = :movilId and s.status.id = :status and s.assignment is not null  order by s.sentDate desc"),
         @NamedQuery(name="SelectCountSMSByWord",
         query="SELECT count(s) FROM SMS s where s.personMovil.person.id = :personId and s.word = :word and s.sentDate BETWEEN :from AND :to  "),
+        @NamedQuery(name="SelectCountSMSByDate",
+        query="SELECT count(s) FROM SMS s where s.personMovil.person.id = :personId and s.word = :word and s.sentDate BETWEEN :from AND :to  "),
         @NamedQuery(name="SelectCountExpiredSMS",
         query="SELECT count(s) FROM SMS s where s.personMovil.person.id = :personId and 1=0  and s.sentDate BETWEEN :from AND :to"),
         @NamedQuery(name="SelectCountSentSMS",

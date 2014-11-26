@@ -209,48 +209,42 @@ public class Facade {
 			DocumentType dt = Facade.getInstance().selectDocumentType(Constants.PERSON_TYPE_CI);
 			movil = Facade.getInstance().insertPersonMovil(originator, "" ,dt);
 		}
-
+		boolean enviado=false;
 		String order="";
 		String word="";
-
+		if (text.toUpperCase().startsWith("SI")) word = "SI";
+		else if (text.toUpperCase().startsWith("NO")) word = "NO";
+		
 		// Me voy a fijar si corresponde a una respuesta de una convocatoria y en tal caso si la respuesta es si o no
-		// Tambi�n ver� si el tiempo para responder est� superado o no
+		// Tambien veo si el tiempo para responder esta superado o no
 		if (movil !=null){
-			List<SMS> smsList = Facade.getInstance().SelectRelatedSMSList(movil, selectSmsStatus(Constants.SMS_STATUS_ENVIADO), 0, 1);
-			if ((smsList!=null) && (smsList.size()>0)){
-				SMS sms = smsList.get(0);
-				if (sms.getAssignment()!=null){
-					if (sms.getAssignment().getJob()!=null){
-						if(sms.getAssignment().getJob().getDispatch()!=null){
-							Assignment assignment = sms.getAssignment();
-							if (text.toUpperCase().startsWith("SI"))
-								word = "SI";
-							else if (text.toUpperCase().startsWith("NO"))
-								word = "NO";
-	
-	
-			/*				if (text.toUpperCase().startsWith("SI"))
-								smsService.getInstance().insert(idDispatch, movil, text, Constants.SMS_ACTION_INCOME,selectSmsStatus(Constants.SMS_STATUS_RECIBIDO), date);
-							else
-				*/				smsService.getInstance().insert(word, assignment, sms, movil, text, Constants.SMS_ACTION_INCOME,selectSmsStatus(Constants.SMS_STATUS_RECIBIDO), date,uuid);
-	
+			if(word.equals("SI") || word.equals("NO")) {
+				List<SMS> smsList = Facade.getInstance().SelectRelatedSMSList(movil, selectSmsStatus(Constants.SMS_STATUS_ENVIADO), 0, 1);
+				if ((smsList!=null) && (smsList.size()>0)){
+					SMS sms = smsList.get(0);
+					if (sms.getAssignment()!=null){
+						if (sms.getAssignment().getJob()!=null){
+							if(sms.getAssignment().getJob().getDispatch()!=null){
+								Assignment assignment = sms.getAssignment();
+								smsService.getInstance().insert(word, assignment, sms, movil, text, Constants.SMS_ACTION_INCOME,selectSmsStatus(Constants.SMS_STATUS_RECIBIDO), date,uuid);
+								enviado=true;
+							}
 						}
 					}
-	
-				}else{
-					smsService.getInstance().insert(null,null,null, movil, text, Constants.SMS_ACTION_INCOME,selectSmsStatus(Constants.SMS_STATUS_RECIBIDO), date, uuid);
 				}
-			}else{
-				smsService.getInstance().insert(null,null,null, movil, text, Constants.SMS_ACTION_INCOME,selectSmsStatus(Constants.SMS_STATUS_RECIBIDO), date, uuid);
 			}
-		}else{
-			smsService.getInstance().insert(null,null,null, movil, text, Constants.SMS_ACTION_INCOME,selectSmsStatus(Constants.SMS_STATUS_RECIBIDO), date, uuid);
 		}
+		
+		if (!enviado)
+			smsService.getInstance().insert(null,null,null, movil, text, Constants.SMS_ACTION_INCOME,selectSmsStatus(Constants.SMS_STATUS_RECIBIDO), date, uuid);
 	}
 
 	public int selectCountSMS(int personId, String word,Date  fechaDesde, Date fechaHasta){
 		return smsService.selectCountSMS(personId, word, fechaDesde, fechaHasta);
+	}
 
+	public int selectCountSMS(Date fechaInicio, Date fechaFin, int estado,	int convocatoria) {
+		return smsService.selectCountSMS(fechaInicio, fechaFin, estado, convocatoria);
 	}
 
 	public int selectCountSentSMS(int personId, Date fechaDesde,Date  fechaHasta){
@@ -511,5 +505,7 @@ public class Facade {
 		public SMS selectSMS(int idRef) {
 			return this.smsService.selectSMS(idRef);
 		}
+
+
 
 }
