@@ -385,7 +385,10 @@ function addAssignmentRow(element, elementCounter){
 
 		innerDiv.childNodes[5].childNodes[1].id="assignmentStatus_"+counter;
 		innerDiv.childNodes[5].childNodes[1].name="assignmentStatus_"+counter;
-		
+	
+		innerDiv.childNodes[7].id="assignment_"+counter;
+		innerDiv.childNodes[7].name="assignment_"+counter;
+
 		document.getElementById("assignmentRowContainer").appendChild(innerDiv);
 
 	}catch(E){
@@ -394,3 +397,5 @@ function addAssignmentRow(element, elementCounter){
 		
 	
 }
+
+

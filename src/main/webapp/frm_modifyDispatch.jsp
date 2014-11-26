@@ -74,6 +74,8 @@
 								</logic:iterate>
 							</select>
 							</div>
+							<input type="hidden" name="assignment_" id="assignment_" />
+
 					</div>
  
 <!-- 
@@ -100,8 +102,8 @@
 				<label class="control-label">Prefijo</label>
 			</div>
 			<div class="col-md-2">
-				<input type="text" class="form-control" value="${prefix}"  disabled="disabled" >
-     			<input type="hidden" value="${prefix}" name="prefix" id="prefix"  />
+				<input type="text" class="form-control" value="ET"  disabled="disabled" >
+     			<input type="hidden" value="ET" name="prefix" id="prefix"  />
 			</div>
 			<div class="col-md-1">
 				<label class="control-label">Fecha</label>
@@ -149,8 +151,8 @@
 	       			<div class="row" id="assignmentRow${counter}">
 						<div class="col-md-4">
 							<label class="control-label">${assignment.personMovil.person.name}</label>
-	 						<input type="text" value="${assignment.id}" name="assignment" id="assignment"  />
-	 						<input type="text" value="${assignment.status.id}" name="assignmentStatus" id="assignmentStatus"  />
+	 						<input type="hidden" value="${assignment.id}" id="assignment_${assignment.personMovil.person.id}" name="assignment_${assignment.personMovil.person.id}" />
+	 						<input type="hidden" value="${assignment.status.id}" name="assignmentStatus" id="assignmentStatus"  />
 						</div>
 						<div class="col-md-3">
 							<select class="form-control" name="personCategory_${assignment.personMovil.person.id}" id="personCategory_${assignment.personMovil.person.id}"  >

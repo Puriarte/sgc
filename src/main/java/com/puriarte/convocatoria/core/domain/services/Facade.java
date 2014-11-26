@@ -376,7 +376,7 @@ public class Facade {
 	}
 
 	public int updateDispatch(int id, String mensaje, String name, Place place, Date creationDate, Date scheduledDate,
-			String[] personIds, HashMap categories,HashMap arStatusIds, String[] arAssignmentIds) {
+			HashMap personIds, HashMap categories,HashMap arStatusIds, HashMap arAssignmentIds) {
 		SmsStatus status = selectSmsStatus(Constants.SMS_STATUS_PENDIENTE);
 		return dispatchService.update(id,mensaje, name, place, creationDate, scheduledDate, personIds, categories, arStatusIds, arAssignmentIds, status);
 	}

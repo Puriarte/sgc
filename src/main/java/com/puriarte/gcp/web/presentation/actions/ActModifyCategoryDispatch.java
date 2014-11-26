@@ -143,9 +143,11 @@ public class ActModifyCategoryDispatch extends RestrictionAction {
 
 					HashMap arPersonCategory = getCategoryRequest(request,"personCategory_");
 					HashMap arStatusIds = getCategoryRequest(request,"assignmentStatus_");
-
-					String[] arPersonIds = dynaForm.get("nroDestino").toString().split(",");
-					String[] arAssignmentIds = dynaForm.get("assignment").toString().split(",");
+					HashMap personIds = getCategoryRequest(request,"personMovil_");
+					HashMap assignmentIds = getCategoryRequest(request,"assignment_");
+					
+//					String[] arPersonIds = dynaForm.get("nroDestino").toString().split(",");
+//					String[] arAssignmentIds = dynaForm.get("assignment").toString().split(",");
 //					String[] arStatusIds = dynaForm.get("assignmentStatus").toString().split(",");
 					
 
@@ -173,7 +175,7 @@ public class ActModifyCategoryDispatch extends RestrictionAction {
 					
 					strMensaje = strName;
 					 Facade.getInstance().updateDispatch(id, strMensaje, strName, place, creationDate, scheduledDate , 
-							 arPersonIds, arPersonCategory, arStatusIds, arAssignmentIds);
+							 personIds, arPersonCategory, arStatusIds, assignmentIds);
 
 				}
 
