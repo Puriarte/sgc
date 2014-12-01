@@ -23,7 +23,9 @@ import org.apache.log4j.Logger;
 
 import com.puriarte.convocatoria.core.domain.Constants;
 import com.puriarte.convocatoria.core.domain.services.Facade;
+import com.puriarte.convocatoria.persistence.Assignment;
 import com.puriarte.convocatoria.persistence.Dispatch;
+import com.puriarte.convocatoria.persistence.Job;
 import com.puriarte.convocatoria.persistence.Person;
 import com.puriarte.convocatoria.persistence.PersonMovil;
 import com.puriarte.convocatoria.persistence.SMS;
@@ -161,6 +163,12 @@ public class SrvLstDispatch extends HttpServlet {
 
 		for(Dispatch item : resultados) {
 			try{
+				
+				String jsonAssignments = "";
+				for (Job job: item.getJobList()){
+					Assignment assignment = job.getAssignmentList().get(0);
+					jsonAssignments = jsonAssignments + "{\"Id\":\"" + assignment.getId() + "\",\"Movil\":\"" + assignment.getPersonMovil().getMovil().getNumber() + "\"}";
+				}
 
 			jSonItems += "{\"Id\": \"" +item.getId()+ "\",";
 			jSonItems += "\"Pos\": \"" + i++ + "\",";
@@ -188,7 +196,7 @@ public class SrvLstDispatch extends HttpServlet {
 			else
 				jSonItems += "\"Name\": \"\"";
 
-			jSonItems += "},";
+			jSonItems += ", \"Assignments\" : " + jsonAssignments + "},";
 
 			}
 			catch(Exception e){}

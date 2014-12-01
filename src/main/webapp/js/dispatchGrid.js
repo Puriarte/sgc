@@ -11,6 +11,8 @@ var urlReloadSubQuery = "lstAssignment";
 var formName = "#frmLstDispatch";
 var counter = 0;
 
+var dispatchLocalJSON;
+
 Number.prototype.format = function(){
    return this.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.");
 };
@@ -102,7 +104,9 @@ jQuery(document).ready(function(){
 		closeAfterEdit:true,
 		editurl:"updateDispatch.do",
 		jsonReader: { repeatitems : false, root:"rows" },
-		loadComplete: function(data) {},
+		loadComplete: function(data) {
+			dispatchLocalJSON = data.rows; // save original JSON data
+		},
 		onSelectRow: function(id){
 			$("#idsValesSel").val(id);
 		},
@@ -142,7 +146,27 @@ jQuery(document).ready(function(){
 				return data;
 			}
 			}
-		}		
+		},
+		subGrid: true,
+        subGridRowExpanded: function (subgridId, rowid) {
+            var subgridTableId = subgridId + "_t";
+            var empList = dispatchLocalJSON[0].Assignments;
+
+            $("#" + subgridId).html("<table id='" + subgridTableId + "'></table>");
+            $("#" + subgridTableId).jqGrid({
+                datatype: "local",
+                data: empList,
+                colNames: ["Id", "Movil"],
+                colModel: [
+                  {name: "Id", width: 130, key: true},
+                  {name: "Movil", width: 130}
+                ],
+                height: "100%",
+                rowNum: 10,
+                sortname: "Movil",
+                idPrefix: "s_" + rowid + "_"
+            });
+        }
 	}).navGrid('#pagerArticulos',{edit:false,add:false,del:false});
 
 	$("#bedata").click(function(){
@@ -388,6 +412,7 @@ function addAssignmentRow(element, elementCounter){
 	
 		innerDiv.childNodes[7].id="assignment_"+counter;
 		innerDiv.childNodes[7].name="assignment_"+counter;
+		innerDiv.childNodes[7].value=0;
 
 		document.getElementById("assignmentRowContainer").appendChild(innerDiv);
 
