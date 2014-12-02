@@ -74,13 +74,14 @@ jQuery(document).ready(function(){
 				fechaHasta: function() { return $("#fechaHasta").val(); },
 				estado: function() { return $("#estado").val(); },
 				category: function() { return $("#category").val(); },
+				dispatchStatus: function() { return $("#dispatchStatus").val(); },
 				priority: function() { return $("#priority").val(); },
 			primeraVez:primeraVez
 	   	},
 	   	loadonce:false,
 	   	mtype: 'GET',
 	   	datatype: "local", // se usa local para que no cargue registros en el primer acceso a la grilla
-	   	colNames:['POS','ID','LUGAR','FECHA','NRO.DOCUMENTO','NOMBRE'],
+	   	colNames:['POS','ID','LUGAR','FECHA','NRO.DOCUMENTO','NOMBRE','ESTADO'],
 	   	colModel:[
    			{name:"POS",index:"1", key: false, jsonmap:"Pos", align:"center", hidden:true, width:10, sortable:false},
    			{name:'ID',index:'2',key: true, jsonmap:"Id", width:55,editable:true,editoptions:{readonly:true,size:10},hidden:true},
@@ -88,6 +89,7 @@ jQuery(document).ready(function(){
 			{name:"FECHA",index:"4", key: false, jsonmap:"FechaEnvio", align:"center", fixed:true, resizable:false,  width:120  ,sortable:true,hidden:false},
 			{name:"NRO.DOCUMENTO",index:"5", key: false, jsonmap:"Texto", align:"left", fixed:true,  width:160 ,resizable:false, sortable:true,hidden:true},
 			{name:"NOMBRE",index:"6", editable: true,  key: false, jsonmap:"Name", align:"center", fixed:true, width:350, resizable:false, sortable:true,hidden:false},
+			{name:"ESTADO",index:"7", editable: true,  key: false, jsonmap:"DispatchStatus", align:"center", fixed:true, width:60, resizable:false, sortable:true,hidden:false},
 			],
 	   	rowNum:60,
 	   	scrollOffset:50,
@@ -156,7 +158,7 @@ jQuery(document).ready(function(){
             $("#" + subgridTableId).jqGrid({
                 datatype: "local",
                 data: empList,
-                colNames: ["Id", "Movil", "Person","PersonCategory","Status","AssignmentDate"],
+                colNames: ["Id", "NUMERO", "NOMBRE","CATEGORIA","ESTADO","FECHA"],
                 colModel: [
                   {name: "Id",  			hidden:true,  width: 10, key: true},
                   {name: "Movil", 			hidden:false, width: 80},
@@ -366,7 +368,7 @@ function ingresarListaSMS(){
 		modal: true,
 		resizable: true,
 		height:550,
-		width:700
+		width:850
 	});
 	// load remote content
 	dialog.load(

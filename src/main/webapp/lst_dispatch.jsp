@@ -140,6 +140,14 @@
 					<div class="form-group">
 						<div class="row">
 							<div class="col-md-6"></div>
+							<div class="col-md-2">
+								<select class="form-control" name="dispatchStatus" id="dispatchStatus" >
+									<option value="">Seleccione</option>
+									<logic:iterate name="frmLstDispatch" property="dispatchsStatus"	id="item" indexId="idx">
+										<option value="${item.id}">${item.name}</option>
+									</logic:iterate>
+								</select>
+							</div>	
 							<div class="col-md-1">
 								<button id="lk_actualizar" class="btn btn-primary">Refrescar</button>
 							</div>

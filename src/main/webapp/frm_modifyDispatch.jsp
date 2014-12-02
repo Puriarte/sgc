@@ -111,7 +111,7 @@
 					<div class="col-md-2">
 						<label class="control-label">Prefijo</label>
 					</div>
-					<div class="col-md-2">
+					<div class="col-md-1">
 						<input type="text" class="form-control" value="ET"
 							disabled="disabled"> <input type="hidden" value="ET"
 							name="prefix" id="prefix" />
@@ -119,19 +119,27 @@
 					<div class="col-md-1">
 						<label class="control-label">Fecha</label>
 					</div>
-					<div class="col-md-3">
-						<input type="date" value="${stEventDate}" name="eventDate"
-							id="eventDate" class="form-control" disabled="disabled" /> <input
-							type="hidden" value="${stEventDate}" name="eventDate"
+					<div class="col-md-2">
+						<input type="text" value="${stEventDate}" name="eventDate"
+							id="eventDate" class="form-control" disabled="disabled" /> 
+						<input type="hidden" value="${stEventDate}" name="eventDate"
 							id="eventDate" />
 					</div>
 					<div class="col-md-1">
 						<label class="control-label">Hora</label>
 					</div>
-					<div class="col-md-3">
-						<input type="time" value="${stEventHour}" class="form-control"
-							disabled="disabled" /> <input type="hidden"
-							value="${stEventHour}" name="eventHour" id="eventHour" />
+					<div class="col-md-2">
+						<input type="text" value="${stEventHour}" class="form-control"
+							disabled="disabled" /> 
+						<input type="hidden" value="${stEventHour}" name="eventHour" id="eventHour" />
+					</div>
+					<div class="col-md-1">
+						<label class="control-label">Estado</label>
+					</div>
+					<div class="col-md-2">
+					<logic:present name="frmAdmDispatch" property="colAssignment">
+						<label class="control-label">Hora</label>
+						</logic:present>
 					</div>
 
 				</div>
@@ -159,11 +167,18 @@
 					</div>
 					<div class="col-md-10" id="assignmentRowContainer">
 						<c:set var="counter" value="${0}" />
+						
+						<logic:present name="frmAdmDispatch" property="colDispatchStatus">
+							<bean:define id="listDispatchStatus" name="frmAdmDispatch" property="colDispatchStatus" />
+							<logic:iterate id="dispatchStatus" name="listDispatchStatus" indexId="index">
+
+							</logic:iterate>
+
+						</logic:present>
+						
 						<logic:present name="frmAdmDispatch" property="colAssignment">
-							<bean:define id="listAssignment" name="frmAdmDispatch"
-								property="colAssignment" />
-							<logic:iterate id="assignment" name="listAssignment"
-								indexId="index">
+							<bean:define id="listAssignment" name="frmAdmDispatch"	property="colAssignment" />
+							<logic:iterate id="assignment" name="listAssignment" indexId="index">
 								<c:set var="counter" value="${counter+1}" />
 								<div class="row" id="assignmentRow${counter}">
 									<div class="col-md-4">

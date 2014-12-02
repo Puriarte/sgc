@@ -18,6 +18,7 @@ import org.apache.struts.action.DynaActionForm;
 import com.puriarte.convocatoria.core.domain.Constants;
 import com.puriarte.convocatoria.core.domain.services.Facade;
 import com.puriarte.convocatoria.persistence.Dispatch;
+import com.puriarte.convocatoria.persistence.DispatchStatus;
 import com.puriarte.convocatoria.persistence.PersonCategory;
 import com.puriarte.utils.date.DateUtils;
 
@@ -56,6 +57,13 @@ public class ActionListDispatch extends RestrictionAction {
 
 		}
 
+		try{
+			List<DispatchStatus > dispatchsStatus = new ArrayList<DispatchStatus>(Facade.getInstance().selectDispatchStatusList());
+			dynaForm.set("dispatchsStatus", dispatchsStatus);
+		}catch(Exception e ){
+
+		}
+		
 		if (!errors.isEmpty()) {
 			saveErrors(request, errors);
 			return mapping.findForward("failure");

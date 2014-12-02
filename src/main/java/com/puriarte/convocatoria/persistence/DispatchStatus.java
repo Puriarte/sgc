@@ -7,13 +7,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 @NamedQueries({
-	  @NamedQuery(name="SelectAsignmentStatusList",
-			  query="SELECT ast FROM AssignmentStatus ast order by ast.name "),
-	  @NamedQuery(name="SelectAssignmentStatus",
-			  query="SELECT ast FROM AssignmentStatus ast WHERE ast.id = :id"),
+	  @NamedQuery(name="SelectDispatchStatusList",
+			  query="SELECT dst FROM DispatchStatus dst order by dst.name "),
+	  @NamedQuery(name="SelectDispatchStatus",
+			  query="SELECT dst FROM DispatchStatus dst WHERE dst.id = :id"),
 	})
 @Entity
-public class AssignmentStatus implements Serializable {
+public class DispatchStatus implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -22,10 +22,10 @@ public class AssignmentStatus implements Serializable {
 	private String name;
 	private String description;
 
-	public AssignmentStatus() {
+	public DispatchStatus() {
 	}
 
-	public AssignmentStatus( int id) {
+	public DispatchStatus( int id) {
 		this.id=id;
 	}
 

@@ -57,6 +57,8 @@
 		<form-property name="maxResults" type="java.lang.Integer" />
 
 		<form-property name="categories" type="java.util.ArrayList" />
+		<form-property name="dispatchsStatus" type="java.util.ArrayList" />
+
 		<form-property name="category" type="java.lang.String" />
 		<form-property name="priority" type="java.lang.String" />
 		<form-property name="fechaDesde" type="java.lang.String" />
@@ -115,7 +117,9 @@
 		
 		<form-property name="dispatch" type="com.puriarte.convocatoria.persistence.Dispatch" />
 		<form-property name="dispatchId" type="java.lang.Integer" />
-		<form-property name="colAssignment" type="java.util.ArrayList" />		
+		<form-property name="colAssignment" type="java.util.ArrayList" />	
+		<form-property name="colDispatchStatus" type="java.util.ArrayList" />	
+			
 
 	</form-bean>
 

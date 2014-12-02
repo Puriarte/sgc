@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.puriarte.utils.date.DateUtils;
 
+
 //import org.apache.commons.lang.time.DateUtils;
 import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionError;
@@ -27,6 +28,7 @@ import com.puriarte.convocatoria.core.domain.services.Facade;
 import com.puriarte.convocatoria.persistence.Assignment;
 import com.puriarte.convocatoria.persistence.AssignmentStatus;
 import com.puriarte.convocatoria.persistence.Dispatch;
+import com.puriarte.convocatoria.persistence.DispatchStatus;
 import com.puriarte.convocatoria.persistence.Job;
 import com.puriarte.convocatoria.persistence.Person;
 import com.puriarte.convocatoria.persistence.PersonCategory;
@@ -56,6 +58,9 @@ public class ActModifyCategoryDispatch extends RestrictionAction {
 						Integer id = new Integer(arDispatchIds[0]);
 						
 						Dispatch dispatch = Facade.getInstance().selectDispatch(id);
+
+						ArrayList<DispatchStatus>  dispatchsStatus = (ArrayList<DispatchStatus>) Facade.getInstance().selectDispatchStatusList();
+						
 						ArrayList<Assignment> assignments = new ArrayList<Assignment>();
 						for(Job job : dispatch.getJobList()){
 //							//TODO: En esta versión se está trabajando con una sola asignación por puesto. 							
@@ -75,6 +80,7 @@ public class ActModifyCategoryDispatch extends RestrictionAction {
 //	
 						dynaForm.set("dispatch", dispatch);
 						dynaForm.set("colAssignment", assignments);
+						dynaForm.set("colDispatchStatus", dispatchsStatus);
 						
 						dynaForm.set("prefix", "ET");
 						dynaForm.set("accion", "send");

@@ -26,7 +26,7 @@ import javax.persistence.TemporalType;
 	  @NamedQuery(name="SelectDispatch",
 		      query="SELECT d FROM Dispatch d WHERE d.id = :id"),
 	  @NamedQuery(name="SelectDispatchList",
-		      query="SELECT d FROM Dispatch d")
+		      query="SELECT d FROM Dispatch d  WHERE ((:estado = 0) or (d.dispatchStatus.id = :estado)) ")
 	})
 @Entity
 public class Dispatch implements Serializable {
@@ -49,6 +49,10 @@ public class Dispatch implements Serializable {
 	@ManyToOne(cascade={CascadeType.REFRESH},fetch=FetchType.LAZY)
 	@JoinColumn(name="idPlace")
 	private Place place;
+
+	@ManyToOne(cascade={CascadeType.REFRESH},fetch=FetchType.LAZY)
+	@JoinColumn(name="idDispatchStatus")
+	private DispatchStatus dispatchStatus;
 
 
 	public Dispatch() {
@@ -122,6 +126,14 @@ public class Dispatch implements Serializable {
 			}
 		}
 		return null;
+	}
+
+	public DispatchStatus getDispatchStatus() {
+		return dispatchStatus;
+	}
+
+	public void setDispatchStatus(DispatchStatus dispatchStatus) {
+		this.dispatchStatus = dispatchStatus;
 	}
 
 }

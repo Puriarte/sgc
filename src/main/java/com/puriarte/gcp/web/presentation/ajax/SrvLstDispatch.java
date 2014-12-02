@@ -42,6 +42,7 @@ public class SrvLstDispatch extends HttpServlet {
 	private String orderBy;
 	private boolean soloImpagos;
 	private Integer category;
+	private Integer dispatchStatus;
 	private String idRazon;
 	private String nroComprobante;
 	private Integer nroComprobanteInt;
@@ -119,6 +120,7 @@ public class SrvLstDispatch extends HttpServlet {
 
 		//	Datos de filtors para la consulta
 		category = ((request.getParameter("category")!=null) && NumberUtils.isNumber(request.getParameter("category")))? Integer.parseInt(request.getParameter("category")) : 0;
+		dispatchStatus = ((request.getParameter("dispatchStatus")!=null) && NumberUtils.isNumber(request.getParameter("dispatchStatus")))? Integer.parseInt(request.getParameter("dispatchStatus")) : 0;
 
 		priorities =  new ArrayList<String>();
 
@@ -157,7 +159,7 @@ public class SrvLstDispatch extends HttpServlet {
 	private String procesar() throws Exception {
 	 	int pos = (strPage-1) * strRows ;
 
-		List<Dispatch> resultados = Facade.getInstance().selectDispatchList(0, "",  pos,strRows);
+		List<Dispatch> resultados = Facade.getInstance().selectDispatchList(dispatchStatus, "",  pos,strRows);
 		String jSonItems="";
 		int i=0;
 
@@ -200,10 +202,16 @@ public class SrvLstDispatch extends HttpServlet {
 				jSonItems += "\"\": \"" + "\",";
 
 			if (item.getName()!=null)
-				jSonItems += "\"Name\": \"" + item.getName() + "\"";
+				jSonItems += "\"Name\": \"" + item.getName() + "\",";
 			else
-				jSonItems += "\"Name\": \"\"";
+				jSonItems += "\"Name\": \"\",";
 
+			if (item.getDispatchStatus()!=null)
+				jSonItems += "\"DispatchStatus\": \"" + item.getDispatchStatus().getName() + "\"";
+			else
+				jSonItems += "\"DispatchStatus\": \"\"";
+
+			
 			jSonItems += ", \"Assignments\" : [" + jsonAssignments + "]},";
 
 			}

@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
 
-	<persistence-unit name="convocatoriaLocal" transaction-type="RESOURCE_LOCAL">
+	<persistence-unit name="convocatoria" transaction-type="RESOURCE_LOCAL">
 	
 		<class>com.puriarte.convocatoria.persistence.Assignment</class>
 		<class>com.puriarte.convocatoria.persistence.AssignmentStatus</class>
 		<class>com.puriarte.convocatoria.persistence.Company</class>
 		<class>com.puriarte.convocatoria.persistence.Dispatch</class>
+		<class>com.puriarte.convocatoria.persistence.DispatchStatus</class>
 		<class>com.puriarte.convocatoria.persistence.DocumentType</class>
 		<class>com.puriarte.convocatoria.persistence.Job</class>
 		<class>com.puriarte.convocatoria.persistence.Movil</class>
@@ -37,7 +38,7 @@
 
 	</persistence-unit>
 
-<persistence-unit name="convocatoria" transaction-type="RESOURCE_LOCAL">
+<persistence-unit name="convocatoriaremote" transaction-type="RESOURCE_LOCAL">
 		<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
 		<non-jta-data-source>java:comp/env/jdbc/PostgreSQLDS</non-jta-data-source>
 		
@@ -45,6 +46,7 @@
 		<class>com.puriarte.convocatoria.persistence.AssignmentStatus</class>
 		<class>com.puriarte.convocatoria.persistence.Company</class>
 		<class>com.puriarte.convocatoria.persistence.Dispatch</class>
+		<class>com.puriarte.convocatoria.persistence.DispatchStatus</class>
 		<class>com.puriarte.convocatoria.persistence.DocumentType</class>
 		<class>com.puriarte.convocatoria.persistence.Job</class>
 		<class>com.puriarte.convocatoria.persistence.Movil</class>
@@ -70,7 +72,7 @@
 		<property name="eclipselink.ddl-generation.output-mode" value="database"/>
 		 -->
 		<property name="eclipselink.ddl-generation.output-mode" value="sql-script"/>
-		<property name="eclipselink.logging.level" value="FINEST" />
+		<property name="eclipselink.logging.level" value="FINE" />
 		<property name="eclipselink.query-results-cache" value="false"/>
 	</properties>
 

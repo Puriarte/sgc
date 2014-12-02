@@ -2,6 +2,7 @@ package com.puriarte.convocatoria.core.domain.services;
 
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -12,6 +13,7 @@ import com.puriarte.convocatoria.core.exceptions.SMSException;
 import com.puriarte.convocatoria.persistence.Assignment;
 import com.puriarte.convocatoria.persistence.AssignmentStatus;
 import com.puriarte.convocatoria.persistence.Dispatch;
+import com.puriarte.convocatoria.persistence.DispatchStatus;
 import com.puriarte.convocatoria.persistence.DocumentType;
 import com.puriarte.convocatoria.persistence.Job;
 import com.puriarte.convocatoria.persistence.Movil;
@@ -44,6 +46,7 @@ public class Facade {
 	private BulkSMSService bulkSMSService;
 	private SMSInService smsInService;
 	private SMSOutService smsOutService;
+	private DispatchStatusService dispatchStatusService;
 	
 	private Facade(){
 		this.userService = UserService.getInstance();
@@ -60,6 +63,7 @@ public class Facade {
 		this.bulkSMSService = BulkSMSService.getInstance();
 		this.smsInService = SMSInService.getInstance();
 		this.smsOutService = SMSOutService.getInstance();
+		this.dispatchStatusService = DispatchStatusService.getInstance();
 	}
 
 
@@ -469,6 +473,11 @@ public class Facade {
 			return this.assignmentStatusService.selectList();
 		}
 
+		public List<DispatchStatus> selectDispatchStatusList() {
+			return this.dispatchStatusService.selectList();
+		}
+
+		
 		//PLACES
 		public List<Place> selectPlaceList() {
 			return this.placeService.selectList();
@@ -506,6 +515,8 @@ public class Facade {
 			return this.smsService.selectSMS(idRef);
 		}
 
+
+	
 
 
 }

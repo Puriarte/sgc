@@ -59,7 +59,8 @@ public class DispatchService1 {
 
 		if (order==null) order ="";
 
-		Query query = em.createNamedQuery("SelectDispatchList");
+		Query query = em.createNamedQuery("SelectDispatchList")
+				.setParameter("estado", estado);
 
 		if((pos!=null) && (limit!=null)) query.setFirstResult(pos).setMaxResults(limit);
 
