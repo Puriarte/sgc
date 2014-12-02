@@ -167,8 +167,16 @@ public class SrvLstDispatch extends HttpServlet {
 				String jsonAssignments = "";
 				for (Job job: item.getJobList()){
 					Assignment assignment = job.getAssignmentList().get(0);
-					jsonAssignments = jsonAssignments + "{\"Id\":\"" + assignment.getId() + "\",\"Movil\":\"" + assignment.getPersonMovil().getMovil().getNumber() + "\"}";
+					jsonAssignments = jsonAssignments + "{\"Id\":\"" + assignment.getId() + 
+							"\",\"Movil\":\"" + assignment.getPersonMovil().getMovil().getNumber() + 
+							"\",\"Person\":\"" + assignment.getPersonMovil().getPerson().getName() + 
+							"\",\"Status\":\"" + assignment.getStatus().getName() + 
+							"\",\"AssignmentDate\":\"" + dTF.format(assignment.getAssignmentDate()) + 
+							"\",\"PersonCategory\":\"" + assignment.getJob().getCategory().getName() + 
+							"\"},";
 				}
+				if (jsonAssignments.length()>0)
+					jsonAssignments = jsonAssignments.substring(0,jsonAssignments.length()-1);
 
 			jSonItems += "{\"Id\": \"" +item.getId()+ "\",";
 			jSonItems += "\"Pos\": \"" + i++ + "\",";
@@ -196,7 +204,7 @@ public class SrvLstDispatch extends HttpServlet {
 			else
 				jSonItems += "\"Name\": \"\"";
 
-			jSonItems += ", \"Assignments\" : " + jsonAssignments + "},";
+			jSonItems += ", \"Assignments\" : [" + jsonAssignments + "]},";
 
 			}
 			catch(Exception e){}

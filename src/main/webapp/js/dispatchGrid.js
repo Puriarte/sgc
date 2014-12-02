@@ -156,10 +156,14 @@ jQuery(document).ready(function(){
             $("#" + subgridTableId).jqGrid({
                 datatype: "local",
                 data: empList,
-                colNames: ["Id", "Movil"],
+                colNames: ["Id", "Movil", "Person","PersonCategory","Status","AssignmentDate"],
                 colModel: [
-                  {name: "Id", width: 130, key: true},
-                  {name: "Movil", width: 130}
+                  {name: "Id",  			hidden:true,  width: 10, key: true},
+                  {name: "Movil", 			hidden:false, width: 80},
+                  {name: "Person", 			hidden:false, width: 160},
+                  {name: "PersonCategory", 	hidden:false, width: 160},
+                  {name: "Status", 			hidden:false, width: 80},
+                  {name: "AssignmentDate", 	hidden:false, width: 120}
                 ],
                 height: "100%",
                 rowNum: 10,
