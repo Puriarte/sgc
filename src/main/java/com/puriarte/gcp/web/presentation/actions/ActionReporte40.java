@@ -18,7 +18,6 @@ import org.apache.struts.action.DynaActionForm;
 import com.puriarte.convocatoria.core.domain.Constants;
 import com.puriarte.convocatoria.core.domain.services.Facade;
 import com.puriarte.convocatoria.persistence.Dispatch;
-import com.puriarte.convocatoria.persistence.Person;
 import com.puriarte.utils.date.DateUtils;
 
 
