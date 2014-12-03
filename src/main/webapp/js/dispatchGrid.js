@@ -172,7 +172,7 @@ jQuery(document).ready(function(){
                   {name: "AssignmentDate", 	hidden:false, width: 120}
                 ],
                 height: "100%",
-                rowNum: 10,
+                rowNum: 100,
                 sortname: "Movil",
                 idPrefix: "s_" + rowid + "_"
             });

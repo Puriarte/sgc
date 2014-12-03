@@ -106,15 +106,46 @@ public class SMSService1 {
 	 * @param limit
 	 * @return
 	 */
-	public List<SMS> selectList(Date from, Date to, Integer estado,  String order, Integer pos, Integer limit){
+	public List<SMS> selectList(Date fromDate, Date toDate, Integer estado,  String order, Integer pos, Integer limit){
 		final EntityManager em = getEntityManager();
 
+		CriteriaBuilder cb = em.getCriteriaBuilder();
+		
+		CriteriaQuery q = cb.createQuery(SMS.class);
+		Root<SMS> from = q.from(SMS.class);
+		Join status = from.join("status");
+		Join assignment= from.join("assignment", JoinType.LEFT);
+		Join personMovil= assignment.join("personMovil", JoinType.LEFT);
+		Join person= personMovil.join("person", JoinType.LEFT);
+		Join movil= personMovil.join("movil", JoinType.LEFT);
+		
+		Join job= assignment.join("job", JoinType.LEFT);
+		Join dispatch= job.join("dispatch", JoinType.LEFT);
+
+		if(order.equals("number"))
+			q.orderBy(cb.asc(movil.get("number")));
+		
+		List<Predicate> predicateList = new ArrayList<Predicate>();
+		if (fromDate != null) predicateList.add(cb.greaterThanOrEqualTo(from.<Date>get("creationDate"), fromDate));
+		if (toDate != null) predicateList.add(cb.lessThanOrEqualTo(from.<Date>get("creationDate"), toDate));
+		if (estado>0) predicateList.add(cb.equal(status.get("id"), estado));
+
+		Predicate[] predicates = new Predicate[predicateList.size()];
+		predicateList.toArray(predicates);
+		q.where(predicates);
+		
+		List<SMS> a = em.createQuery(q).getResultList();
+		
+		
+		
+/*
 		if (order==null) order ="";
 
 		Query query = em.createNamedQuery("SelectSMSList")
 			.setParameter("from", from )
 			.setParameter("to", to)
-			.setParameter("estado", estado);
+			.setParameter("estado", estado)
+			.setParameter("orden", " s.personMovil desc ");
 
 		query.setHint("javax.persistence.cache.storeMode", "REFRESH");
 		query.setHint("eclipselink.refresh", "true");
@@ -124,27 +155,53 @@ public class SMSService1 {
 
 		List<SMS> a = (List<SMS>) query.getResultList();
 
-
+*/
 		return a;
 	}
 
-	public List<SMS> selectListByDispatch(Date from, Date to, Integer estado, Integer convocatoria, String order, Integer pos, Integer limit){
+	public List<SMS> selectListByDispatch(Date fromDate, Date toDate, Integer estado, Integer convocatoria, String order, Integer pos, Integer limit){
 		final EntityManager em = getEntityManager();
 
-		if (order==null) order ="";
+		CriteriaBuilder cb = em.getCriteriaBuilder();
+		
+		CriteriaQuery q = cb.createQuery(SMS.class);
+		Root<SMS> from = q.from(SMS.class);
+		Join status = from.join("status");
+		Join assignment= from.join("assignment", JoinType.LEFT);
+		Join personMovil= assignment.join("personMovil", JoinType.LEFT);
+		Join person= personMovil.join("person", JoinType.LEFT);
+		Join movil= personMovil.join("movil", JoinType.LEFT);		
+		Join job= assignment.join("job", JoinType.LEFT);
+		Join dispatch= job.join("dispatch", JoinType.LEFT);
 
-		Query query = em.createNamedQuery("SelectSMSByDispatchList")
-			.setParameter("from", from )
-			.setParameter("to", to)
-			.setParameter("estado", estado)
-			.setParameter("convocatoria", convocatoria);
+		if(order.equals("number"))q.orderBy(cb.asc(movil.get("number")));
+		if(order.equals("person"))q.orderBy(cb.asc(person.get("name")));
+		
+		List<Predicate> predicateList = new ArrayList<Predicate>();
+		if (fromDate != null) predicateList.add(cb.greaterThanOrEqualTo(from.<Date>get("creationDate"), fromDate));
+		if (toDate != null) predicateList.add(cb.lessThanOrEqualTo(from.<Date>get("creationDate"), toDate));
+		if (estado>0) predicateList.add(cb.equal(status.get("id"), estado));
+		if (convocatoria!=null) predicateList.add(cb.equal(dispatch.get("id"), convocatoria));
 
+		Predicate[] predicates = new Predicate[predicateList.size()];
+		predicateList.toArray(predicates);
+		q.where(predicates);
+		
+		Query query = em.createQuery(q);
 		query.setHint("javax.persistence.cache.storeMode", "REFRESH");
 		query.setHint("eclipselink.refresh", "true");
 		query.setHint("eclipselink.refresh.cascade", "CascadeAllParts");
-
 		if((pos!=null) && (limit!=null)) query.setFirstResult(pos).setMaxResults(limit);
-	 	List<SMS> a = (List<SMS>) query.getResultList();
+		List<SMS> a = query.getResultList();
+		
+//		if (order==null) order ="";
+//
+//		Query query = em.createNamedQuery("SelectSMSByDispatchList")
+//			.setParameter("from", from )
+//			.setParameter("to", to)
+//			.setParameter("estado", estado)
+//			.setParameter("convocatoria", convocatoria);
+//	 	List<SMS> a = (List<SMS>) query.getResultList();
 
 
 		return a;

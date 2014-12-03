@@ -22,11 +22,11 @@ import com.puriarte.convocatoria.core.exceptions.MovilException;
 	@NamedQuery(name="SelectPersonMovil",
 		query="SELECT pm FROM PersonMovil pm where pm.id= :id "),
 	@NamedQuery(name="SelectPersonMovilList",
-   		query="SELECT pm FROM PersonMovil pm WHERE ((:category = 0) or (pm.person.category.id = :category)) "),
+   		query="SELECT pm FROM PersonMovil pm WHERE ((:category = 0) or (pm.person.category.id = :category)) order by pm.person.name  "),
    @NamedQuery(name="SelectPersonMovils",
    		query="SELECT pm FROM PersonMovil pm WHERE pm.movil.number LIKE :number and ((:status is null) or (pm.movil.movilStatus.id = :status)) order by :order "),
    @NamedQuery(name="SelectPersonMovilListWithPriority",
-       	query="SELECT pm FROM PersonMovil pm WHERE ((:category = 0) or (pm.person.category.id = :category))   and pm.person.priority in :priorities "),
+       	query="SELECT pm FROM PersonMovil pm WHERE ((:category = 0) or (pm.person.category.id = :category))   and pm.person.priority in :priorities order by pm.person.name "),
 
 	})
 @Entity

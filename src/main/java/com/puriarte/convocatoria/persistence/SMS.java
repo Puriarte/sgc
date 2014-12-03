@@ -20,7 +20,7 @@ import javax.persistence.TemporalType;
 @NamedQueries({
 	  	@NamedQuery(name="SelectSMSList",
         query="SELECT s FROM SMS s " +
-        		" where s.creationDate BETWEEN :from AND :to and ((:estado =0) or (s.status.id = :estado) ) order by  s.creationDate desc "),
+        		" where s.creationDate BETWEEN :from AND :to and ((:estado =0) or (s.status.id = :estado) ) order by :orden "),
         @NamedQuery(name="SelectSMSByDispatchList",
         query="SELECT s FROM SMS s " +
         		" where s.creationDate BETWEEN :from AND :to and ((:estado =0) or (s.status.id = :estado) ) and  (s.assignment.job.dispatch.id = :convocatoria)   "),
