@@ -217,6 +217,8 @@ public class Facade {
 		boolean enviado=false;
 		String word="NODEFINIDO";
 		for (String auxWord :positiveStart){
+
+
 			if (text.toUpperCase().trim().startsWith(auxWord))
 				word = "SI";
 		}
@@ -260,6 +262,7 @@ public class Facade {
 					}
 				}
 	//		}
+
 		}
 		
 		if (!enviado)
