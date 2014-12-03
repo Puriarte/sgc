@@ -33,5 +33,9 @@ public final class Constants {
     public static final int ASSIGNMENT_STATUS_ASSIGNED = 2;
     public static final int ASSIGNMENT_STATUS_CANCELED= 3;
     public static final int ASSIGNMENT_STATUS_EXPIRED = 4;
+    public static final int ASSIGNMENT_STATUS_ACCEPTED = 5;
+    public static final int ASSIGNMENT_STATUS_REGECTED = 6;
+    public static final int ASSIGNMENT_STATUS_MISSING = 7;
+    public static final int ASSIGNMENT_STATUS_CONFIRMED = 8;
  
 }

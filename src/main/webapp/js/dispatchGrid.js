@@ -152,8 +152,12 @@ jQuery(document).ready(function(){
 		subGrid: true,
         subGridRowExpanded: function (subgridId, rowid) {
             var subgridTableId = subgridId + "_t";
-            var empList = dispatchLocalJSON[0].Assignments;
+            var empList;
 
+            dispatchLocalJSON.forEach(function(entry) {
+                if (entry.Id==rowid) empList  = entry.Assignments;
+            });
+            
             $("#" + subgridId).html("<table id='" + subgridTableId + "'></table>");
             $("#" + subgridTableId).jqGrid({
                 datatype: "local",

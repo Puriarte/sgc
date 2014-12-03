@@ -207,22 +207,41 @@ public class Facade {
 		smsService.getInstance().insert(null,null, null, movil,texto, Constants.SMS_ACTION_OUTCOME, selectSmsStatus(Constants.SMS_STATUS_PENDIENTE), new Date(),uuid);
 	}
 
-	public void insertSMSIncome(String originator, String text, Date date, String uuid) throws Exception {
+	public void insertSMSIncome(String originator, String text, Date date, String uuid, String[] positiveStart,
+			String[] positiveContains,	String[] negativeStart, String[] negativeContains ) throws Exception {
 		PersonMovil movil = Facade.getInstance().selectPersonMovil(originator,Constants.MOVIL_STATUS_ACTIVE );
 		if (movil ==null){
 			DocumentType dt = Facade.getInstance().selectDocumentType(Constants.PERSON_TYPE_CI);
 			movil = Facade.getInstance().insertPersonMovil(originator, "" ,dt);
 		}
 		boolean enviado=false;
-		String order="";
-		String word="";
-		if (text.toUpperCase().startsWith("SI")) word = "SI";
-		else if (text.toUpperCase().startsWith("NO")) word = "NO";
-		
+		String word="NODEFINIDO";
+		for (String auxWord :positiveStart){
+			if (text.toUpperCase().trim().startsWith(auxWord))
+				word = "SI";
+		}
+
+		for (String auxWord :positiveContains){
+			if (text.toUpperCase().trim().contains(auxWord))
+				word = "SI";
+		}
+
+		for (String auxWord :negativeStart){
+			if (text.toUpperCase().trim().startsWith(auxWord))
+				word = "NO";
+		}
+
+		for (String auxWord :negativeContains){
+			if (text.toUpperCase().trim().contains(auxWord))	word = "NO";
+		}
+
+//		if (text.toUpperCase().startsWith("SI")) word = "SI";
+//		else if (text.toUpperCase().startsWith("NO")) word = "NO";
+//		else word ="NODEFINIDO";
 		// Me voy a fijar si corresponde a una respuesta de una convocatoria y en tal caso si la respuesta es si o no
 		// Tambien veo si el tiempo para responder esta superado o no
 		if (movil !=null){
-			if(word.equals("SI") || word.equals("NO")) {
+//			if(word.equals("SI") || word.equals("NO")) {
 				List<SMS> smsList = Facade.getInstance().SelectRelatedSMSList(movil, selectSmsStatus(Constants.SMS_STATUS_ENVIADO), 0, 1);
 				if ((smsList!=null) && (smsList.size()>0)){
 					SMS sms = smsList.get(0);
@@ -230,13 +249,17 @@ public class Facade {
 						if (sms.getAssignment().getJob()!=null){
 							if(sms.getAssignment().getJob().getDispatch()!=null){
 								Assignment assignment = sms.getAssignment();
-								smsService.getInstance().insert(word, assignment, sms, movil, text, Constants.SMS_ACTION_INCOME,selectSmsStatus(Constants.SMS_STATUS_RECIBIDO), date,uuid);
+								if ((assignment.getStatus().getId() != Constants.ASSIGNMENT_STATUS_CANCELED) && (assignment.getStatus().getId() != Constants.ASSIGNMENT_STATUS_EXPIRED )){
+									if (word.equals("SI"))	assignment.setStatus(Facade.getInstance().selectAssingmentStatus(Constants.ASSIGNMENT_STATUS_ACCEPTED));
+									else if (word.equals("NO")) assignment.setStatus(Facade.getInstance().selectAssingmentStatus(Constants.ASSIGNMENT_STATUS_REGECTED ));
+								}									
+								smsService.getInstance().insert(word, assignment, sms, movil, text, Constants.SMS_ACTION_INCOME, selectSmsStatus(Constants.SMS_STATUS_RECIBIDO), date,uuid);
 								enviado=true;
 							}
 						}
 					}
 				}
-			}
+	//		}
 		}
 		
 		if (!enviado)
@@ -379,10 +402,10 @@ public class Facade {
 		return dispatchService.insert(message, name, place, creationDate, scheduledDate, personIds, categories, status);
 	}
 
-	public int updateDispatch(int id, String mensaje, String name, Place place, Date creationDate, Date scheduledDate,
+	public int updateDispatch(int id, String mensaje, String name, Place place, Date creationDate, Date scheduledDate, Integer dispatchStatus,
 			HashMap personIds, HashMap categories,HashMap arStatusIds, HashMap arAssignmentIds) {
 		SmsStatus status = selectSmsStatus(Constants.SMS_STATUS_PENDIENTE);
-		return dispatchService.update(id,mensaje, name, place, creationDate, scheduledDate, personIds, categories, arStatusIds, arAssignmentIds, status);
+		return dispatchService.update(id,mensaje, name, place, creationDate, scheduledDate, dispatchStatus, personIds, categories, arStatusIds, arAssignmentIds, status);
 	}
 
 	public int insertBulkSMS(String message, String name, Date creationDate , Date scheduledDate, String[] personIds) {
@@ -473,8 +496,12 @@ public class Facade {
 			return this.assignmentStatusService.selectList();
 		}
 
+		//DISPATCHSTATUS
 		public List<DispatchStatus> selectDispatchStatusList() {
 			return this.dispatchStatusService.selectList();
+		}
+		public DispatchStatus selectDispatchStatus(Integer dispatchStatusId) {
+			return this.dispatchStatusService.select(dispatchStatusId);
 		}
 
 		
@@ -515,6 +542,8 @@ public class Facade {
 			return this.smsService.selectSMS(idRef);
 		}
 
+
+	
 
 	
 
