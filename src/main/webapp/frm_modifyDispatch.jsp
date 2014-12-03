@@ -137,9 +137,22 @@
 						<label class="control-label">Estado</label>
 					</div>
 					<div class="col-md-2">
-					<logic:present name="frmAdmDispatch" property="colAssignment">
-						<label class="control-label">Hora</label>
-						</logic:present>
+						<select class="form-control" name="dispatchStatus" id="dispatchStatus" required>
+		          			<option value="">Seleccione</option>
+							<logic:present name="frmAdmDispatch" property="colDispatchStatus">
+								<logic:iterate name="frmAdmDispatch" property="colDispatchStatus" id="item" indexId="idx">
+							<c:if test="${objDispatch.dispatchStatus.id == item.id}">
+						        	<option value="${item.id}" selected="selected">${item.name}</option>
+						
+							</c:if>
+							<c:if test="${objDispatch.dispatchStatus.id != item.id}">
+						        	<option value="${item.id}">${item.name}</option>
+
+							</c:if>
+	
+								</logic:iterate>
+							</logic:present>
+						</select>
 					</div>
 
 				</div>

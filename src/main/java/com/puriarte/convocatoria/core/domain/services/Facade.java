@@ -230,7 +230,11 @@ public class Facade {
 						if (sms.getAssignment().getJob()!=null){
 							if(sms.getAssignment().getJob().getDispatch()!=null){
 								Assignment assignment = sms.getAssignment();
-								smsService.getInstance().insert(word, assignment, sms, movil, text, Constants.SMS_ACTION_INCOME,selectSmsStatus(Constants.SMS_STATUS_RECIBIDO), date,uuid);
+								if ((assignment.getStatus().getId() != Constants.ASSIGNMENT_STATUS_CANCELED) && (assignment.getStatus().getId() != Constants.ASSIGNMENT_STATUS_EXPIRED )){
+									if (word.equals("SI"))	assignment.setStatus(Facade.getInstance().selectAssingmentStatus(Constants.ASSIGNMENT_STATUS_ACCEPTED));
+									else  assignment.setStatus(Facade.getInstance().selectAssingmentStatus(Constants.ASSIGNMENT_STATUS_REGECTED ));
+								}									
+								smsService.getInstance().insert(word, assignment, sms, movil, text, Constants.SMS_ACTION_INCOME, selectSmsStatus(Constants.SMS_STATUS_RECIBIDO), date,uuid);
 								enviado=true;
 							}
 						}
@@ -379,10 +383,10 @@ public class Facade {
 		return dispatchService.insert(message, name, place, creationDate, scheduledDate, personIds, categories, status);
 	}
 
-	public int updateDispatch(int id, String mensaje, String name, Place place, Date creationDate, Date scheduledDate,
+	public int updateDispatch(int id, String mensaje, String name, Place place, Date creationDate, Date scheduledDate, Integer dispatchStatus,
 			HashMap personIds, HashMap categories,HashMap arStatusIds, HashMap arAssignmentIds) {
 		SmsStatus status = selectSmsStatus(Constants.SMS_STATUS_PENDIENTE);
-		return dispatchService.update(id,mensaje, name, place, creationDate, scheduledDate, personIds, categories, arStatusIds, arAssignmentIds, status);
+		return dispatchService.update(id,mensaje, name, place, creationDate, scheduledDate, dispatchStatus, personIds, categories, arStatusIds, arAssignmentIds, status);
 	}
 
 	public int insertBulkSMS(String message, String name, Date creationDate , Date scheduledDate, String[] personIds) {
@@ -473,8 +477,12 @@ public class Facade {
 			return this.assignmentStatusService.selectList();
 		}
 
+		//DISPATCHSTATUS
 		public List<DispatchStatus> selectDispatchStatusList() {
 			return this.dispatchStatusService.selectList();
+		}
+		public DispatchStatus selectDispatchStatus(Integer dispatchStatusId) {
+			return this.dispatchStatusService.select(dispatchStatusId);
 		}
 
 		
@@ -515,6 +523,8 @@ public class Facade {
 			return this.smsService.selectSMS(idRef);
 		}
 
+
+	
 
 	
 

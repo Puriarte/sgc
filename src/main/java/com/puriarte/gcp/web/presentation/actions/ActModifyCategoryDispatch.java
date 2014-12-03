@@ -1,6 +1,7 @@
 package com.puriarte.gcp.web.presentation.actions;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Enumeration;
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.puriarte.utils.date.DateUtils;
+
 
 
 //import org.apache.commons.lang.time.DateUtils;
@@ -59,7 +61,7 @@ public class ActModifyCategoryDispatch extends RestrictionAction {
 						
 						Dispatch dispatch = Facade.getInstance().selectDispatch(id);
 
-						ArrayList<DispatchStatus>  dispatchsStatus = (ArrayList<DispatchStatus>) Facade.getInstance().selectDispatchStatusList();
+						List<DispatchStatus > dispatchsStatus = new ArrayList<DispatchStatus>(Facade.getInstance().selectDispatchStatusList());
 						
 						ArrayList<Assignment> assignments = new ArrayList<Assignment>();
 						for(Job job : dispatch.getJobList()){
@@ -161,6 +163,13 @@ public class ActModifyCategoryDispatch extends RestrictionAction {
 					String strMensaje = (String) dynaForm.get("detalleIn");
 					String strDate = (String) dynaForm.get("eventDate") ;
 					String strHour = (String) dynaForm.get("eventHour");
+					Integer dispatchStatus = 0;
+					try{
+						dispatchStatus = Integer.parseInt((String) dynaForm.get("dispatchStatus"));
+					}catch(Exception e){
+						
+					}
+					
 //					if ((strHour!=null) && (strHour.trim().toString().length()==5)) strHour += ":00";
 //					else strHour = "00:00:00";
 //					
@@ -180,7 +189,7 @@ public class ActModifyCategoryDispatch extends RestrictionAction {
 					}finally{}
 					
 					strMensaje = strName;
-					 Facade.getInstance().updateDispatch(id, strMensaje, strName, place, creationDate, scheduledDate , 
+					Facade.getInstance().updateDispatch(id, strMensaje, strName, place, creationDate, scheduledDate , dispatchStatus,
 							 personIds, arPersonCategory, arStatusIds, assignmentIds);
 
 				}
