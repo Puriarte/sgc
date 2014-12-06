@@ -84,7 +84,10 @@ public class SrvLstSMS extends HttpServlet {
 		strRows = Integer.parseInt(request.getParameter("rows"));
 		strSort = request.getParameter("sidx");
 		strOrder = request.getParameter("sord");
-
+		
+		if (strSort.equals("7")) orderBy = "number"; 
+		if (strSort.equals("8")) orderBy = "person"; 
+		
 		fechaInicio = getDateRequest(request, "fechaDesde");
 		fechaFin = getDateRequest(request, "fechaHasta");
 

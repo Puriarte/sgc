@@ -105,7 +105,7 @@ public class SrvLstAssignment extends HttpServlet {
 
 		//Armo el criterio en que se quiere ordenar
 		if(strSort != null) {
-			if(strSort.equals("3"))  orderBy = "cuenta.cliente.nombre";
+			if(strSort.equals("3"))  orderBy = "number";
 			else if (strSort.equals("5")) orderBy = "fMov";
 			else if (strSort.equals("6")) orderBy = "tipoMov.nombre";
 			else if (strSort.equals("7")) orderBy = "ndoc";
