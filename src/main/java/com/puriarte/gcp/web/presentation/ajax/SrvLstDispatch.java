@@ -174,7 +174,7 @@ public class SrvLstDispatch extends HttpServlet {
 							"\",\"Person\":\"" + assignment.getPersonMovil().getPerson().getName() + 
 							"\",\"Status\":\"" + assignment.getStatus().getName() + 
 							"\",\"AssignmentDate\":\"" + dTF.format(assignment.getAssignmentDate()) + 
-							"\",\"PersonCategory\":\"" + assignment.getJob().getCategory().getName() + 
+							"\",\"PersonCategory\":\"" + job.getCategory().getName() + 
 							"\"},";
 				}
 				if (jsonAssignments.length()>0)
@@ -215,7 +215,9 @@ public class SrvLstDispatch extends HttpServlet {
 			jSonItems += ", \"Assignments\" : [" + jsonAssignments + "]},";
 
 			}
-			catch(Exception e){}
+			catch(Exception e){
+				e.printStackTrace();
+			}
 		}
 
 		jSonItems = jSonItems.replaceAll(System.getProperty("line.separator"), "");
