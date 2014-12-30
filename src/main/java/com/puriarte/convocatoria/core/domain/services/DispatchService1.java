@@ -65,6 +65,10 @@ public class DispatchService1 {
 
 		if((pos!=null) && (limit!=null)) query.setFirstResult(pos).setMaxResults(limit);
 
+		query.setHint("javax.persistence.cache.storeMode", "REFRESH");
+		query.setHint("eclipselink.refresh", "true");
+		query.setHint("eclipselink.refresh.cascade", "CascadeAllParts");
+
 		List<Dispatch> a = (List<Dispatch>) query.getResultList();
 
 
