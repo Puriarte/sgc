@@ -104,14 +104,13 @@ public class SrvLstPerson extends HttpServlet {
 
 		//Armo el criterio en que se quiere ordenar
 		if(strSort != null) {
-			if(strSort.equals("3"))  orderBy = "cuenta.cliente.nombre";
-			else if (strSort.equals("5")) orderBy = "fMov";
-			else if (strSort.equals("6")) orderBy = "tipoMov.nombre";
-			else if (strSort.equals("7")) orderBy = "ndoc";
-			else if (strSort.equals("8")) orderBy = "impMes";
-			else if (strSort.equals("9")) orderBy = "p.priority";
-			else if (strSort.equals("10")) orderBy = "fVen";
-			else if (strSort.equals("11")) orderBy = "impSaldo";
+			if(strSort.equals("3"))  orderBy = "movil.number";
+			else if (strSort.equals("4")) orderBy = "person.documentType.name";
+			else if (strSort.equals("5")) orderBy = "person.documentNumber";
+			else if (strSort.equals("6")) orderBy = "person.name";
+			else if (strSort.equals("7")) orderBy = "person.nickname";
+			else if (strSort.equals("8")) orderBy = "person.category.name";
+			else if (strSort.equals("9")) orderBy = "person.priority";
 		}
 
 		//	Datos de filtors para la consulta
@@ -140,8 +139,6 @@ public class SrvLstPerson extends HttpServlet {
 
 		try {
 			cargarParametros(request);
-
-			//        	 jSonItems=procesarHistorico();
 			jSonItems=procesar();
 			out.print(jSonItems);
 

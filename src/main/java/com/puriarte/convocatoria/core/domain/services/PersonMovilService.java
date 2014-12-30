@@ -136,6 +136,7 @@ public class PersonMovilService {
 		final EntityManager em = getEntityManager();
 		Query query ;
 		if (order==null) order ="";
+		
 		if ((priorities==null) || (priorities.size()==0)){
 			query = em.createNamedQuery("SelectPersonMovilList"	)
 			.setParameter("category", category);
@@ -145,10 +146,10 @@ public class PersonMovilService {
 			.setParameter("priorities", priorities );
 		}
 
-//
-//		query.setHint("javax.persistence.cache.storeMode", "REFRESH");
-//		query.setHint("eclipselink.refresh", "true");
-//		query.setHint("eclipselink.refresh.cascade", "CascadeAllParts");
+
+		query.setHint("javax.persistence.cache.storeMode", "REFRESH");
+		query.setHint("eclipselink.refresh", "true");
+		query.setHint("eclipselink.refresh.cascade", "CascadeAllParts");
 	
 		if((pos!=null) && (limit!=null)) query.setFirstResult(pos).setMaxResults(limit);
 
