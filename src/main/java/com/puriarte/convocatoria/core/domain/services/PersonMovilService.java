@@ -160,12 +160,12 @@ public class PersonMovilService {
 					order = ascending ? builder.asc(documentType.get(orderByColumn))
 					        : builder.desc(documentType.get(orderByColumn));
 				}else{
-					order = ascending ? builder.asc(person.get(orderByColumn))
-					        : builder.desc(person.get(orderByColumn));
+					order = ascending ? builder.asc(person.get(orden[1]))
+					        : builder.desc(person.get(orden[1]));
 				}
 			}else{
-				order = ascending ? builder.asc(personMovil.get(orderByColumn))
-		        : builder.desc(personMovil.get(orderByColumn));
+				order = ascending ? builder.asc(personMovil.get(orden[0]))
+		        : builder.desc(personMovil.get(orden[0]));
 			}			
 			criteria.orderBy(order);
 		}
