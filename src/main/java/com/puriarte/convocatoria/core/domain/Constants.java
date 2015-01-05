@@ -37,8 +37,5 @@ public final class Constants {
     public static final int ASSIGNMENT_STATUS_REGECTED = 6;
     public static final int ASSIGNMENT_STATUS_MISSING = 7;
     public static final int ASSIGNMENT_STATUS_CONFIRMED = 8;
-
-	public static final int DISPATCH_STATUS_ACTIVE = 1; 
-	public static final int DISPATCH_STATUS_CLOSED = 2; 
  
 }

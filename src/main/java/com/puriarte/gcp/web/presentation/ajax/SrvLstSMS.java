@@ -85,14 +85,8 @@ public class SrvLstSMS extends HttpServlet {
 		strSort = request.getParameter("sidx");
 		strOrder = request.getParameter("sord");
 		
-		if (strSort.equals("5")) orderBy = "creationDate"; 
 		if (strSort.equals("7")) orderBy = "number"; 
 		if (strSort.equals("8")) orderBy = "person"; 
-		if (strSort.equals("9")) orderBy = "texto"; 
-		if (strSort.equals("10")) orderBy = "sentDate"; 
-		if (strSort.equals("11")) orderBy = "direction"; 
-		if (strSort.equals("12")) orderBy = "status"; 
-		if (strSort.equals("13")) orderBy = "dispatch"; 
 		
 		fechaInicio = getDateRequest(request, "fechaDesde");
 		fechaFin = getDateRequest(request, "fechaHasta");
@@ -117,10 +111,8 @@ public class SrvLstSMS extends HttpServlet {
 
 		try {
 			cargarParametros(request);
-
-			int count = Facade.getInstance().selectCountSMS(fechaInicio,fechaFin,estado,convocatoria);
-			List<SMS> resultados = Facade.getInstance().selectSMSList(fechaInicio,fechaFin,estado,convocatoria, orderBy, strOrder, (strPage-1)*strRows,strRows);
-			jSonItems= procesarItems2(resultados, count);
+			jSonItems=procesar();
+//			out.print("{\"total\": 1,\"page\": 1,\"records\": 100,\"total\": 1,\"rows\": [{\"Id\": \"1\",\"Pos\": \"0\",\"Cliente\": \"1\",\"IdDoc\": \"1\",\"Fecha\": \"03-11-2014 12:00:00\",{\"Id\": \"2\",\"Pos\": \"1\",\"Cliente\": \"2\",\"IdDoc\": \"2\",\"Fecha\": \"03-11-2014 12:00:00\",\"Numero\": \"59898843084\",\"Nombre\": \"\",\"Texto\": \"REGISTRO 33173535\",\"FechaEnvio\": \"03-11-2014 12:00:00\",\"Action\": \"ENTRANTE\",\"Saldo\": \"Recibido\",\"Dispatch\": \"\"},{\"Id\": \"3\",\"Pos\": \"2\",\"Cliente\": \"3\",\"IdDoc\": \"3\",\"Fecha\": \"03-11-2014 12:00:00\",\"Numero\": \"59899627237\",\"Nombre\": \"\",\"Texto\": \"REGISTRO 34023364\",\"FechaEnvio\": \"03-11-2014 12:00:00\",\"Action\": \"ENTRANTE\",\"Saldo\": \"Recibido\",\"Dispatch\": \"\"},{\"Id\": \"4\",\"Pos\": \"3\",\"Cliente\": \"4\",\"IdDoc\": \"4\",\"Fecha\": \"03-11-2014 02:56:07\",\"Numero\": \"59899627237\",\"Nombre\": \"\",\"Texto\": \"CONVOCATORIA AL EVENTOcom.puriarte.convocatoria.persistence.PersonCategory@d481f9\",\"\": \"\",\"Action\": \"SALIENTE\",\"Saldo\": \"Pendiente\",\"Dispatch\": \"Convocatoria 1\"},{\"Id\": \"5\",\"Pos\": \"4\",\"Cliente\": \"5\",\"IdDoc\": \"5\",\"Fecha\": \"03-11-2014 02:56:07\",\"Numero\": \"59898843084\",\"Nombre\": \"\",\"Texto\": \"CONVOCATORIA AL EVENTOcom.puriarte.convocatoria.persistence.PersonCategory@d375b4\",\"\": \"\",\"Action\": \"SALIENTE\",\"Saldo\": \"Pendiente\",\"Dispatch\": \"Convocatoria 1\"}],\"footer\": [{\"saldo\":0,\"facturas\":0,\"contados\":0,\"afavor\":0}]}");
 			out.print(jSonItems);
 
 		} catch(Exception e) {
@@ -128,7 +120,15 @@ public class SrvLstSMS extends HttpServlet {
 		} finally {
 			out.close();
 		}
+
 	}
+
+	private String procesar() throws Exception {
+		int count = Facade.getInstance().selectCountSMS(fechaInicio,fechaFin,estado,convocatoria);
+		List<SMS> resultados = Facade.getInstance().selectSMSList(fechaInicio,fechaFin,estado,convocatoria,orderBy, (strPage-1)*strRows,strRows);
+		return procesarItems2(resultados, count);
+	}
+
 
 	private String procesarItems2(List<SMS> resultados, int totalRegistros) {
 		String jSonItems="";
@@ -195,7 +195,15 @@ public class SrvLstSMS extends HttpServlet {
 		strXml +="\"records\": " + totalRegistros + ",";
 		strXml +="\"rows\": " +"[" + jSonItems + "]}";
 
-//		System.out.println(strXml);
+//		
+//		String strXml = "{\"total\": ," ;
+//		strXml +="\"page\": " + strPage + ",";
+//		strXml +="\"records\": " + totalRegistros + ",";
+//		strXml +="\"total\": " + totalRegistros/strRows + ",";
+//		strXml +="\"rows\": " +"[" + jSonItems + "],";
+//		strXml +="\"footer\": " +"[{\"saldo\":" + totalSaldo + ",\"facturas\":" + totalFacturas + ",\"contados\":" + totalContados + ",\"afavor\":" + totalAFavor + "}]}";
+
+		System.out.println(strXml);
 		return strXml;
 	}
 

@@ -89,6 +89,8 @@ public class SrvLstPerson extends HttpServlet {
 
 	private void cargarParametros(HttpServletRequest request){
 
+	//	String orderBy = "fMov, ndoc";
+
 		strPage = Integer.parseInt(request.getParameter("page"));
 		strRows = Integer.parseInt(request.getParameter("rows"));
 		strSort = request.getParameter("sidx");
@@ -108,7 +110,7 @@ public class SrvLstPerson extends HttpServlet {
 			else if (strSort.equals("6")) orderBy = "person.name";
 			else if (strSort.equals("7")) orderBy = "person.nickname";
 			else if (strSort.equals("8")) orderBy = "person.category.name";
-			else if (strSort.equals("9")) orderBy = "priority";
+			else if (strSort.equals("9")) orderBy = "person.priority";
 		}
 
 		//	Datos de filtors para la consulta
@@ -137,8 +139,6 @@ public class SrvLstPerson extends HttpServlet {
 
 		try {
 			cargarParametros(request);
-
-			//        	 jSonItems=procesarHistorico();
 			jSonItems=procesar();
 			out.print(jSonItems);
 
@@ -151,7 +151,7 @@ public class SrvLstPerson extends HttpServlet {
 	}
 
 	private String procesar() throws Exception {
-		List<PersonMovil> resultados = Facade.getInstance().selectPersonMovilList(priorities, category,estado,orderBy, asc, null,null);
+		List<PersonMovil> resultados = Facade.getInstance().selectPersonMovilList(priorities, category,estado,orderBy, null,null);
 
 		String jSonItems="";
 		int i=0;

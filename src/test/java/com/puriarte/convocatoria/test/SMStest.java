@@ -22,13 +22,13 @@ public class SMStest {
 		Date fecha1 = dTF.parse("01-09-2014");
 		Date fecha2 = dTF.parse("30-09-2014");
 
-//		List<SMS> smss= Facade.getInstance().selectSMSList(fecha1, fecha2, 0, 0, "4", 0, 100);
-//
-//
-//		if (smss==null)
-//			fail("No hay sms");
-//		else
-//			System.out.print(smss.size());
+		List<SMS> smss= Facade.getInstance().selectSMSList(fecha1, fecha2, 0, 0, "4", 0, 100);
+
+
+		if (smss==null)
+			fail("No hay sms");
+		else
+			System.out.print(smss.size());
 
 	}
 

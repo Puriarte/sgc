@@ -106,15 +106,15 @@ public class SMSService1 {
 	 * @param limit
 	 * @return
 	 */
-	public List<SMS> selectList(Date fromDate, Date toDate, Integer estado,  String order, String strOrder, Integer pos, Integer limit){
+	public List<SMS> selectList(Date fromDate, Date toDate, Integer estado,  String order, Integer pos, Integer limit){
 		final EntityManager em = getEntityManager();
 
 		CriteriaBuilder cb = em.getCriteriaBuilder();
 		
 		CriteriaQuery q = cb.createQuery(SMS.class);
-		Root<SMS> sms = q.from(SMS.class);
-		Join status = sms.join("status");
-		Join assignment= sms.join("assignment", JoinType.LEFT);
+		Root<SMS> from = q.from(SMS.class);
+		Join status = from.join("status");
+		Join assignment= from.join("assignment", JoinType.LEFT);
 		Join personMovil= assignment.join("personMovil", JoinType.LEFT);
 		Join person= personMovil.join("person", JoinType.LEFT);
 		Join movil= personMovil.join("movil", JoinType.LEFT);
@@ -122,29 +122,12 @@ public class SMSService1 {
 		Join job= assignment.join("job", JoinType.LEFT);
 		Join dispatch= job.join("dispatch", JoinType.LEFT);
 
-		if (strOrder.equals("asc")){
-			if(order.equals("number"))	q.orderBy(cb.asc(movil.get("number")));
-			if(order.equals("creationDate"))	q.orderBy(cb.asc(sms.get("creationDate")));
-			if(order.equals("person"))	q.orderBy(cb.asc(person.get("name")));
-			if(order.equals("texto"))	q.orderBy(cb.asc(sms.get("mensaje")));
-			if(order.equals("sentDate"))	q.orderBy(cb.asc(sms.get("sentDate")));
-			if(order.equals("direction"))	q.orderBy(cb.asc(sms.get("action")));
-			if(order.equals("status"))	q.orderBy(cb.asc(status.get("name")));
-			if(order.equals("dispatch"))	q.orderBy(cb.asc(dispatch.get("name")));
-		}else{
-			if(order.equals("number"))	q.orderBy(cb.desc(movil.get("number")));
-			if(order.equals("creationDate"))	q.orderBy(cb.desc(sms.get("creationDate")));
-			if(order.equals("person"))	q.orderBy(cb.desc(person.get("name")));
-			if(order.equals("texto"))	q.orderBy(cb.desc(sms.get("mensaje")));
-			if(order.equals("sentDate"))	q.orderBy(cb.desc(sms.get("sentDate")));
-			if(order.equals("direction"))	q.orderBy(cb.desc(sms.get("action")));
-			if(order.equals("status"))	q.orderBy(cb.desc(status.get("name")));
-			if(order.equals("dispatch"))	q.orderBy(cb.desc(dispatch.get("name")));
-		}
+		if(order.equals("number"))
+			q.orderBy(cb.asc(movil.get("number")));
 		
 		List<Predicate> predicateList = new ArrayList<Predicate>();
-		if (fromDate != null) predicateList.add(cb.greaterThanOrEqualTo(sms.<Date>get("creationDate"), fromDate));
-		if (toDate != null) predicateList.add(cb.lessThanOrEqualTo(sms.<Date>get("creationDate"), toDate));
+		if (fromDate != null) predicateList.add(cb.greaterThanOrEqualTo(from.<Date>get("creationDate"), fromDate));
+		if (toDate != null) predicateList.add(cb.lessThanOrEqualTo(from.<Date>get("creationDate"), toDate));
 		if (estado>0) predicateList.add(cb.equal(status.get("id"), estado));
 
 		Predicate[] predicates = new Predicate[predicateList.size()];
@@ -152,12 +135,31 @@ public class SMSService1 {
 		q.where(predicates);
 		
 		List<SMS> a = em.createQuery(q).getResultList();
-	
+		
+		
+		
+/*
+		if (order==null) order ="";
+
+		Query query = em.createNamedQuery("SelectSMSList")
+			.setParameter("from", from )
+			.setParameter("to", to)
+			.setParameter("estado", estado)
+			.setParameter("orden", " s.personMovil desc ");
+
+		query.setHint("javax.persistence.cache.storeMode", "REFRESH");
+		query.setHint("eclipselink.refresh", "true");
+		query.setHint("eclipselink.refresh.cascade", "CascadeAllParts");
+		
+		if((pos!=null) && (limit!=null)) query.setFirstResult(pos).setMaxResults(limit);
+
+		List<SMS> a = (List<SMS>) query.getResultList();
+
+*/
 		return a;
 	}
 
-	public List<SMS> selectListByDispatch(Date fromDate, Date toDate, Integer estado, Integer convocatoria, String order, 
-			String orderDirection, 	Integer pos, Integer limit){
+	public List<SMS> selectListByDispatch(Date fromDate, Date toDate, Integer estado, Integer convocatoria, String order, Integer pos, Integer limit){
 		final EntityManager em = getEntityManager();
 
 		CriteriaBuilder cb = em.getCriteriaBuilder();
@@ -192,6 +194,16 @@ public class SMSService1 {
 		if((pos!=null) && (limit!=null)) query.setFirstResult(pos).setMaxResults(limit);
 		List<SMS> a = query.getResultList();
 		
+//		if (order==null) order ="";
+//
+//		Query query = em.createNamedQuery("SelectSMSByDispatchList")
+//			.setParameter("from", from )
+//			.setParameter("to", to)
+//			.setParameter("estado", estado)
+//			.setParameter("convocatoria", convocatoria);
+//	 	List<SMS> a = (List<SMS>) query.getResultList();
+
+
 		return a;
 	}
 

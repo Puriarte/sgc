@@ -159,11 +159,11 @@ public class Facade {
 	}
 
 
-	public List<SMS> selectSMSList(Date fechaDesde, Date fechaHasta, Integer estado, Integer convocatoria,  String order, String orderDirection, Integer pos, Integer limit) {
+	public List<SMS> selectSMSList(Date fechaDesde, Date fechaHasta, Integer estado, Integer convocatoria,  String order,Integer pos, Integer limit) {
 		if ((convocatoria !=null) && (!(convocatoria==0)) ){
-			return smsService.selectListByDispatch(fechaDesde, fechaHasta, estado , convocatoria, order, orderDirection, pos,  limit);
+			return smsService.selectListByDispatch(fechaDesde, fechaHasta, estado , convocatoria, order, pos,  limit);
 		}else{
-			return smsService.selectList(fechaDesde, fechaHasta, estado , order, orderDirection, pos,  limit);
+			return smsService.selectList(fechaDesde, fechaHasta, estado , order, pos,  limit);
 		}
 	}
 
@@ -176,13 +176,13 @@ public class Facade {
 		return personService.selectList(priorities, category , estado , order, pos,  limit);
 	}
 
-	public List<PersonMovil> selectPersonMovilList(List<String> priorities, int category ,int estado,  String order, boolean ascending, Integer pos, Integer limit) {
-		return personMovilService.selectList(priorities, category , estado , order,ascending, pos,  limit);
+	public List<PersonMovil> selectPersonMovilList(List<String> priorities, int category ,int estado,  String order, Integer pos, Integer limit) {
+		return personMovilService.selectList(priorities, category , estado , order, pos,  limit);
 	}
 
 
 	public List<PersonMovil> selectPersonMovilList( String order, Integer pos, Integer limit) {
-		return this.selectPersonMovilList(null, 0,0,  "", false, pos, limit);
+		return this.selectPersonMovilList(null, 0,0,  "", pos, limit);
 	}
 
 
