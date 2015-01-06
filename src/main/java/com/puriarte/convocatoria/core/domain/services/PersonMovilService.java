@@ -1,10 +1,17 @@
 package com.puriarte.convocatoria.core.domain.services;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.JoinType;
+import javax.persistence.criteria.Order;
+import javax.persistence.criteria.Root;
 
 import com.puriarte.convocatoria.persistence.EntityManagerHelper;
 import com.puriarte.convocatoria.persistence.Job;
@@ -132,31 +139,71 @@ public class PersonMovilService {
 
 	}
 
-	public List<PersonMovil> selectList(List<String> priorities, int category ,int estado, String order, Integer pos, Integer limit) {
+	public List<PersonMovil> selectList(List<String> priorities, int category ,int estado, String orderByColumn, boolean ascending, Integer pos, Integer limit) {
+
 		final EntityManager em = getEntityManager();
-		Query query ;
-		if (order==null) order ="";
+		CriteriaBuilder builder = em.getCriteriaBuilder();
+		CriteriaQuery<PersonMovil> criteria = builder.createQuery(PersonMovil.class);
+		Root<PersonMovil> personMovil = criteria.from(PersonMovil.class);
 		
-		if ((priorities==null) || (priorities.size()==0)){
-			query = em.createNamedQuery("SelectPersonMovilList"	)
-			.setParameter("category", category);
-		}else{
-			query = em.createNamedQuery("SelectPersonMovilListWithPriority"	)
-			.setParameter("category", category)
-			.setParameter("priorities", priorities );
+		Join person= personMovil.join("person", JoinType.LEFT);
+		Join documentType= person.join("documentType", JoinType.LEFT);
+		Join movil= personMovil.join("movil", JoinType.LEFT);
+					
+		criteria.select(personMovil);
+		if (orderByColumn!=null){
+			List<Order> orders = new  ArrayList<Order>(); 
+			String[] orderList = orderByColumn.split(",");
+			for (String aux: orderList){
+				String[] orden = orderByColumn.split("\\.");
+				javax.persistence.criteria.Order order;
+				if (orden[0].equals("movil")){
+					order = ascending ? builder.asc(movil.get(orden[1]))
+					        : builder.desc(movil.get(orden[1]));
+				}else if (orden[0].equals("person")){
+					if (orden[1].equals("documentType")){
+						order = ascending ? builder.asc(documentType.get(orderByColumn))
+						        : builder.desc(documentType.get(orderByColumn));
+					}else{
+						order = ascending ? builder.asc(person.get(orden[1]))
+						        : builder.desc(person.get(orden[1]));
+					}
+				}else{
+					order = ascending ? builder.asc(personMovil.get(orden[0]))
+			        : builder.desc(personMovil.get(orden[0]));
+				}		
+				orders.add(order);
+			}
+			
+			criteria.orderBy(orders);
 		}
-
-
-		query.setHint("javax.persistence.cache.storeMode", "REFRESH");
-		query.setHint("eclipselink.refresh", "true");
-		query.setHint("eclipselink.refresh.cascade", "CascadeAllParts");
-	
-		if((pos!=null) && (limit!=null)) query.setFirstResult(pos).setMaxResults(limit);
-
-		List<PersonMovil> a = (List<PersonMovil>) query.getResultList();
-//		a.get(0).getMovils();
-//		a.get(1).getMovils();
-		return a;
+		
+		return em.createQuery(criteria).getResultList();
+		    
+		
+//		final EntityManager em = getEntityManager();
+//		Query query ;
+//		if (order==null) order ="";
+//		if ((priorities==null) || (priorities.size()==0)){
+//			query = em.createNamedQuery("SelectPersonMovilList"	)
+//			.setParameter("category", category);
+//		}else{
+//			query = em.createNamedQuery("SelectPersonMovilListWithPriority"	)
+//			.setParameter("category", category)
+//			.setParameter("priorities", priorities );
+//		}
+//
+////
+////		query.setHint("javax.persistence.cache.storeMode", "REFRESH");
+////		query.setHint("eclipselink.refresh", "true");
+////		query.setHint("eclipselink.refresh.cascade", "CascadeAllParts");
+//	
+//		if((pos!=null) && (limit!=null)) query.setFirstResult(pos).setMaxResults(limit);
+//
+//		List<PersonMovil> a = (List<PersonMovil>) query.getResultList();
+////		a.get(0).getMovils();
+////		a.get(1).getMovils();
+//		return a;
 	}
 
 //	public PersonCategory selectPersonCategory(int id) {
@@ -208,9 +255,9 @@ public class PersonMovilService {
 					.setParameter("number", numero )
 					.setParameter("order", "priority");
 
-			query.setHint("javax.persistence.cache.storeMode", "REFRESH");
-			query.setHint("eclipselink.refresh", "true");
-			query.setHint("eclipselink.refresh.cascade", "CascadeAllParts");
+//			query.setHint("javax.persistence.cache.storeMode", "REFRESH");
+//			query.setHint("eclipselink.refresh", "true");
+//			query.setHint("eclipselink.refresh.cascade", "CascadeAllParts");
 
 			PersonMovil a = (PersonMovil) query.getSingleResult();
 

@@ -76,7 +76,7 @@ public class A4_TestPerson {
 		List<String> priorities = new ArrayList<String>();
 		priorities.add("0");
 
-		List<PersonMovil> list = Facade.getInstance().selectPersonMovilList(priorities, 1 ,1,  "", 0, 100);
+//		List<PersonMovil> list = Facade.getInstance().selectPersonMovilList(priorities, 1 ,1, 1, "", 0, 100);
 		/*		System.out.println(mensaje);
 		if (list!=null){
 			for(PersonMovil aux : list){

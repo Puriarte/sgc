@@ -65,6 +65,10 @@ public class DispatchService1 {
 
 		if((pos!=null) && (limit!=null)) query.setFirstResult(pos).setMaxResults(limit);
 
+		query.setHint("javax.persistence.cache.storeMode", "REFRESH");
+		query.setHint("eclipselink.refresh", "true");
+		query.setHint("eclipselink.refresh.cascade", "CascadeAllParts");
+
 		List<Dispatch> a = (List<Dispatch>) query.getResultList();
 
 
@@ -115,13 +119,15 @@ public class DispatchService1 {
 			String[] personIds, HashMap categories, SmsStatus status) {
 
 		AssignmentStatus assignmentstatus = Facade.getInstance().selectAssingmentStatus(Constants.ASSIGNMENT_STATUS_ASSIGNED);
+		DispatchStatus dispatchStatus = Facade.getInstance().selectDispatchStatus(Constants.DISPATCH_STATUS_ACTIVE);
 
 		// Inicializo la convocatoria
 		Dispatch dispatch = new Dispatch();
 		dispatch.setName(name);
 		dispatch.setScheduledDate(scheduledDate);
 		dispatch.setPlace(place);
-
+		dispatch.setDispatchStatus(dispatchStatus);
+		
 		for(String idPerson: personIds){
 			PersonMovil person = Facade.getInstance().selectPersonMovil(Integer.parseInt(idPerson));
 			if (person!=null){

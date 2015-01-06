@@ -83,20 +83,15 @@ public class SrvLstPerson extends HttpServlet {
 		} catch(Exception e) {
 			throw new ServletException(e.getMessage());
 		}
-
 	}
 
-
 	private void cargarParametros(HttpServletRequest request){
-
-	//	String orderBy = "fMov, ndoc";
 
 		strPage = Integer.parseInt(request.getParameter("page"));
 		strRows = Integer.parseInt(request.getParameter("rows"));
 		strSort = request.getParameter("sidx");
 		strOrder = request.getParameter("sord");
 
-		boolean asc=false;
 		if	 ((strOrder!=null)&&(strOrder.equals("asc"))) asc  = true;
 		request.getQueryString();
 		if ((request.getParameter("soloImpagos")==null ) || (request.getParameter("soloImpagos").toUpperCase().equals("TRUE"))) soloImpagos = true;
@@ -105,12 +100,12 @@ public class SrvLstPerson extends HttpServlet {
 		//Armo el criterio en que se quiere ordenar
 		if(strSort != null) {
 			if(strSort.equals("3"))  orderBy = "movil.number";
-			else if (strSort.equals("4")) orderBy = "person.documentType.name";
+			else if (strSort.equals("4")) orderBy = "person.documentType.name , person.category.name";
 			else if (strSort.equals("5")) orderBy = "person.documentNumber";
 			else if (strSort.equals("6")) orderBy = "person.name";
 			else if (strSort.equals("7")) orderBy = "person.nickname";
 			else if (strSort.equals("8")) orderBy = "person.category.name";
-			else if (strSort.equals("9")) orderBy = "person.priority";
+			else if (strSort.equals("9")) orderBy = "priority";
 		}
 
 		//	Datos de filtors para la consulta
@@ -139,6 +134,8 @@ public class SrvLstPerson extends HttpServlet {
 
 		try {
 			cargarParametros(request);
+
+			//        	 jSonItems=procesarHistorico();
 			jSonItems=procesar();
 			out.print(jSonItems);
 
@@ -151,7 +148,7 @@ public class SrvLstPerson extends HttpServlet {
 	}
 
 	private String procesar() throws Exception {
-		List<PersonMovil> resultados = Facade.getInstance().selectPersonMovilList(priorities, category,estado,orderBy, null,null);
+		List<PersonMovil> resultados = Facade.getInstance().selectPersonMovilList(priorities, category,estado,orderBy, asc, null,null);
 
 		String jSonItems="";
 		int i=0;

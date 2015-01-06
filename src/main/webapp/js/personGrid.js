@@ -143,8 +143,10 @@ jQuery(document).ready(function(){
 		jsonReader: { repeatitems : false, root:"rows" },
 		loadComplete: function(data) {
 		},
-		onSelectRow: function(id){
-			$("#idsValesSel").val(id);
+		beforeSelectRow: function(id){
+			jQuery("#gridArticulos").setSelection (id, true);
+			return false;
+//			$("#idsValesSel").val(id);
 		},
 		ondblClickRow: function(id){
 			jQuery("#gridArticulos").jqGrid('setSelection',id,false);
