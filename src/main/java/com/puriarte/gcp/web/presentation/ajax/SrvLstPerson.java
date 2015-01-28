@@ -49,7 +49,7 @@ public class SrvLstPerson extends HttpServlet {
 	private Date  fechaVencimientoInicio;
 	private Date  fechaVencimientoFin;
 	private Date  fechaVista;
-	private boolean asc;
+//	private boolean asc;
 	private  Long totalRegistros=null;
 	private  BigDecimal totalSaldo = new BigDecimal(0);
 	private  BigDecimal totalFacturas = new BigDecimal(0);
@@ -92,20 +92,21 @@ public class SrvLstPerson extends HttpServlet {
 		strSort = request.getParameter("sidx");
 		strOrder = request.getParameter("sord");
 
-		if	 ((strOrder!=null)&&(strOrder.equals("asc"))) asc  = true;
+//		if	 ((strOrder!=null)&&(strOrder.equals("asc"))) asc  = true;
+//		else asc  = false;
 		request.getQueryString();
 		if ((request.getParameter("soloImpagos")==null ) || (request.getParameter("soloImpagos").toUpperCase().equals("TRUE"))) soloImpagos = true;
 		else soloImpagos =false;
 
 		//Armo el criterio en que se quiere ordenar
 		if(strSort != null) {
-			if(strSort.equals("3"))  orderBy = "movil.number";
-			else if (strSort.equals("4")) orderBy = "person.documentType.name , person.category.name";
-			else if (strSort.equals("5")) orderBy = "person.documentNumber";
-			else if (strSort.equals("6")) orderBy = "person.name";
-			else if (strSort.equals("7")) orderBy = "person.nickname";
-			else if (strSort.equals("8")) orderBy = "person.category.name";
-			else if (strSort.equals("9")) orderBy = "priority";
+			if(strSort.equals("3"))  orderBy = "movil.number " + strOrder;
+			else if (strSort.equals("4")) orderBy = "person.documentType.name " + strOrder + ", person.documentNumber " + strOrder;
+			else if (strSort.equals("5")) orderBy = "person.documentNumber " + strOrder;
+			else if (strSort.equals("6")) orderBy = "person.name " + strOrder;
+			else if (strSort.equals("7")) orderBy = "person.nickname " + strOrder;
+			else if (strSort.equals("8")) orderBy = "person.category.name " + strOrder;
+			else if (strSort.equals("9")) orderBy = "priority " + strOrder;
 		}
 
 		//	Datos de filtors para la consulta
@@ -134,8 +135,6 @@ public class SrvLstPerson extends HttpServlet {
 
 		try {
 			cargarParametros(request);
-
-			//        	 jSonItems=procesarHistorico();
 			jSonItems=procesar();
 			out.print(jSonItems);
 
@@ -148,7 +147,7 @@ public class SrvLstPerson extends HttpServlet {
 	}
 
 	private String procesar() throws Exception {
-		List<PersonMovil> resultados = Facade.getInstance().selectPersonMovilList(priorities, category,estado,orderBy, asc, null,null);
+		List<PersonMovil> resultados = Facade.getInstance().selectPersonMovilList(priorities, category,estado,orderBy,  null,null);
 
 		String jSonItems="";
 		int i=0;

@@ -176,13 +176,13 @@ public class Facade {
 		return personService.selectList(priorities, category , estado , order, pos,  limit);
 	}
 
-	public List<PersonMovil> selectPersonMovilList(List<String> priorities, int category ,int estado,  String order, boolean ascending, Integer pos, Integer limit) {
-		return personMovilService.selectList(priorities, category , estado , order,ascending, pos,  limit);
+	public List<PersonMovil> selectPersonMovilList(List<String> priorities, int category ,int estado,  String order, Integer pos, Integer limit) {
+		return personMovilService.selectList(priorities, category , estado , order, pos,  limit);
 	}
 
 
 	public List<PersonMovil> selectPersonMovilList( String order, Integer pos, Integer limit) {
-		return this.selectPersonMovilList(null, 0,0,  "", false, pos, limit);
+		return this.selectPersonMovilList(null, 0,0,  "",  pos, limit);
 	}
 
 

@@ -139,7 +139,7 @@ public class PersonMovilService {
 
 	}
 
-	public List<PersonMovil> selectList(List<String> priorities, int category ,int estado, String orderByColumn, boolean ascending, Integer pos, Integer limit) {
+	public List<PersonMovil> selectList(List<String> priorities, int category ,int estado, String orderByColumn, Integer pos, Integer limit) {
 
 		final EntityManager em = getEntityManager();
 		CriteriaBuilder builder = em.getCriteriaBuilder();
@@ -151,90 +151,46 @@ public class PersonMovilService {
 		Join movil= personMovil.join("movil", JoinType.LEFT);
 					
 		criteria.select(personMovil);
-		if (orderByColumn!=null){
-			List<Order> orders = new  ArrayList<Order>(); 
-			String[] orderList = orderByColumn.split(",");
-			for (String aux: orderList){
-				String[] orden = orderByColumn.split("\\.");
-				javax.persistence.criteria.Order order;
-				if (orden[0].equals("movil")){
-					order = ascending ? builder.asc(movil.get(orden[1]))
-					        : builder.desc(movil.get(orden[1]));
-				}else if (orden[0].equals("person")){
-					if (orden[1].equals("documentType")){
-						order = ascending ? builder.asc(documentType.get(orderByColumn))
-						        : builder.desc(documentType.get(orderByColumn));
-					}else{
-						order = ascending ? builder.asc(person.get(orden[1]))
-						        : builder.desc(person.get(orden[1]));
-					}
-				}else{
-					order = ascending ? builder.asc(personMovil.get(orden[0]))
-			        : builder.desc(personMovil.get(orden[0]));
-				}		
-				orders.add(order);
-			}
-			
-			criteria.orderBy(orders);
-		}
+		if (orderByColumn!=null)
+			criteria.orderBy(parseOrderBy(orderByColumn, builder, movil,documentType, person, personMovil));
 		
 		return em.createQuery(criteria).getResultList();
 		    
-		
-//		final EntityManager em = getEntityManager();
-//		Query query ;
-//		if (order==null) order ="";
-//		if ((priorities==null) || (priorities.size()==0)){
-//			query = em.createNamedQuery("SelectPersonMovilList"	)
-//			.setParameter("category", category);
-//		}else{
-//			query = em.createNamedQuery("SelectPersonMovilListWithPriority"	)
-//			.setParameter("category", category)
-//			.setParameter("priorities", priorities );
-//		}
-//
-////
-////		query.setHint("javax.persistence.cache.storeMode", "REFRESH");
-////		query.setHint("eclipselink.refresh", "true");
-////		query.setHint("eclipselink.refresh.cascade", "CascadeAllParts");
-//	
-//		if((pos!=null) && (limit!=null)) query.setFirstResult(pos).setMaxResults(limit);
-//
-//		List<PersonMovil> a = (List<PersonMovil>) query.getResultList();
-////		a.get(0).getMovils();
-////		a.get(1).getMovils();
-//		return a;
 	}
 
-//	public PersonCategory selectPersonCategory(int id) {
-//		final EntityManager em = getEntityManager();
-//
-//		try{
-//			Query query = em.createNamedQuery("SelectPersonCategory")
-//					.setParameter("id", id);
-//
-//			PersonCategory a = (PersonCategory) query.getSingleResult();
-//
-//			return a;
-//		}catch(Exception e){
-//			return null;
-//		}
-//	}
-//
-//	public List<PersonCategory> selectPersonCategories() {
-//		final EntityManager em = getEntityManager();
-//
-//		try{
-//			Query query = em.createNamedQuery("SelectPersonCategoryList");
-//
-//			List<PersonCategory> a =  query.getResultList();
-//
-//			return a;
-//		}catch(Exception e){
-//			return null;
-//		}
-//	}
+	public List<Order> parseOrderBy(String orderByColumn, CriteriaBuilder builder, 
+			Join movil, Join documentType, Join person, Root<PersonMovil> personMovil){
+		List<Order> orders = new  ArrayList<Order>(); 
+		String[] orderList = orderByColumn.split(",");
+		for (String aux: orderList){
+			aux=aux.trim();
+			boolean ascending=true;
+			String[] aux1 = aux.split("\\ ");
+			if (aux1.length>1)	if(aux1[1].equals("desc"))	ascending=false;
 
+			String[] orden = aux1[0].split("\\.");
+			javax.persistence.criteria.Order order;
+			
+			if (orden[0].equals("movil")){
+				order = ascending ? builder.asc(movil.get(orden[1])) : builder.desc(movil.get(orden[1]));
+			}else if (orden[0].equals("person")){
+				if (orden[1].equals("documentType")){
+					order = ascending ? builder.asc(documentType.get(orden[2])): builder.desc(documentType.get(orden[2]));
+				}if (orden[1].equals("category")){
+					order = ascending ? builder.asc(documentType.get(orden[2])): builder.desc(documentType.get(orden[2]));
+				}else{
+					order = ascending ? builder.asc(person.get(orden[1])): builder.desc(person.get(orden[1]));
+				}
+			}else{
+				order = ascending ? builder.asc(personMovil.get(orden[0])): builder.desc(personMovil.get(orden[0]));
+			}		
+			orders.add(order);
+		}
+		
+		return orders;
+	}
+
+	
 	public void insert(PersonMovil pm) {
 
 		final EntityManager em = getEntityManager();
