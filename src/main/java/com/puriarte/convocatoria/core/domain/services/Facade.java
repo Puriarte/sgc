@@ -406,9 +406,9 @@ public class Facade {
 	}
 
 	public int updateDispatch(int id, String mensaje, String name, Place place, Date creationDate, Date scheduledDate, Integer dispatchStatus,
-			HashMap personIds, HashMap categories,HashMap arStatusIds, HashMap arAssignmentIds) {
+			HashMap personIds, HashMap categories,HashMap arStatusIds, HashMap arAssignmentIds, HashMap arForwardIds) {
 		SmsStatus status = selectSmsStatus(Constants.SMS_STATUS_PENDIENTE);
-		return dispatchService.update(id,mensaje, name, place, creationDate, scheduledDate, dispatchStatus, personIds, categories, arStatusIds, arAssignmentIds, status);
+		return dispatchService.update(id,mensaje, name, place, creationDate, scheduledDate, dispatchStatus, personIds, categories, arStatusIds, arAssignmentIds, arForwardIds, status);
 	}
 
 	public int insertBulkSMS(String message, String name, Date creationDate , Date scheduledDate, String[] personIds) {

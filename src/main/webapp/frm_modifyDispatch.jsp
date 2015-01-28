@@ -218,7 +218,7 @@
 											</logic:iterate>
 										</select>
 									</div>
-									<div class="col-md-3">
+									<div class="col-md-2">
 										<select class="form-control"
 											name="assignmentStatus_${counter}"
 											id="assignmentStatus_${counter}">
@@ -231,10 +231,14 @@
 												<c:if test="${item.id!=assignment.status.id}">
 													<option value="${item.id}">${item.name}</option>
 												</c:if>
-
-
 											</logic:iterate>
 										</select>
+									</div>
+									<div class="col-md-1">
+										<input type="checkbox" 
+											class="form-control"
+											name="forward_${counter}"
+											id="forward_${counter}" />
 									</div>
 								</div>
 							</logic:iterate>

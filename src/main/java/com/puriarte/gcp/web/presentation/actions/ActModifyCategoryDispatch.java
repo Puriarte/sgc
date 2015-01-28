@@ -153,7 +153,8 @@ public class ActModifyCategoryDispatch extends RestrictionAction {
 					HashMap arStatusIds = getCategoryRequest(request,"assignmentStatus_");
 					HashMap personIds = getCategoryRequest(request,"personMovil_");
 					HashMap assignmentIds = getCategoryRequest(request,"assignment_");
-					
+					HashMap forwardIds = getCategoryRequest(request,"forward_");
+
 //					String[] arPersonIds = dynaForm.get("nroDestino").toString().split(",");
 //					String[] arAssignmentIds = dynaForm.get("assignment").toString().split(",");
 //					String[] arStatusIds = dynaForm.get("assignmentStatus").toString().split(",");
@@ -190,7 +191,7 @@ public class ActModifyCategoryDispatch extends RestrictionAction {
 					
 					strMensaje = strName;
 					Facade.getInstance().updateDispatch(id, strMensaje, strName, place, creationDate, scheduledDate , dispatchStatus,
-							 personIds, arPersonCategory, arStatusIds, assignmentIds);
+							 personIds, arPersonCategory, arStatusIds, assignmentIds, forwardIds);
 
 				}
 
@@ -222,9 +223,12 @@ public class ActModifyCategoryDispatch extends RestrictionAction {
   			if(paramName.startsWith(data)) {
   				try{
   					Integer id= Integer.parseInt(paramName.substring(data.length(), paramName.length()));
-  					Integer valor= Integer.parseInt(request.getParameter(paramName));
-	  				if(id != null) {
-	  					hmValores.put(id,valor);
+  					try{
+  						Integer valor= Integer.parseInt(request.getParameter(paramName));
+  						if(id != null) hmValores.put(id,valor);
+  					}catch(Exception e ){
+  						String valor= request.getParameter(paramName);
+  						if(id != null) hmValores.put(id,valor);
 	  				}
   				}catch(Exception e){
   				}

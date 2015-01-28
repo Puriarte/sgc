@@ -173,7 +173,7 @@ public class DispatchService1 {
 
 	public int update(int id, String message, String name, Place place,
 			Date creationDate, Date scheduledDate, Integer dispatchStatusId, HashMap personIds,
-			HashMap categories, HashMap arStatus,HashMap arAssignmentIds, 
+			HashMap categories, HashMap arStatus,HashMap arAssignmentIds, HashMap arForwardIds,
 			SmsStatus status) {
 
 		AssignmentStatus assignmentstatus = Facade.getInstance().selectAssingmentStatus(Constants.ASSIGNMENT_STATUS_ASSIGNED);
@@ -191,7 +191,8 @@ public class DispatchService1 {
 			long idAssignment = new Long((Integer) entry.getValue());
 			int categoryId = 0;
 			int idStatus = (int) arStatus.get(key); 
-
+			boolean forward = arForwardIds.equals("on");
+			
 			PersonCategory category=new PersonCategory();
 			try{
 				if(categories.containsKey(key)){
@@ -233,20 +234,17 @@ public class DispatchService1 {
 						dispatch2.addJob(job);
 						
 						this.update(dispatch2);
-
 					}
 				}
-				
-				
 			}else{				
 				Assignment assignment1= dispatch2.getAssignment(idAssignment);
+				boolean haveToUpdate = false;
+
 				if (!(assignment1.getJob().getCategory().getId()==categoryId)){
 					// Cambio el dato sobre el puesto y mando un SMS avisando
 					PersonCategory pc = Facade.getInstance().selectPersonCategory(categoryId);
 					assignment1.getJob().setCategory(pc);
 				
-	//				Facade.getInstance().updateJob(assignment1.getJob());
-					
 					// Creo el SMS
 					SMS sms = new SMS();
 					sms.setMensaje(message.trim());
@@ -261,13 +259,30 @@ public class DispatchService1 {
 					List smsList = assignment1.getSmsList();
 					smsList.add(sms);
 					assignment1.setSmsList(smsList);
-					this.update(dispatch2);
-					
-				}else if  (!(assignment1.getStatus().getId()==idStatus)){
-					AssignmentStatus newStatus = Facade.getInstance().selectAssingmentStatus(idStatus);
-					assignment1.setStatus(newStatus);
-					this.update(dispatch2);
+				}else{
+					// Si hay que reenviar el mensaje
+					if (forward){
+						// Creo el SMS
+						SMS sms = new SMS();
+						sms.setMensaje(message.trim());
+		
+						sms.setPersonMovil(assignment1.getPersonMovil());
+						sms.setStatus(status);
+						sms.setAction(Constants.SMS_ACTION_OUTCOME);
+						sms.setCreationDate(creationDate);
+
+						List smsList = assignment1.getSmsList();
+						smsList.add(sms);
+						assignment1.setSmsList(smsList);
+						haveToUpdate  =true;
+					}
+					if  (!(assignment1.getStatus().getId()==idStatus)){
+						AssignmentStatus newStatus = Facade.getInstance().selectAssingmentStatus(idStatus);
+						assignment1.setStatus(newStatus);
+						haveToUpdate  =true;
+					}
 				}
+				if (haveToUpdate) this.update(dispatch2);
 			}
 		}
 		this.update(dispatch2);
