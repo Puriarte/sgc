@@ -45,24 +45,29 @@ public class ActUpdatePerson extends RestrictionAction {
 		Logger  logger = Logger.getLogger(ActUpdatePerson.class.getName());
 
 		try {
+			String movilNumber= null;
 
 			if ( (dynaForm.get("ID")!=null) && (!dynaForm.get("ID").toString().trim().equals(""))) {
+				
+				PersonMovil person = Facade.getInstance().selectPersonMovil(new Integer(dynaForm.get("ID").toString()));
 
-				Person person = Facade.getInstance().selectPerson(new Integer(dynaForm.get("ID").toString()));
-				if (dynaForm.get("SOBRENOMBRE")!=null) person.setNickname((String) dynaForm.get("SOBRENOMBRE"));
-				if (dynaForm.get("NOMBRE")!=null) person.setName((String) dynaForm.get("NOMBRE"));
-				if ((dynaForm.get("NRO DOCUMENTO")!=null) && (!dynaForm.get("NRO DOCUMENTO").equals(""))) person.setDocumentNumber((String) dynaForm.get("NRO DOCUMENTO"));
+	//			Person person = Facade.getInstance().selectPerson(new Integer(dynaForm.get("ID").toString()));
+				if (dynaForm.get("SOBRENOMBRE")!=null) person.getPerson().setNickname((String) dynaForm.get("SOBRENOMBRE"));
+				if (dynaForm.get("NOMBRE")!=null) person.getPerson().setName((String) dynaForm.get("NOMBRE"));
+				if ((dynaForm.get("NRO DOCUMENTO")!=null) && (!dynaForm.get("NRO DOCUMENTO").equals(""))) person.getPerson().setDocumentNumber((String) dynaForm.get("NRO DOCUMENTO"));
 				if (dynaForm.get("CATEGORIA")!=null) {
 					PersonCategory pc = Facade.getInstance().selectPersonCategory(Integer.parseInt((String) dynaForm.get("CATEGORIA")));
-					person.setCategory(pc);
+					person.getPerson().setCategory(pc);
 				}
-				if ((!dynaForm.get("ORDEN PRELACION").equals("")) && (dynaForm.get("ORDEN PRELACION")!="")) person.setPriority(Integer.parseInt((String) dynaForm.get("ORDEN PRELACION")));
+				if ((!dynaForm.get("ORDEN PRELACION").equals("")) && (dynaForm.get("ORDEN PRELACION")!="")) person.getPerson().setPriority(Integer.parseInt((String) dynaForm.get("ORDEN PRELACION")));
+				if (dynaForm.get("NUMERO")!=null) movilNumber = (String) dynaForm.get("NUMERO");
 
-				Facade.getInstance().updatePerson(person);
+				Facade.getInstance().updatePersonMovil(person, movilNumber);
+
+
 
 			}else{
 				Person person = new Person();
-				String movilNumber= "";
 				if (dynaForm.get("SOBRENOMBRE")!=null) person.setNickname((String) dynaForm.get("SOBRENOMBRE"));
 				if (dynaForm.get("NOMBRE")!=null) person.setName((String) dynaForm.get("NOMBRE"));
 				if ((dynaForm.get("NRO DOCUMENTO")!=null) && (!dynaForm.get("NRO DOCUMENTO").equals(""))) person.setDocumentNumber((String) dynaForm.get("NRO DOCUMENTO"));
