@@ -64,8 +64,6 @@ public class ActUpdatePerson extends RestrictionAction {
 
 				Facade.getInstance().updatePersonMovil(person, movilNumber);
 
-
-
 			}else{
 				Person person = new Person();
 				if (dynaForm.get("SOBRENOMBRE")!=null) person.setNickname((String) dynaForm.get("SOBRENOMBRE"));
