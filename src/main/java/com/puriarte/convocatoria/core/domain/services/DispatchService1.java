@@ -191,7 +191,9 @@ public class DispatchService1 {
 			long idAssignment = new Long((Integer) entry.getValue());
 			int categoryId = 0;
 			int idStatus = (int) arStatus.get(key); 
-			boolean forward = arForwardIds.equals("on");
+			boolean forward = false;
+			if ((arForwardIds.get(key)!=null) && arForwardIds.get(key).equals("on")) 
+				forward = true;
 			
 			PersonCategory category=new PersonCategory();
 			try{

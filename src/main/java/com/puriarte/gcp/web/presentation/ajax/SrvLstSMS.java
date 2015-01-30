@@ -87,7 +87,7 @@ public class SrvLstSMS extends HttpServlet {
 		
 		if (strSort.equals("5")) orderBy = "creationDate"; 
 		if (strSort.equals("7")) orderBy = "number"; 
-		if (strSort.equals("8")) orderBy = "person.name" + strOrder +   ", message "; 
+		if (strSort.equals("8")) orderBy = "person.name " + strOrder +   ", message "; 
 		if (strSort.equals("9")) orderBy = "texto"; 
 		if (strSort.equals("10")) orderBy = "sentDate"; 
 		if (strSort.equals("11")) orderBy = "direction"; 

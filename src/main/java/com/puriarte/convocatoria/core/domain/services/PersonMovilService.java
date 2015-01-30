@@ -151,7 +151,7 @@ public class PersonMovilService {
 		Join movil= personMovil.join("movil", JoinType.LEFT);
 					
 		criteria.select(personMovil);
-		if (orderByColumn!=null)
+		if ((orderByColumn!=null) && (!orderByColumn.equals("")) )
 			criteria.orderBy(parseOrderBy(orderByColumn, builder, movil,documentType, person, personMovil));
 		
 		return em.createQuery(criteria).getResultList();
@@ -240,6 +240,19 @@ public class PersonMovilService {
 		}catch(Exception e){
 			return null;
 		}
+	}
+
+	public void updatePersonMovil(PersonMovil person, String movilNumber) {
+		
+		final EntityManager em = getEntityManager();
+
+		person.getMovil().setNumber(movilNumber);
+		
+		em.getTransaction().begin();
+		em.persist(person);
+		em.getTransaction().commit();
+
+		
 	}
 
 

@@ -107,6 +107,7 @@ public class SrvLstPerson extends HttpServlet {
 			else if (strSort.equals("7")) orderBy = "person.nickname " + strOrder;
 			else if (strSort.equals("8")) orderBy = "person.category.name " + strOrder;
 			else if (strSort.equals("9")) orderBy = "priority " + strOrder;
+			else  orderBy = "person.name " + strOrder;
 		}
 
 		//	Datos de filtors para la consulta

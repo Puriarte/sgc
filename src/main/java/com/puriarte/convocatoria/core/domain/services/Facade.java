@@ -110,7 +110,7 @@ public class Facade {
 
 
 	/**
-	 * Borra l�gica de Persona
+	 * Borra lgica de Persona
 	 * @param id
 	 */
 	public void removePerson(Person person)throws SQLException{
@@ -193,11 +193,11 @@ public class Facade {
 
 	/// SMS ///
 	/**
-	 * Este m�todo verifica que
-	 * (1. el nro Destino est� asociado a una persona,
-	 *  2- el nro est� activo)
+	 * Este mtodo verifica que
+	 * (1. el nro Destino est asociado a una persona,
+	 *  2- el nro est activo)
 	 *
-	 *  Si no lo est� se cambia al estado a SMS rechazado.
+	 *  Si no lo est se cambia al estado a SMS rechazado.
 	 *
 	 * @param nroDestino
 	 * @param string
@@ -350,11 +350,11 @@ public class Facade {
 	}
 
 
-	public void updatePerson(Person person ) {
+	public void updatePerson(Person person) {
 		personService.getInstance().updatePerson(person);
 	}
 
-
+	
 	Person getPerson(String document, int documentType) {
 		return personService.getInstance().selectPerson(document, documentType);
 	}
@@ -486,7 +486,11 @@ public class Facade {
 
 		public void insertPersonMovil(PersonMovil pm) {
 			this.personMovilService.insert(pm);
+		}
 
+		public void updatePersonMovil(PersonMovil person, String movilNumber) {
+			this.personMovilService.updatePersonMovil(person, movilNumber);
+	
 		}
 
 
@@ -544,6 +548,9 @@ public class Facade {
 		public SMS selectSMS(int idRef) {
 			return this.smsService.selectSMS(idRef);
 		}
+
+
+
 
 
 	
