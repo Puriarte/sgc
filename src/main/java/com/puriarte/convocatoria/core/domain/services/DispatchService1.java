@@ -264,9 +264,11 @@ public class DispatchService1 {
 				}else{
 					// Si hay que reenviar el mensaje
 					if (forward){
+						PersonCategory pc = Facade.getInstance().selectPersonCategory(categoryId);
+
 						// Creo el SMS
 						SMS sms = new SMS();
-						sms.setMensaje(message.trim());
+						sms.setMensaje(message.trim() + " " + pc.getName().trim());
 		
 						sms.setPersonMovil(assignment1.getPersonMovil());
 						sms.setStatus(status);
