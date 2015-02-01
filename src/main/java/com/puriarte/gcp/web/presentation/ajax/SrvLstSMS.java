@@ -151,9 +151,9 @@ public class SrvLstSMS extends HttpServlet {
 			else
 				jSonItems += "\"Numero\": \"" + "\",";
 
-			if ((item.getPersonMovil()!=null) && (item.getPersonMovil().getMovil()!=null) &&(item.getPersonMovil().getPerson()!=null) &&(item.getPersonMovil().getPerson().getName()!=null))
-				jSonItems += "\"Nombre\": \"" +  item.getPersonMovil().getPerson().getName() + "\",";
-			else
+//			if ((item.getPersonMovil()!=null) && (item.getPersonMovil().getMovil()!=null) &&(item.getPersonMovil().getPerson()!=null) &&(item.getPersonMovil().getPerson().getName()!=null))
+//				jSonItems += "\"Nombre\": \"" +  item.getPersonMovil().getPerson().getName() + "\",";
+//			else
 				jSonItems += "\"Nombre\": \"" + "-" + "\",";
 	
 			
