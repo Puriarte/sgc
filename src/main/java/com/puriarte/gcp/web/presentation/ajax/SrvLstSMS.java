@@ -155,8 +155,7 @@ public class SrvLstSMS extends HttpServlet {
 				jSonItems += "\"Nombre\": \"" +  item.getPersonMovil().getPerson().getName() + "\",";
 			else
 				jSonItems += "\"Nombre\": \"" + "-" + "\",";
-
-			
+	
 			
 //				jSonItems += "\"Texto\": \"" |+ item.getMensaje()+ "\",";
 				jSonItems += "\"Texto\": \"" +  "" + "\",";
