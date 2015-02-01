@@ -195,7 +195,7 @@ public class SrvLstSMS extends HttpServlet {
 		strXml +="\"records\": " + totalRegistros + ",";
 		strXml +="\"rows\": " +"[" + jSonItems + "]}";
 
-//		System.out.println(strXml);
+		System.out.println(strXml);
 		return strXml;
 	}
 
