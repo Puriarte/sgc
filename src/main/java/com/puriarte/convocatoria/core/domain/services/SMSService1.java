@@ -115,7 +115,7 @@ public class SMSService1 {
 		Root<SMS> sms = q.from(SMS.class);
 		Join status = sms.join("status");
 		Join assignment= sms.join("assignment", JoinType.LEFT);
-		Join personMovil= assignment.join("personMovil", JoinType.LEFT);
+		Join personMovil= sms.join("personMovil", JoinType.LEFT);
 		Join person= personMovil.join("person", JoinType.LEFT);
 		Join movil= personMovil.join("movil", JoinType.LEFT);
 		
@@ -131,7 +131,7 @@ public class SMSService1 {
 			if(order.equals("direction"))	q.orderBy(cb.asc(sms.get("action")));
 			if(order.equals("status"))	q.orderBy(cb.asc(status.get("name")));
 			if(order.equals("dispatch"))	q.orderBy(cb.asc(dispatch.get("name")));
-			if(order.trim().equals("person.name desc, message")==true)
+			if(order.trim().equals("person.name asc, message")==true)
 				q.orderBy(cb.asc(person.get("name")));
 		}else{
 			if(order.equals("number"))	q.orderBy(cb.desc(movil.get("number")));
@@ -170,7 +170,7 @@ public class SMSService1 {
 		Root<SMS> sms = q.from(SMS.class);
 		Join status = sms.join("status");
 		Join assignment= sms.join("assignment", JoinType.LEFT);
-		Join personMovil= assignment.join("personMovil", JoinType.LEFT);
+		Join personMovil= sms.join("personMovil", JoinType.LEFT);
 		Join person= personMovil.join("person", JoinType.LEFT);
 		Join movil= personMovil.join("movil", JoinType.LEFT);		
 		Join job= assignment.join("job", JoinType.LEFT);
