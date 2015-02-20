@@ -37,6 +37,7 @@ public class SrvLstSMS extends HttpServlet {
 	private Date  fechaInicio;
 	private Date  fechaFin;
 	private boolean asc;
+	private boolean deleted;
 
 	private  Long totalRegistros=null;
 	private  BigDecimal totalSaldo = new BigDecimal(0);
@@ -105,6 +106,8 @@ public class SrvLstSMS extends HttpServlet {
 		estado = ((request.getParameter("estado")!=null) && NumberUtils.isNumber(request.getParameter("estado")))? Integer.parseInt(request.getParameter("estado")) : 0;
 		convocatoria = ((request.getParameter("convocatoria")!=null) && NumberUtils.isNumber(request.getParameter("convocatoria")))? Integer.parseInt(request.getParameter("convocatoria")) : 0;
 
+		//TODO: Por ahora solo muestro los SMS que no están borrados. Debería poder ver el tarro de basura.
+		deleted = false;
 	}
 
 	public void _doProcess(HttpServletRequest request, HttpServletResponse response)
@@ -119,7 +122,7 @@ public class SrvLstSMS extends HttpServlet {
 			cargarParametros(request);
 
 			int count = Facade.getInstance().selectCountSMS(fechaInicio,fechaFin,estado,convocatoria);
-			List<SMS> resultados = Facade.getInstance().selectSMSList(fechaInicio,fechaFin,estado,convocatoria, orderBy, strOrder, (strPage-1)*strRows,strRows);
+			List<SMS> resultados = Facade.getInstance().selectSMSList(fechaInicio,fechaFin,estado, deleted, convocatoria, orderBy, strOrder, (strPage-1)*strRows,strRows);
 			jSonItems= procesarItems2(resultados, count);
 			out.print(jSonItems);
 

@@ -24,7 +24,7 @@ public class A4_ListSMS {
 		Date fecha1 = dTF.parse("01-09-2014");
 		Date fecha2 = dTF.parse("30-12-2014");
 
-		List<SMS> smss= Facade.getInstance().selectSMSList(fecha1, fecha2, 0, 0, "4", null, 0, 100);
+		List<SMS> smss= Facade.getInstance().selectSMSList(fecha1, fecha2, 0, false, 0, "4", null, 0, 100);
 
 		PersonMovil movil = Facade.getInstance().selectPersonMovil("098312914", Constants.MOVIL_STATUS_ACTIVE);
 		//List<SMS> smss= Facade.getInstance().SelectRelatedSMSList(movil, Facade.getInstance().selectSmsStatus(Constants.SMS_STATUS_ENVIADO), 0, 1);

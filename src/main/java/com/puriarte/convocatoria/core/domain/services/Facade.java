@@ -159,11 +159,11 @@ public class Facade {
 	}
 
 
-	public List<SMS> selectSMSList(Date fechaDesde, Date fechaHasta, Integer estado, Integer convocatoria,  String order, String orderDirection, Integer pos, Integer limit) {
+	public List<SMS> selectSMSList(Date fechaDesde, Date fechaHasta, Integer estado, boolean deleted, Integer convocatoria,  String order, String orderDirection, Integer pos, Integer limit) {
 		if ((convocatoria !=null) && (!(convocatoria==0)) ){
-			return smsService.selectListByDispatch(fechaDesde, fechaHasta, estado , convocatoria, order, orderDirection, pos,  limit);
+			return smsService.selectListByDispatch(fechaDesde, fechaHasta, estado ,deleted, convocatoria, order, orderDirection, pos,  limit);
 		}else{
-			return smsService.selectList(fechaDesde, fechaHasta, estado , order, orderDirection, pos,  limit);
+			return smsService.selectList(fechaDesde, fechaHasta, estado , deleted,	order, orderDirection, pos,  limit);
 		}
 	}
 

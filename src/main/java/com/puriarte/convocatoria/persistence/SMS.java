@@ -69,7 +69,9 @@ public class SMS {
     private SMS referencedSMS;
 
     private int action;
-
+    
+    private boolean deleted;
+    
     @Temporal(TemporalType.TIMESTAMP)
     protected java.util.Date sentDate;
 
@@ -147,6 +149,15 @@ public class SMS {
 
 	public void setAction(int action) {
 		this.action = action;
+	}
+		
+
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
 	}
 
 	public java.util.Date getSentDate() {

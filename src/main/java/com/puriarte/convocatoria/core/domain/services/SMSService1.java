@@ -106,7 +106,9 @@ public class SMSService1 {
 	 * @param limit
 	 * @return
 	 */
-	public List<SMS> selectList(Date fromDate, Date toDate, Integer estado,  String order, String strOrder, Integer pos, Integer limit){
+	public List<SMS> selectList(Date fromDate, Date toDate, Integer estado,  
+			boolean deleted,
+			String order, String strOrder, Integer pos, Integer limit){
 		final EntityManager em = getEntityManager();
 
 		CriteriaBuilder cb = em.getCriteriaBuilder();
@@ -150,7 +152,8 @@ public class SMSService1 {
 		if (fromDate != null) predicateList.add(cb.greaterThanOrEqualTo(sms.<Date>get("creationDate"), fromDate));
 		if (toDate != null) predicateList.add(cb.lessThanOrEqualTo(sms.<Date>get("creationDate"), toDate));
 		if (estado>0) predicateList.add(cb.equal(status.get("id"), estado));
-
+		predicateList.add(cb.equal(sms.get("deleted"), deleted));
+		
 		Predicate[] predicates = new Predicate[predicateList.size()];
 		predicateList.toArray(predicates);
 		q.where(predicates);
@@ -166,7 +169,7 @@ public class SMSService1 {
 		return a;
 	}
 
-	public List<SMS> selectListByDispatch(Date fromDate, Date toDate, Integer estado, Integer convocatoria, String order, 
+	public List<SMS> selectListByDispatch(Date fromDate, Date toDate, Integer estado, boolean deleted,  Integer convocatoria, String order, 
 			String orderDirection, 	Integer pos, Integer limit){
 		final EntityManager em = getEntityManager();
 
@@ -212,7 +215,8 @@ public class SMSService1 {
 		if (toDate != null) predicateList.add(cb.lessThanOrEqualTo(sms.<Date>get("creationDate"), toDate));
 		if (estado>0) predicateList.add(cb.equal(status.get("id"), estado));
 		if (convocatoria!=null) predicateList.add(cb.equal(dispatch.get("id"), convocatoria));
-
+		if (deleted) predicateList.add(cb.equal(sms.get("deleted"), deleted));
+		
 		Predicate[] predicates = new Predicate[predicateList.size()];
 		predicateList.toArray(predicates);
 		q.where(predicates);

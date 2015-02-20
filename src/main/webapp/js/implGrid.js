@@ -71,7 +71,7 @@ jQuery(document).ready(function(){
 	   	colNames:['POS','ID','CLIENTE','IDDOCUMENTO', 'Fecha Creado','Numero','Nombre','Texto','Fecha Envio','Dir','Estado', 'Convocatoria'],
 	   	colModel:[
    			{name:"POS",index:"1", key: true, jsonmap:"Pos", align:"center", hidden:true, width:10, sortable:false},
-  			{name:"ID",index:"2", key: true, jsonmap:"Id", align:"center", hidden:true, width:10},
+  			{name:"ID",index:"2", key: true, jsonmap:"Id", align:"center", hidden:false, width:10},
   			{name:"CLIENTE",index:"3", key: true, jsonmap:"Cliente", align:"center",   width:400 , sortable:true,hidden:true},
   			{name:"IDDOCUMENTO",index:"4", key: true, jsonmap:"IdDoc", align:"center",width:10, hidden:true},
 			{name:"FECHA",index:"5", key: true, jsonmap:"Fecha", align:"center", fixed:true,width:110 ,resizable:false, sortable:true,hidden:false},
