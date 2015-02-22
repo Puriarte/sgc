@@ -102,7 +102,7 @@ jQuery(document).ready(function(){
 	   	],
 	   	rowNum:60,
 	   	scrollOffset:50,
-		multiselect: false,
+		multiselect: true,
 		caption: null,
 		forceFit: true,
 		height:$(window).height() * 0.60,
