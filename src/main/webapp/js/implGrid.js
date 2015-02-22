@@ -10,6 +10,17 @@ Number.prototype.format = function(){
    return this.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.");
 };
 
+var deleteOptions={
+			url: 'deleteSMS.do',
+			mtype:"POST",
+			reloadAfterSubmit:true,
+			serializeDelData: function (postdata) {
+			      var rowdata = jQuery('#gridArticulos').getRowData(postdata.id);
+			      // append postdata with any information 
+			      return {id: postdata.id, oper: postdata.oper,  smsid: rowdata.ID};
+			 }
+};
+
 jQuery(document).ready(function(){
 
 	//--- Botonoes ---------------------------------------------------------
@@ -71,7 +82,7 @@ jQuery(document).ready(function(){
 	   	colNames:['POS','ID','CLIENTE','IDDOCUMENTO', 'Fecha Creado','Numero','Nombre','Texto','Fecha Envio','Dir','Estado', 'Convocatoria'],
 	   	colModel:[
    			{name:"POS",index:"1", key: true, jsonmap:"Pos", align:"center", hidden:true, width:10, sortable:false},
-  			{name:"ID",index:"2", key: true, jsonmap:"Id", align:"center", hidden:false, width:10},
+  			{name:"ID",index:"2", key: true, jsonmap:"Id", align:"center", hidden:true, width:100, editable:true},
   			{name:"CLIENTE",index:"3", key: true, jsonmap:"Cliente", align:"center",   width:400 , sortable:true,hidden:true},
   			{name:"IDDOCUMENTO",index:"4", key: true, jsonmap:"IdDoc", align:"center",width:10, hidden:true},
 			{name:"FECHA",index:"5", key: true, jsonmap:"Fecha", align:"center", fixed:true,width:110 ,resizable:false, sortable:true,hidden:false},
@@ -79,7 +90,6 @@ jQuery(document).ready(function(){
 			{name:"NOMBRE",index:"8", jsonmap:"Nombre", align:"left", fixed:true,  width:140 ,resizable:false, sortable:true,hidden:false},
 			{name:"TEXTO",index:"9", jsonmap:"Texto", align:"left", fixed:true,  width:380 ,resizable:false, sortable:true,hidden:false},
 			{name:"FECHA ENVIO",index:"10", jsonmap:"FechaEnvio", align:"center", fixed:true, resizable:false,  width:110  ,sortable:true,hidden:false},
-
 			{name:"DIR",index:"11",  jsonmap:"Action", align:"center", fixed:true, width:50, resizable:false, sortable:true,hidden:false,
 				formatter: function(cellvalue, options, rowObject) {
 					return cellvalue == "ENTRANTE" ? "<span class='glyphicon glyphicon-arrow-down'></span>" :
@@ -104,6 +114,10 @@ jQuery(document).ready(function(){
 		jsonReader: { repeatitems : false, root:"rows" },
 		loadComplete: function(data) {
 		},
+//		beforeSelectRow: function(id){
+//			jQuery("#gridArticulos").setSelection (id, true);
+//			return false;
+//		},
 		onSelectRow: function(id){
 			$("#idsValesSel").val(id);
 		},
@@ -112,6 +126,10 @@ jQuery(document).ready(function(){
 			jQuery("#gridArticulos").jqGrid('setSelection',id,false);
 			$('#btnVerFactura').trigger('click');
 		},
+		ajaxDelOptions: { contentType: 'application/json; charset=utf-8' },
+			serializeDelData: function (postData) {
+		        return JSON.stringify(postData);
+	    },
 		ajaxGridOptions: {dataFilter:function(data,dataType){
 			var msg = eval('(' + data + ')');
 			if ((msg.error != undefined) &&  (msg.error.length>0)){
@@ -145,7 +163,7 @@ jQuery(document).ready(function(){
 			}
 			}
 		}
-	}).navGrid('#pagerArticulos',{edit:false,add:false,del:false});
+	}).navGrid('#pagerArticulos',{edit:false,add:false,del:true}, null, null, deleteOptions);
 
 
     function parseXMLAutocomplete(xml) {
@@ -285,29 +303,3 @@ function ingresarVale() {
 	}
 	return false;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

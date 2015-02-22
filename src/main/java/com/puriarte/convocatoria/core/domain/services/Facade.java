@@ -273,8 +273,8 @@ public class Facade {
 		return smsService.selectCountSMS(personId, word, fechaDesde, fechaHasta);
 	}
 
-	public int selectCountSMS(Date fechaInicio, Date fechaFin, int estado,	int convocatoria) {
-		return smsService.selectCountSMS(fechaInicio, fechaFin, estado, convocatoria);
+	public int selectCountSMS(Date fechaInicio, Date fechaFin, int estado,	int convocatoria, boolean deleted) {
+		return smsService.selectCountSMS(fechaInicio, fechaFin, estado, convocatoria, deleted);
 	}
 
 	public int selectCountSentSMS(int personId, Date fechaDesde,Date  fechaHasta){
@@ -547,6 +547,12 @@ public class Facade {
 
 		public SMS selectSMS(int idRef) {
 			return this.smsService.selectSMS(idRef);
+		}
+
+
+		public void deleteSMS(SMS sms) {
+		
+			this.smsService.getInstance().deleteSMS(sms);
 		}
 
 

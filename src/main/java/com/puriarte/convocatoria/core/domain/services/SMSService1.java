@@ -215,7 +215,7 @@ public class SMSService1 {
 		if (toDate != null) predicateList.add(cb.lessThanOrEqualTo(sms.<Date>get("creationDate"), toDate));
 		if (estado>0) predicateList.add(cb.equal(status.get("id"), estado));
 		if (convocatoria!=null) predicateList.add(cb.equal(dispatch.get("id"), convocatoria));
-		if (deleted) predicateList.add(cb.equal(sms.get("deleted"), deleted));
+		predicateList.add(cb.equal(sms.get("deleted"), deleted));
 		
 		Predicate[] predicates = new Predicate[predicateList.size()];
 		predicateList.toArray(predicates);
@@ -247,7 +247,7 @@ public class SMSService1 {
 			return (Integer)a;
 	}
 
-	public int selectCountSMS(Date fechaInicio, Date fechaFin, int estado,int convocatoria) {
+	public int selectCountSMS(Date fechaInicio, Date fechaFin, int estado,int convocatoria, boolean deleted) {
 		final EntityManager em = getEntityManager();
 		CriteriaBuilder cb = em.getCriteriaBuilder();
 		
@@ -263,7 +263,8 @@ public class SMSService1 {
 		if (fechaFin != null) predicateList.add(cb.lessThanOrEqualTo(from.<Date>get("creationDate"), fechaFin));
 		if (estado>0) predicateList.add(cb.equal(status.get("id"), estado));
 		if (convocatoria>0) predicateList.add(cb.equal(dispatch.get("id"), convocatoria));
-
+		predicateList.add(cb.equal(from.get("deleted"), deleted));
+		
 		Predicate[] predicates = new Predicate[predicateList.size()];
 		predicateList.toArray(predicates);
 		q.select(cb.count(from));
@@ -422,6 +423,14 @@ public class SMSService1 {
 		SMS a = (SMS) query.getSingleResult();
 
 		return a;
+	}
+
+	public void  deleteSMS(SMS sms) {
+		final EntityManager em = getEntityManager();
+		sms.setDeleted(true);
+		em.getTransaction().begin();
+		em.persist(sms);
+		em.getTransaction().commit();
 	}
 
 	

@@ -121,8 +121,8 @@ public class SrvLstSMS extends HttpServlet {
 		try {
 			cargarParametros(request);
 
-			int count = Facade.getInstance().selectCountSMS(fechaInicio,fechaFin,estado,convocatoria);
-			List<SMS> resultados = Facade.getInstance().selectSMSList(fechaInicio,fechaFin,estado, deleted, convocatoria, orderBy, strOrder, (strPage-1)*strRows,strRows);
+			int count = Facade.getInstance().selectCountSMS(fechaInicio,fechaFin,estado, convocatoria,deleted);
+			List<SMS> resultados = Facade.getInstance().selectSMSList(fechaInicio,fechaFin,estado, deleted, convocatoria,  orderBy, strOrder, (strPage-1)*strRows,strRows);
 			jSonItems= procesarItems2(resultados, count);
 			out.print(jSonItems);
 

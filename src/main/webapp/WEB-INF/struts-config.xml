@@ -14,6 +14,9 @@
 	<form-bean dynamic="true" name="frmAdmSMS" type="org.apache.struts.action.DynaActionForm">
 		<form-property name="nroDestino" type="java.lang.String" />
 		<form-property name="detalleIn" type="java.lang.String" />
+		<form-property name="id" type="java.lang.String" />
+		<form-property name="smsid" type="java.lang.String" />
+		
 	</form-bean>
 
 	<form-bean dynamic="true" name="frmLstSMS" type="org.apache.struts.action.DynaActionForm">
@@ -276,6 +279,21 @@
 		name="frmAdmSMS"
 		scope="request"
 		type="com.puriarte.gcp.web.presentation.actions.ActIngresarSMS">
+
+		<set-property property="idOpMenu" value="502"/>
+		<set-property property="idComponente" value="13"/>
+
+		<forward name="success" path="/resultado_operacion.jsp"/>
+		<forward name="failure" path="/resultado_operacion.jsp"/>
+
+</action>
+
+
+<action className="com.puriarte.gcp.web.presentation.actions.SecurityActionMapping"
+		path="/deleteSMS"
+		name="frmAdmSMS"
+		scope="request"
+		type="com.puriarte.gcp.web.presentation.actions.ActDeleteSMS">
 
 		<set-property property="idOpMenu" value="502"/>
 		<set-property property="idComponente" value="13"/>
