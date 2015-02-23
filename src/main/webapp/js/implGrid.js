@@ -21,6 +21,35 @@ var deleteOptions={
 			 }
 };
 
+
+var editMessage = function(response,postdata){
+	var json   = response.responseText;
+    var result = JSON.parse(json);
+    return [result.status,result.message,null];
+}
+
+var editOptions={top: 50, left: "100",
+		width: 300,
+		height:300,
+		recreateForm:true,
+		closeOnEscape: true,
+		closeAfterAdd:true,
+		closeAfterEdit:true,
+		modal: true,
+	    beforeShowForm: function ($form) {
+	    	$("#NUMERO")
+            .prop("disabled", true)
+            .addClass("ui-state-disabled")
+            .closest(".DataTD")
+            .prev(".CaptionTD")
+            .prop("disabled", true)
+            .addClass("ui-state-disabled")
+
+	    },
+	    afterSubmit: editMessage,
+};
+
+
 jQuery(document).ready(function(){
 
 	//--- Botonoes ---------------------------------------------------------
@@ -81,24 +110,24 @@ jQuery(document).ready(function(){
 	   	datatype: "local", // se usa local para que no cargue registros en el primer acceso a la grilla
 	   	colNames:['POS','ID','CLIENTE','IDDOCUMENTO', 'Fecha Creado','Numero','Nombre','Texto','Fecha Envio','Dir','Estado', 'Convocatoria'],
 	   	colModel:[
-   			{name:"POS",index:"1", key: true, jsonmap:"Pos", align:"center", hidden:true, width:10, sortable:false},
-  			{name:"ID",index:"2", key: true, jsonmap:"Id", align:"center", hidden:true, width:100, editable:true},
-  			{name:"CLIENTE",index:"3", key: true, jsonmap:"Cliente", align:"center",   width:400 , sortable:true,hidden:true},
-  			{name:"IDDOCUMENTO",index:"4", key: true, jsonmap:"IdDoc", align:"center",width:10, hidden:true},
-			{name:"FECHA",index:"5", key: true, jsonmap:"Fecha", align:"center", fixed:true,width:110 ,resizable:false, sortable:true,hidden:false},
-			{name:"NUMERO",index:"7", jsonmap:"Numero", align:"center", fixed:true,  width:120 ,resizable:false, sortable:true,hidden:false},
-			{name:"NOMBRE",index:"8", jsonmap:"Nombre", align:"left", fixed:true,  width:140 ,resizable:false, sortable:true,hidden:false},
-			{name:"TEXTO",index:"9", jsonmap:"Texto", align:"left", fixed:true,  width:380 ,resizable:false, sortable:true,hidden:false},
-			{name:"FECHA ENVIO",index:"10", jsonmap:"FechaEnvio", align:"center", fixed:true, resizable:false,  width:110  ,sortable:true,hidden:false},
-			{name:"DIR",index:"11",  jsonmap:"Action", align:"center", fixed:true, width:50, resizable:false, sortable:true,hidden:false,
+   			{name:"POS"			,index:"1", key: true, 	jsonmap:"Pos", 		 align:"center", hidden:true,  width:10,  editable:false, sortable:false},
+  			{name:"ID"			,index:"2", key: true, 	jsonmap:"Id", 		 align:"center", hidden:true,  width:100, editable:true, editoptions:{readonly:true,size:10}},
+  			{name:"CLIENTE"		,index:"3", key: true, 	jsonmap:"Cliente",	 align:"center", hidden:true,  width:400, editable:false, sortable:true},
+  			{name:"IDDOCUMENTO"	,index:"4", key: true, 	jsonmap:"IdDoc",	 align:"center", hidden:true,  width:10},
+			{name:"FECHA"		,index:"5", key: true, 	jsonmap:"Fecha",	 align:"center", hidden:false, width:110, editable:false, fixed:true, resizable:false, sortable:true},
+			{name:"NUMERO"		,index:"7", 			jsonmap:"Numero",	 align:"center", hidden:false, width:120, editable:false, fixed:true, resizable:false, sortable:true},
+			{name:"NOMBRE"		,index:"8", 			jsonmap:"Nombre",	 align:"left", 	 hidden:false, width:140, editable:false, fixed:true, resizable:false, sortable:true},
+			{name:"TEXTO"		,index:"9", 			jsonmap:"Texto", 	 align:"left", 	 hidden:false, width:380, editable:false, fixed:true, resizable:false, sortable:true},
+			{name:"FECHA ENVIO"	,index:"10", 			jsonmap:"FechaEnvio",align:"center", hidden:false, width:110, editable:false, fixed:true, resizable:false, sortable:true},
+			{name:"DIR"			,index:"11",  			jsonmap:"Action", 	 align:"center", hidden:false, width:50,  editable:false, fixed:true, resizable:false, sortable:true,
 				formatter: function(cellvalue, options, rowObject) {
 					return cellvalue == "ENTRANTE" ? "<span class='glyphicon glyphicon-arrow-down'></span>" :
 						cellvalue == "SALIENTE" ? "<span class='glyphicon glyphicon-arrow-up'></span>" :
 					cellvalue;
 					}
 			},
-			{name:"ESTADO",index:"12", jsonmap:"Saldo", align:"center", fixed:true, resizable:false, width:80 ,sortable:true,hidden:false},
-			{name:"CONVOCATORIA",index:"13", jsonmap:"Dispatch", align:"left", fixed:true, resizable:false, width:310 ,sortable:true,hidden:false},
+			{name:"ESTADO",		index:"12", 	jsonmap:"Saldo", 	align:"center"	, fixed:true, editable:false, resizable:false, width:80 ,sortable:true,hidden:false},
+			{name:"CONVOCATORIA",index:"13", 	jsonmap:"Dispatch", align:"left"	, fixed:true, editable:true, resizable:false, width:310 ,sortable:true,hidden:false},
 	   	],
 	   	rowNum:60,
 	   	scrollOffset:50,
@@ -111,6 +140,8 @@ jQuery(document).ready(function(){
 		gridview: true,
 		viewrecords: true,
 		footerrow: false,
+		closeAfterEdit:true,
+		editurl:"updateSMS.do",
 		jsonReader: { repeatitems : false, root:"rows" },
 		loadComplete: function(data) {
 		},
