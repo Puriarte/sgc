@@ -26,7 +26,9 @@ import javax.persistence.TemporalType;
 	  @NamedQuery(name="SelectDispatch",
 		      query="SELECT d FROM Dispatch d WHERE d.id = :id"),
 	  @NamedQuery(name="SelectDispatchList",
-		      query="SELECT d FROM Dispatch d  WHERE ((:estado = 0) or (d.dispatchStatus.id = :estado)) ")
+		      query="SELECT d FROM Dispatch d  WHERE ((:estado = 0) or (d.dispatchStatus.id = :estado)) "),
+	  @NamedQuery(name="SelectSimpleDispatchList",
+      query="SELECT d.id, d.name FROM Dispatch d  WHERE ((:estado = 0) or (d.dispatchStatus.id = :estado)) ")
 	})
 @Entity
 public class Dispatch implements Serializable {

@@ -160,9 +160,13 @@ public class SrvLstSMS extends HttpServlet {
 				jSonItems += "\"Nombre\": \"" + "--" + "\",";
 				
 			if (item.getMensaje().length()>200) 
-				jSonItems += "\"Texto\": \"" + item.getMensaje().substring(0,100) + "..." + "\",";
+				jSonItems += "\"Texto\": \"" + item.getMensaje().substring(0,100).replaceAll("\\n","\\\\n")
+		                 .replaceAll("\\r","\\\\r")
+		                 .replaceAll("\\t","\\\\t")  + "..." + "\",";
 			else
-				jSonItems += "\"Texto\": \"" + item.getMensaje()+ "\",";
+				jSonItems += "\"Texto\": \"" + item.getMensaje().replaceAll("\\n","\\\\n")
+		                 .replaceAll("\\r","\\\\r")
+		                 .replaceAll("\\t","\\\\t")  + "\",";
 
 			if (item.getSentDate()!=null)
 				jSonItems += "\"FechaEnvio\": \"" + dTF.format(item.getSentDate()) + "\",";

@@ -338,6 +338,15 @@ public class SMSService1 {
 		return a;
 	}
 
+	/**
+	 * Trae la lista de los SMS que pueden ser respuesta
+	 * 
+	 * @param movil
+	 * @param status
+	 * @param pos
+	 * @param limit
+	 * @return
+	 */
 	public List<SMS> SelectRelatedSMSList(PersonMovil movil, SmsStatus status, Integer pos, Integer limit) {
 
 		final EntityManager em = getEntityManager();

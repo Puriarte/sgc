@@ -207,18 +207,34 @@ public class Facade {
 		smsService.getInstance().insert(null,null, null, movil,texto, Constants.SMS_ACTION_OUTCOME, selectSmsStatus(Constants.SMS_STATUS_PENDIENTE), new Date(),uuid);
 	}
 
-	public void insertSMSIncome(String originator, String text, Date date, String uuid, String[] positiveStart,
-			String[] positiveContains,	String[] negativeStart, String[] negativeContains ) throws Exception {
+	/**
+	 * Inserta un SMS entrante. Si tiene una citación asociada, siempre que la citación no sea anterior a la fecha dada
+	 * lo asocia.  
+	 * 
+	 * @param originator
+	 * @param text
+	 * @param date
+	 * @param uuid
+	 * @param positiveStart
+	 * @param positiveContains
+	 * @param negativeStart
+	 * @param negativeContains
+	 * @throws Exception
+	 */
+	public void insertSMSIncome(String originator, String text, Date date, String uuid, 
+			String[] positiveStart,	String[] positiveContains, String[] negativeStart, String[] negativeContains ) throws Exception {
+
+		boolean enviado=false;
+		String word="NODEFINIDO";
+
 		PersonMovil movil = Facade.getInstance().selectPersonMovil(originator,Constants.MOVIL_STATUS_ACTIVE );
+		
 		if (movil ==null){
 			DocumentType dt = Facade.getInstance().selectDocumentType(Constants.PERSON_TYPE_CI);
 			movil = Facade.getInstance().insertPersonMovil(originator, "" ,dt);
 		}
-		boolean enviado=false;
-		String word="NODEFINIDO";
+		
 		for (String auxWord :positiveStart){
-
-
 			if (text.toUpperCase().trim().startsWith(auxWord))
 				word = "SI";
 		}
@@ -246,23 +262,27 @@ public class Facade {
 //			if(word.equals("SI") || word.equals("NO")) {
 				List<SMS> smsList = Facade.getInstance().SelectRelatedSMSList(movil, selectSmsStatus(Constants.SMS_STATUS_ENVIADO), 0, 1);
 				if ((smsList!=null) && (smsList.size()>0)){
-					SMS sms = smsList.get(0);
-					if (sms.getAssignment()!=null){
-						if (sms.getAssignment().getJob()!=null){
-							if(sms.getAssignment().getJob().getDispatch()!=null){
-								Assignment assignment = sms.getAssignment();
-								if ((assignment.getStatus().getId() != Constants.ASSIGNMENT_STATUS_CANCELED) && (assignment.getStatus().getId() != Constants.ASSIGNMENT_STATUS_EXPIRED )){
-									if (word.equals("SI"))	assignment.setStatus(Facade.getInstance().selectAssingmentStatus(Constants.ASSIGNMENT_STATUS_ACCEPTED));
-									else if (word.equals("NO")) assignment.setStatus(Facade.getInstance().selectAssingmentStatus(Constants.ASSIGNMENT_STATUS_REGECTED ));
-								}									
-								smsService.getInstance().insert(word, assignment, sms, movil, text, Constants.SMS_ACTION_INCOME, selectSmsStatus(Constants.SMS_STATUS_RECIBIDO), date,uuid);
-								enviado=true;
+					int i=0;
+					while ((smsList.size()>i) && (!enviado)){
+						SMS sms = smsList.get(i);
+						if (sms.getAssignment()!=null){
+							if (sms.getAssignment().getJob()!=null){
+								if(sms.getAssignment().getJob().getDispatch()!=null){
+									if(sms.getAssignment().getJob().getDispatch().getScheduledDate().compareTo(new Date())>0){
+										Assignment assignment = sms.getAssignment();
+										if ((assignment.getStatus().getId() != Constants.ASSIGNMENT_STATUS_CANCELED) && (assignment.getStatus().getId() != Constants.ASSIGNMENT_STATUS_EXPIRED )){
+											if (word.equals("SI"))	assignment.setStatus(Facade.getInstance().selectAssingmentStatus(Constants.ASSIGNMENT_STATUS_ACCEPTED));
+											else if (word.equals("NO")) assignment.setStatus(Facade.getInstance().selectAssingmentStatus(Constants.ASSIGNMENT_STATUS_REGECTED ));
+										}									
+										smsService.getInstance().insert(word, assignment, sms, movil, text, Constants.SMS_ACTION_INCOME, selectSmsStatus(Constants.SMS_STATUS_RECIBIDO), date,uuid);
+										enviado=true;
+									}
+								}
 							}
 						}
 					}
 				}
 	//		}
-
 		}
 		
 		if (!enviado)
@@ -392,6 +412,11 @@ public class Facade {
  /* CONVOCATORIA */
 	public List<Dispatch> selectDispatchList( int estado, String order, Integer pos, Integer limit) {
 		return dispatchService.selectList(estado , order, pos,  limit);
+	}
+
+	public Collection<? extends Dispatch> selectSimpleDispatchList(int estado,
+			String  order, Integer pos, Integer limit) {
+		return dispatchService.selectSimpleList(estado , order, pos,  limit);
 	}
 
 
@@ -554,14 +579,6 @@ public class Facade {
 		
 			this.smsService.getInstance().deleteSMS(sms);
 		}
-
-
-
-
-
-	
-
-	
 
 
 }

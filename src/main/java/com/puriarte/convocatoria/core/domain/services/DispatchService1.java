@@ -1,11 +1,14 @@
 package com.puriarte.convocatoria.core.domain.services;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Vector;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -76,6 +79,33 @@ public class DispatchService1 {
 	}
 
 
+	public List<Dispatch> selectSimpleList(int estado,
+			String order, Integer pos, Integer limit) {
+		final EntityManager em = getEntityManager();
+
+		if (order==null) order ="";
+
+		Query query = em.createNamedQuery("SelectSimpleDispatchList")
+				.setParameter("estado", estado);
+
+		if((pos!=null) && (limit!=null)) query.setFirstResult(pos).setMaxResults(limit);
+
+		query.setHint("javax.persistence.cache.storeMode", "REFRESH");
+		query.setHint("eclipselink.refresh", "true");
+		query.setHint("eclipselink.refresh.cascade", "CascadeAllParts");
+
+		List<Object[]> a = query.getResultList();
+		List<Dispatch> dispatchList = new ArrayList<Dispatch>(); 	
+		for (Object[] aux :a){
+			Dispatch aux1 = new Dispatch();
+			aux1.setId(Integer.parseInt(aux[0].toString()));
+			aux1.setName(aux[1].toString());
+			dispatchList.add(aux1);
+		}
+		return dispatchList;
+	}
+	
+	
 	public Dispatch selectDispatch(Integer id) {
 		final EntityManager em = getEntityManager();
 
@@ -90,6 +120,7 @@ public class DispatchService1 {
 			return null;
 		}
 	}
+
 
 
 	public int insert(Dispatch dispatch ) {
@@ -313,6 +344,5 @@ public class DispatchService1 {
 		em.remove(item1);
 		em.getTransaction().commit();
 	}
-
 
 }
