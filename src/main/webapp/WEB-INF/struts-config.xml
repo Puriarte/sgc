@@ -16,7 +16,8 @@
 		<form-property name="detalleIn" type="java.lang.String" />
 		<form-property name="id" type="java.lang.String" />
 		<form-property name="smsid" type="java.lang.String" />
-		
+		<form-property name="ID" type="java.lang.String" />
+		<form-property name="CONVOCATORIA" type="java.lang.String" />
 	</form-bean>
 
 	<form-bean dynamic="true" name="frmLstSMS" type="org.apache.struts.action.DynaActionForm">
@@ -301,6 +302,18 @@
 		<forward name="success" path="/resultado_operacion.jsp"/>
 		<forward name="failure" path="/resultado_operacion.jsp"/>
 
+</action>
+
+<action className="com.puriarte.gcp.web.presentation.actions.SecurityActionMapping"
+		path="/updateSMS"
+		name="frmAdmSMS"
+		scope="request"
+		type="com.puriarte.gcp.web.presentation.actions.ActUpdateSMS">
+
+		<set-property property="idOpMenu" value="502"/>
+		<set-property property="idComponente" value="13"/>
+		<forward name="success" path="/resultado_operacion_json.jsp"/>
+		<forward name="failure" path="/resultado_operacion_json.jsp"/>
 </action>
 
 

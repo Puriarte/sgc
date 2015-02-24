@@ -366,6 +366,26 @@ public class SMSService1 {
 		return a;
 	}
 
+	public List<SMS> SelectRelatedSMSList(PersonMovil movil, SmsStatus status,
+			int dispatchId, Integer pos, Integer limit) {
+		
+		final EntityManager em = getEntityManager();
+
+		Query query = em.createNamedQuery("SelectRelatedFromDispatchSMSList")
+			.setParameter("dispatchId", dispatchId)
+			.setParameter("movilId", movil.getId())
+			.setParameter("status", status.getId());
+		
+		query.setHint("javax.persistence.cache.storeMode", "REFRESH");
+		query.setHint("eclipselink.refresh", "true");
+		query.setHint("eclipselink.refresh.cascade", "CascadeAllParts");
+
+		if((pos!=null) && (limit!=null)) query.setFirstResult(pos).setMaxResults(limit);
+
+		List<SMS> a = (List<SMS>) query.getResultList();
+
+		return a;
+	}
 
 	/**
 	 * Obtiene el estado de SM
@@ -441,6 +461,25 @@ public class SMSService1 {
 		em.persist(sms);
 		em.getTransaction().commit();
 	}
+
+	public void updateSMSAssignment(SMS sms, SMS smsRef) {
+		final EntityManager em = getEntityManager();
+
+		if(smsRef!=null){
+			sms.setAssignment(smsRef.getAssignment());
+			sms.setReferencedSMS(smsRef);
+		}else{
+			sms.setAssignment(null);
+			sms.setReferencedSMS(null);
+		}
+
+		em.getTransaction().begin();
+		em.persist(sms);
+		em.getTransaction().commit();
+		
+	}
+
+	
 
 	
 

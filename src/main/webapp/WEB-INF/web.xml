@@ -99,6 +99,23 @@
 		</init-param>
 	    <load-on-startup>5</load-on-startup>
 	</servlet>
+
+	
+	<servlet>
+	    <servlet-name>SelectDispatch</servlet-name>
+	    <servlet-class>com.puriarte.gcp.web.presentation.ajax.SrvSelectDispatch</servlet-class>
+		<init-param>
+			<param-name>idComponente</param-name>
+			<param-value>17</param-value>
+		</init-param>
+		<init-param>
+			<param-name>idOpMenu</param-name>
+			<param-value>1017</param-value>
+		</init-param>
+	    <load-on-startup>8</load-on-startup>
+	</servlet>
+
+
 	<servlet>
 	    <servlet-name>LstPersonCategory</servlet-name>
 	    <servlet-class>com.puriarte.gcp.web.presentation.ajax.SrvLstPersonCategory</servlet-class>
@@ -216,6 +233,11 @@
   <servlet-mapping>
     <servlet-name>LstDispatch</servlet-name>
     <url-pattern>/lstDispatch</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>SelectDispatch</servlet-name>
+    <url-pattern>/selectDispatch</url-pattern>
   </servlet-mapping>
 
   <servlet-mapping>

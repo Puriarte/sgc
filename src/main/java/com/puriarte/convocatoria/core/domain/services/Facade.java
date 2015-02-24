@@ -280,6 +280,7 @@ public class Facade {
 								}
 							}
 						}
+						i++;
 					}
 				}
 	//		}
@@ -288,6 +289,40 @@ public class Facade {
 		if (!enviado)
 			smsService.getInstance().insert(null,null,null, movil, text, Constants.SMS_ACTION_INCOME,selectSmsStatus(Constants.SMS_STATUS_RECIBIDO), date, uuid);
 	}
+	
+	//SI este mensaje 
+	public void updateSMSAssignment(SMS sms, int dispatchId){
+
+		boolean enviado=false;
+		PersonMovil movil = sms.getPersonMovil();
+		if (movil !=null){
+			List<SMS> smsList = Facade.getInstance().SelectRelatedSMSList(movil, selectSmsStatus(Constants.SMS_STATUS_ENVIADO), dispatchId, 0, 1);
+			if ((smsList!=null) && (smsList.size()>0)){
+				int i=0;
+				while ((smsList.size()>i) && (!enviado)){
+					SMS smsRef = smsList.get(i);
+					smsService.getInstance().updateSMSAssignment(sms, smsRef);
+					enviado=true;
+					i++;
+				}
+			}
+			
+		}
+		
+	}
+
+	
+	public void removeSMSAssignment(SMS sms){
+
+		boolean enviado=false;
+		smsService.getInstance().updateSMSAssignment(sms, null);
+	}
+	private List<SMS> SelectRelatedSMSList(PersonMovil movil,
+			SmsStatus status, int dispatchId, int pos, int limit) {
+		return smsService.SelectRelatedSMSList(movil, status , dispatchId, pos,  limit);
+	}
+	
+ 
 
 	public int selectCountSMS(int personId, String word,Date  fechaDesde, Date fechaHasta){
 		return smsService.selectCountSMS(personId, word, fechaDesde, fechaHasta);

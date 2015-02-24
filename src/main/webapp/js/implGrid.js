@@ -127,8 +127,8 @@ jQuery(document).ready(function(){
 					}
 			},
 			{name:"ESTADO",		index:"12", 	jsonmap:"Saldo", 	align:"center"	, fixed:true, editable:false, resizable:false, width:80 ,sortable:true,hidden:false},
-			{name:"CONVOCATORIA",index:"13", 	jsonmap:"Dispatch", align:"left"	, fixed:true, editable:true, resizable:false, width:310 ,sortable:true,hidden:false},
-	   	],
+			{name:"CONVOCATORIA",index:"13", 	jsonmap:"Dispatch", align:"left"	, fixed:true, edittype:"select", editoptions:{ dataUrl:'selectDispatch'}, editrules:{required:true}, editable:true, resizable:false, width:310 ,sortable:true,hidden:false},	
+			],
 	   	rowNum:60,
 	   	scrollOffset:50,
 		multiselect: true,
@@ -194,7 +194,7 @@ jQuery(document).ready(function(){
 			}
 			}
 		}
-	}).navGrid('#pagerArticulos',{edit:false,add:false,del:true}, null, null, deleteOptions);
+	}).navGrid('#pagerArticulos',{edit:true,add:false,del:true}, null, null, deleteOptions);
 
 
     function parseXMLAutocomplete(xml) {
