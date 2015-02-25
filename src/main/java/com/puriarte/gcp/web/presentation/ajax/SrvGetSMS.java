@@ -87,10 +87,16 @@ public class SrvGetSMS extends HttpServlet {
 				  if (jsonObj.get("encoding")!=null)  sms.setEncoding(jsonObj.get("encoding").toString().charAt(0));
 				  if (jsonObj.get("type")!=null)  sms.setType(jsonObj.get("type").toString());
 				  if (jsonObj.get("receive_date")!=null)  sms.setReceiveDate(parseDate(jsonObj.get("receive_date").toString().substring(0, 19)));
-				  if (jsonObj.get("originator")!=null)  sms.setOriginator(jsonObj.get("originator").toString());
+				  if (jsonObj.get("originator")!=null)  {
+					  if (jsonObj.get("originator").toString().startsWith("598"))
+						  sms.setOriginator("0" + jsonObj.get("originator").toString().substring(3));
+					  else
+						  sms.setOriginator(jsonObj.get("originator").toString());						  
+				  }
 				  if (jsonObj.get("original_ref_no")!=null)  sms.setOriginalRefNo(jsonObj.get("original_ref_no").toString());
 				  if (jsonObj.get("uu_id")!=null) sms.setUUId(jsonObj.get("uu_id").toString());
 
+				  
 				  // Si el SMS se inicia con el texto REGISTRO creo el movil en la base de datos.
 				  if (sms.getText().toUpperCase().startsWith("REGISTRO")){
 					  Facade.getInstance().insertSMSIncomeAndRegisterMovil(sms.getOriginator(), sms.getText(),sms.getReceiveDate(), jsonObj.get("uu_id").toString());
