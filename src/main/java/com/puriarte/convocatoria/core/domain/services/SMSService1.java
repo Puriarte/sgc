@@ -231,13 +231,13 @@ public class SMSService1 {
 		return a;
 	}
 
-	public int selectCountSMS(int personId, String word,Date  dateFrom, Date dateTo){
+	public int selectCountSMS(int personId, int status ,Date  dateFrom, Date dateTo){
 		final EntityManager em = getEntityManager();
 
-		Query query = em.createNamedQuery("SelectCountSMSByWord")
+		Query query = em.createNamedQuery("SelectCountSMSByStatus")
 				.setParameter("from", dateFrom)
 				.setParameter("to", dateTo)
-				.setParameter("word", word )
+				.setParameter("status", status )
 				.setParameter("personId", personId);
 
 		Object a = query.getSingleResult();

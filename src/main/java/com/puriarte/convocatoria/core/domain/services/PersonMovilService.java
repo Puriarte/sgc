@@ -150,6 +150,7 @@ public class PersonMovilService {
 		Join documentType= person.join("documentType", JoinType.LEFT);
 		Join movil= personMovil.join("movil", JoinType.LEFT);
 					
+
 		criteria.select(personMovil);
 		if ((orderByColumn!=null) && (!orderByColumn.equals("")) )
 			criteria.orderBy(parseOrderBy(orderByColumn, builder, movil,documentType, person, personMovil));

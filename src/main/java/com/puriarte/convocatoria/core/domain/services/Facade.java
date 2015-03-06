@@ -324,8 +324,8 @@ public class Facade {
 	
  
 
-	public int selectCountSMS(int personId, String word,Date  fechaDesde, Date fechaHasta){
-		return smsService.selectCountSMS(personId, word, fechaDesde, fechaHasta);
+	public int selectCountSMS(int personId, int status, Date  fechaDesde, Date fechaHasta){
+		return smsService.selectCountSMS(personId, status, fechaDesde, fechaHasta);
 	}
 
 	public int selectCountSMS(Date fechaInicio, Date fechaFin, int estado,	int convocatoria, boolean deleted) {

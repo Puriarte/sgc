@@ -137,6 +137,8 @@
 		<form-property name="ID" type="java.lang.String" />
 		<form-property name="NUMERO" type="java.lang.String" />
 		<form-property name="NRO DOCUMENTO" type="java.lang.String" />
+		<form-property name="IMG" type="org.apache.struts.upload.FormFile" />
+
 	</form-bean>
 
 	<form-bean dynamic="true" name="frmSchool" type="org.apache.struts.action.DynaActionForm">
@@ -377,6 +379,18 @@
 		<forward name="failure" path="/resultado_operacion_json.jsp"/>
 </action>
 
+
+<action className="com.puriarte.gcp.web.presentation.actions.SecurityActionMapping"
+		path="/updatePersonImage"
+		name="frmAdmPereson"
+		scope="request"
+		type="com.puriarte.gcp.web.presentation.actions.ActUpdatePersonImage">
+
+		<set-property property="idOpMenu" value="502"/>
+		<set-property property="idComponente" value="13"/>
+		<forward name="success" path="/resultado_operacion_json.jsp"/>
+		<forward name="failure" path="/resultado_operacion_json.jsp"/>
+</action>
 
 <action className="com.puriarte.gcp.web.presentation.actions.SecurityActionMapping"
 		path="/lstCategory"

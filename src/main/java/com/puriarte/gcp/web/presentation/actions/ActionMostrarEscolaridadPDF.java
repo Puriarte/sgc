@@ -125,8 +125,8 @@ public class ActionMostrarEscolaridadPDF extends HttpServlet {
 
 		PersonMovil personMovil = Facade.getInstance().selectPersonMovil(idPerson);
 
-		int countSI = Facade.getInstance().selectCountSMS(personMovil.getId(), "SI", fechaDesde, fechaHasta);
-		int countNo = Facade.getInstance().selectCountSMS(personMovil.getId(), "NO", fechaDesde, fechaHasta);
+		int countSI = Facade.getInstance().selectCountSMS(personMovil.getId(), Constants.ASSIGNMENT_STATUS_ACCEPTED , fechaDesde, fechaHasta);
+		int countNo = Facade.getInstance().selectCountSMS(personMovil.getId(), Constants.ASSIGNMENT_STATUS_REGECTED, fechaDesde, fechaHasta);
 
 		int countSent = Facade.getInstance().selectCountSentSMS(personMovil.getPerson().getId(), fechaDesde, fechaHasta);
 		int countExpired= Facade.getInstance().selectCountExpiredSMS(personMovil.getPerson().getId(), fechaDesde, fechaHasta);

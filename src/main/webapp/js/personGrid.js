@@ -18,14 +18,37 @@ var editMessage = function(response,postdata){
     return [result.status,result.message,null];
 }
 
+
+
 var editOptions={top: 50, left: "100",
-		width: 300,
-		height:300,
+		width: 350,
+		height:450,
 		recreateForm:true,
 		closeOnEscape: true,
 		closeAfterAdd:true,
 		closeAfterEdit:true,
 		modal: true,
+		beforeInitData: function () {
+			var cm = jQuery("#gridArticulos").jqGrid('getColProp','FOTO');
+			var selRowId = jQuery("#gridArticulos").jqGrid('getGridParam','selrow');
+            cm.editoptions.src = './images/faces/flag_mediana_' + selRowId + '.jpg';
+        },
+        onInitializeForm : function(formid){
+            $(formid).attr('method','POST');
+            $(formid).attr('action','""');
+            $(formid).attr('enctype','multipart/form-data');
+            
+            $('#IMG').ajaxfileupload({
+            	'action': 'updatePersonImage.do',
+                'params': {
+                  'ID': jQuery("#gridArticulos").jqGrid('getGridParam','selrow')
+                },
+                'onComplete': function(response) {
+                  alert("Se ha cargado la foto.");
+                }
+              });
+           
+        }, 
 	    beforeShowForm: function ($form) {
 	    	$("#NUMERO")
             .prop("disabled", true)
@@ -38,7 +61,6 @@ var editOptions={top: 50, left: "100",
 	    },
 	    afterSubmit: editMessage,
 };
-
 
 var addOptions={top: 50, left: "100",
 		width: 300,
@@ -96,7 +118,6 @@ jQuery(document).ready(function(){
 		}
 	});
 
-
 	//--- FIN Validacion Formulario -----------------------------------------------------
 	jQuery("#gridArticulos").jqGrid({
 	   	url:urlReload,
@@ -113,19 +134,21 @@ jQuery(document).ready(function(){
 	   	loadonce:false,
 	   	mtype: 'GET',
 	   	datatype: "local", // se usa local para que no cargue registros en el primer acceso a la grilla
-	   	colNames:['POS','ID','NUMERO','TIPO DOC.','NRO DOCUMENTO','NOMBRE','SOBRENOMBRE','CATEGORIA', 'ORDEN PRELACION'],
+	   	colNames:['POS','ID', 'FOTO' ,'NUMERO','TIPO DOC.','NRO DOCUMENTO','NOMBRE','SOBRENOMBRE','CATEGORIA', 'ORDEN PRELACION', 'IMG'],
 	   	colModel:[
    			{name:"POS",			index:"1", key: false, jsonmap:"Pos", 		align:"center", 			width:10,  hidden:true, sortable:false},
    			{name:'ID',				index:'2', key: true,  jsonmap:"Id",									width:55,  editable:true, editoptions:{readonly:true,size:10},hidden:true},
-			{name:"NUMERO",			index:"3", key: false, jsonmap:"Numero", 	align:"center", fixed:true, width:80,  resizable:false, sortable:true,hidden:false, editable:true},
-			{name:"TIPO DOC.",		index:"4", key: false, jsonmap:"FechaEnvio",align:"center", fixed:true, width:80,  sortable:true,resizable:false,  hidden:false},
-			{name:"NRO DOCUMENTO",	index:"5", key: false, jsonmap:"Texto", 	align:"left", 	fixed:true, width:160, resizable:false, sortable:true,hidden:false, editable:true },
-			{name:"NOMBRE",			index:"6", key: false, jsonmap:"Name", 		align:"center", fixed:true, width:150, resizable:false, sortable:true,hidden:false, editable: true },
-			{name:"SOBRENOMBRE",	index:"7", key: false, jsonmap:"Nickname", 	align:"center", fixed:true, width:100, resizable:false, sortable:true,hidden:false, editable: true},
-			{name:"CATEGORIA",		index:"8", key: false, jsonmap:"Category", 	edittype:"select", editoptions:{ dataUrl:'lstPersonCategory'}, editrules:{required:true}, width:90 , editable: true},
-			{name:"ORDEN PRELACION",index:"9", key: false, jsonmap:"Priority", 	align:"center", fixed:true, resizable:false, width:140 ,sortable:true,hidden:false, editable: true},
+			{name:'FOTO', 			index:'3', width: 55, editable: true, edittype: 'image', editoptions: {src: ''}, formatter: function (cell, options) { return '<img src="./images/faces/flag_chica_' + options.rowId + '.jpg"/>'; }},
+			{name:"NUMERO",			index:"4", key: false, jsonmap:"Numero", 	align:"center", fixed:true, width:80,  resizable:false, sortable:true,hidden:false, editable:true},
+			{name:"TIPO DOC.",		index:"5", key: false, jsonmap:"FechaEnvio",align:"center", fixed:true, width:80,  sortable:true,resizable:false,  hidden:false},
+			{name:"NRO DOCUMENTO",	index:"6", key: false, jsonmap:"Texto", 	align:"left", 	fixed:true, width:160, resizable:false, sortable:true,hidden:false, editable:true },
+			{name:"NOMBRE",			index:"7", key: false, jsonmap:"Name", 		align:"center", fixed:true, width:150, resizable:false, sortable:true,hidden:false, editable: true },
+			{name:"SOBRENOMBRE",	index:"8", key: false, jsonmap:"Nickname", 	align:"center", fixed:true, width:100, resizable:false, sortable:true,hidden:false, editable: true},
+			{name:"CATEGORIA",		index:"9", key: false, jsonmap:"Category", 	edittype:"select", editoptions:{ dataUrl:'lstPersonCategory'}, editrules:{required:true}, width:90 , editable: true},
+			{name:"ORDEN PRELACION",index:"10", key: false, jsonmap:"Priority", 	align:"center", fixed:true, resizable:false, width:140 ,sortable:true,hidden:false, editable: true},
+			{name:'IMG', 			index:"11", align: 'left', editable: true, edittype: 'file', editoptions: { enctype: "multipart/form-data" }, search: false },
 			],
-	   	rowNum:60,
+		rowNum:60,
 	   	scrollOffset:50,
 		multiselect: false,
 		caption: null,
