@@ -3,6 +3,7 @@ package com.puriarte.utils.date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -20,7 +21,7 @@ public class DateUtils {
 	public static Date parseDate(String strDate, String formatoRegEx, String formatoFecha ) throws ParseException {
 
 		if (checkFormatRegex(strDate, formatoRegEx)) {
-			SimpleDateFormat sdf = new SimpleDateFormat(formatoFecha);
+			SimpleDateFormat sdf = new SimpleDateFormat(formatoFecha, new Locale("es", "ES"));
 			return sdf.parse(strDate);
 
 		} else {
@@ -31,7 +32,7 @@ public class DateUtils {
 	public static Date parseDateTime(String strDate) throws ParseException {
 
 		if (checkFormatRegex(strDate,DATE_TIME_FORMAT_REGEX)) {
-			SimpleDateFormat sdf = new SimpleDateFormat(DATE_TIME_FORMAT);
+			SimpleDateFormat sdf = new SimpleDateFormat(DATE_TIME_FORMAT, new Locale("es", "ES"));
 			return sdf.parse(strDate);
 
 		} else {
@@ -48,17 +49,17 @@ public class DateUtils {
 	}
 
 	public static String formatDate(Date date) {
-		SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
+		SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT, new Locale("es", "ES"));
 		return sdf.format(date);
 	}
 
 	public static String formatDate(Date date, String formato) {
-		SimpleDateFormat sdf = new SimpleDateFormat(formato);
+		SimpleDateFormat sdf = new SimpleDateFormat(formato, new Locale("es", "ES"));
 		return sdf.format(date);
 	}
 
 	public static String formatDateTime(Date date) {
-		SimpleDateFormat sdf = new SimpleDateFormat(DATE_TIME_FORMAT);
+		SimpleDateFormat sdf = new SimpleDateFormat(DATE_TIME_FORMAT, new Locale("es", "ES"));
 		return sdf.format(date);
 	}
 
