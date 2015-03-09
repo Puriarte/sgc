@@ -167,8 +167,8 @@ public class Facade {
 		}
 	}
 
-	private List<SMS> SelectRelatedSMSList(PersonMovil movil, SmsStatus status, int pos, int limit) {
-		return smsService.SelectRelatedSMSList(movil, status , pos,  limit);
+	private List<SMS> SelectRelatedSMSList(PersonMovil movil, AssignmentStatus assignmentStatus, int pos, int limit) {
+		return smsService.SelectRelatedSMSList(movil, assignmentStatus , pos,  limit);
 	}
 
 
@@ -260,7 +260,8 @@ public class Facade {
 		// Tambien veo si el tiempo para responder esta superado o no
 		if (movil !=null){
 //			if(word.equals("SI") || word.equals("NO")) {
-				List<SMS> smsList = Facade.getInstance().SelectRelatedSMSList(movil, selectSmsStatus(Constants.SMS_STATUS_ENVIADO), 0, 1);
+				List<SMS> smsList = Facade.getInstance().SelectRelatedSMSList(movil, selectAssingmentStatus(Constants.ASSIGNMENT_STATUS_ASSIGNED), 0, 1);
+				//List<SMS> smsList = Facade.getInstance().SelectRelatedSMSList(movil, selectSmsStatus(Constants.SMS_STATUS_ENVIADO), 0, 1);
 				if ((smsList!=null) && (smsList.size()>0)){
 					int i=0;
 					while ((smsList.size()>i) && (!enviado)){

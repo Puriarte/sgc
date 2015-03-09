@@ -17,6 +17,7 @@ import javax.persistence.criteria.Root;
 import org.eclipse.persistence.internal.jpa.querydef.CriteriaQueryImpl;
 
 import com.puriarte.convocatoria.persistence.Assignment;
+import com.puriarte.convocatoria.persistence.AssignmentStatus;
 import com.puriarte.convocatoria.persistence.EntityManagerHelper;
 import com.puriarte.convocatoria.persistence.PersonMovil;
 import com.puriarte.convocatoria.persistence.SMS;
@@ -353,18 +354,18 @@ public class SMSService1 {
 	 * Trae la lista de los SMS que pueden ser respuesta
 	 * 
 	 * @param movil
-	 * @param status
+	 * @param assignmentStatus
 	 * @param pos
 	 * @param limit
 	 * @return
 	 */
-	public List<SMS> SelectRelatedSMSList(PersonMovil movil, SmsStatus status, Integer pos, Integer limit) {
+	public List<SMS> SelectRelatedSMSList(PersonMovil movil, AssignmentStatus assignmentStatus, Integer pos, Integer limit) {
 
 		final EntityManager em = getEntityManager();
 
 		Query query = em.createNamedQuery("SelectRelatedSMSList")
 			.setParameter("movilId", movil.getId())
-			.setParameter("status", status.getId());
+			.setParameter("status", assignmentStatus.getId());
 		
 		query.setHint("javax.persistence.cache.storeMode", "REFRESH");
 		query.setHint("eclipselink.refresh", "true");
