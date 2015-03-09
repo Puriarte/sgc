@@ -189,7 +189,7 @@ public class ActModifyCategoryDispatch extends RestrictionAction {
 						strName +=  " " + place.getName() + " " ;
 					}finally{}
 					
-					strMensaje = strName;
+					strMensaje = strName.replace("á", "a").replace("é", "e").replace("í", "i").replace("ó", "o").replace("ú", "u");
 					Facade.getInstance().updateDispatch(id, strMensaje, strName, place, creationDate, scheduledDate , dispatchStatus,
 							 personIds, arPersonCategory, arStatusIds, assignmentIds, forwardIds);
 

@@ -109,7 +109,7 @@ public class ActCreateCategoryDispatch extends RestrictionAction {
 						strName +=  " " + place.getName() + " " ;
 					}finally{}
 					
-					strMensaje = strName;
+					strMensaje = strName.replace("á", "a").replace("é", "e").replace("í", "i").replace("ó", "o").replace("ú", "u");
 					int id = Facade.getInstance().insertDispatch(strMensaje, strName, place, creationDate, scheduledDate , arPersonIds, arPersonCategory);
 
 				}
