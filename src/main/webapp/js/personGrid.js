@@ -28,27 +28,27 @@ var editOptions={top: 50, left: "100",
 		closeAfterAdd:true,
 		closeAfterEdit:true,
 		modal: true,
-		beforeInitData: function () {
-			var cm = jQuery("#gridArticulos").jqGrid('getColProp','FOTO');
-			var selRowId = jQuery("#gridArticulos").jqGrid('getGridParam','selrow');
-            cm.editoptions.src = './images/faces/flag_mediana_' + selRowId + '.jpg';
-        },
-        onInitializeForm : function(formid){
-            $(formid).attr('method','POST');
-            $(formid).attr('action','""');
-            $(formid).attr('enctype','multipart/form-data');
-            
-            $('#IMG').ajaxfileupload({
-            	'action': 'updatePersonImage.do',
-                'params': {
-                  'ID': jQuery("#gridArticulos").jqGrid('getGridParam','selrow')
-                },
-                'onComplete': function(response) {
-                  alert("Se ha cargado la foto.");
-                }
-              });
-           
-        }, 
+//		beforeInitData: function () {
+//			var cm = jQuery("#gridArticulos").jqGrid('getColProp','FOTO');
+//			var selRowId = jQuery("#gridArticulos").jqGrid('getGridParam','selrow');
+//            cm.editoptions.src = './images/faces/flag_mediana_' + selRowId + '.jpg';
+//        },
+//        onInitializeForm : function(formid){
+//            $(formid).attr('method','POST');
+//            $(formid).attr('action','""');
+//            $(formid).attr('enctype','multipart/form-data');
+//            
+//            $('#IMG').ajaxfileupload({
+//            	'action': 'updatePersonImage.do',
+//                'params': {
+//                  'ID': jQuery("#gridArticulos").jqGrid('getGridParam','selrow')
+//                },
+//                'onComplete': function(response) {
+//                  alert("Se ha cargado la foto.");
+//                }
+//              });
+//           
+//        }, 
 	    beforeShowForm: function ($form) {
 	    	$("#NUMERO")
             .prop("disabled", true)
@@ -134,7 +134,7 @@ jQuery(document).ready(function(){
 	   	loadonce:false,
 	   	mtype: 'GET',
 	   	datatype: "local", // se usa local para que no cargue registros en el primer acceso a la grilla
-	   	colNames:['POS','ID', 'FOTO' ,'NUMERO','TIPO DOC.','NRO DOCUMENTO','NOMBRE','SOBRENOMBRE','CATEGORIA', 'ORDEN PRELACION', 'IMG'],
+	   	colNames:['POS','ID',  'NUMERO','TIPO DOC.','NRO DOCUMENTO','NOMBRE','SOBRENOMBRE','CATEGORIA', 'ORDEN PRELACION' ],
 	   	colModel:[
    			{name:"POS",			index:"1", key: false, jsonmap:"Pos", 		align:"center", 			width:10,  hidden:true, sortable:false},
    			{name:'ID',				index:'2', key: true,  jsonmap:"Id",									width:55,  editable:true, editoptions:{readonly:true,size:10},hidden:true},
