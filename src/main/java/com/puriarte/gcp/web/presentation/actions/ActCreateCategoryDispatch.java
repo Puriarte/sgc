@@ -101,7 +101,7 @@ public class ActCreateCategoryDispatch extends RestrictionAction {
 			 
 				 	Date scheduledDate = com.puriarte.utils.date.DateUtils.parseDate(strDate + " " + strHour , Constants.FORMATO_FECHA_HORA_HTML5_REGEX, Constants.FORMATO_FECHA_HORA_HTML5);
 				 	
-					strName = prefix + " " +  com.puriarte.utils.date.DateUtils.formatDate(scheduledDate , "dd/MM/yyyy hh:mm");
+					strName = prefix + " " +  com.puriarte.utils.date.DateUtils.formatDate(scheduledDate , "EEEE dd MMMM hh:mm a");
 					
 					Place place = null;
 					try{

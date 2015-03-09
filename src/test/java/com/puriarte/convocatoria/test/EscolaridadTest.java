@@ -37,9 +37,9 @@ public class EscolaridadTest {
 		Date fechaInicio = dTF.parse("21-09-2014");
 		Date fechaFin = dTF.parse("29-09-2014");
 		
-		System.out.println(Facade.getInstance().selectCountSMS(312,1,fechaInicio,fechaFin));
-		System.out.println(Facade.getInstance().selectCountSentSMS(312,fechaInicio,fechaFin));
-		System.out.println(Facade.getInstance().selectCountExpiredSMS(312,fechaInicio,fechaFin));
+//		System.out.println(Facade.getInstance().selectCountSMS(312,1,fechaInicio,fechaFin));
+//		System.out.println(Facade.getInstance().selectCountSentSMS(312,fechaInicio,fechaFin));
+//		System.out.println(Facade.getInstance().selectCountExpiredSMS(312,fechaInicio,fechaFin));
 
 	}
 

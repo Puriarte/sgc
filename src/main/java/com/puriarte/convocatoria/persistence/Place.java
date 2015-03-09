@@ -12,7 +12,7 @@ import javax.persistence.NamedQuery;
 	  @NamedQuery(name="SelectPlace",
 		  query="SELECT pl FROM Place pl WHERE pl.id = :id"),
 	  @NamedQuery(name="SelectPlaceList",
-	  	query="SELECT pl FROM Place pl "),
+	  	query="SELECT pl FROM Place pl order by pl.name"),
 	})
 public class Place {
 

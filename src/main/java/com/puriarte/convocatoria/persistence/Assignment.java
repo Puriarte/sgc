@@ -12,9 +12,21 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+
+
+
+@NamedQueries({
+	@NamedQuery(name="SelectCountAssignmentsByStatus",
+	        query="SELECT count(s) FROM Assignment s where s.personMovil.person.id = :personId and s.status.id = :status and s.assignmentDate BETWEEN :from AND :to  "),	      
+	@NamedQuery(name="SelectCountSentAssignments",
+			query="SELECT count(s) FROM Assignment s where s.personMovil.person.id = :personId  and s.assignmentDate BETWEEN :from AND :to"),
+	})
 
 @Entity
 public class Assignment {

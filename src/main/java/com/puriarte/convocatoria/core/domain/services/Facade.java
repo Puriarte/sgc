@@ -235,22 +235,22 @@ public class Facade {
 		}
 		
 		for (String auxWord :positiveStart){
-			if (text.toUpperCase().trim().startsWith(auxWord))
+			if (text.toUpperCase().trim().startsWith(auxWord.trim()))
 				word = "SI";
 		}
 
 		for (String auxWord :positiveContains){
-			if (text.toUpperCase().trim().contains(auxWord))
+			if (text.toUpperCase().trim().contains(auxWord.trim()))
 				word = "SI";
 		}
 
 		for (String auxWord :negativeStart){
-			if (text.toUpperCase().trim().startsWith(auxWord))
+			if (text.toUpperCase().trim().startsWith(auxWord.trim()))
 				word = "NO";
 		}
 
 		for (String auxWord :negativeContains){
-			if (text.toUpperCase().trim().contains(auxWord))	word = "NO";
+			if (text.toUpperCase().trim().contains(auxWord.trim()))	word = "NO";
 		}
 
 //		if (text.toUpperCase().startsWith("SI")) word = "SI";
@@ -324,22 +324,21 @@ public class Facade {
 	
  
 
-	public int selectCountSMS(int personId, int status, Date  fechaDesde, Date fechaHasta){
-		return smsService.selectCountSMS(personId, status, fechaDesde, fechaHasta);
-	}
-
 	public int selectCountSMS(Date fechaInicio, Date fechaFin, int estado,	int convocatoria, boolean deleted) {
-		return smsService.selectCountSMS(fechaInicio, fechaFin, estado, convocatoria, deleted);
+		return smsService.selectCountAssignment(fechaInicio, fechaFin, estado, convocatoria, deleted);
+	}
+	public int selectCountAssignment(int personId, int status, Date  fechaDesde, Date fechaHasta){
+		return smsService.selectCountAssignment(personId, status, fechaDesde, fechaHasta);
 	}
 
-	public int selectCountSentSMS(int personId, Date fechaDesde,Date  fechaHasta){
-		return smsService.selectCountSentSMS(personId, fechaDesde, fechaHasta);
+	public int selectCountAssignment(Date fechaInicio, Date fechaFin, int estado,	int convocatoria, boolean deleted) {
+		return smsService.selectCountAssignment(fechaInicio, fechaFin, estado, convocatoria, deleted);
 	}
 
-	public int selectCountExpiredSMS(int personId, Date fechaDesde,Date  fechaHasta){
-		return smsService.selectCountExpiredSMS(personId, fechaDesde, fechaHasta);
+	public int selectCountSentAssignment(int personId, Date fechaDesde,Date  fechaHasta){
+		return smsService.selectCountSentAssignment(personId, fechaDesde, fechaHasta);
 	}
-
+ 
 
 	/**
 	 * Registro el movil e inserto el SMS

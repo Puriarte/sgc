@@ -103,7 +103,7 @@ public class SrvLstGridPlace extends RestrictionServlet {
 			jSonItems += "\"Pos\": \"" + i++ + "\",";
 
 			if (item.getAddress()!=null)
-				jSonItems += "\"Address\": \"" + item.getName() + "\",";
+				jSonItems += "\"Address\": \"" + item.getAddress()+ "\",";
 			else
 				jSonItems += "\"Address\": \",";
 

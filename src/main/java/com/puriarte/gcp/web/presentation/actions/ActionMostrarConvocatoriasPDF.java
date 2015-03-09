@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 
 
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -20,14 +21,13 @@ import java.nio.charset.Charset;
 import java.sql.Connection;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-
 import java.util.Date;
-
 import java.util.HashMap;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRExporter;
 import net.sf.jasperreports.engine.JRExporterParameter;
+import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
@@ -106,6 +106,10 @@ public class ActionMostrarConvocatoriasPDF  extends HttpServlet {
 		Map<String, Object> pars = new HashMap<String,Object>();
 		pars.put("REPORT_LOCALE", new java.util.Locale("es","ES"));
 		pars.put("P_ID_PERSON", idPerson);
+
+//		JasperCompileManager.compileReportToFile(
+//				contextPath + "/templates/articulos_por_farmacia.jrxml",
+//                contextPath + "/templates/33.jasper");
 
 		String jasperFileName = contextPath + "/templates/articulos_por_farmacia.jasper";
 

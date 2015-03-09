@@ -125,12 +125,12 @@ public class ActionMostrarEscolaridadPDF extends HttpServlet {
 
 		PersonMovil personMovil = Facade.getInstance().selectPersonMovil(idPerson);
 
-		int countSI = Facade.getInstance().selectCountSMS(personMovil.getId(), Constants.ASSIGNMENT_STATUS_ACCEPTED , fechaDesde, fechaHasta);
-		int countNo = Facade.getInstance().selectCountSMS(personMovil.getId(), Constants.ASSIGNMENT_STATUS_REGECTED, fechaDesde, fechaHasta);
+		int countSI = Facade.getInstance().selectCountAssignment(personMovil.getId(), Constants.ASSIGNMENT_STATUS_ACCEPTED , fechaDesde, fechaHasta);
+		int countNo = Facade.getInstance().selectCountAssignment(personMovil.getId(), Constants.ASSIGNMENT_STATUS_REGECTED, fechaDesde, fechaHasta);
+		int countExpired = Facade.getInstance().selectCountAssignment(personMovil.getId(), Constants.ASSIGNMENT_STATUS_EXPIRED, fechaDesde, fechaHasta);
 
-		int countSent = Facade.getInstance().selectCountSentSMS(personMovil.getPerson().getId(), fechaDesde, fechaHasta);
-		int countExpired= Facade.getInstance().selectCountExpiredSMS(personMovil.getPerson().getId(), fechaDesde, fechaHasta);
-
+		int countSent = Facade.getInstance().selectCountSentAssignment(personMovil.getPerson().getId(), fechaDesde, fechaHasta);
+	 
 		// Cargo los datos del parametro
     	parametrosComprobante[1] = (personMovil.getPerson().getName()==null? "" :personMovil.getPerson().getName()) ;
     	parametrosComprobante[2] = (personMovil.getPerson().getNickname()==null? "" : personMovil.getPerson().getNickname());

@@ -46,7 +46,7 @@ public class ActionReporte40 extends RestrictionAction {
 
 		Calendar calendar = Calendar.getInstance();
 		dynaForm.set("fechaHasta", DateUtils.formatDate(calendar.getTime(),   Constants.FORMATO_FECHA_HTML5));
-		calendar.add(Calendar.DAY_OF_MONTH, -15);
+		calendar.add(Calendar.DAY_OF_MONTH, -5);
 		dynaForm.set("fechaDesde", DateUtils.formatDate(calendar.getTime(),   Constants.FORMATO_FECHA_HTML5));
 
 		try{

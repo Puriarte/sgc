@@ -14,13 +14,13 @@
               <a href="lstPerson.do?accion=cargar" class="dropdown-toggle">Consulta de Empleados</a>
             </li>
             <li class="dropdown">
-              <a href="lstCategory.do?accion=cargar" class="dropdown-toggle">Gestión de Categorías</a>
+              <a href="lstDispatch.do?accion=cargar" class="dropdown-toggle">Gesti&oacute;n de Convocatorias</a>
             </li>
             <li class="dropdown">
-              <a href="lstPlace.do?accion=cargar" class="dropdown-toggle">Gestión de Locales</a>
+              <a href="lstCategory.do?accion=cargar" class="dropdown-toggle">Gesti&oacute;n de Categor&iacute;as</a>
             </li>
             <li class="dropdown">
-              <a href="lstDispatch.do?accion=cargar" class="dropdown-toggle">Gestión de Convocatorias</a>
+              <a href="lstPlace.do?accion=cargar" class="dropdown-toggle">Gesti&oacute;n de Locales</a>
             </li>
           </ul>
           <ul class="nav navbar-nav navbar-right">

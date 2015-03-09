@@ -142,6 +142,7 @@ public class PersonMovilService {
 	public List<PersonMovil> selectList(List<String> priorities, int category ,int estado, String orderByColumn, Integer pos, Integer limit) {
 
 		final EntityManager em = getEntityManager();
+		em.getEntityManagerFactory().getCache().evictAll();
 		CriteriaBuilder builder = em.getCriteriaBuilder();
 		CriteriaQuery<PersonMovil> criteria = builder.createQuery(PersonMovil.class);
 		Root<PersonMovil> personMovil = criteria.from(PersonMovil.class);
@@ -154,8 +155,13 @@ public class PersonMovilService {
 		criteria.select(personMovil);
 		if ((orderByColumn!=null) && (!orderByColumn.equals("")) )
 			criteria.orderBy(parseOrderBy(orderByColumn, builder, movil,documentType, person, personMovil));
+		Query query = em.createQuery(criteria);
 		
-		return em.createQuery(criteria).getResultList();
+		query.setHint("javax.persistence.cache.storeMode", "REFRESH");
+		query.setHint("eclipselink.refresh", "true");
+		query.setHint("eclipselink.refresh.cascade", "CascadeAllParts");
+
+		return query.getResultList();
 		    
 	}
 

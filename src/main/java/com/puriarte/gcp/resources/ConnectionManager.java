@@ -33,6 +33,7 @@ public class ConnectionManager {
 		    DataSource datasource = (DataSource) initialContext.lookup("jdbc/PostgreSQLDS");
 		    connection = datasource.getConnection();
 		} catch (Exception ex) {
+			connection = establishConnection2();
 		}
 		return connection;
 	}

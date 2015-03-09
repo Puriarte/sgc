@@ -231,10 +231,10 @@ public class SMSService1 {
 		return a;
 	}
 
-	public int selectCountSMS(int personId, int status ,Date  dateFrom, Date dateTo){
+	public int selectCountAssignment(int personId, int status ,Date  dateFrom, Date dateTo){
 		final EntityManager em = getEntityManager();
 
-		Query query = em.createNamedQuery("SelectCountSMSByStatus")
+		Query query = em.createNamedQuery("SelectCountAssignmentsByStatus")
 				.setParameter("from", dateFrom)
 				.setParameter("to", dateTo)
 				.setParameter("status", status )
@@ -246,6 +246,56 @@ public class SMSService1 {
 		else
 			return (Integer)a;
 	}
+
+	public int selectCountAssignment(Date fechaInicio, Date fechaFin, int estado,int convocatoria, boolean deleted) {
+		final EntityManager em = getEntityManager();
+		CriteriaBuilder cb = em.getCriteriaBuilder();
+		
+		CriteriaQuery q = cb.createQuery(SMS.class);
+		Root<SMS> from = q.from(SMS.class);
+		Join status = from.join("status");
+		Join assignment= from.join("assignment", JoinType.LEFT);
+		Join job= assignment.join("job", JoinType.LEFT);
+		Join dispatch= job.join("dispatch", JoinType.LEFT);
+		
+		List<Predicate> predicateList = new ArrayList<Predicate>();
+		if (fechaInicio != null) predicateList.add(cb.greaterThanOrEqualTo(from.<Date>get("creationDate"), fechaInicio));
+		if (fechaFin != null) predicateList.add(cb.lessThanOrEqualTo(from.<Date>get("creationDate"), fechaFin));
+		if (estado>0) predicateList.add(cb.equal(status.get("id"), estado));
+		if (convocatoria>0) predicateList.add(cb.equal(dispatch.get("id"), convocatoria));
+		predicateList.add(cb.equal(from.get("deleted"), deleted));
+		
+		Predicate[] predicates = new Predicate[predicateList.size()];
+		predicateList.toArray(predicates);
+		q.select(cb.count(from));
+		q.where(predicates);
+		
+		Object a = em.createQuery(q).getSingleResult();
+		
+		if (a.getClass().getName().equals("java.lang.Long"))
+			return Integer.parseInt(a.toString());
+		else
+			return (Integer)a;
+	}
+	
+	
+
+	public int selectCountSentAssignment(int personId, Date  dateFrom, Date dateTo) {
+		final EntityManager em = getEntityManager();
+
+		Query query = em.createNamedQuery("SelectCountSentAssignments")
+				.setParameter("from", dateFrom)
+				.setParameter("to", dateTo)
+				.setParameter("personId", personId);
+
+		Object a = query.getSingleResult();
+		if (a.getClass().getName().equals("java.lang.Long"))
+			return Integer.parseInt(a.toString());
+		else
+			return (Integer)a;
+	}
+
+
 
 	public int selectCountSMS(Date fechaInicio, Date fechaFin, int estado,int convocatoria, boolean deleted) {
 		final EntityManager em = getEntityManager();
@@ -278,45 +328,6 @@ public class SMSService1 {
 			return (Integer)a;
 	}
 	
-	/**
-	 * Cuanta los SMS que expiraron antes de responderse
-	 *
-	 * @param personId
-	 * @param fechaDesde
-	 * @param fechaHasta
-	 * @return
-	 */
-	public int selectCountExpiredSMS(int personId, Date  dateFrom, Date dateTo) {
-		final EntityManager em = getEntityManager();
-
-		Query query = em.createNamedQuery("SelectCountExpiredSMS")
-				.setParameter("from", dateFrom)
-				.setParameter("to", dateTo)
-				.setParameter("personId", personId);
-
-		Object a = query.getSingleResult();
-		if (a.getClass().getName().equals("java.lang.Long"))
-			return Integer.parseInt(a.toString());
-		else
-			return (Integer)a;
-	}
-
-	public int selectCountSentSMS(int personId, Date  dateFrom, Date dateTo) {
-		final EntityManager em = getEntityManager();
-
-		Query query = em.createNamedQuery("SelectCountSentSMS")
-				.setParameter("from", dateFrom)
-				.setParameter("to", dateTo)
-				.setParameter("personId", personId);
-
-		Object a = query.getSingleResult();
-		if (a.getClass().getName().equals("java.lang.Long"))
-			return Integer.parseInt(a.toString());
-		else
-			return (Integer)a;
-	}
-
-
 
 	/**
 	 * Selecciona la lista de SMS or estado
