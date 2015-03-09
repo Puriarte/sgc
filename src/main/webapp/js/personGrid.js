@@ -138,7 +138,7 @@ jQuery(document).ready(function(){
 	   	colModel:[
    			{name:"POS",			index:"1", key: false, jsonmap:"Pos", 		align:"center", 			width:10,  hidden:true, sortable:false},
    			{name:'ID',				index:'2', key: true,  jsonmap:"Id",									width:55,  editable:true, editoptions:{readonly:true,size:10},hidden:true},
-			{name:'FOTO', 			index:'3', width: 55, editable: true, edittype: 'image', editoptions: {src: ''}, formatter: function (cell, options) { return '<img src="./images/faces/flag_chica_' + options.rowId + '.jpg"/>'; }},
+	//S		{name:'FOTO', 			index:'3', width: 55, editable: true, edittype: 'image', editoptions: {src: ''}, formatter: function (cell, options) { return '<img src="./images/faces/flag_chica_' + options.rowId + '.jpg"/>'; }},
 			{name:"NUMERO",			index:"4", key: false, jsonmap:"Numero", 	align:"center", fixed:true, width:80,  resizable:false, sortable:true,hidden:false, editable:true},
 			{name:"TIPO DOC.",		index:"5", key: false, jsonmap:"FechaEnvio",align:"center", fixed:true, width:80,  sortable:true,resizable:false,  hidden:false},
 			{name:"NRO DOCUMENTO",	index:"6", key: false, jsonmap:"Texto", 	align:"left", 	fixed:true, width:160, resizable:false, sortable:true,hidden:false, editable:true },
@@ -146,7 +146,7 @@ jQuery(document).ready(function(){
 			{name:"SOBRENOMBRE",	index:"8", key: false, jsonmap:"Nickname", 	align:"center", fixed:true, width:100, resizable:false, sortable:true,hidden:false, editable: true},
 			{name:"CATEGORIA",		index:"9", key: false, jsonmap:"Category", 	edittype:"select", editoptions:{ dataUrl:'lstPersonCategory'}, editrules:{required:true}, width:90 , editable: true},
 			{name:"ORDEN PRELACION",index:"10", key: false, jsonmap:"Priority", 	align:"center", fixed:true, resizable:false, width:140 ,sortable:true,hidden:false, editable: true},
-			{name:'IMG', 			index:"11", align: 'left', editable: true, edittype: 'file', editoptions: { enctype: "multipart/form-data" }, search: false },
+	//		{name:'IMG', 			index:"11", align: 'left', editable: true, edittype: 'file', editoptions: { enctype: "multipart/form-data" }, search: false },
 			],
 		rowNum:60,
 	   	scrollOffset:50,

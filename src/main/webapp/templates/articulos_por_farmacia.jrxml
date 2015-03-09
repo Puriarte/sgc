@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="articulos_por_farmacia" pageWidth="599" pageHeight="612" orientation="Landscape" columnWidth="539" leftMargin="30" rightMargin="30" topMargin="0" bottomMargin="0" isIgnorePagination="true" uuid="755614b4-fbe5-4939-8548-5f5de147ad74">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="articulos_por_farmacia" pageWidth="599" pageHeight="1500" orientation="Landscape" columnWidth="539" leftMargin="30" rightMargin="30" topMargin="0" bottomMargin="0" isIgnorePagination="true" uuid="755614b4-fbe5-4939-8548-5f5de147ad74">
 	<property name="ireport.zoom" value="1.6105100000000008"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
@@ -14,14 +14,13 @@
 left outer join assignmentStatus ast on a.IDASSIGNMENTSTATUS = ast.id
 left outer join job j on a.idJob = j.id
 left outer join personcategory c on j.idCategory = c.id
-left outer join dispatch d on j.idDispatch = d.id]]>
+left outer join dispatch d on j.idDispatch = d.id
+where a.idPersonMovil =  $P{P_ID_PERSON}]]>
 	</queryString>
-	<field name="ASSIGNMENTDATE" class="java.sql.Timestamp">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
-	<field name="STATUSNAME" class="java.lang.String"/>
-	<field name="CATEGORYNAME" class="java.lang.String"/>
-	<field name="DISPATCHNAME" class="java.lang.String"/>
+	<field name="assignmentdate" class="java.sql.Timestamp"/>
+	<field name="statusname" class="java.lang.String"/>
+	<field name="categoryname" class="java.lang.String"/>
+	<field name="dispatchname" class="java.lang.String"/>
 	<title>
 		<band height="105">
 			<staticText>
@@ -72,28 +71,28 @@ left outer join dispatch d on j.idDispatch = d.id]]>
 				<textElement>
 					<font size="9"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{ASSIGNMENTDATE}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{assignmentdate}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement uuid="86aa9931-7d91-4df3-9309-545edc83e484" x="79" y="0" width="75" height="20"/>
 				<textElement>
 					<font size="9"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{STATUSNAME}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{statusname}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement uuid="c1a6f083-c7f4-4296-8adb-4dfa7bea2558" x="154" y="0" width="107" height="20"/>
 				<textElement>
 					<font size="9"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{CATEGORYNAME}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{categoryname}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement uuid="c87d5a51-0ee5-4e20-a23d-022fbad750c4" x="261" y="0" width="279" height="20"/>
 				<textElement>
 					<font size="9"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{DISPATCHNAME}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{dispatchname}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
