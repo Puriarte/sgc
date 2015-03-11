@@ -234,6 +234,11 @@
 			<artifactId>thumbnailator</artifactId>
 			<version>0.4.8</version>
 		</dependency>
+		<dependency>
+		  <groupId>com.jcabi</groupId>
+		  <artifactId>jcabi-manifests</artifactId>
+		  <version>0.7.5</version>
+		</dependency>
 	</dependencies>
 	<profiles>
 		<profile>

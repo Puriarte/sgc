@@ -14,8 +14,7 @@
 left outer join assignmentStatus ast on a.IDASSIGNMENTSTATUS = ast.id
 left outer join job j on a.idJob = j.id
 left outer join personcategory c on j.idCategory = c.id
-left outer join dispatch d on j.idDispatch = d.id
-where a.idPersonMovil =  $P{P_ID_PERSON}]]>
+left outer join dispatch d on j.idDispatch = d.id]]>
 	</queryString>
 	<field name="assignmentdate" class="java.sql.Timestamp"/>
 	<field name="statusname" class="java.lang.String"/>
@@ -49,14 +48,7 @@ where a.idPersonMovil =  $P{P_ID_PERSON}]]>
 				<text><![CDATA[Estado]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="96f47ee3-603e-4060-9bd0-cb78270fbccf" mode="Opaque" x="154" y="0" width="107" height="20" backcolor="#F2F2F2"/>
-				<textElement>
-					<font size="9" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Puesto]]></text>
-			</staticText>
-			<staticText>
-				<reportElement uuid="f0f5162d-8ab5-448a-83fa-100c7ec1465f" mode="Opaque" x="261" y="0" width="279" height="20" backcolor="#F2F2F2"/>
+				<reportElement uuid="f0f5162d-8ab5-448a-83fa-100c7ec1465f" mode="Opaque" x="154" y="0" width="386" height="20" backcolor="#F2F2F2"/>
 				<textElement>
 					<font size="9" isBold="true"/>
 				</textElement>
@@ -81,14 +73,7 @@ where a.idPersonMovil =  $P{P_ID_PERSON}]]>
 				<textFieldExpression><![CDATA[$F{statusname}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="c1a6f083-c7f4-4296-8adb-4dfa7bea2558" x="154" y="0" width="107" height="20"/>
-				<textElement>
-					<font size="9"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{categoryname}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement uuid="c87d5a51-0ee5-4e20-a23d-022fbad750c4" x="261" y="0" width="279" height="20"/>
+				<reportElement uuid="c87d5a51-0ee5-4e20-a23d-022fbad750c4" x="154" y="0" width="386" height="20"/>
 				<textElement>
 					<font size="9"/>
 				</textElement>

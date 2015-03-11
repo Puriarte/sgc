@@ -49,16 +49,16 @@ var editOptions={top: 50, left: "100",
 //              });
 //           
 //        }, 
-	    beforeShowForm: function ($form) {
-	    	$("#NUMERO")
-            .prop("disabled", true)
-            .addClass("ui-state-disabled")
-            .closest(".DataTD")
-            .prev(".CaptionTD")
-            .prop("disabled", true)
-            .addClass("ui-state-disabled")
-
-	    },
+//	    beforeShowForm: function ($form) {
+//	    	$("#NUMERO")
+//            .prop("disabled", true)
+//            .addClass("ui-state-disabled")
+//            .closest(".DataTD")
+//            .prev(".CaptionTD")
+//            .prop("disabled", true)
+//            .addClass("ui-state-disabled")
+//
+//	    },
 	    afterSubmit: editMessage,
 };
 
