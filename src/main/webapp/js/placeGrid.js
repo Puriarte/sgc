@@ -12,18 +12,18 @@ Number.prototype.format = function(){
    return this.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.");
 };
 
-var editOptions={top: 50, left: "100",
-		width: 300,
-		height:300,
+var editOptions={top: 70, left: 150,
+		width: 500,
+		height:200,
 		recreateForm:true,
 		closeOnEscape: true,
 		closeAfterAdd:true,
 		closeAfterEdit:true,
 		modal: true};
 
-var addOptions={top: 50, left: "100",
-		width: 300,
-		height:300,
+var addOptions={top: 70, left: 150,
+		width: 500,
+		height:200,
 		recreateForm:true,
 		closeOnEscape: true,
 		closeAfterAdd:true,
@@ -32,52 +32,6 @@ var addOptions={top: 50, left: "100",
 
 jQuery(document).ready(function(){
 
-	//--- Botonoes ---------------------------------------------------------
-	$(function(){
-	});
-	//--- Fin Botonoes ---------------------------------------------------------
-
-
-
-	//--- Mascaras ---------------------------------------------------------
-	$.mask.masks = $.extend($.mask.masks,{
-		importe:{ mask : '99.999999', type : 'reverse' },
-		fecha:{ mask : '19-39-9999'  }
-	});
-	//--- Fin Mascaras ---------------------------------------------------------
-
-	//--- Inputs ---------------------------------------------------------
-  	$(function(){
-    	$("input:text").setMask();
-  	});
-  	//--- Fin Inputs ---------------------------------------------------------
-  //--- Validacion Formulario -----------------------------------------------------
-	$.validator.addMethod(
-			"dateUY",
-			function (value, element) {
-				return Date.parseExact(value, "dd-MM-yyyy");
-			},
-			"Ingrese una fecha en el formato dd-mm-yyyy"
-	);
-
-	var validator = $(formName).validate({
-		onfocusout: false,
-		onkeyup: false,
-		onclick: false,
-		ignore: ":hidden",
-		wrapper: "li",
-		errorClass: "ui-state-error-text",
-		errorPlacement: function(error, element) {
-			error.appendTo(element.parent());
-		},
-		rules: {
-		},
-		messages: {
-		}
-	});
-
-
-	//--- FIN Validacion Formulario -----------------------------------------------------
 	jQuery("#gridArticulos").jqGrid({
 	   	url:urlReload,
 	   	postData: {
@@ -90,8 +44,8 @@ jQuery(document).ready(function(){
 	   	colModel:[
    			{name:"POS",index:"1", key: false, jsonmap:"Pos", align:"center", hidden:true, width:10, sortable:false},
    			{name:'ID',index:'2',key: true, jsonmap:"Id", width:55,editable:true,editoptions:{readonly:true,size:10},hidden:true},
-			{name:"NOMBRE",index:"3", editable: true,  key: false, jsonmap:"Name", align:"center", fixed:true, width:150, resizable:false, sortable:true,hidden:false},
-			{name:"DIRECCION",index:"4", editable: true,  key: false, jsonmap:"Address", align:"center", fixed:true, width:150, resizable:false, sortable:true,hidden:false},
+			{name:"NOMBRE",index:"3", editable: true,  key: false, jsonmap:"Name", align:"center", fixed:true, width:250, resizable:false, sortable:true,hidden:false},
+			{name:"DIRECCION",index:"4", editable: true,  key: false, jsonmap:"Address", align:"center", fixed:true, width:250, resizable:false, sortable:true,hidden:false},
 			{name:"TELEFONO",index:"5", editable: true,  key: false, jsonmap:"Phone", align:"center", fixed:true, width:150, resizable:false, sortable:true,hidden:false},
 			],
 	   	rowNum:60,
@@ -110,14 +64,8 @@ jQuery(document).ready(function(){
 		closeAfterEdit:true,
 		editurl:"updatePlace.do",
 		jsonReader: { repeatitems : false, root:"rows" },
-		loadComplete: function(data) {
-		},
 		onSelectRow: function(id){
 			$("#idsValesSel").val(id);
-		},
-		ondblClickRow: function(id){
-			jQuery("#gridArticulos").jqGrid('setSelection',id,false);
-			$('#btnVerFactura').trigger('click');
 		},
 		ajaxGridOptions: {dataFilter:function(data,dataType){
 			var msg = eval('(' + data + ')');
@@ -154,33 +102,7 @@ jQuery(document).ready(function(){
 		}
 	}).navGrid('#pagerArticulos',{edit:true,add:true,del:false, search: false}, editOptions, addOptions);
 
-	$("#bedata").click(function(){
-		var gr = jQuery("#gridArticulos").jqGrid('getGridParam','selrow');
-		if( gr != null ) jQuery("#gridArticulos").jqGrid('editGridRow',gr,{height:280,reloadAfterSubmit:true, closeAfterEdit: true});
-		else alert("Seleccione un lugar");
-	});
-
-
-    function parseXMLAutocomplete(xml) {
-        var results = [];
-        $(xml).find('item').each(function() {
-            var text = $.trim($(this).find('text').text());
-            var value = $.trim($(this).find('value').text());
-            results[results.length] = { 'data': { text: text, value: value },
-                'result': text, 'value': value
-            };
-        });
-        return results;
-    };
-
-    function formatItemAutocomplete(data) {
-        return data.text;
-    };
-
-    function formatResultAutocomplete(data) {
-		return data.value;
-    };
-
+	
 	//--- FIN - Filtros -----------------------------------------------------
 
 	//Para acutalizar la grilla
@@ -193,36 +115,4 @@ jQuery(document).ready(function(){
 		  alert(Exception.message);
 		}
 	});
-
-
-	//--- Ingresar Vale -----------------------------------------------------
-	$("#btnIngresar").click(function(){
-		try{
-			ingresarListaSMS();
-		}catch(Exception){
-			alert(Exception.message);
-		}
-		return false;
-	});
-
-	//--- Ingresar Vale -----------------------------------------------------
-	$("#btnIngresarMessage").click(function(){
-		try{
-			ingresarMensajeSMS();
-		}catch(Exception){
-			alert(Exception.message);
-		}
-		return false;
-	});
-
 });
-
-function removeOptions(selectbox)
-{
-    var i;
-    for(i=selectbox.options.length-1;i>=0;i--)
-    {
-        selectbox.remove(i);
-    }
-}
-

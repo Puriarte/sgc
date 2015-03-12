@@ -18,53 +18,20 @@ var editMessage = function(response,postdata){
     return [result.status,result.message,null];
 }
 
-
-
-var editOptions={top: 50, left: "100",
+var editOptions={top: 50, left: 100,
 		width: 350,
-		height:450,
+		height:250,
 		recreateForm:true,
 		closeOnEscape: true,
 		closeAfterAdd:true,
 		closeAfterEdit:true,
 		modal: true,
-//		beforeInitData: function () {
-//			var cm = jQuery("#gridArticulos").jqGrid('getColProp','FOTO');
-//			var selRowId = jQuery("#gridArticulos").jqGrid('getGridParam','selrow');
-//            cm.editoptions.src = './images/faces/flag_mediana_' + selRowId + '.jpg';
-//        },
-//        onInitializeForm : function(formid){
-//            $(formid).attr('method','POST');
-//            $(formid).attr('action','""');
-//            $(formid).attr('enctype','multipart/form-data');
-//            
-//            $('#IMG').ajaxfileupload({
-//            	'action': 'updatePersonImage.do',
-//                'params': {
-//                  'ID': jQuery("#gridArticulos").jqGrid('getGridParam','selrow')
-//                },
-//                'onComplete': function(response) {
-//                  alert("Se ha cargado la foto.");
-//                }
-//              });
-//           
-//        }, 
-//	    beforeShowForm: function ($form) {
-//	    	$("#NUMERO")
-//            .prop("disabled", true)
-//            .addClass("ui-state-disabled")
-//            .closest(".DataTD")
-//            .prev(".CaptionTD")
-//            .prop("disabled", true)
-//            .addClass("ui-state-disabled")
-//
-//	    },
 	    afterSubmit: editMessage,
 };
 
-var addOptions={top: 50, left: "100",
-		width: 300,
-		height:300,
+var addOptions={top: 50, left: 100,
+		width: 350,
+		height:250,
 		recreateForm:true,
 		closeOnEscape: true,
 		closeAfterAdd:true,

@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.log4j.Logger;
 
@@ -40,29 +41,12 @@ public class SrvLstDispatch extends HttpServlet {
 	private String strSort;
 	private String strOrder;
 	private String orderBy;
-	private boolean soloImpagos;
-	private Integer category;
+
 	private Integer dispatchStatus;
-	private String idRazon;
-	private String nroComprobante;
-	private Integer nroComprobanteInt;
-	private Integer tipoComprobante;
-	private int estado;
-	private Date  fechaInicio;
-	private Date  fechaFin;
-	private Date  fechaVencimientoInicio;
-	private Date  fechaVencimientoFin;
-	private Date  fechaVista;
 	private boolean asc;
 	private  Long totalRegistros=null;
-	private  BigDecimal totalSaldo = new BigDecimal(0);
-	private  BigDecimal totalFacturas = new BigDecimal(0);
-	private  BigDecimal totalContados = new BigDecimal(0);
-	private  BigDecimal totalAFavor = new BigDecimal(0);
 	private NumberFormat nF;
 	private SimpleDateFormat dTF;
-	private String priority;
-	private List<String> priorities = new ArrayList<String>();
 
 	public void init(ServletConfig config) throws ServletException {
 		super.init(config);
@@ -90,49 +74,32 @@ public class SrvLstDispatch extends HttpServlet {
 
 	}
 
-
 	private void cargarParametros(HttpServletRequest request){
-
-	//	String orderBy = "fMov, ndoc";
 
 		strPage = Integer.parseInt(request.getParameter("page"));
 		strRows = Integer.parseInt(request.getParameter("rows"));
 		strSort = request.getParameter("sidx");
 		strOrder = request.getParameter("sord");
+		asc=false;
 
-		boolean asc=false;
 		if	 ((strOrder!=null)&&(strOrder.equals("asc"))) asc  = true;
 		request.getQueryString();
-		if ((request.getParameter("soloImpagos")==null ) || (request.getParameter("soloImpagos").toUpperCase().equals("TRUE"))) soloImpagos = true;
-		else soloImpagos =false;
 
 		//Armo el criterio en que se quiere ordenar
 		if(strSort != null) {
-			if(strSort.equals("3"))  orderBy = "cuenta.cliente.nombre";
-			else if (strSort.equals("5")) orderBy = "fMov";
-			else if (strSort.equals("6")) orderBy = "tipoMov.nombre";
-			else if (strSort.equals("7")) orderBy = "ndoc";
-			else if (strSort.equals("8")) orderBy = "impMes";
-			else if (strSort.equals("9")) orderBy = "p.priority";
-			else if (strSort.equals("10")) orderBy = "fVen";
-			else if (strSort.equals("11")) orderBy = "impSaldo";
+			if(strSort.equals("3"))  orderBy = "place.name";
+			else if (strSort.equals("4")) orderBy = "scheduledDate";
+			else if (strSort.equals("6")) orderBy = "name";
+			else if (strSort.equals("7")) orderBy = "dispatchStatus.name";
+			else {
+				orderBy = "scheduledDate";
+				asc=false;
+			}
 		}
 
 		//	Datos de filtors para la consulta
-		category = ((request.getParameter("category")!=null) && NumberUtils.isNumber(request.getParameter("category")))? Integer.parseInt(request.getParameter("category")) : 0;
 		dispatchStatus = ((request.getParameter("dispatchStatus")!=null) && NumberUtils.isNumber(request.getParameter("dispatchStatus")))? Integer.parseInt(request.getParameter("dispatchStatus")) : 0;
 
-		priorities =  new ArrayList<String>();
-
-		if (request.getParameter("priority")!=null){
-			String[] arPriority = request.getParameter("priority").split(",");
-			for(String auxPriority: arPriority){
-				if ((auxPriority!=null) && NumberUtils.isNumber(auxPriority)){
-					priorities.add(auxPriority);
-				}
-			}
-
-		}
 	}
 
 	public void _doProcess(HttpServletRequest request, HttpServletResponse response)
@@ -159,7 +126,7 @@ public class SrvLstDispatch extends HttpServlet {
 	private String procesar() throws Exception {
 	 	int pos = (strPage-1) * strRows ;
 
-		List<Dispatch> resultados = Facade.getInstance().selectDispatchList(dispatchStatus, "",  pos,strRows);
+		List<Dispatch> resultados = Facade.getInstance().selectDispatchList(dispatchStatus, orderBy, asc, pos, strRows);
 		String jSonItems="";
 		int i=0;
 
@@ -180,39 +147,39 @@ public class SrvLstDispatch extends HttpServlet {
 				if (jsonAssignments.length()>0)
 					jsonAssignments = jsonAssignments.substring(0,jsonAssignments.length()-1);
 
-			jSonItems += "{\"Id\": \"" +item.getId()+ "\",";
-			jSonItems += "\"Pos\": \"" + i++ + "\",";
-			jSonItems += "\"Cliente\": \"" +item.getId()+ "\",";
-			jSonItems += "\"IdDoc\": \"" + item.getId() + "\",";
-			if (item.getCreationDate()!=null)
-				jSonItems += "\"Fecha\": \"" +  dTF.format(item.getCreationDate())  + "\",";
-			else
-				jSonItems += "\"Fecha\": \"" + "\",";
-
-			if (item.getPlace()!=null)
-				jSonItems += "\"Place\": \"" +  item.getPlace().getName() + "\",";
-			else
-				jSonItems += "\"Place\": \"" + "" + "\",";
-
-			jSonItems += "\"Texto\": \"\",";
-
-			if (item.getScheduledDate()!=null)
-				jSonItems += "\"FechaEnvio\": \"" + dTF.format(item.getScheduledDate()) + "\",";
-			else
-				jSonItems += "\"\": \"" + "\",";
-
-			if (item.getName()!=null)
-				jSonItems += "\"Name\": \"" + item.getName() + "\",";
-			else
-				jSonItems += "\"Name\": \"\",";
-
-			if (item.getDispatchStatus()!=null)
-				jSonItems += "\"DispatchStatus\": \"" + item.getDispatchStatus().getName() + "\"";
-			else
-				jSonItems += "\"DispatchStatus\": \"\"";
-
-			
-			jSonItems += ", \"Assignments\" : [" + jsonAssignments + "]},";
+				jSonItems += "{\"Id\": \"" +item.getId()+ "\",";
+				jSonItems += "\"Pos\": \"" + i++ + "\",";
+				jSonItems += "\"Cliente\": \"" +item.getId()+ "\",";
+				jSonItems += "\"IdDoc\": \"" + item.getId() + "\",";
+				if (item.getCreationDate()!=null)
+					jSonItems += "\"Fecha\": \"" +  dTF.format(item.getCreationDate())  + "\",";
+				else
+					jSonItems += "\"Fecha\": \"" + "\",";
+	
+				if (item.getPlace()!=null)
+					jSonItems += "\"Place\": \"" +  item.getPlace().getName() + "\",";
+				else
+					jSonItems += "\"Place\": \"" + "" + "\",";
+	
+				jSonItems += "\"Texto\": \"\",";
+	
+				if (item.getScheduledDate()!=null)
+					jSonItems += "\"FechaEnvio\": \"" + dTF.format(item.getScheduledDate()) + "\",";
+				else
+					jSonItems += "\"\": \"" + "\",";
+	
+				if (item.getName()!=null)
+					jSonItems += "\"Name\": \"" +StringEscapeUtils.escapeHtml( item.getName() )+ "\",";
+				else
+					jSonItems += "\"Name\": \"\",";
+	
+				if (item.getDispatchStatus()!=null)
+					jSonItems += "\"DispatchStatus\": \"" + item.getDispatchStatus().getName() + "\"";
+				else
+					jSonItems += "\"DispatchStatus\": \"\"";
+	
+				
+				jSonItems += ", \"Assignments\" : [" + jsonAssignments + "]},";
 
 			}
 			catch(Exception e){
@@ -235,16 +202,7 @@ public class SrvLstDispatch extends HttpServlet {
 		System.out.println(strXml);
 		return strXml;
 	}
-
-	private Date getDateRequest(HttpServletRequest request, String parameter) {
-		try{
-			return DateUtils.parseDate(request.getParameter(parameter), Constants.FORMATO_FECHA_HTML5_REGEX,  Constants.FORMATO_FECHA_HTML5);
-		}catch(ParseException ex){
-			return null;
-		}catch(NullPointerException ex){
-			return null;
-		}
-	}
+ 
 
 	// Obtenemos un objeto del contexto de la aplicación por su nombre.
 	protected Object getApplicationObject(String attrName) {

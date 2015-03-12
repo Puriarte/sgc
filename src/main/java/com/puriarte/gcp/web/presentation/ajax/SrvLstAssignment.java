@@ -155,7 +155,7 @@ public class SrvLstAssignment extends HttpServlet {
 	private String procesar() throws Exception {
 	 	int pos = (strPage-1) * strRows ;
 
-		List<Dispatch> resultados = Facade.getInstance().selectDispatchList(0, "",  pos,strRows);
+		List<Dispatch> resultados = Facade.getInstance().selectDispatchList(0, "", asc, pos,strRows);
 		String jSonItems="";
 		int i=0;
 

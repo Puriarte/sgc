@@ -51,7 +51,7 @@
   <table width="100%" border="0" align="center" cellpadding="2" cellspacing="0">
     <tr>
       <td align="center" height="450" valign="middle">
-      Bienvenido al sistema de Gestión de convocatorias al personal.
+      Bienvenido al sistema de Gesti&oacute;n de convocatorias al personal.
 
       </td>
     </tr>

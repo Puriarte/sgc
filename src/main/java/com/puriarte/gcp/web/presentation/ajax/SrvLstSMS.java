@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.log4j.Logger;
 
@@ -160,11 +161,11 @@ public class SrvLstSMS extends HttpServlet {
 				jSonItems += "\"Nombre\": \"" + "--" + "\",";
 				
 			if (item.getMensaje().length()>200) 
-				jSonItems += "\"Texto\": \"" + item.getMensaje().substring(0,100).replaceAll("\\n","\\\\n")
+				jSonItems += "\"Texto\": \"" + StringEscapeUtils.escapeHtml(item.getMensaje()).substring(0,100).replaceAll("\\n","\\\\n")
 		                 .replaceAll("\\r","\\\\r")
 		                 .replaceAll("\\t","\\\\t")  + "..." + "\",";
 			else
-				jSonItems += "\"Texto\": \"" + item.getMensaje().replaceAll("\\n","\\\\n")
+				jSonItems += "\"Texto\": \"" + StringEscapeUtils.escapeHtml(item.getMensaje()).replaceAll("\\n","\\\\n")
 		                 .replaceAll("\\r","\\\\r")
 		                 .replaceAll("\\t","\\\\t")  + "\",";
 
@@ -184,7 +185,7 @@ public class SrvLstSMS extends HttpServlet {
 				jSonItems += "\"Saldo\": \"\",";
 
 			if (item.getDispatch()!=null)
-				jSonItems += "\"Dispatch\": \"" +   item.getDispatch().getName()+ "\"},";
+				jSonItems += "\"Dispatch\": \"" +   StringEscapeUtils.escapeHtml(item.getDispatch().getName()) + "\"},";
 			else
 				jSonItems += "\"Dispatch\": \"\"},";
 			}

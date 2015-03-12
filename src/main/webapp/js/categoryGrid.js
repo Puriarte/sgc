@@ -12,19 +12,18 @@ Number.prototype.format = function(){
    return this.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.");
 };
 
-
-var editOptions={top: 50, left: "100",
-		width: 300,
-		height:300,
+var editOptions={top: 150, left: 250,
+		width: 350,
+		height:100,
 		recreateForm:true,
 		closeOnEscape: true,
 		closeAfterAdd:true,
 		closeAfterEdit:true,
 		modal: true};
 
-var addOptions={top: 50, left: "100",
-		width: 300,
-		height:300,
+var addOptions={top: 150, left: 250,
+		width: 350,
+		height:100,
 		recreateForm:true,
 		closeOnEscape: true,
 		closeAfterAdd:true,
@@ -156,7 +155,7 @@ jQuery(document).ready(function(){
 	$("#bedata").click(function(){
 		var gr = jQuery("#gridArticulos").jqGrid('getGridParam','selrow');
 		if( gr != null ) jQuery("#gridArticulos").jqGrid('editGridRow',gr,{height:280,reloadAfterSubmit:true, closeAfterEdit: true});
-		else alert("Seleccione una categoría");
+		else alert("Seleccione una categorï¿½a");
 	});
 
 

@@ -9,8 +9,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//ES" "http://www.w3.org/TR/xhtml2/DTD/xhtml1-strict.dtd">
 <html lang="es">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
@@ -50,10 +48,10 @@
 			<div class="col-md-12">&nbsp;</div>
 		</div>
 		<div class="row">
-			<div class="col-md-2">
+			<div class="col-md-1">
 				<label class="control-label">Prefijo</label>
 			</div>
-			<div class="col-md-2">
+			<div class="col-md-3">
 				<input type="text" class="form-control" name="prefix" value="${stPrefix}" id="prefix" required >
 			</div>
 			<div class="col-md-1">
@@ -76,10 +74,10 @@
 
 
 		<div class="row">
-			<div class="col-md-2">
+			<div class="col-md-1">
 				<label class="control-label">Lugar</label>
 			</div>
-			<div class="col-md-10">
+			<div class="col-md-11">
 				<select class="form-control" name="place" id="place" required>
 		          	<option value="">Seleccione</option>
 				<logic:present name="frmAdmDispatch" property="places">
@@ -88,18 +86,16 @@
 					</logic:iterate>
 					</select>
 				</logic:present>
-						</div>
-
-
+			</div>
 		</div>
 		<div class="row">	
 			<div class="col-md-5">&nbsp;</div>
 		</div>
 		<div class="row">
-			<div class="col-md-2">
+			<div class="col-md-1">
 				<label class="control-label">Destinatarios  </label>
 			</div>
-			<div class="col-md-10">
+			<div class="col-md-11">
 				<logic:present name="frmAdmDispatch" property="colPerson">
 					<bean:define id="listaPerson" name="frmAdmDispatch" property="colPerson"/>
 					<logic:iterate id="person" name="listaPerson" indexId="index">

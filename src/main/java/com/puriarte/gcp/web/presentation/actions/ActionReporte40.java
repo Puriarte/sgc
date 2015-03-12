@@ -50,7 +50,7 @@ public class ActionReporte40 extends RestrictionAction {
 		dynaForm.set("fechaDesde", DateUtils.formatDate(calendar.getTime(),   Constants.FORMATO_FECHA_HTML5));
 
 		try{
-			List<Dispatch> convocatorias = new ArrayList<Dispatch>(Facade.getInstance().selectSimpleDispatchList(0, "", 0, 1000));
+			List<Dispatch> convocatorias = new ArrayList<Dispatch>(Facade.getInstance().selectSimpleDispatchList(Constants.DISPATCH_STATUS_ACTIVE, "", 0, 1000));
 			dynaForm.set("convocatorias", convocatorias);
 		}catch(Exception e ){
 

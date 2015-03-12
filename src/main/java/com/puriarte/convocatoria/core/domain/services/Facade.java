@@ -445,8 +445,8 @@ public class Facade {
 
 
  /* CONVOCATORIA */
-	public List<Dispatch> selectDispatchList( int estado, String order, Integer pos, Integer limit) {
-		return dispatchService.selectList(estado , order, pos,  limit);
+	public List<Dispatch> selectDispatchList( int estado, String order,  boolean ascending, Integer pos, Integer limit) {
+		return dispatchService.selectList(estado , order, ascending, pos,  limit);
 	}
 
 	public Collection<? extends Dispatch> selectSimpleDispatchList(int estado,

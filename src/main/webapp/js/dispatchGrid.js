@@ -74,7 +74,9 @@ jQuery(document).ready(function(){
 				fechaHasta: function() { return $("#fechaHasta").val(); },
 				estado: function() { return $("#estado").val(); },
 				category: function() { return $("#category").val(); },
-				dispatchStatus: function() { return $("#dispatchStatus").val(); },
+				dispatchStatus: function() {
+					return $("#dispatchStatus").val(); 
+					},
 				priority: function() { return $("#priority").val(); },
 			primeraVez:primeraVez
 	   	},

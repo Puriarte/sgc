@@ -12,6 +12,12 @@ import java.util.Vector;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.JoinType;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
 import com.puriarte.convocatoria.core.domain.Constants;
 import com.puriarte.convocatoria.persistence.Assignment;
@@ -58,23 +64,45 @@ public class DispatchService1 {
 	}
 
 
-	public List<Dispatch> selectList(int estado, String order, Integer pos, Integer limit) {
+	public List<Dispatch> selectList(int estado, String order, boolean ascending, Integer pos, Integer limit) {
 		final EntityManager em = getEntityManager();
 
-		if (order==null) order ="";
+		CriteriaBuilder cb = em.getCriteriaBuilder();
+		
+		CriteriaQuery q = cb.createQuery(Dispatch.class);
+		Root<Dispatch> dispatch = q.from(Dispatch.class);
+		Join status = dispatch.join("dispatchStatus", JoinType.LEFT);
+		Join place= dispatch.join("place", JoinType.LEFT);
 
-		Query query = em.createNamedQuery("SelectDispatchList")
-				.setParameter("estado", estado);
-
-		if((pos!=null) && (limit!=null)) query.setFirstResult(pos).setMaxResults(limit);
-
+		//Armo el criterio en que se quiere ordenar		
+		if (ascending==true){
+			if(order.equals("place.name"))		q.orderBy(cb.asc(place.get("name")));
+			if(order.equals("scheduledDate"))	q.orderBy(cb.asc(dispatch.get("scheduledDate")));
+			if(order.equals("name"))			q.orderBy(cb.asc(dispatch.get("name")));
+			if(order.equals("dispatchStatus.name"))	q.orderBy(cb.asc(status.get("name")));
+		}else{
+			if(order.equals("place.name"))		q.orderBy(cb.desc(place.get("name")));
+			if(order.equals("scheduledDate"))	q.orderBy(cb.desc(dispatch.get("scheduledDate")));
+			if(order.equals("name"))			q.orderBy(cb.desc(dispatch.get("name")));
+			if(order.equals("dispatchStatus.name"))	q.orderBy(cb.desc(status.get("name")));
+		}
+		
+		List<Predicate> predicateList = new ArrayList<Predicate>();
+		if (estado>0) predicateList.add(cb.equal(status.get("id"), estado));
+		
+		Predicate[] predicates = new Predicate[predicateList.size()];
+		predicateList.toArray(predicates);
+		q.where(predicates);
+		
+		Query query = em.createQuery(q);
 		query.setHint("javax.persistence.cache.storeMode", "REFRESH");
 		query.setHint("eclipselink.refresh", "true");
 		query.setHint("eclipselink.refresh.cascade", "CascadeAllParts");
-
-		List<Dispatch> a = (List<Dispatch>) query.getResultList();
-
-
+		if((pos!=null) && (limit!=null)) query.setFirstResult(pos).setMaxResults(limit);
+		
+		if((pos!=null) && (limit!=null)) query.setFirstResult(pos).setMaxResults(limit);
+		List<Dispatch> a = query.getResultList();
+	
 		return a;
 	}
 

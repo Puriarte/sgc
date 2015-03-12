@@ -58,11 +58,14 @@ public class ActionListDispatch extends RestrictionAction {
 		}
 
 		try{
-			List<DispatchStatus > dispatchsStatus = new ArrayList<DispatchStatus>(Facade.getInstance().selectDispatchStatusList());
-			dynaForm.set("dispatchsStatus", dispatchsStatus);
+			List<DispatchStatus > colDispatchStatus = new ArrayList<DispatchStatus>(Facade.getInstance().selectDispatchStatusList());
+			dynaForm.set("colDispatchStatus", colDispatchStatus);
 		}catch(Exception e ){
 
 		}
+		
+		// Por defecto lista las convocatorias activas
+		dynaForm.set("dispatchStatus",Constants.DISPATCH_STATUS_ACTIVE);
 		
 		if (!errors.isEmpty()) {
 			saveErrors(request, errors);

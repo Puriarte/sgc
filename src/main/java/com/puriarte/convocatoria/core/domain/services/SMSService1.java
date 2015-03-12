@@ -107,9 +107,8 @@ public class SMSService1 {
 	 * @param limit
 	 * @return
 	 */
-	public List<SMS> selectList(Date fromDate, Date toDate, Integer estado,  
-			boolean deleted,
-			String order, String strOrder, Integer pos, Integer limit){
+	public List<SMS> selectList(Date fromDate, Date toDate, Integer estado,  	boolean deleted,
+			String order, String ascending, Integer pos, Integer limit){
 		final EntityManager em = getEntityManager();
 
 		CriteriaBuilder cb = em.getCriteriaBuilder();
@@ -125,7 +124,7 @@ public class SMSService1 {
 		Join job= assignment.join("job", JoinType.LEFT);
 		Join dispatch= job.join("dispatch", JoinType.LEFT);
 
-		if (strOrder.equals("asc")){
+		if (ascending.equals("asc")){
 			if(order.equals("number"))	q.orderBy(cb.asc(movil.get("number")));
 			if(order.equals("creationDate"))	q.orderBy(cb.asc(sms.get("creationDate")));
 			if(order.equals("person"))	q.orderBy(cb.asc(person.get("name")));

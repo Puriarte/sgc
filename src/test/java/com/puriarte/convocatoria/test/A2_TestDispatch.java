@@ -81,7 +81,7 @@ public class A2_TestDispatch {
 
 	private void listarDispatchAlMomento(String mensaje){
 
-		List<Dispatch> list = Facade.getInstance().selectDispatchList(0,"",1,100);
+		List<Dispatch> list = Facade.getInstance().selectDispatchList(0,"",false, 1,100);
 		System.out.println(mensaje);
 		if (list!=null){
 		for(Dispatch aux : list){
