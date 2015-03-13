@@ -103,11 +103,12 @@
 					</td>
 				</tr>
 				<tr>
-						<td width="30%" style="padding-left: 10px; font-weight: bold;"
-							align="left" valign="top" bgcolor="#E2F1F1">Mensaje</td>
-						<td width="70%" style="padding-left: 10px; font-weight: bold;"
-							align="left" valign="top" bgcolor="#FFFFFF"><textarea
-								name="detalleIn" cols="60" rows="4" id="detalleIn"></textarea></td>
+					<td width="30%" style="padding-left: 10px; font-weight: bold;"	align="left" valign="top" bgcolor="#E2F1F1">Mensaje
+					</td>
+					<td width="70%" style="padding-left: 10px; font-weight: bold;"
+						align="left" valign="top" bgcolor="#FFFFFF"><textarea
+						name="detalleIn" cols="60" rows="4" id="detalleIn"></textarea>
+					</td>
 				</tr>
 				</table>
 			</div>
@@ -173,11 +174,7 @@
 					</ol>
 				</div>
 			</logic:messagesPresent>
-
-
 		</html:form>
 	</div>
 </body>
 </html>
-
-
