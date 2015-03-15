@@ -134,6 +134,34 @@ public class DispatchService1 {
 	}
 	
 	
+	public List<Dispatch> selectSimpleList(int estado, int idPersonMovil,
+			String order, boolean ascending, Integer pos, Integer limit) {
+		final EntityManager em = getEntityManager();
+
+		if (order==null) order ="";
+
+		// select * from dispatch, person where 
+		Query query = em.createNamedQuery("SelectSimpleDispatchList")
+				.setParameter("idPersonMovil", idPersonMovil)
+				.setParameter("estado", estado);
+
+		if((pos!=null) && (limit!=null)) query.setFirstResult(pos).setMaxResults(limit);
+
+		query.setHint("javax.persistence.cache.storeMode", "REFRESH");
+		query.setHint("eclipselink.refresh", "true");
+		query.setHint("eclipselink.refresh.cascade", "CascadeAllParts");
+
+		List<Object[]> a = query.getResultList();
+		List<Dispatch> dispatchList = new ArrayList<Dispatch>(); 	
+		for (Object[] aux :a){
+			Dispatch aux1 = new Dispatch();
+			aux1.setId(Integer.parseInt(aux[0].toString()));
+			aux1.setName(aux[1].toString());
+			dispatchList.add(aux1);
+		}
+		return dispatchList;
+	}
+	
 	public Dispatch selectDispatch(Integer id) {
 		final EntityManager em = getEntityManager();
 

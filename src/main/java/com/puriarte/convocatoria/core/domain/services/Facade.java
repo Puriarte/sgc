@@ -455,6 +455,12 @@ public class Facade {
 	}
 
 
+	public  List<Dispatch> selectSimpleDispatchByPersonMovilList(int estado, int idPersonMovil,
+			String  order,  boolean ascending, Integer pos, Integer limit) {
+		return dispatchService.selectSimpleList(estado , idPersonMovil, order, ascending, pos,  limit);
+	}
+
+
 	public int insertDispatch(Dispatch dispatch){
 		return dispatchService.insert(dispatch);
 	}
@@ -614,6 +620,7 @@ public class Facade {
 		
 			this.smsService.getInstance().deleteSMS(sms);
 		}
+
 
 
 }

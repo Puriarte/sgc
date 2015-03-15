@@ -6,6 +6,8 @@ var documento_nc=3;
 var documento_fav=11;
 var documento_pag=21;
 
+jQuery.extend(jQuery.jgrid.edit, { recreateForm: true });
+
 Number.prototype.format = function(){
    return this.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.");
 };
@@ -151,6 +153,9 @@ jQuery(document).ready(function(){
 //		},
 		onSelectRow: function(id){
 			$("#idsValesSel").val(id);
+			var temp = $("#gridArticulos").getRowData(id)['ID'];
+			$("#gridArticulos").setColProp('CONVOCATORIA', { editoptions: { dataUrl:'selectDispatch?idSMS=' + temp }});
+
 		},
 
 		ondblClickRow: function(id){
@@ -194,7 +199,7 @@ jQuery(document).ready(function(){
 			}
 			}
 		}
-	}).navGrid('#pagerArticulos',{edit:true,add:false,del:true}, null, null, deleteOptions);
+	}).navGrid('#pagerArticulos',{edit:true,add:false,del:true}, editOptions, null, deleteOptions);
 
 
     function parseXMLAutocomplete(xml) {
