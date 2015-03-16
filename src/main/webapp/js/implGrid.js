@@ -31,8 +31,8 @@ var editMessage = function(response,postdata){
 }
 
 var editOptions={top: 50, left: "100",
-		width: 300,
-		height:300,
+		width: 500,
+		height:110,
 		recreateForm:true,
 		closeOnEscape: true,
 		closeAfterAdd:true,

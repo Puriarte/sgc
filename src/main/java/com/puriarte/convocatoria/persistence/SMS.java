@@ -33,9 +33,19 @@ import javax.persistence.TemporalType;
         @NamedQuery(name="SelectSMSListByStatus",
         query="SELECT s FROM SMS s where s.status.id = :status "),
         @NamedQuery(name="SelectRelatedSMSList",
-        query="SELECT s FROM SMS s where s.assignment.personMovil.id = :movilId and s.assignment.status.id = :status and s.assignment is not null  order by s.sentDate desc"),
+        query="SELECT s FROM SMS s "
+        		+ "where s.assignment.personMovil.id = :movilId and "
+        		+ "s.assignment.status.id = :status and "
+        		+ "s.assignment is not null  and "
+        		+ "s.assignment.job.dispatch.scheduledDate >= :receivedDate " 
+        		+ " order by s.sentDate desc"),
         @NamedQuery(name="SelectRelatedFromDispatchSMSList",
-        query="SELECT s FROM SMS s where s.assignment.personMovil.id = :movilId and s.assignment.status.id = :status and s.assignment is not null  and s.assignment.job.dispatch.id = :dispatchId order by s.sentDate desc"),
+        query="SELECT s FROM SMS s "
+        		+ "where s.assignment.personMovil.id = :movilId and "
+        		+ "((s.assignment.status.id = :status) or (:status =0))"
+        		+ "and s.assignment is not null  "
+        		+ "and s.assignment.job.dispatch.id = :dispatchId "
+        		+ "order by s.sentDate desc"),
         @NamedQuery(name="SelectCountSMSByDate",
         query="SELECT count(s) FROM SMS s where s.personMovil.person.id = :personId and s.word = :word and s.sentDate BETWEEN :from AND :to  "),
         @NamedQuery(name="SelectCountExpiredSMS",

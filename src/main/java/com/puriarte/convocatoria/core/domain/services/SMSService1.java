@@ -358,13 +358,14 @@ public class SMSService1 {
 	 * @param limit
 	 * @return
 	 */
-	public List<SMS> SelectRelatedSMSList(PersonMovil movil, AssignmentStatus assignmentStatus, Integer pos, Integer limit) {
+	public List<SMS> SelectRelatedSMSList(PersonMovil movil, AssignmentStatus assignmentStatus, Date receivedDate, Integer pos, Integer limit) {
 
 		final EntityManager em = getEntityManager();
 
 		Query query = em.createNamedQuery("SelectRelatedSMSList")
 			.setParameter("movilId", movil.getId())
-			.setParameter("status", assignmentStatus.getId());
+			.setParameter("status", assignmentStatus.getId())
+			.setParameter("receivedDate" , receivedDate);
 		
 		query.setHint("javax.persistence.cache.storeMode", "REFRESH");
 		query.setHint("eclipselink.refresh", "true");
@@ -386,6 +387,27 @@ public class SMSService1 {
 			.setParameter("dispatchId", dispatchId)
 			.setParameter("movilId", movil.getId())
 			.setParameter("status", status.getId());
+		
+		query.setHint("javax.persistence.cache.storeMode", "REFRESH");
+		query.setHint("eclipselink.refresh", "true");
+		query.setHint("eclipselink.refresh.cascade", "CascadeAllParts");
+
+		if((pos!=null) && (limit!=null)) query.setFirstResult(pos).setMaxResults(limit);
+
+		List<SMS> a = (List<SMS>) query.getResultList();
+
+		return a;
+	}
+
+	public List<SMS> SelectRelatedSMSList(PersonMovil movil, 
+			int dispatchId, Integer pos, Integer limit) {
+		
+		final EntityManager em = getEntityManager();
+
+		Query query = em.createNamedQuery("SelectRelatedFromDispatchSMSList")
+			.setParameter("dispatchId", dispatchId)
+			.setParameter("movilId", movil.getId())
+			.setParameter("status",0);
 		
 		query.setHint("javax.persistence.cache.storeMode", "REFRESH");
 		query.setHint("eclipselink.refresh", "true");

@@ -42,12 +42,12 @@ public class SrvSelectDispatch extends RestrictionServlet {
         	}catch(Exception e){
         		
         	}
-        	if ( listItems != null)
+        	if ( listItems == null)
         		listItems = new ArrayList<Dispatch>(Facade.getInstance().selectSimpleDispatchList(Constants.DISPATCH_STATUS_ACTIVE, "", 0, 1000));
         	 	
         	String strXml = "<select>";
         	for ( Dispatch dispatch : listItems ) {
-        		strXml += "<option value='" + dispatch.getId() +"'>" + dispatch.getName().trim()  + "</option>";
+        		strXml += "<option value='" + dispatch.getId() +"'>" + dispatch.getName().trim().replaceAll("á", "&aamp;").replaceAll("é", "&eamp;").replaceAll("í", "&iamp;").replaceAll("ó", "&oamp;").replaceAll("ú", "&uamp;")      + "</option>";
         	}
 
  	           strXml += "</select>";

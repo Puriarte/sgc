@@ -167,8 +167,8 @@ public class Facade {
 		}
 	}
 
-	private List<SMS> SelectRelatedSMSList(PersonMovil movil, AssignmentStatus assignmentStatus, int pos, int limit) {
-		return smsService.SelectRelatedSMSList(movil, assignmentStatus , pos,  limit);
+	private List<SMS> SelectRelatedSMSList(PersonMovil movil, AssignmentStatus assignmentStatus, Date receivedDate, int pos, int limit) {
+		return smsService.SelectRelatedSMSList(movil, assignmentStatus , receivedDate, pos,  limit);
 	}
 
 
@@ -260,7 +260,7 @@ public class Facade {
 		// Tambien veo si el tiempo para responder esta superado o no
 		if (movil !=null){
 //			if(word.equals("SI") || word.equals("NO")) {
-				List<SMS> smsList = Facade.getInstance().SelectRelatedSMSList(movil, selectAssingmentStatus(Constants.ASSIGNMENT_STATUS_ASSIGNED), 0, 1);
+				List<SMS> smsList = Facade.getInstance().SelectRelatedSMSList(movil, selectAssingmentStatus(Constants.ASSIGNMENT_STATUS_ASSIGNED), new Date(), 0, 1);
 				//List<SMS> smsList = Facade.getInstance().SelectRelatedSMSList(movil, selectSmsStatus(Constants.SMS_STATUS_ENVIADO), 0, 1);
 				if ((smsList!=null) && (smsList.size()>0)){
 					int i=0;
@@ -269,7 +269,7 @@ public class Facade {
 						if (sms.getAssignment()!=null){
 							if (sms.getAssignment().getJob()!=null){
 								if(sms.getAssignment().getJob().getDispatch()!=null){
-									if(sms.getAssignment().getJob().getDispatch().getScheduledDate().compareTo(new Date())>0){
+									//if(sms.getAssignment().getJob().getDispatch().getScheduledDate().compareTo(new Date())>0){
 										Assignment assignment = sms.getAssignment();
 										if ((assignment.getStatus().getId() != Constants.ASSIGNMENT_STATUS_CANCELED) && (assignment.getStatus().getId() != Constants.ASSIGNMENT_STATUS_EXPIRED )){
 											if (word.equals("SI"))	assignment.setStatus(Facade.getInstance().selectAssingmentStatus(Constants.ASSIGNMENT_STATUS_ACCEPTED));
@@ -277,7 +277,7 @@ public class Facade {
 										}									
 										smsService.getInstance().insert(word, assignment, sms, movil, text, Constants.SMS_ACTION_INCOME, selectSmsStatus(Constants.SMS_STATUS_RECIBIDO), date,uuid);
 										enviado=true;
-									}
+//									}
 								}
 							}
 						}
@@ -297,7 +297,7 @@ public class Facade {
 		boolean enviado=false;
 		PersonMovil movil = sms.getPersonMovil();
 		if (movil !=null){
-			List<SMS> smsList = Facade.getInstance().SelectRelatedSMSList(movil, selectSmsStatus(Constants.SMS_STATUS_ENVIADO), dispatchId, 0, 1);
+			List<SMS> smsList = Facade.getInstance().SelectRelatedSMSList(movil,  dispatchId, 0, 1);
 			if ((smsList!=null) && (smsList.size()>0)){
 				int i=0;
 				while ((smsList.size()>i) && (!enviado)){
@@ -311,7 +311,6 @@ public class Facade {
 		}
 		
 	}
-
 	
 	public void removeSMSAssignment(SMS sms){
 
@@ -321,6 +320,11 @@ public class Facade {
 	private List<SMS> SelectRelatedSMSList(PersonMovil movil,
 			SmsStatus status, int dispatchId, int pos, int limit) {
 		return smsService.SelectRelatedSMSList(movil, status , dispatchId, pos,  limit);
+	}
+	
+	private List<SMS> SelectRelatedSMSList(PersonMovil movil,
+			 int dispatchId, int pos, int limit) {
+		return smsService.SelectRelatedSMSList(movil, dispatchId, pos,  limit);
 	}
 	
  

@@ -83,12 +83,12 @@ jQuery(document).ready(function(){
 	   	loadonce:false,
 	   	mtype: 'GET',
 	   	datatype: "local", // se usa local para que no cargue registros en el primer acceso a la grilla
-	   	colNames:['POS','ID','LUGAR','FECHA','NRO.DOCUMENTO','NOMBRE','ESTADO'],
+	   	colNames:['POS','ID','LUGAR','FECHA EVENTO','NRO.DOCUMENTO','NOMBRE','ESTADO'],
 	   	colModel:[
    			{name:"POS",index:"1", key: false, jsonmap:"Pos", align:"center", hidden:true, width:10, sortable:false},
    			{name:'ID',index:'2',key: true, jsonmap:"Id", width:55,editable:true,editoptions:{readonly:true,size:10},hidden:true},
 			{name:"LUGAR",index:"3", key: false, jsonmap:"Place", align:"left", fixed:true,  width:250 ,resizable:false, sortable:true,hidden:false},
-			{name:"FECHA",index:"4", key: false, jsonmap:"FechaEnvio", align:"center", fixed:true, resizable:false,  width:120  ,sortable:true,hidden:false},
+			{name:"FECHA EVENTO",index:"4", key: false, jsonmap:"FechaEnvio", align:"center", fixed:true, resizable:false,  width:120  ,sortable:true,hidden:false},
 			{name:"NRO.DOCUMENTO",index:"5", key: false, jsonmap:"Texto", align:"left", fixed:true,  width:160 ,resizable:false, sortable:true,hidden:true},
 			{name:"NOMBRE",index:"6", editable: true,  key: false, jsonmap:"Name", align:"center", fixed:true, width:350, resizable:false, sortable:true,hidden:false},
 			{name:"ESTADO",index:"7", editable: true,  key: false, jsonmap:"DispatchStatus", align:"center", fixed:true, width:60, resizable:false, sortable:true,hidden:false},
@@ -164,7 +164,7 @@ jQuery(document).ready(function(){
             $("#" + subgridTableId).jqGrid({
                 datatype: "local",
                 data: empList,
-                colNames: ["Id", "NUMERO", "NOMBRE","CATEGORIA","ESTADO","FECHA"],
+                colNames: ["Id", "NUMERO", "NOMBRE","CATEGORIA","ESTADO","FECHA ENVIADO"],
                 colModel: [
                   {name: "Id",  			hidden:true,  width: 10, key: true},
                   {name: "Movil", 			hidden:false, width: 80},
