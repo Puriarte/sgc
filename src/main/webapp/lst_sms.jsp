@@ -1,4 +1,4 @@
-<%@ page language="java"%>
+﻿<%@ page language="java"%>
 <%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean" %>
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
 <%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
@@ -9,6 +9,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//ES" "http://www.w3.org/TR/xhtml2/DTD/xhtml1-strict.dtd">
 <html lang="es">
 <head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
@@ -68,7 +69,7 @@
 		.ui-jqgrid tr.jqgrow td {white-space: normal}
 	</style>
 
-	<script src="js/implGrid.js?var=<%= com.jcabi.manifests.Manifests.read("App-Version") %>" type="text/javascript"></script>
+	<script src="js/implGrid.js"  type="text/javascript"></script>
 
   </head>
 
@@ -197,6 +198,20 @@
 
 
 </html:form>
+
+ <script>
+        if ($("#fechaDesde").get(0).tagName.toLowerCase() != 'date') $('.fechaDesde').datepicker();
+        $(function () {
+            $(".fechaDesde").datepicker({
+                changeMonth: true,
+                changeYear: true,
+                yearRange: "1900:2015",
+                dateFormat: "yy-mm-dd",
+                defaultDate: '1900-01-01'
+            });
+        });
+
+</script>
 </div>
 </body>
 </html>
