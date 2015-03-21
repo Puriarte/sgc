@@ -10,25 +10,32 @@
 	<property name="net.sf.jasperreports.export.xls.workbook.template" value="macro21.xlt"/>
 	<parameter name="P_ID_PERSON" class="java.lang.Integer"/>
 	<queryString>
-		<![CDATA[select a.ASSIGNMENTDATE, ast.name as statusName, c.name as categoryName, d.name as  dispatchName from assignment a
+		<![CDATA[select a.ASSIGNMENTDATE, ast.name as statusName, c.name as categoryName, d.name as  dispatchName
+from assignment a
 left outer join assignmentStatus ast on a.IDASSIGNMENTSTATUS = ast.id
 left outer join job j on a.idJob = j.id
 left outer join personcategory c on j.idCategory = c.id
-left outer join dispatch d on j.idDispatch = d.id]]>
+left outer join dispatch d on j.idDispatch = d.id
+where a.idpersonmovil=$P{P_ID_PERSON}
+]]>
 	</queryString>
 	<field name="assignmentdate" class="java.sql.Timestamp"/>
 	<field name="statusname" class="java.lang.String"/>
 	<field name="categoryname" class="java.lang.String"/>
 	<field name="dispatchname" class="java.lang.String"/>
 	<title>
-		<band height="105">
+		<band height="91">
 			<staticText>
-				<reportElement uuid="e53a4006-2567-40b0-b6b3-e39a4eb86e0a" x="0" y="36" width="540" height="43"/>
+				<reportElement uuid="e53a4006-2567-40b0-b6b3-e39a4eb86e0a" x="0" y="10" width="540" height="29"/>
 				<textElement textAlignment="Center">
 					<font size="18"/>
 				</textElement>
 				<text><![CDATA[Convocatorias del empleado]]></text>
 			</staticText>
+			<image>
+				<reportElement uuid="456f1b20-f6bd-4abc-bcf5-6e887d4779b6" x="0" y="10" width="53" height="68"/>
+				<imageExpression><![CDATA["..\\images\\faces\\flag_" +  $P{P_ID_PERSON} + ".jpg"]]></imageExpression>
+			</image>
 		</band>
 	</title>
 	<columnHeader>

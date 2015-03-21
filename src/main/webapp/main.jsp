@@ -8,7 +8,6 @@
 <html lang="es">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
@@ -16,6 +15,8 @@
     <link rel="icon" href="images/icon.png">
 
     <title>G.C.P.</title>
+
+    <link href="css/site.css" rel="stylesheet">
 
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -41,13 +42,27 @@
 	<script src="js/ajax/jquery.jdMenu.js"  type="text/javascript"></script>
   </head>
 
- <body cz-shortcut-listen="true">
+	<body>
 
 	<jsp:include page="menu.jsp" />
+	<div id="nav">
+		Desde<br>
+		Hasta<br>
+		Tokyo<br>
+	</div>
+  
+	<div align="left" class="ui-widget-content">
+	<br/>
+	<br/>
 
+	<header id="dashboard-header" class="aui-page-header">
+    <div class="aui-page-header-inner">
+      <div class="aui-page-header-main">
+        <h1>Resumen </h1>
+      </div>
+    </div>
+  </header>
 
-
-<div align="center" class="ui-widget-content">
   <table width="100%" border="0" align="center" cellpadding="2" cellspacing="0">
     <tr>
       <td align="center" height="450" valign="middle">
