@@ -23,6 +23,13 @@ public final class Constants {
 	public static final String FORMATO_FECHA_HTML5_REGEX = "^[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]";
     public static final String FORMATO_FECHA_HTML5="yyyy-MM-dd";
 
+	public static final String FORMATO_FECHA_HTML5_REGEX_ALT1 = "^[0-9][0-9]-[0-9][0-9]-[0-9][0-9][0-9][0-9]";
+    public static final String FORMATO_FECHA_HTML5_ALT1="dd-MM-yyyy";
+
+	public static final String FORMATO_FECHA_HTML5_REGEX_ALT2 = "^[0-9][0-9]/[0-9][0-9]/[0-9][0-9][0-9][0-9]";
+    public static final String FORMATO_FECHA_HTML5_ALT2="dd/MM/yyyy";
+
+
     public static final String FORMATO_FECHA_HORA_HTML5_REGEX = "^[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9] [0-2][0-9]:[0-6][0-9]:[0-6][0-9]";
     public static final String FORMATO_FECHA_HORA_HTML5="yyyy-MM-dd hh:mm:ss";
 

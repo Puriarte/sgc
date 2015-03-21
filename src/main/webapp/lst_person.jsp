@@ -172,15 +172,13 @@
 				<fieldset>
 					<div class="form-group">
 						<div class="row">
-							<div class="col-md-5">
-							</div>
-
 							<div class="col-md-1">
 								<label class="control-label">Categor&iacute;a</label>
 							</div>
 
 							<div class="col-md-2">
-								<select class="form-control" name="category" id="category" required>
+								<select class="form-control" name="category" id="category"
+									required>
 									<option value="">Seleccione</option>
 									<logic:iterate name="frmLstPerson" property="categories"
 										id="item" indexId="idx">
@@ -240,6 +238,9 @@
 											value="Crear convocatoria" id="btnIngresar"
 											class="ui-button ui-widget ui-state-default ui-corner-all"
 											role="button">
+										<input type="BUTTON" id="bedata"
+											value="Editar"
+											class="ui-button ui-widget ui-state-default ui-corner-all" />
 										<input type="BUTTON" id="escolaridad" value="Ver Escolaridad"
 											class="ui-button ui-widget ui-state-default ui-corner-all" />
 									</td>

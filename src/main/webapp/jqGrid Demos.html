@@ -1,0 +1,398 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!-- saved from url=(0046)http://www.trirand.com/blog/jqgrid/jqgrid.html -->
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"
+	style="overflow: hidden; height: 100%; border: none; padding: 0px; margin: 0px;">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+	<title>jqGrid Demos</title>
+
+	<link rel="stylesheet" type="text/css" media="screen"
+		href="./jqGrid Demos_files/jquery-ui-custom.css">
+		<link rel="stylesheet" type="text/css" media="screen"
+			href="./jqGrid Demos_files/ui.jqgrid.css">
+			<link rel="stylesheet" type="text/css" media="screen"
+				href="./jqGrid Demos_files/ui.multiselect.css">
+<script src="./jqGrid Demos_files/jquery.js" type="text/javascript"></script>
+<script src="./jqGrid Demos_files/jquery-ui-custom.min.js"
+	type="text/javascript"></script>
+<script src="./jqGrid Demos_files/jquery.layout.js"
+	type="text/javascript"></script>
+<script src="./jqGrid Demos_files/grid.locale-en.js"
+	type="text/javascript"></script>
+<script type="text/javascript">
+	$.jgrid.no_legacy_api = true;
+	$.jgrid.useJSON = true;
+</script>
+<script src="./jqGrid Demos_files/ui.multiselect.js"
+	type="text/javascript"></script>
+<script src="./jqGrid Demos_files/jquery.jqGrid.js"
+	type="text/javascript"></script>
+<script src="./jqGrid Demos_files/jquery.tablednd.js"
+	type="text/javascript"></script>
+<script src="./jqGrid Demos_files/jquery.contextmenu.js"
+	type="text/javascript"></script>
+
+<script type="text/javascript">
+	jQuery(document)
+			.ready(
+					function() {
+						//$('#switcher').themeswitcher();
+
+						$('body').layout(
+								{
+									resizerClass : 'ui-state-default',
+									west__onresize : function(pane, $Pane) {
+										jQuery("#west-grid").jqGrid(
+												'setGridWidth',
+												$Pane.innerWidth() - 2);
+									}
+								});
+						$.jgrid.defaults = $.extend($.jgrid.defaults, {
+							loadui : "enable"
+						});
+						var maintab = jQuery('#tabs', '#RightPane')
+								.tabs(
+										{
+											add : function(e, ui) {
+												// append close thingy
+												$(ui.tab)
+														.parents('li:first')
+														.append(
+																'<span class="ui-tabs-close ui-icon ui-icon-close" title="Close Tab"></span>')
+														.find(
+																'span.ui-tabs-close')
+														.show()
+														.click(
+																function() {
+																	maintab
+																			.tabs(
+																					'remove',
+																					$(
+																							'li',
+																							maintab)
+																							.index(
+																									$(
+																											this)
+																											.parents(
+																													'li:first')[0]));
+																});
+												// select just added tab
+												maintab.tabs('select', '#'
+														+ ui.panel.id);
+											}
+										});
+						jQuery("#west-grid")
+								.jqGrid(
+										{
+											url : "tree.xml",
+											datatype : "xml",
+											height : "auto",
+											pager : false,
+											loadui : "disable",
+											colNames : [ "id", "Items", "url" ],
+											colModel : [ {
+												name : "id",
+												width : 1,
+												hidden : true,
+												key : true
+											}, {
+												name : "menu",
+												width : 150,
+												resizable : false,
+												sortable : false
+											}, {
+												name : "url",
+												width : 1,
+												hidden : true
+											} ],
+											treeGrid : true,
+											caption : "jqGrid Demos",
+											ExpandColumn : "menu",
+											autowidth : true,
+											//width: 180,
+											rowNum : 200,
+											ExpandColClick : true,
+											treeIcons : {
+												leaf : 'ui-icon-document-b'
+											},
+											onSelectRow : function(rowid) {
+												var treedata = $("#west-grid")
+														.jqGrid('getRowData',
+																rowid);
+												if (treedata.isLeaf == "true") {
+													//treedata.url
+													var st = "#t" + treedata.id;
+													if ($(st).html() != null) {
+														maintab.tabs('select',
+																st);
+													} else {
+														maintab.tabs('add', st,
+																treedata.menu);
+														//$(st,"#tabs").load(treedata.url);
+														$
+																.ajax({
+																	url : treedata.url,
+																	type : "GET",
+																	dataType : "html",
+																	complete : function(
+																			req,
+																			err) {
+																		$(st,
+																				"#tabs")
+																				.append(
+																						req.responseText);
+																		try {
+																			var pageTracker = _gat
+																					._getTracker("UA-5463047-4");
+																			pageTracker
+																					._trackPageview();
+																		} catch (err) {
+																		}
+																		;
+																		var clck = '<p style="border: 1px solid; background-color: lemonchiffon; width:654px;height:25px;margin-bottom: 8px;padding-top: 8px;text-align: center">';
+																		clck += '<b> Please, support the jqGrid project by clicking on our sponsors ad!</b></p>';
+																		//var click = ' ';
+																		var fs = '<iframe src="adds.html" style="width:336px; height:290px;" scrolling="no" marginwidth="0" marginheight="0" frameborder="0" vspace="0" hspace="0"/>\
+									&nbsp;&nbsp;&nbsp;&nbsp;<iframe src="adds3.html" style="width:336px; height:290px;" scrolling="no" marginwidth="0" marginheight="0" frameborder="0" vspace="0" hspace="0"/>\
+									<br/><iframe src="adds2.html" style="width:728px; height:95px;" scrolling="no" marginwidth="0" marginheight="0" frameborder="0" vspace="0" hspace="0"/><br>\
+									&nbsp;&nbsp;&nbsp;&nbsp;<iframe src="adds4.html" style="width:728px; height:95px;"scrolling="no" marginwidth="0" marginheight="0" frameborder="0" vspace="0" hspace="0"/>\
+							';
+																		$(st,
+																				"#tabs")
+																				.append(
+																						clck);
+																		$(st,
+																				"#tabs")
+																				.append(
+																						fs);
+																	}
+																});
+													}
+												}
+											}
+										});
+
+						// end splitter
+
+					});
+</script>
+</head>
+<body class="ui-layout-container" cz-shortcut-listen="true"
+	style="zoom: 1; overflow: hidden; width: auto; height: auto; margin: 0px; position: absolute; top: 0px; bottom: 0px; left: 0px; right: 0px;">
+	<div class="ui-jqgrid ui-widget ui-widget-content ui-corner-all"
+		id="gbox_list4" dir="ltr" style="width: 700px;">
+		<div class="ui-widget-overlay jqgrid-overlay" id="lui_list4"></div>
+		<div class="loading ui-state-default ui-state-active" id="load_list4"
+			style="display: none;">Loading...</div>
+		<div class="ui-jqgrid-view" id="gview_list4" style="width: 700px;">
+
+			<div class="ui-jqgrid-bdiv" style="height: 250px; width: 700px;">
+				<div style="position: relative;">
+					<div></div>
+					<table id="list4" tabindex="0" cellspacing="0" cellpadding="0"
+						border="0" role="grid" aria-multiselectable="true"
+						aria-labelledby="gbox_list4" class="ui-jqgrid-btable"
+						style="width: 682px;">
+						<tbody>
+							<tr class="jqgfirstrow" role="row" style="height: auto">
+								<td role="gridcell" style="height: 0px; width: 20px;"></td>
+								<td role="gridcell" style="height: 0px; width: 58px;"></td>
+								<td role="gridcell" style="height: 0px; width: 87px;"></td>
+								<td role="gridcell" style="height: 0px; width: 97px;"></td>
+								<td role="gridcell" style="height: 0px; width: 78px;"></td>
+								<td role="gridcell" style="height: 0px; width: 78px;"></td>
+								<td role="gridcell" style="height: 0px; width: 78px;"></td>
+								<td role="gridcell" style="height: 0px; width: 146px;"></td>
+							</tr>
+							<tr role="row" id="1" tabindex="-1"
+								class="ui-widget-content jqgrow ui-row-ltr">
+								<td role="gridcell" style="text-align: center;"
+									aria-describedby="list4_cb"><input role="checkbox"
+									type="checkbox" id="jqg_list4_1" class="cbox"></td>
+								<td role="gridcell" style="" title="1"
+									aria-describedby="list4_id">1</td>
+								<td role="gridcell" style="" title="2007-10-01"
+									aria-describedby="list4_invdate">2007-10-01</td>
+								<td role="gridcell" style="" title="test"
+									aria-describedby="list4_name">test</td>
+								<td role="gridcell" style="text-align: right;" title="200.00"
+									aria-describedby="list4_amount">200.00</td>
+								<td role="gridcell" style="text-align: right;" title="10.00"
+									aria-describedby="list4_tax">10.00</td>
+								<td role="gridcell" style="text-align: right;" title="210.00"
+									aria-describedby="list4_total">210.00</td>
+								<td role="gridcell" style="" title="note"
+									aria-describedby="list4_note">note</td>
+							</tr>
+							<tr role="row" id="2" tabindex="-1"
+								class="ui-widget-content jqgrow ui-row-ltr ui-state-highlight"
+								aria-selected="true">
+								<td role="gridcell" style="text-align: center;"
+									aria-describedby="list4_cb"><input role="checkbox"
+									type="checkbox" id="jqg_list4_2" class="cbox"></td>
+								<td role="gridcell" style="" title="2"
+									aria-describedby="list4_id">2</td>
+								<td role="gridcell" style="" title="2007-10-02"
+									aria-describedby="list4_invdate">2007-10-02</td>
+								<td role="gridcell" style="" title="test2"
+									aria-describedby="list4_name">test2</td>
+								<td role="gridcell" style="text-align: right;" title="300.00"
+									aria-describedby="list4_amount">300.00</td>
+								<td role="gridcell" style="text-align: right;" title="20.00"
+									aria-describedby="list4_tax">20.00</td>
+								<td role="gridcell" style="text-align: right;" title="320.00"
+									aria-describedby="list4_total">320.00</td>
+								<td role="gridcell" style="" title="note2"
+									aria-describedby="list4_note">note2</td>
+							</tr>
+							<tr role="row" id="3" tabindex="-1"
+								class="ui-widget-content jqgrow ui-row-ltr">
+								<td role="gridcell" style="text-align: center;"
+									aria-describedby="list4_cb"><input role="checkbox"
+									type="checkbox" id="jqg_list4_3" class="cbox"></td>
+								<td role="gridcell" style="" title="3"
+									aria-describedby="list4_id">3</td>
+								<td role="gridcell" style="" title="2007-09-01"
+									aria-describedby="list4_invdate">2007-09-01</td>
+								<td role="gridcell" style="" title="test3"
+									aria-describedby="list4_name">test3</td>
+								<td role="gridcell" style="text-align: right;" title="400.00"
+									aria-describedby="list4_amount">400.00</td>
+								<td role="gridcell" style="text-align: right;" title="30.00"
+									aria-describedby="list4_tax">30.00</td>
+								<td role="gridcell" style="text-align: right;" title="430.00"
+									aria-describedby="list4_total">430.00</td>
+								<td role="gridcell" style="" title="note3"
+									aria-describedby="list4_note">note3</td>
+							</tr>
+							<tr role="row" id="4" tabindex="-1"
+								class="ui-widget-content jqgrow ui-row-ltr ui-state-highlight"
+								aria-selected="true">
+								<td role="gridcell" style="text-align: center;"
+									aria-describedby="list4_cb"><input role="checkbox"
+									type="checkbox" id="jqg_list4_4" class="cbox"></td>
+								<td role="gridcell" style="" title="4"
+									aria-describedby="list4_id">4</td>
+								<td role="gridcell" style="" title="2007-10-04"
+									aria-describedby="list4_invdate">2007-10-04</td>
+								<td role="gridcell" style="" title="test"
+									aria-describedby="list4_name">test</td>
+								<td role="gridcell" style="text-align: right;" title="200.00"
+									aria-describedby="list4_amount">200.00</td>
+								<td role="gridcell" style="text-align: right;" title="10.00"
+									aria-describedby="list4_tax">10.00</td>
+								<td role="gridcell" style="text-align: right;" title="210.00"
+									aria-describedby="list4_total">210.00</td>
+								<td role="gridcell" style="" title="note"
+									aria-describedby="list4_note">note</td>
+							</tr>
+							<tr role="row" id="5" tabindex="-1"
+								class="ui-widget-content jqgrow ui-row-ltr">
+								<td role="gridcell" style="text-align: center;"
+									aria-describedby="list4_cb"><input role="checkbox"
+									type="checkbox" id="jqg_list4_5" class="cbox"></td>
+								<td role="gridcell" style="" title="5"
+									aria-describedby="list4_id">5</td>
+								<td role="gridcell" style="" title="2007-10-05"
+									aria-describedby="list4_invdate">2007-10-05</td>
+								<td role="gridcell" style="" title="test2"
+									aria-describedby="list4_name">test2</td>
+								<td role="gridcell" style="text-align: right;" title="300.00"
+									aria-describedby="list4_amount">300.00</td>
+								<td role="gridcell" style="text-align: right;" title="20.00"
+									aria-describedby="list4_tax">20.00</td>
+								<td role="gridcell" style="text-align: right;" title="320.00"
+									aria-describedby="list4_total">320.00</td>
+								<td role="gridcell" style="" title="note2"
+									aria-describedby="list4_note">note2</td>
+							</tr>
+							<tr role="row" id="6" tabindex="-1"
+								class="ui-widget-content jqgrow ui-row-ltr">
+								<td role="gridcell" style="text-align: center;"
+									aria-describedby="list4_cb"><input role="checkbox"
+									type="checkbox" id="jqg_list4_6" class="cbox"></td>
+								<td role="gridcell" style="" title="6"
+									aria-describedby="list4_id">6</td>
+								<td role="gridcell" style="" title="2007-09-06"
+									aria-describedby="list4_invdate">2007-09-06</td>
+								<td role="gridcell" style="" title="test3"
+									aria-describedby="list4_name">test3</td>
+								<td role="gridcell" style="text-align: right;" title="400.00"
+									aria-describedby="list4_amount">400.00</td>
+								<td role="gridcell" style="text-align: right;" title="30.00"
+									aria-describedby="list4_tax">30.00</td>
+								<td role="gridcell" style="text-align: right;" title="430.00"
+									aria-describedby="list4_total">430.00</td>
+								<td role="gridcell" style="" title="note3"
+									aria-describedby="list4_note">note3</td>
+							</tr>
+							<tr role="row" id="7" tabindex="-1"
+								class="ui-widget-content jqgrow ui-row-ltr">
+								<td role="gridcell" style="text-align: center;"
+									aria-describedby="list4_cb"><input role="checkbox"
+									type="checkbox" id="jqg_list4_7" class="cbox"></td>
+								<td role="gridcell" style="" title="7"
+									aria-describedby="list4_id">7</td>
+								<td role="gridcell" style="" title="2007-10-04"
+									aria-describedby="list4_invdate">2007-10-04</td>
+								<td role="gridcell" style="" title="test"
+									aria-describedby="list4_name">test</td>
+								<td role="gridcell" style="text-align: right;" title="200.00"
+									aria-describedby="list4_amount">200.00</td>
+								<td role="gridcell" style="text-align: right;" title="10.00"
+									aria-describedby="list4_tax">10.00</td>
+								<td role="gridcell" style="text-align: right;" title="210.00"
+									aria-describedby="list4_total">210.00</td>
+								<td role="gridcell" style="" title="note"
+									aria-describedby="list4_note">note</td>
+							</tr>
+							<tr role="row" id="8" tabindex="-1"
+								class="ui-widget-content jqgrow ui-row-ltr">
+								<td role="gridcell" style="text-align: center;"
+									aria-describedby="list4_cb"><input role="checkbox"
+									type="checkbox" id="jqg_list4_8" class="cbox"></td>
+								<td role="gridcell" style="" title="8"
+									aria-describedby="list4_id">8</td>
+								<td role="gridcell" style="" title="2007-10-03"
+									aria-describedby="list4_invdate">2007-10-03</td>
+								<td role="gridcell" style="" title="test2"
+									aria-describedby="list4_name">test2</td>
+								<td role="gridcell" style="text-align: right;" title="300.00"
+									aria-describedby="list4_amount">300.00</td>
+								<td role="gridcell" style="text-align: right;" title="20.00"
+									aria-describedby="list4_tax">20.00</td>
+								<td role="gridcell" style="text-align: right;" title="320.00"
+									aria-describedby="list4_total">320.00</td>
+								<td role="gridcell" style="" title="note2"
+									aria-describedby="list4_note">note2</td>
+							</tr>
+							<tr role="row" id="9" tabindex="-1"
+								class="ui-widget-content jqgrow ui-row-ltr">
+								<td role="gridcell" style="text-align: center;"
+									aria-describedby="list4_cb"><input role="checkbox"
+									type="checkbox" id="jqg_list4_9" class="cbox"></td>
+								<td role="gridcell" style="" title="9"
+									aria-describedby="list4_id">9</td>
+								<td role="gridcell" style="" title="2007-09-01"
+									aria-describedby="list4_invdate">2007-09-01</td>
+								<td role="gridcell" style="" title="test3"
+									aria-describedby="list4_name">test3</td>
+								<td role="gridcell" style="text-align: right;" title="400.00"
+									aria-describedby="list4_amount">400.00</td>
+								<td role="gridcell" style="text-align: right;" title="30.00"
+									aria-describedby="list4_tax">30.00</td>
+								<td role="gridcell" style="text-align: right;" title="430.00"
+									aria-describedby="list4_total">430.00</td>
+								<td role="gridcell" style="" title="note3"
+									aria-describedby="list4_note">note3</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		<div class="ui-jqgrid-resize-mark" id="rs_mlist4">&nbsp;</div>
+	</div>
+</body>
+</html>

@@ -213,7 +213,15 @@ public class SrvLstSMS extends HttpServlet {
 		try{
 			return DateUtils.parseDate(request.getParameter(parameter), Constants.FORMATO_FECHA_HTML5_REGEX,  Constants.FORMATO_FECHA_HTML5);
 		}catch(ParseException ex){
-			return null;
+			try{
+				return DateUtils.parseDate(request.getParameter(parameter), Constants.FORMATO_FECHA_HTML5_REGEX_ALT1,  Constants.FORMATO_FECHA_HTML5_ALT1);
+			}catch(ParseException ex1){
+				try{
+					return DateUtils.parseDate(request.getParameter(parameter), Constants.FORMATO_FECHA_HTML5_REGEX_ALT2,  Constants.FORMATO_FECHA_HTML5_ALT2);
+				}catch(ParseException ex2){
+					return null;
+				}
+			}
 		}catch(NullPointerException ex){
 			return null;
 		}

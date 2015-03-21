@@ -54,50 +54,6 @@ var editOptions={top: 50, left: "100",
 
 jQuery(document).ready(function(){
 
-	//--- Botonoes ---------------------------------------------------------
-	$(function(){
-	});
-	//--- Fin Botonoes ---------------------------------------------------------
-
-	//--- Mascaras ---------------------------------------------------------
-	$.mask.masks = $.extend($.mask.masks,{
-		importe:{ mask : '99.999999', type : 'reverse' },
-		fecha:{ mask : '19-39-9999'  }
-	});
-	//--- Fin Mascaras ---------------------------------------------------------
-
-	//--- Inputs ---------------------------------------------------------
-  	$(function(){
-    	$("input:text").setMask();
-  	});
-  	//--- Fin Inputs ---------------------------------------------------------
-  //--- Validacion Formulario -----------------------------------------------------
-	$.validator.addMethod(
-			"dateUY",
-			function (value, element) {
-				return Date.parseExact(value, "dd-MM-yyyy");
-			},
-			"Ingrese una fecha en el formato dd-mm-yyyy"
-	);
-
-	var validator = $("#frmLstSMS").validate({
-		onfocusout: false,
-		onkeyup: false,
-		onclick: false,
-		ignore: ":hidden",
-		wrapper: "li",
-		errorClass: "ui-state-error-text",
-		errorPlacement: function(error, element) {
-			error.appendTo(element.parent());
-		},
-		rules: {
-		},
-		messages: {
-	}
-	});
-
-
-	//--- FIN Validacion Formulario -----------------------------------------------------
 	jQuery("#gridArticulos").jqGrid({
 	   	url:'lstSMS',
 	   	postData: {
