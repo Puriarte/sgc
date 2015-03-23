@@ -244,7 +244,7 @@ jQuery(document).ready(function(){
 	}).navGrid('#pagerArticulos',{edit:true,add:true,del:false,search: false}, editOptions , addOptions)
 	.navButtonAdd('#pagerArticulos', {
         caption: "Crear mensaje",
-        buttonicon: "ui-icon-disk",
+        buttonicon: "ui-icon-mail-open",
         onClickButton: function () {
         	try{
     			ingresarMensajeSMS();
@@ -255,7 +255,7 @@ jQuery(document).ready(function(){
         position: "last"
     }).navButtonAdd('#pagerArticulos', {
         caption: "Crear convocatoria",
-        buttonicon: "ui-icon-disk",
+        buttonicon: "ui-icon-comment",
         onClickButton: function () {
         	try{
     			ingresarListaSMS();
