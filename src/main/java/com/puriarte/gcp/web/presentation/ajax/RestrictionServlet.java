@@ -24,6 +24,8 @@ public abstract class RestrictionServlet extends HttpServlet {
 	public  void doGet(HttpServletRequest request, HttpServletResponse  response)
     	throws IOException, ServletException {
     	try {
+    		response.setContentType("text/html; charset=UTF-8");
+    		response.setCharacterEncoding("UTF-8");
 	    	doRestriccion(request);
 
 	    	_doProcess(request, response);
@@ -35,7 +37,9 @@ public abstract class RestrictionServlet extends HttpServlet {
     public  void doPost(HttpServletRequest request, HttpServletResponse  response)
     	throws IOException, ServletException {
     	try {
-	    	doRestriccion(request);
+    		response.setContentType("text/html; charset=UTF-8");
+    		response.setCharacterEncoding("UTF-8");
+    		doRestriccion(request);
 
 	    	_doProcess(request, response);
     	} catch(Exception e) {

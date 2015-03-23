@@ -61,7 +61,8 @@ public class ActUpdatePerson extends RestrictionAction {
 				}
 				if ((!dynaForm.get("ORDEN PRELACION").equals("")) && (dynaForm.get("ORDEN PRELACION")!="")) person.getPerson().setPriority(Integer.parseInt((String) dynaForm.get("ORDEN PRELACION")));
 				if (dynaForm.get("NUMERO")!=null) movilNumber = (String) dynaForm.get("NUMERO");
-
+				if (dynaForm.get("RNDNAME")!=null) person.getPerson().setPicture((String) dynaForm.get("RNDNAME"));
+				
 				Facade.getInstance().updatePersonMovil(person, movilNumber);
 
 			}else{

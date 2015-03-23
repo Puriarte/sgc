@@ -5,6 +5,7 @@ var documento_fac=2;
 var documento_nc=3;
 var documento_fav=11;
 var documento_pag=21;
+var maxTextLength=160;
 
 jQuery.extend(jQuery.jgrid.edit, { recreateForm: true });
 
@@ -13,14 +14,15 @@ Number.prototype.format = function(){
 };
 
 var deleteOptions={
-			url: 'deleteSMS.do',
-			mtype:"POST",
-			reloadAfterSubmit:true,
-			serializeDelData: function (postdata) {
-			      var rowdata = jQuery('#gridArticulos').getRowData(postdata.id);
-			      // append postdata with any information 
-			      return {id: postdata.id, oper: postdata.oper,  smsid: rowdata.ID};
-			 }
+		top: 250, left: 250,
+		url: 'deleteSMS.do',
+		mtype:"POST",
+		reloadAfterSubmit:true,
+		serializeDelData: function (postdata) {
+		      var rowdata = jQuery('#gridArticulos').getRowData(postdata.id);
+		      // append postdata with any information 
+		      return {id: postdata.id, oper: postdata.oper,  smsid: rowdata.ID};
+		 }
 };
 
 
@@ -30,7 +32,7 @@ var editMessage = function(response,postdata){
     return [result.status,result.message,null];
 }
 
-var editOptions={top: 50, left: "100",
+var editOptions={top: 250, left: 250,
 		width: 500,
 		height:110,
 		recreateForm:true,
@@ -50,7 +52,6 @@ var editOptions={top: 50, left: "100",
 	    },
 	    afterSubmit: editMessage,
 };
-
 
 jQuery(document).ready(function(){
 
@@ -72,28 +73,37 @@ jQuery(document).ready(function(){
   			{name:"ID"			,index:"2", key: true, 	jsonmap:"Id", 		 align:"center", hidden:true,  width:100, editable:true, editoptions:{readonly:true,size:10}},
   			{name:"CLIENTE"		,index:"3", key: true, 	jsonmap:"Cliente",	 align:"center", hidden:true,  width:400, editable:false, sortable:true},
   			{name:"IDDOCUMENTO"	,index:"4", key: true, 	jsonmap:"IdDoc",	 align:"center", hidden:true,  width:10},
-			{name:"FECHA"		,index:"5", key: true, 	jsonmap:"Fecha",	 align:"center", hidden:false, width:110, editable:false, fixed:true, resizable:false, sortable:true},
-			{name:"NUMERO"		,index:"7", 			jsonmap:"Numero",	 align:"center", hidden:false, width:120, editable:false, fixed:true, resizable:false, sortable:true},
-			{name:"NOMBRE"		,index:"8", 			jsonmap:"Nombre",	 align:"left", 	 hidden:false, width:140, editable:false, fixed:true, resizable:false, sortable:true},
-			{name:"TEXTO"		,index:"9", 			jsonmap:"Texto", 	 align:"left", 	 hidden:false, width:380, editable:false, fixed:true, resizable:false, sortable:true},
-			{name:"FECHA ENVIO"	,index:"10", 			jsonmap:"FechaEnvio",align:"center", hidden:false, width:110, editable:false, fixed:true, resizable:false, sortable:true},
-			{name:"DIR"			,index:"11",  			jsonmap:"Action", 	 align:"center", hidden:false, width:50,  editable:false, fixed:true, resizable:false, sortable:true,
+			{name:"FECHA"		,index:"5", key: true, 	jsonmap:"Fecha",	 align:"center", hidden:false, width:80, editable:false, fixed:true, resizable:false, sortable:true},
+			{name:"NUMERO"		,index:"7", 			jsonmap:"Numero",	 align:"center", hidden:false, width:70, editable:false, fixed:true, resizable:false, sortable:true},
+			{name:"NOMBRE"		,index:"8", 			jsonmap:"Nombre",	 align:"left", 	 hidden:false, width:120, editable:false, fixed:true, resizable:false, sortable:true},
+			{name:"TEXTO"		,index:"9", 			jsonmap:"Texto", 	 align:"left", 	 hidden:false, width:320, editable:false, fixed:true, resizable:false, sortable:true,
+				cellattr: function (rowId, cellvalue, rawObject, cm, rdata) {
+					return 'title="' + rawObject.Texto + '"';
+				},
+				formatter: function(cellvalue, options, rowObject) {
+					var subCellValue =cellvalue.substring(0,maxTextLength);
+					if (cellvalue.length>maxTextLength) subCellValue = subCellValue + "...";							
+		           return subCellValue ;
+				}
+			},			
+			{name:"FECHA ENVIO"	,index:"10", 			jsonmap:"FechaEnvio",align:"center", hidden:false, width:80, editable:false, fixed:true, resizable:false, sortable:true},
+			{name:"DIR"			,index:"11",  			jsonmap:"Action", 	 align:"center", hidden:false, width:30,  editable:false, fixed:true, resizable:false, sortable:true,
 				formatter: function(cellvalue, options, rowObject) {
 					return cellvalue == "ENTRANTE" ? "<span class='glyphicon glyphicon-arrow-down'></span>" :
 						cellvalue == "SALIENTE" ? "<span class='glyphicon glyphicon-arrow-up'></span>" :
 					cellvalue;
 					}
 			},
-			{name:"ESTADO",		index:"12", 	jsonmap:"Saldo", 	align:"center"	, fixed:true, editable:false, resizable:false, width:80 ,sortable:true,hidden:false},
-			{name:"CONVOCATORIA",index:"13", 	jsonmap:"Dispatch", align:"left"	, fixed:true, edittype:"select", editoptions:{ dataUrl:'selectDispatch'}, editrules:{required:true}, editable:true, resizable:false, width:310 ,sortable:true,hidden:false},	
+			{name:"ESTADO",		index:"12", 	jsonmap:"Saldo", 	align:"center"	, fixed:true, editable:false, resizable:false, width:70 ,sortable:true,hidden:false},
+			{name:"CONVOCATORIA",index:"13", 	jsonmap:"Dispatch", align:"left"	, fixed:true,  width:290 , edittype:"select", editoptions:{ dataUrl:'selectDispatch'}, editrules:{required:true}, editable:true, resizable:false,sortable:true,hidden:false},	
 			],
 	   	rowNum:60,
 	   	scrollOffset:50,
 		multiselect: true,
 		caption: null,
 		forceFit: true,
-		height:$(window).height() * 0.60,
-		width: $(window).width() * 0.98,
+		height:$(window).height() * 0.70,
+		width: $(window).width() * 0.81,
 		pager: "pagerArticulos",
 		gridview: true,
 		viewrecords: true,
@@ -113,7 +123,6 @@ jQuery(document).ready(function(){
 			$("#gridArticulos").setColProp('CONVOCATORIA', { editoptions: { dataUrl:'selectDispatch?idSMS=' + temp }});
 
 		},
-
 		ondblClickRow: function(id){
 			jQuery("#gridArticulos").jqGrid('setSelection',id,false);
 			$('#btnVerFactura').trigger('click');
@@ -155,7 +164,7 @@ jQuery(document).ready(function(){
 			}
 			}
 		}
-	}).navGrid('#pagerArticulos',{edit:true,add:false,del:true}, editOptions, null, deleteOptions);
+	}).navGrid('#pagerArticulos',{edit:true,add:false,del:true,search: false}, editOptions, null, deleteOptions);
 
 
     function parseXMLAutocomplete(xml) {

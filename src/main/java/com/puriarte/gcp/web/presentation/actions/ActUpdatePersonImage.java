@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -50,12 +51,10 @@ public class ActUpdatePersonImage extends RestrictionAction {
 		Logger  logger = Logger.getLogger(ActUpdatePerson.class.getName());
 
 		try {
-			String movilNumber= null;
-			
 			
 			if ( (dynaForm.get("ID")!=null) && (!dynaForm.get("ID").toString().trim().equals(""))) {
 				FormFile file = (FormFile) dynaForm.get("IMG");
-
+				String rndNro = dynaForm.get("ID") + (String) dynaForm.get("RNDNAME");
 				
 				//Get the servers upload directory real path name
  			    String filePath = getServlet().getServletContext().getRealPath("/") +"images/faces/";
@@ -65,16 +64,14 @@ public class ActUpdatePersonImage extends RestrictionAction {
 			    if(!folder.exists()){
 			    	folder.mkdir();
 			    }
-		 
+		 			    
 			    String fileName = file.getFileName();
-			    fileName="flag_" + dynaForm.get("ID") + ".jpg";
-			    String fileName_chica="flag_chica_" + dynaForm.get("ID") + ".jpg";
-			    String fileName_mediana="flag_mediana_" + dynaForm.get("ID") + ".jpg";
-			    String fileName_grande="flag_grande_" + dynaForm.get("ID") + ".jpg";
+			    fileName="flag_" + rndNro + ".jpg";
+			    String fileName_chica="flag_chica_" + rndNro + ".jpg";
+			    String fileName_mediana="flag_mediana_" + rndNro + ".jpg";
+			    String fileName_grande="flag_grande_" + rndNro + ".jpg";
 		 
 			    if(!("").equals(fileName)){  
-		 
-			        System.out.println("Server path:" +filePath);
 			        File newFile = new File(filePath, fileName);
 		 
 			        FileOutputStream fos = new FileOutputStream(newFile, false);
@@ -97,10 +94,8 @@ public class ActUpdatePersonImage extends RestrictionAction {
 			        Thumbnails.of(newFile)
 			        .size(67, 83)
 			        .toFile(new File(filePath, fileName_mediana));
-
 			    }
 			}
-
 		} catch (Exception e) {
 			errors.add("error", new ActionError("person.error.db.ingresar"));
 		}
@@ -114,5 +109,4 @@ public class ActUpdatePersonImage extends RestrictionAction {
 			return mapping.findForward("success");
 		}
 	}
-
 }

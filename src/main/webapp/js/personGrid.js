@@ -7,6 +7,8 @@ var documento_fav=11;
 var documento_pag=21;
 var urlReload = "lstPerson";
 var formName = "#frmLstPerson";
+var rndNAme= "";
+var selId = "";
 
 Number.prototype.format = function(){
    return this.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.");
@@ -18,35 +20,96 @@ var editMessage = function(response,postdata){
     return [result.status,result.message,null];
 }
 
-var editOptions={top: 50, left: 100,
-		width: 350,
-		height:250,
+
+var editOptions={
+		top: 180, left: 250,
+		width: 400,
+		height:400,
 		recreateForm:true,
 		closeOnEscape: true,
 		closeAfterAdd:true,
 		closeAfterEdit:true,
 		modal: true,
+		beforeInitData: function () {
+			var cm = jQuery("#gridArticulos").jqGrid('getColProp','FOTO');
+			var selRowId = jQuery("#gridArticulos").jqGrid('getGridParam','selrow');	
+            cm.editoptions.src = './images/faces/flag_mediana_' + $('#gridArticulos').getCell(selRowId, 'RNDNAME') + '.jpg';
+        },
+        onInitializeForm : function(formid){
+        	$(formid).attr('method','POST');
+            $(formid).attr('action','""');
+            $(formid).attr('enctype','multipart/form-data');
+               	rndNAme=  Math.random().toString(36).substring(7);
+               	selId = jQuery("#gridArticulos").jqGrid('getGridParam','selrow');
+
+            $('#IMG').ajaxfileupload({
+            	'action': 'updatePersonImage.do',
+                'params': {
+                  'ID': selId,
+                  'RNDNAME' :  rndNAme
+                },
+                'onComplete': function(response) {
+                  	document.getElementById("FOTO").src="./images/faces/flag_mediana_"  + rndNAme + ".jpg";
+                  	document.getElementById("RNDNAME").value= selId + rndNAme ;
+                    alert("Se ha cargado la foto.");
+                }
+              });           
+        }, 
+	    beforeShowForm: function ($form) {
+	    	$("#RNDNAME")
+            .prop("disabled", true)
+            .addClass("ui-state-disabled")
+            .closest(".DataTD")
+            .prev(".CaptionTD")
+            .prop("disabled", true)
+            .addClass("ui-state-disabled")
+
+	    },
 	    afterSubmit: editMessage,
 };
 
-var addOptions={top: 50, left: 100,
-		width: 350,
-		height:250,
+
+
+var addOptions={
+		top: 180, left: 250,
+		width: 400,
+		height:400,
 		recreateForm:true,
 		closeOnEscape: true,
 		closeAfterAdd:true,
 		closeAfterEdit:true,
 		modal: true,
+		beforeInitData: function () {
+			var cm = jQuery("#gridArticulos").jqGrid('getColProp','FOTO');
+			var selRowId = jQuery("#gridArticulos").jqGrid('getGridParam','selrow');
+            cm.editoptions.src = './images/faces/persona.jpg';
+        },
+        onInitializeForm : function(formid){
+            $(formid).attr('method','POST');
+            $(formid).attr('action','""');
+            $(formid).attr('enctype','multipart/form-data');
+            
+            $('#IMG').ajaxfileupload({
+            	'action': 'updatePersonImage.do',
+                'params': {
+                  'ID': jQuery("#gridArticulos").jqGrid('getGridParam','selrow')
+                },
+                'onComplete': function(response) {
+                	document.getElementById("FOTO").src="./images/faces/flag_mediana_" + selId + rndNAme + ".jpg"
+                  alert("Se ha cargado la foto.");
+                }
+              });
+           
+        }, 
 		afterSubmit: editMessage
 };
+
 jQuery(document).ready(function(){
 
 	//--- Botonoes ---------------------------------------------------------
 	$(function(){
 	});
 	//--- Fin Botonoes ---------------------------------------------------------
-
-
 
 	//--- Mascaras ---------------------------------------------------------
 	$.mask.masks = $.extend($.mask.masks,{
@@ -101,27 +164,30 @@ jQuery(document).ready(function(){
 	   	loadonce:false,
 	   	mtype: 'GET',
 	   	datatype: "local", // se usa local para que no cargue registros en el primer acceso a la grilla
-	   	colNames:['POS','ID',  'NUMERO','TIPO DOC.','NRO DOCUMENTO','NOMBRE','SOBRENOMBRE','CATEGORIA', 'ORDEN PRELACION' ],
+	 	colNames:['POS','ID', 'FOTO' ,'NUMERO','TIPO DOC.','NRO DOCUMENTO','NOMBRE','SOBRENOMBRE','CATEGORIA', 'ORDEN PRELACION', 'IMG', 'RNDNAME'],
 	   	colModel:[
    			{name:"POS",			index:"1", key: false, jsonmap:"Pos", 		align:"center", 			width:10,  hidden:true, sortable:false},
    			{name:'ID',				index:'2', key: true,  jsonmap:"Id",									width:55,  editable:true, editoptions:{readonly:true,size:10},hidden:true},
-	//S		{name:'FOTO', 			index:'3', width: 55, editable: true, edittype: 'image', editoptions: {src: ''}, formatter: function (cell, options) { return '<img src="./images/faces/flag_chica_' + options.rowId + '.jpg"/>'; }},
-			{name:"NUMERO",			index:"4", key: false, jsonmap:"Numero", 	align:"center", fixed:true, width:80,  resizable:false, sortable:true,hidden:false, editable:true},
+   			{name:'FOTO', 			index:'3', key: false, jsonmap:"Picture", 	width: 15, 			align:"center", editable: true, edittype: 'image', editoptions: {src: ''}, formatter: function (cell, options) { 
+   				return '<img width="25px" src="./images/faces/flag_chica_' +  cell + '.jpg"/>'; 
+   				}},
+   			{name:"NUMERO",			index:"4", key: false, jsonmap:"Numero", 	align:"center", editable: true, fixed:true, width:80,  resizable:false, sortable:true,hidden:false},
 			{name:"TIPO DOC.",		index:"5", key: false, jsonmap:"FechaEnvio",align:"center", fixed:true, width:80,  sortable:true,resizable:false,  hidden:false},
-			{name:"NRO DOCUMENTO",	index:"6", key: false, jsonmap:"Texto", 	align:"left", 	fixed:true, width:160, resizable:false, sortable:true,hidden:false, editable:true },
+			{name:"NRO DOCUMENTO",	index:"6", key: false, jsonmap:"Texto", 	align:"left", 	fixed:true, width:120, resizable:false, sortable:true,hidden:false, editable:true },
 			{name:"NOMBRE",			index:"7", key: false, jsonmap:"Name", 		align:"center", fixed:true, width:150, resizable:false, sortable:true,hidden:false, editable: true },
 			{name:"SOBRENOMBRE",	index:"8", key: false, jsonmap:"Nickname", 	align:"center", fixed:true, width:100, resizable:false, sortable:true,hidden:false, editable: true},
 			{name:"CATEGORIA",		index:"9", key: false, jsonmap:"Category", 	edittype:"select", editoptions:{ dataUrl:'lstPersonCategory'}, editrules:{required:true}, width:90 , editable: true},
-			{name:"ORDEN PRELACION",index:"10", key: false, jsonmap:"Priority", 	align:"center", fixed:true, resizable:false, width:140 ,sortable:true,hidden:false, editable: true},
-	//		{name:'IMG', 			index:"11", align: 'left', editable: true, edittype: 'file', editoptions: { enctype: "multipart/form-data" }, search: false },
-			],
+			{name:"ORDEN PRELACION",index:"10",key: false, jsonmap:"Priority", 	align:"center", fixed:true, resizable:false, width:140 ,sortable:true,hidden:false, editable: true},
+			{name:'IMG', 			index:"11", align: 'left', editable: true,   width:1, edittype: 'file', editoptions: { enctype: "multipart/form-data" }, search: false }, 
+			{name:'RNDNAME', 		index:"11", align: 'left', jsonmap:"Picture",  editable: true,   width:1}, 
+		],
 		rowNum:60,
 	   	scrollOffset:50,
 		multiselect: false,
 		caption: null,
 		forceFit: true,
-		height:$(window).height() * 0.60,
-		width: $(window).width() * 0.98,
+		height:$(window).height() * 0.70,
+		width: $(window).width() * 0.81,
 		pager: "pagerArticulos",
 		gridview: true,
 		viewrecords: true,
@@ -175,22 +241,46 @@ jQuery(document).ready(function(){
 			}
 			}
 		}
-	}).navGrid('#pagerArticulos',{edit:true,add:true,del:false}, editOptions , addOptions);
+	}).navGrid('#pagerArticulos',{edit:true,add:true,del:false}, editOptions , addOptions)
+	.navButtonAdd('#pagerArticulos', {
+        caption: "Crear mensaje",
+        buttonicon: "ui-icon-disk",
+        onClickButton: function () {
+        	try{
+    			ingresarMensajeSMS();
+    		}catch(Exception){
+    			alert(Exception.message);
+    		}
+        },
+        position: "last"
+    }).navButtonAdd('#pagerArticulos', {
+        caption: "Crear convocatoria",
+        buttonicon: "ui-icon-disk",
+        onClickButton: function () {
+        	try{
+    			ingresarListaSMS();
+    		}catch(Exception){
+    			alert(Exception.message);
+    		}
+        },
+        position: "last"
+    }).navButtonAdd('#pagerArticulos', {
+        caption: "Informes",
+        buttonicon: "ui-icon-disk",
+        onClickButton: function () {
+        	var gr = jQuery("#gridArticulos").jqGrid('getGridParam','selrow');
+    		if( gr != null )
+    			verEscolaridad(gr);
+    		else alert("Seleccione una persona");
+        },
+        position: "last"
+    });
 
 	$("#bedata").click(function(){
 		var gr = jQuery("#gridArticulos").jqGrid('getGridParam','selrow');
 		if( gr != null ) jQuery("#gridArticulos").jqGrid('editGridRow',gr,{height:280,reloadAfterSubmit:true, closeAfterEdit: true});
 		else alert("Seleccione una persona");
 	});
-
-
-	$("#escolaridad").click(function(){
-		var gr = jQuery("#gridArticulos").jqGrid('getGridParam','selrow');
-		if( gr != null )
-			verEscolaridad(gr);
-		else alert("Seleccione una persona");
-	});
-
 
 
 	function verEscolaridad(gr){
@@ -248,28 +338,6 @@ jQuery(document).ready(function(){
 		  alert(Exception.message);
 		}
 	});
-
-
-	//--- Ingresar Vale -----------------------------------------------------
-	$("#btnIngresar").click(function(){
-		try{
-			ingresarListaSMS();
-		}catch(Exception){
-			alert(Exception.message);
-		}
-		return false;
-	});
-
-	//--- Ingresar Vale -----------------------------------------------------
-	$("#btnIngresarMessage").click(function(){
-		try{
-			ingresarMensajeSMS();
-		}catch(Exception){
-			alert(Exception.message);
-		}
-		return false;
-	});
-
 });
 
 

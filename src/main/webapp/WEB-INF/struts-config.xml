@@ -139,7 +139,8 @@
 		<form-property name="NUMERO" type="java.lang.String" />
 		<form-property name="NRO DOCUMENTO" type="java.lang.String" />
 		<form-property name="IMG" type="org.apache.struts.upload.FormFile" />
-
+		<form-property name="RNDNAME" type="java.lang.String" />
+		<form-property name="FOTO" type="java.lang.String" />
 	</form-bean>
 
 	<form-bean dynamic="true" name="frmSchool" type="org.apache.struts.action.DynaActionForm">

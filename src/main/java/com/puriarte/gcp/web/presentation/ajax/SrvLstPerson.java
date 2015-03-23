@@ -187,6 +187,11 @@ public class SrvLstPerson extends HttpServlet {
 			else
 				jSonItems += "\"Nickname\": \"\",";
 
+			if (item.getPerson().getPicture()!=null)
+				jSonItems += "\"Picture\": \"" + item.getPerson().getPicture() + "\",";
+			else
+				jSonItems += "\"Picture\": \"\",";
+
 			if (item.getPerson().getCategory()!=null)
 				jSonItems += "\"Category\": \"" + item.getPerson().getCategory().getName() + "\",";
 			else

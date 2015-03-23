@@ -37,14 +37,8 @@ public class SrvLstSMS extends HttpServlet {
 	private int convocatoria;
 	private Date  fechaInicio;
 	private Date  fechaFin;
-	private boolean asc;
 	private boolean deleted;
 
-	private  Long totalRegistros=null;
-	private  BigDecimal totalSaldo = new BigDecimal(0);
-	private  BigDecimal totalFacturas = new BigDecimal(0);
-	private  BigDecimal totalContados = new BigDecimal(0);
-	private  BigDecimal totalAFavor = new BigDecimal(0);
 	private NumberFormat nF;
 	private SimpleDateFormat dTF;
 
@@ -52,7 +46,7 @@ public class SrvLstSMS extends HttpServlet {
 		super.init(config);
 		nF = NumberFormat.getNumberInstance(new Locale("ES"));
 		nF.setMinimumFractionDigits(2);
-		dTF = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss", new Locale("ES"));
+		dTF = new SimpleDateFormat("dd/MM/yy HH:mm", new Locale("ES"));
 	}
 
 	public  void doGet(HttpServletRequest request, HttpServletResponse  response)

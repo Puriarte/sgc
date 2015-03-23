@@ -38,6 +38,7 @@ public class Person {
 	private String name;
 	private String description;
 	private String nickname;
+	private String picture;
 	private int priority;
 
 	@ManyToOne(cascade={CascadeType.REFRESH},fetch=FetchType.LAZY)
@@ -98,6 +99,14 @@ public class Person {
 
 	public void setNickname(String nickname) {
 		this.nickname = nickname;
+	}
+
+	public String getPicture() {
+		return picture;
+	}
+
+	public void setPicture(String picture) {
+		this.picture = picture;
 	}
 
 	public PersonCategory getCategory() {
