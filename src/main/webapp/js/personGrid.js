@@ -33,7 +33,7 @@ var editOptions={
 		beforeInitData: function () {
 			var cm = jQuery("#gridArticulos").jqGrid('getColProp','FOTO');
 			var selRowId = jQuery("#gridArticulos").jqGrid('getGridParam','selrow');	
-            cm.editoptions.src = './uploads/faces/flag_mediana_' + $('#gridArticulos').getCell(selRowId, 'RNDNAME') + '.jpg';
+            cm.editoptions.src = './uploads/flag_mediana_' + $('#gridArticulos').getCell(selRowId, 'RNDNAME') + '.jpg';
         },
         onInitializeForm : function(formid){
         	$(formid).attr('method','POST');
@@ -49,7 +49,7 @@ var editOptions={
                   'RNDNAME' :  rndNAme
                 },
                 'onComplete': function(response) {
-                  	document.getElementById("FOTO").src="./uploads/faces/flag_mediana_"  + rndNAme + ".jpg";
+                  	document.getElementById("FOTO").src="./uploads/flag_mediana_"  + rndNAme + ".jpg";
                   	document.getElementById("RNDNAME").value= selId + rndNAme ;
                     alert("Se ha cargado la foto.");
                 }
@@ -82,7 +82,7 @@ var addOptions={
 		beforeInitData: function () {
 			var cm = jQuery("#gridArticulos").jqGrid('getColProp','FOTO');
 			var selRowId = jQuery("#gridArticulos").jqGrid('getGridParam','selrow');
-            cm.editoptions.src = './uploads/faces/persona.jpg';
+            cm.editoptions.src = './uploads/persona.jpg';
         },
         onInitializeForm : function(formid){
             $(formid).attr('method','POST');
@@ -95,7 +95,7 @@ var addOptions={
                   'ID': jQuery("#gridArticulos").jqGrid('getGridParam','selrow')
                 },
                 'onComplete': function(response) {
-                	document.getElementById("FOTO").src="./uploads/faces/flag_mediana_" + selId + rndNAme + ".jpg"
+                	document.getElementById("FOTO").src="./uploads/flag_mediana_" + selId + rndNAme + ".jpg"
                   alert("Se ha cargado la foto.");
                 }
               });
@@ -169,7 +169,7 @@ jQuery(document).ready(function(){
    			{name:"POS",			index:"1", key: false, jsonmap:"Pos", 		align:"center", 			width:10,  hidden:true, sortable:false},
    			{name:'ID',				index:'2', key: true,  jsonmap:"Id",									width:55,  editable:true, editoptions:{readonly:true,size:10},hidden:true},
    			{name:'FOTO', 			index:'3', key: false, jsonmap:"Picture", 	width: 15, 			align:"center", editable: true, edittype: 'image', editoptions: {src: ''}, formatter: function (cell, options) { 
-   				return '<img width="25px" src="./uploads/faces/flag_chica_' +  cell + '.jpg"/>'; 
+   				return '<img width="25px" src="./uploads/flag_chica_' +  cell + '.jpg"/>'; 
    				}},
    			{name:"NUMERO",			index:"4", key: false, jsonmap:"Numero", 	align:"center", editable: true, fixed:true, width:80,  resizable:false, sortable:true,hidden:false},
 			{name:"TIPO DOC.",		index:"5", key: false, jsonmap:"FechaEnvio",align:"center", fixed:true, width:80,  sortable:true,resizable:false,  hidden:false},
