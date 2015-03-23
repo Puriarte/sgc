@@ -241,7 +241,7 @@ jQuery(document).ready(function(){
 			}
 			}
 		}
-	}).navGrid('#pagerArticulos',{edit:true,add:true,del:false}, editOptions , addOptions)
+	}).navGrid('#pagerArticulos',{edit:true,add:true,del:false,search: false}, editOptions , addOptions)
 	.navButtonAdd('#pagerArticulos', {
         caption: "Crear mensaje",
         buttonicon: "ui-icon-disk",

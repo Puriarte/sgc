@@ -12,7 +12,8 @@ Number.prototype.format = function(){
    return this.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.");
 };
 
-var editOptions={top: 70, left: 150,
+var editOptions={
+		top: 140, left: 250,
 		width: 500,
 		height:200,
 		recreateForm:true,
@@ -21,7 +22,8 @@ var editOptions={top: 70, left: 150,
 		closeAfterEdit:true,
 		modal: true};
 
-var addOptions={top: 70, left: 150,
+var addOptions={
+		top: 140, left: 250,
 		width: 500,
 		height:200,
 		recreateForm:true,
@@ -53,8 +55,8 @@ jQuery(document).ready(function(){
 		multiselect: false,
 		caption: null,
 		forceFit: true,
-		height:$(window).height() * 0.60,
-		width: $(window).width() * 0.98,
+		height:$(window).height() * 0.70,
+		width: $(window).width() * 0.81,
 		pager: "pagerArticulos",
 		gridview: true,
 		viewrecords: true,

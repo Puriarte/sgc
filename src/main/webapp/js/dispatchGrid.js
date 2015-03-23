@@ -97,8 +97,8 @@ jQuery(document).ready(function(){
 	   	scrollOffset:50,
 		caption: null,
 		forceFit: true,
-		height:$(window).height() * 0.60,
-		width: $(window).width() * 0.98,
+		height:$(window).height() * 0.70,
+		width: $(window).width() * 0.81,
 		pager: "pagerArticulos",
 		gridview: true,
 		viewrecords: true,
@@ -179,7 +179,19 @@ jQuery(document).ready(function(){
                 idPrefix: "s_" + rowid + "_"
             });
         }
-	}).navGrid('#pagerArticulos',{edit:false,add:false,del:false});
+	}).navGrid('#pagerArticulos',{edit:false,add:false,del:false,search: false})
+	.navButtonAdd('#pagerArticulos', {
+        caption: "",
+        buttonicon: "ui-icon-pencil",
+        onClickButton: function () {
+        	try{
+    			ingresarListaSMS();
+    		}catch(Exception){
+    			alert(Exception.message);
+    		}
+        },
+        position: "last"
+    });;
 
 	$("#bedata").click(function(){
 		var gr = jQuery("#gridArticulos").jqGrid('getGridParam','selrow');
@@ -196,20 +208,8 @@ jQuery(document).ready(function(){
 	});
 
 
-   
-
 	//--- FIN - Filtros -----------------------------------------------------
-
 	
-	//--- Ingresar Vale -----------------------------------------------------
-	$("#btnIngresar").click(function(){
-		try{
-			ingresarListaSMS();
-		}catch(Exception){
-			alert(Exception.message);
-		}
-		return false;
-	});
 	
 	//Para acutalizar la grilla
 	$("#lk_actualizar").click(function(){

@@ -46,20 +46,18 @@
 
 	<jsp:include page="menu.jsp" />
 	<div id="nav">
-		Desde<br>
-		Hasta<br>
-		Tokyo<br>
+		<br/>
+		<br/>
+	      <div class="aui-page-header-main">
+    	    <h1>Inicio</h1>
+     	 </div>
+		
 	</div>
   
 	<div align="left" class="ui-widget-content">
 	<br/>
-	<br/>
-
 	<header id="dashboard-header" class="aui-page-header">
     <div class="aui-page-header-inner">
-      <div class="aui-page-header-main">
-        <h1>Resumen </h1>
-      </div>
     </div>
   </header>
 

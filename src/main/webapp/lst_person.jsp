@@ -119,8 +119,6 @@
 
 						<div id="dialogo_resultados" title="Resultado"
 							style="display: none;"></div>
-						<div id="dialogo_resultados" title="Resultado"
-							style="display: none;"></div>
 
 						<div class="form-group" id="dialogo_ingresar_sms"
 							title="Enviar SMS" style="display: none;">

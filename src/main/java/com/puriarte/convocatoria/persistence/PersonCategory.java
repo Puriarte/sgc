@@ -8,7 +8,7 @@ import javax.persistence.*;
 	  @NamedQuery(name="SelectPersonCategory",
 		  query="SELECT pc FROM PersonCategory pc WHERE pc.id = :id"),
 	  @NamedQuery(name="SelectPersonCategoryList",
-	  	query="SELECT pc FROM PersonCategory pc "),
+	  	query="SELECT pc FROM PersonCategory pc order by pc.name "),
 	})
 public class PersonCategory implements Serializable {
 

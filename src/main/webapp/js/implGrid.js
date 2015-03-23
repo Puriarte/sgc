@@ -113,10 +113,6 @@ jQuery(document).ready(function(){
 		jsonReader: { repeatitems : false, root:"rows" },
 		loadComplete: function(data) {
 		},
-//		beforeSelectRow: function(id){
-//			jQuery("#gridArticulos").setSelection (id, true);
-//			return false;
-//		},
 		onSelectRow: function(id){
 			$("#idsValesSel").val(id);
 			var temp = $("#gridArticulos").getRowData(id)['ID'];
