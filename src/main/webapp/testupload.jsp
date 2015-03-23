@@ -6,6 +6,7 @@
 <form action="/uploads" enctype="multipart/form-data" method="post">
     <input type="file" name="uploadFile" />
     <input type="submit" />
+	<img src='/uploads/$imagename.ext'/>
 </form>
 </body>
 </html>

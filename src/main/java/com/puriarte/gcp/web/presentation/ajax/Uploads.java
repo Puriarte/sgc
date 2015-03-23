@@ -48,7 +48,7 @@ public class Uploads extends HttpServlet {
  
     String filePath = request.getRequestURI();
  
-    File file = new File(System.getenv("OPENSHIFT_DATA_DIR") + filePath.replace("/uploads/",""));
+    File file = new File(System.getenv("OPENSHIFT_DATA_DIR") + filePath.replace("/uploads/","/faces/"));
     InputStream input = new FileInputStream(file);
  
     response.setContentLength((int) file.length());
