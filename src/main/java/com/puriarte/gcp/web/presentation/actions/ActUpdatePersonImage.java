@@ -57,8 +57,9 @@ public class ActUpdatePersonImage extends RestrictionAction {
 				String rndNro = dynaForm.get("ID") + (String) dynaForm.get("RNDNAME");
 				
 				//Get the servers upload directory real path name
- 			    String filePath = getServlet().getServletContext().getRealPath("/") +"images/faces/";
-		 
+ 			    //String filePath = getServlet().getServletContext().getRealPath("/") +"images/faces/";
+ 			    String filePath = System.getenv("OPENSHIFT_REPO_DIR") + "faces/";
+ 			   
 			    //create the upload folder if not exists
 			    File folder = new File(filePath);
 			    if(!folder.exists()){
