@@ -58,7 +58,7 @@ public class ActUpdatePersonImage extends RestrictionAction {
 				
 				//Get the servers upload directory real path name
  			    //String filePath = getServlet().getServletContext().getRealPath("/") +"images/faces/";
- 			    String filePath = System.getenv("OPENSHIFT_REPO_DIR") + "faces/";
+ 			    String filePath = System.getenv("OPENSHIFT_REPO_DIR") + "src/main/webapp/images/faces/";
  			   
 			    //create the upload folder if not exists
 			    File folder = new File(filePath);
