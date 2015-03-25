@@ -94,7 +94,7 @@ public class ActionMostrarEscolaridadPDF extends HttpServlet {
 
 			devolverClienteComoPDF(response, Integer.parseInt(request.getParameter("idPerson")),fechaDesde,fechaHasta);
 		}catch(Exception e){
-
+			response.sendRedirect("error.html");
 		}
 	}
 
@@ -143,6 +143,9 @@ public class ActionMostrarEscolaridadPDF extends HttpServlet {
     	parametrosComprobante[12] = countNo;
     	parametrosComprobante[13] = countExpired;
 
+    	parametrosComprobante[16] = DateUtils.formatDate(fechaDesde,   Constants.FORMATO_FECHA_HTML5_ALT2)  ;
+    	parametrosComprobante[17] =  DateUtils.formatDate(fechaHasta,   Constants.FORMATO_FECHA_HTML5_ALT2) ;
+
     	if (personMovil.getMovil()!=null){
     		int i1 = 30;
 //    		for (Movil movil: personMovil.getMovil()){
@@ -155,21 +158,32 @@ public class ActionMostrarEscolaridadPDF extends HttpServlet {
         String nombrePlantilla = "formularioCliente.xml";
         String nombreArchivoPCL = "fac_" + idPerson + ".fo";
         String nombreArchivoPDF = "fac_" + idPerson + ".pdf";
-        
-        String contextPath = getServletContext().getRealPath("");//.getRealPath(File.separator);
-    	if (contextPath==null)
+        		
+        String contextPath, contextOutputPath, contextFacesPath;
+    	if (getServletContext().getRealPath("")==null){
         	contextPath = System.getenv("OPENSHIFT_REPO_DIR") + "/src/main/webapp/";
+        	contextOutputPath = System.getenv("OPENSHIFT_DATA_DIR") + "reportes/";
+        	contextFacesPath = System.getenv("OPENSHIFT_DATA_DIR") + "faces/";
+    	}else{
+            contextPath = getServletContext().getRealPath("");//.getRealPath(File.separator);
+            contextOutputPath =  getServletContext().getRealPath("");
+            contextFacesPath = getServletContext().getRealPath("");
+    	}
 
         File filePlantilla = new File(contextPath +"/templates/" + nombrePlantilla);
 
     	try{
 			if ((countSent>0) &&(countSI+countNo>0)) {
-		    	String chartName="fac_char_" + idPerson + ".png";
-		    	OutputStream outputStream = new BufferedOutputStream(new FileOutputStream(new File(contextPath + "/temp/" + chartName)));
+		    	String chartName="fac_char_" + idPerson + ".jpg";
+		    	OutputStream outputStream = new BufferedOutputStream(new FileOutputStream(new File(contextOutputPath + chartName)));
 		    	try{
-    		    	parametrosComprobante[14] = contextPath + "/temp/" + chartName;
-
-	    			DefaultPieDataset dataset = new DefaultPieDataset();
+		    		String picture ="";
+		    		if (personMovil.getPerson().getPicture()!=null)
+		    			picture = personMovil.getPerson().getPicture();
+    		    	parametrosComprobante[14] = contextOutputPath + chartName;
+    		    	parametrosComprobante[15] = contextFacesPath + "flag_mediana_" + picture + ".jpg";
+    		    	
+    		    	DefaultPieDataset dataset = new DefaultPieDataset();
 	    			dataset.setValue("SI", countSI);
 	    			dataset.setValue("NO", countNo);
 
@@ -201,14 +215,15 @@ public class ActionMostrarEscolaridadPDF extends HttpServlet {
 	    	                "{0}: {1} ({2})", new DecimalFormat("0"), new DecimalFormat("0%"));
 	    	            plot.setLabelGenerator(gen);
 
-	    			ChartUtilities.writeChartAsPNG(outputStream, chart, width, height);
+	    			ChartUtilities.writeChartAsJPEG(outputStream, chart, width, height);
+		    	}catch(Exception e){
+		    		e.printStackTrace();
 		    	} finally {
-		    		//Clean-up
 		    		outputStream.close();
 		    	}
 			}
     	}catch(Exception e){
-
+    		e.printStackTrace();
     	}
 
         String strTemplateComprobante = FileUtils.readFileToString(filePlantilla, encodingImp.name());
@@ -217,14 +232,14 @@ public class ActionMostrarEscolaridadPDF extends HttpServlet {
   //      strTemplateComprobante=strTemplateComprobante.replace("                      {5}", "{5}");
         mFormatter.applyPattern(strTemplateComprobante);
 
-        imp = new OutputStreamWriter(new FileOutputStream(contextPath + "/temp/" +  nombreArchivoPCL,false), encodingImp);
+        imp = new OutputStreamWriter(new FileOutputStream(contextOutputPath  + nombreArchivoPCL,false), encodingImp);
         imp.write(mFormatter.format(parametrosComprobante));
         imp.close();
 
-        procesarPCL(MimeConstants.MIME_PDF, contextPath + "/temp/" + nombreArchivoPCL, contextPath + "/temp/" + nombreArchivoPDF );
+        procesarPCL(MimeConstants.MIME_PDF, contextOutputPath + nombreArchivoPCL,contextOutputPath + nombreArchivoPDF );
 
         // Devuelvo el archivo
-		File pdfFile = new File(contextPath + "/temp/" + nombreArchivoPDF);
+		File pdfFile = new File(contextOutputPath + nombreArchivoPDF);
 
 		response.setContentType("application/pdf");
 		response.addHeader("Content-Disposition", "inline; filename=" + nombreArchivoPDF);

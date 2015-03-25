@@ -12,6 +12,9 @@ import javax.servlet.http.HttpServletResponse;
 
 
 
+
+
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -39,6 +42,8 @@ import net.sf.jasperreports.engine.util.JRLoader;
 import org.apache.log4j.Logger;
 
 import com.puriarte.convocatoria.core.domain.Constants;
+import com.puriarte.convocatoria.core.domain.services.Facade;
+import com.puriarte.convocatoria.persistence.PersonMovil;
 
 public class ActionMostrarConvocatoriasPDF  extends HttpServlet {
 
@@ -75,7 +80,7 @@ public class ActionMostrarConvocatoriasPDF  extends HttpServlet {
 
 			devolverClienteComoPDF(response, Integer.parseInt(request.getParameter("idPerson")),fechaDesde,fechaHasta);
 		}catch(Exception e){
-
+			response.sendRedirect("error.html");
 		}
 	}
 
@@ -89,23 +94,34 @@ public class ActionMostrarConvocatoriasPDF  extends HttpServlet {
 	private void devolverClienteComoPDF(HttpServletResponse response,
 			int idPerson, Date fechaDesde, Date fechaHasta) throws Exception {
 
-		String contextPath = getServletContext().getRealPath("");//.getRealPath(File.separator);
-		if (contextPath==null)
-			contextPath = System.getenv("OPENSHIFT_REPO_DIR") + "/src/main/webapp/";
-		//String contextPath = "/var/lib/openshift/5460b7b1500446bdfa0003f7/app-root/runtime/repo/src/main/webapp";
+        String contextPath, contextOutputPath, contextFacesPath;
+    	if (getServletContext().getRealPath("")==null){
+        	contextPath = System.getenv("OPENSHIFT_REPO_DIR") + "/src/main/webapp/";
+        	contextOutputPath = System.getenv("OPENSHIFT_DATA_DIR") + "reportes/";
+        	contextFacesPath = System.getenv("OPENSHIFT_DATA_DIR") + "faces/";
+    	}else{
+            contextPath = getServletContext().getRealPath("");//.getRealPath(File.separator);
+            contextOutputPath =  getServletContext().getRealPath("");
+            contextFacesPath = getServletContext().getRealPath("");
+    	}
+		
+	
 		Logger  logger = Logger.getLogger(ActionMostrarEscolaridadPDF.class.getName());
 		// Genero el pdf
 
 		SimpleDateFormat df3 = new SimpleDateFormat("yyyyMMdd");
 		String fechaActual = df3.format(new Date());
 
-		//		response.setHeader ("Content-Disposition", "attachment; filename=" + idPerson + "_" + fechaActual + ".pdf"); //Configurar cabecera http
-		//		response.setHeader ("Pragma", "No-cache");
-		//		response.setDateHeader ("Expires", 0);
-
+		PersonMovil personMovil = Facade.getInstance().selectPersonMovil(idPerson);
+		String picture ="";
+		if (personMovil.getPerson().getPicture()!=null)
+			picture = personMovil.getPerson().getPicture();
+		
+		
 		Map<String, Object> pars = new HashMap<String,Object>();
 		pars.put("REPORT_LOCALE", new java.util.Locale("es","ES"));
 		pars.put("P_ID_PERSON", idPerson);
+		pars.put("P_PICTURE",  contextFacesPath + "flag_mediana_" + picture + ".jpg");
 
 //		JasperCompileManager.compileReportToFile(
 //				contextPath + "/templates/articulos_por_farmacia.jrxml",
