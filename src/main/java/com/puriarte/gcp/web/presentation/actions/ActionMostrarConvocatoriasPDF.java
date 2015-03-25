@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 
 
 
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -44,6 +45,7 @@ import org.apache.log4j.Logger;
 import com.puriarte.convocatoria.core.domain.Constants;
 import com.puriarte.convocatoria.core.domain.services.Facade;
 import com.puriarte.convocatoria.persistence.PersonMovil;
+import com.puriarte.utils.date.DateUtils;
 
 public class ActionMostrarConvocatoriasPDF  extends HttpServlet {
 
@@ -100,9 +102,9 @@ public class ActionMostrarConvocatoriasPDF  extends HttpServlet {
         	contextOutputPath = System.getenv("OPENSHIFT_DATA_DIR") + "reportes/";
         	contextFacesPath = System.getenv("OPENSHIFT_DATA_DIR") + "faces/";
     	}else{
-            contextPath = getServletContext().getRealPath("");//.getRealPath(File.separator);
-            contextOutputPath =  getServletContext().getRealPath("");
-            contextFacesPath = getServletContext().getRealPath("");
+            contextPath = getServletContext().getRealPath("") + "/";//.getRealPath(File.separator);
+            contextOutputPath =  getServletContext().getRealPath("")+ "/";
+            contextFacesPath = getServletContext().getRealPath("")+ "/images/faces/";
     	}
 		
 	
@@ -122,8 +124,10 @@ public class ActionMostrarConvocatoriasPDF  extends HttpServlet {
 		pars.put("REPORT_LOCALE", new java.util.Locale("es","ES"));
 		pars.put("P_ID_PERSON", idPerson);
 		pars.put("P_PICTURE",  contextFacesPath + "flag_mediana_" + picture + ".jpg");
+		pars.put("P_FECHA_DESDE",  DateUtils.formatDate(fechaDesde,   Constants.FORMATO_FECHA_HTML5_ALT2));
+		pars.put("P_FECHA_HASTA",  DateUtils.formatDate(fechaHasta,   Constants.FORMATO_FECHA_HTML5_ALT2));
 
-//		JasperCompileManager.compileReportToFile(
+		//		JasperCompileManager.compileReportToFile(
 //				contextPath + "/templates/articulos_por_farmacia.jrxml",
 //                contextPath + "/templates/33.jasper");
 
@@ -132,7 +136,7 @@ public class ActionMostrarConvocatoriasPDF  extends HttpServlet {
 		File repoPrePagoFile = new File( jasperFileName);
 		JasperReport jasperReport = (JasperReport)JRLoader.loadObject(repoPrePagoFile.getPath());
 
-		Connection connection  = com.puriarte.gcp.resources.ConnectionManager.establishConnection();
+		Connection connection  = com.puriarte.gcp.resources.ConnectionManager.establishConnection2();
 		JasperPrint jasperPrint=JasperFillManager.fillReport (jasperReport, pars, connection);
 
 		//		ArrayList<JasperPrint> list = new  ArrayList<JasperPrint>();

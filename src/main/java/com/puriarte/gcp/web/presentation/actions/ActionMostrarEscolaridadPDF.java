@@ -167,7 +167,7 @@ public class ActionMostrarEscolaridadPDF extends HttpServlet {
     	}else{
             contextPath = getServletContext().getRealPath("");//.getRealPath(File.separator);
             contextOutputPath =  getServletContext().getRealPath("");
-            contextFacesPath = getServletContext().getRealPath("");
+            contextFacesPath = getServletContext().getRealPath("")+ "/images/faces/";
     	}
 
         File filePlantilla = new File(contextPath +"/templates/" + nombrePlantilla);

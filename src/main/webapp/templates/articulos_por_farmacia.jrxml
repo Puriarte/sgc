@@ -10,6 +10,8 @@
 	<property name="net.sf.jasperreports.export.xls.workbook.template" value="macro21.xlt"/>
 	<parameter name="P_ID_PERSON" class="java.lang.Integer"/>
 	<parameter name="P_PICTURE" class="java.lang.String"/>
+	<parameter name="P_FECHA_DESDE" class="java.lang.String"/>
+	<parameter name="P_FECHA_HASTA" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[select a.ASSIGNMENTDATE, ast.name as statusName, c.name as categoryName, d.name as  dispatchName
 from assignment a
@@ -36,6 +38,34 @@ where a.idpersonmovil=$P{P_ID_PERSON}]]>
 				<reportElement uuid="456f1b20-f6bd-4abc-bcf5-6e887d4779b6" x="0" y="10" width="53" height="68"/>
 				<imageExpression><![CDATA[$P{P_PICTURE}]]></imageExpression>
 			</image>
+			<staticText>
+				<reportElement uuid="eb902c6a-cf99-4c43-aa75-bafaf2e3b6dd" x="87" y="55" width="100" height="13"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Período considerado desde ]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="ff5e9a8f-fa6d-4228-8210-1d3d04582697" x="187" y="55" width="40" height="13"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{P_FECHA_DESDE}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="9af03362-0934-4a89-9412-5a4f8ee9ab49" x="227" y="55" width="29" height="13"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[hasta el]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="c14988bd-1fca-4fc4-9fc2-e81dd487a94a" x="256" y="55" width="51" height="13"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{P_FECHA_HASTA}]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 	<columnHeader>

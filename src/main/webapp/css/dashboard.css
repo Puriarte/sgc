@@ -129,3 +129,6 @@ width: 14%;
 	margin-left:14.66%
 }
 
+.navbar-inverse .navbar-nav>li>a{
+	color:#E0E0E0 ;
+}
