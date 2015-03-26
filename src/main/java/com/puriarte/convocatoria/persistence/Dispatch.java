@@ -2,7 +2,12 @@ package com.puriarte.convocatoria.persistence;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -136,6 +141,22 @@ public class Dispatch implements Serializable {
 
 	public void setDispatchStatus(DispatchStatus dispatchStatus) {
 		this.dispatchStatus = dispatchStatus;
+	}
+
+	public void sortJobsByPersonName() {
+		List<Job> jl = this.getJobList();
+		Collections.sort( jl, new Comparator<Job>(){
+			 public int compare(Job j1, Job j2) {
+				 String str1 = j1.getAssignmentList().get(0).getPersonMovil().getPerson().getName();
+				 String str2 = j2.getAssignmentList().get(0).getPersonMovil().getPerson().getName();
+				 int res = String.CASE_INSENSITIVE_ORDER.compare(str1, str2);
+				 if (res == 0) {
+					 res = str1.compareTo(str2);
+				 }
+				 return res;
+			 }
+		});
+		String a ="";
 	}
 
 }

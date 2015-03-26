@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
  
+
 import javax.activation.MimetypesFileTypeMap;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -48,7 +49,15 @@ public class Uploads extends HttpServlet {
  
     String filePath = request.getRequestURI();
  
-    File file = new File(System.getenv("OPENSHIFT_DATA_DIR") + filePath.replace("/uploads/","/faces/"));
+	
+    String contextFacesPath;
+    if (getServletContext().getRealPath("")==null){
+    	contextFacesPath =System.getenv("OPENSHIFT_DATA_DIR") + filePath.replace("/uploads/","/faces/");
+	}else{
+        contextFacesPath = getServletContext().getRealPath("")+ "/images/faces/" ;
+	}
+
+    File file = new File(contextFacesPath + filePath.substring(filePath.lastIndexOf("/")+1));
     InputStream input = new FileInputStream(file);
  
     response.setContentLength((int) file.length());

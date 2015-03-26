@@ -49,7 +49,7 @@ var editOptions={
                   'RNDNAME' :  rndNAme
                 },
                 'onComplete': function(response) {
-                  	document.getElementById("FOTO").src="./uploads/flag_mediana_"  + rndNAme + ".jpg";
+                  	document.getElementById("FOTO").src="./uploads/flag_mediana_"  + selId + rndNAme + ".jpg";
                   	document.getElementById("RNDNAME").value= selId + rndNAme ;
                     alert("Se ha cargado la foto.");
                 }

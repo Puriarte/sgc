@@ -175,7 +175,7 @@ jQuery(document).ready(function(){
                 ],
                 height: "100%",
                 rowNum: 100,
-                sortname: "Movil",
+                sortname: "Person",
                 idPrefix: "s_" + rowid + "_"
             });
         }

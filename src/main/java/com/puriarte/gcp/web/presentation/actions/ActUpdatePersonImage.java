@@ -56,12 +56,15 @@ public class ActUpdatePersonImage extends RestrictionAction {
 				FormFile file = (FormFile) dynaForm.get("IMG");
 				String rndNro = dynaForm.get("ID") + (String) dynaForm.get("RNDNAME");
 				
-				//Get the servers upload directory real path name
- 			    //String filePath = getServlet().getServletContext().getRealPath("/") +"images/faces/";
- 			    String filePath = System.getenv("OPENSHIFT_DATA_DIR") + "faces/";
+			    String contextFacesPath;
+			    if (this.getServlet().getServletContext().getRealPath("")==null){
+		        	contextFacesPath = System.getenv("OPENSHIFT_DATA_DIR") + "faces/";
+		    	}else{
+		            contextFacesPath = this.getServlet().getServletContext().getRealPath("")+ "/images/faces/";
+		    	}
  			   
 			    //create the upload folder if not exists
-			    File folder = new File(filePath);
+			    File folder = new File(contextFacesPath);
 			    if(!folder.exists()){
 			    	folder.mkdir();
 			    }
@@ -73,7 +76,7 @@ public class ActUpdatePersonImage extends RestrictionAction {
 			    String fileName_grande="flag_grande_" + rndNro + ".jpg";
 		 
 			    if(!("").equals(fileName)){  
-			        File newFile = new File(filePath, fileName);
+			        File newFile = new File(contextFacesPath, fileName);
 		 
 			        FileOutputStream fos = new FileOutputStream(newFile, false);
 			        fos.write(file.getFileData());
@@ -86,15 +89,15 @@ public class ActUpdatePersonImage extends RestrictionAction {
 			        // Genero las diferentes vistas
 			        Thumbnails.of(newFile)
 			        .size(32, 39)
-			        .toFile(new File(filePath, fileName_chica));
+			        .toFile(new File(contextFacesPath, fileName_chica));
 
 			        Thumbnails.of(newFile)
 			        .size(111, 137)
-			        .toFile(new File(filePath, fileName_grande));
+			        .toFile(new File(contextFacesPath, fileName_grande));
 
 			        Thumbnails.of(newFile)
 			        .size(67, 83)
-			        .toFile(new File(filePath, fileName_mediana));
+			        .toFile(new File(contextFacesPath, fileName_mediana));
 			    }
 			}
 		} catch (Exception e) {

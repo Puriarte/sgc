@@ -132,7 +132,7 @@ public class SrvLstDispatch extends HttpServlet {
 
 		for(Dispatch item : resultados) {
 			try{
-				
+			
 				String jsonAssignments = "";
 				for (Job job: item.getJobList()){
 					Assignment assignment = job.getAssignmentList().get(0);

@@ -37,6 +37,9 @@
 .ui-jqgrid tr.jqgrow td {
 	white-space: normal
 }
+.row {
+  margin-right: -10px;
+}
 </style>
 </head>
 
@@ -48,13 +51,9 @@
 			<html:hidden property="accion" styleId="accion" />
 			<html:hidden property="nroDestino" />
 			<bean:define id="stPrefix" name="frmAdmDispatch" property="prefix" />
-			<bean:define id="objDispatch" name="frmAdmDispatch"
-				property="dispatch" />
-			<bean:define id="stEventHour" name="frmAdmDispatch"
-				property="eventHour" />
-			<bean:define id="stEventDate" name="frmAdmDispatch"
-				property="eventDate" />
-
+			<bean:define id="objDispatch" name="frmAdmDispatch"	property="dispatch" />
+			<bean:define id="stEventHour" name="frmAdmDispatch"	property="eventHour" />
+			<bean:define id="stEventDate" name="frmAdmDispatch"	property="eventDate" />
 
 			<div class="row" id="assignmentRowModel" style="display: none">
 				<div class="col-md-4">
@@ -90,13 +89,14 @@
 
 			</div>
 
-			<div class="form-group" id="dialogo_ingresar_sms" title="Enviar SMS">
+			<div class="form-group" id="dialogo_ingresar_sms" title="Modificar Convocatoria">
+				<div class="col-md-12">&nbsp;</div>
+
 				<div class="row">
-					<div class="col-md-12">&nbsp;</div>
-				</div>
-				<div class="row">
-					<div class="col-md-2">
+					<div class="col-md-1">
 						<label class="control-label">Convocatoria</label>
+					</div>
+					<div class="col-md-1">
 					</div>
 					<div class="col-md-10">
 						<input type="text" class="form-control"
@@ -105,12 +105,15 @@
 							id="dispatchId" value="${objDispatch.id}">
 					</div>
 				</div>
+
 				<div class="row">
 					<div class="col-md-12">&nbsp;</div>
 				</div>
 				<div class="row">
-					<div class="col-md-2">
+					<div class="col-md-1">
 						<label class="control-label">Prefijo</label>
+					</div>
+					<div class="col-md-1">
 					</div>
 					<div class="col-md-1">
 						<input type="text" class="form-control" value="ET"
@@ -161,10 +164,11 @@
 					<div class="col-md-12">&nbsp;</div>
 				</div>
 
-
 				<div class="row">
-					<div class="col-md-2">
+					<div class="col-md-1">
 						<label class="control-label">Lugar</label>
+					</div>
+					<div class="col-md-1">
 					</div>
 					<div class="col-md-10">
 						<input type="text" value="${objDispatch.place.name}"
@@ -176,18 +180,16 @@
 					<div class="col-md-5">&nbsp;</div>
 				</div>
 				<div class="row">
-					<div class="col-md-2">
+					<div class="col-md-1">
 						<label class="control-label">Destinatarios </label>
 					</div>
-					<div class="col-md-10" id="assignmentRowContainer">
+					<div class="col-md-11" id="assignmentRowContainer">
 						<c:set var="counter" value="${0}" />
 						
 						<logic:present name="frmAdmDispatch" property="colDispatchStatus">
 							<bean:define id="listDispatchStatus" name="frmAdmDispatch" property="colDispatchStatus" />
 							<logic:iterate id="dispatchStatus" name="listDispatchStatus" indexId="index">
-
 							</logic:iterate>
-
 						</logic:present>
 						
 						<logic:present name="frmAdmDispatch" property="colAssignment">
@@ -263,7 +265,7 @@
 							Destinatario</button>
 					</div>
 				</div>
-				<div></div>
+
 			</div>
 
 		</html:form>
