@@ -74,7 +74,7 @@ jQuery(document).ready(function(){
   			{name:"CLIENTE"		,index:"3", key: true, 	jsonmap:"Cliente",	 align:"center", hidden:true,  width:400, editable:false, sortable:true},
   			{name:"IDDOCUMENTO"	,index:"4", key: true, 	jsonmap:"IdDoc",	 align:"center", hidden:true,  width:10},
 			{name:"FECHA"		,index:"5", key: true, 	jsonmap:"Fecha",	 align:"center", hidden:false, width:80, editable:false, fixed:true, resizable:false, sortable:true},
-			{name:"NUMERO"		,index:"7", 			jsonmap:"Numero",	 align:"center", hidden:false, width:70, editable:false, fixed:true, resizable:false, sortable:true},
+			{name:"NUMERO"		,index:"7", 			jsonmap:"Numero",	 align:"center", hidden:false, width:60, editable:false, fixed:true, resizable:false, sortable:true},
 			{name:"NOMBRE"		,index:"8", 			jsonmap:"Nombre",	 align:"left", 	 hidden:false, width:120, editable:false, fixed:true, resizable:false, sortable:true},
 			{name:"TEXTO"		,index:"9", 			jsonmap:"Texto", 	 align:"left", 	 hidden:false, width:320, editable:false, fixed:true, resizable:false, sortable:true,
 				cellattr: function (rowId, cellvalue, rawObject, cm, rdata) {
@@ -95,7 +95,7 @@ jQuery(document).ready(function(){
 					}
 			},
 			{name:"ESTADO",		index:"12", 	jsonmap:"Saldo", 	align:"center"	, fixed:true, editable:false, resizable:false, width:70 ,sortable:true,hidden:false},
-			{name:"CONVOCATORIA",index:"13", 	jsonmap:"Dispatch", align:"left"	, fixed:true,  width:290 , edittype:"select", editoptions:{ dataUrl:'selectDispatch'}, editrules:{required:true}, editable:true, resizable:false,sortable:true,hidden:false},	
+			{name:"CONVOCATORIA",index:"13", 	jsonmap:"Dispatch", align:"left"	, fixed:true,  width:270 , edittype:"select", editoptions:{ dataUrl:'selectDispatch'}, editrules:{required:true}, editable:true, resizable:false,sortable:true,hidden:false},	
 			],
 	   	rowNum:60,
 	   	scrollOffset:50,

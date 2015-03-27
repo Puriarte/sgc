@@ -202,7 +202,7 @@ public class DispatchService1 {
 	 * @param status
 	 * @return
 	 */
-	public int insert(String message, String name, Place place, Date creationDate, Date scheduledDate,
+	public int insert(String message, String name, Place place, Date creationDate, Date scheduledDate, Date scheduledEndDate,
 			String[] personIds, HashMap categories, SmsStatus status) {
 
 		AssignmentStatus assignmentstatus = Facade.getInstance().selectAssingmentStatus(Constants.ASSIGNMENT_STATUS_ASSIGNED);
@@ -212,6 +212,7 @@ public class DispatchService1 {
 		Dispatch dispatch = new Dispatch();
 		dispatch.setName(name);
 		dispatch.setScheduledDate(scheduledDate);
+		dispatch.setScheduledEndDate(scheduledEndDate);
 		dispatch.setPlace(place);
 		dispatch.setDispatchStatus(dispatchStatus);
 		

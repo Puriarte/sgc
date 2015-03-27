@@ -22,5 +22,6 @@ public final class Constantes {
     public static final String FORMATO_FECHA_HTML5="yyyy-MM-dd";
 
     public static final  String PATHDBCONFIG = "com/puriarte/gcp/resources/database.properties";
+    public static final  String PATHAPPCONFIG = "com/puriarte/gcp/resources/application.properties";
 
 }

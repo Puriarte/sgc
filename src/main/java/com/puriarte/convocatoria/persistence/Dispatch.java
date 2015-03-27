@@ -47,6 +47,9 @@ public class Dispatch implements Serializable {
 	private java.util.Date scheduledDate;
 
 	@Temporal(TemporalType.TIMESTAMP)
+	private java.util.Date scheduledEndDate;
+
+	@Temporal(TemporalType.TIMESTAMP)
 	private java.util.Date creationDate;
 
 	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
@@ -77,7 +80,13 @@ public class Dispatch implements Serializable {
 		this.scheduledDate = scheduledDate;
 	}
 
+	public java.util.Date getScheduledEndDate() {
+		return scheduledEndDate;
+	}
 
+	public void setScheduledEndDate(java.util.Date scheduledEndDate) {
+		this.scheduledEndDate = scheduledEndDate;
+	}
 
 	public java.util.Date getCreationDate() {
 		return creationDate;

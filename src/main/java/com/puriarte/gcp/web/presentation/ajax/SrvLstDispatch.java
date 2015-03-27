@@ -52,7 +52,8 @@ public class SrvLstDispatch extends HttpServlet {
 		super.init(config);
 		nF = NumberFormat.getNumberInstance(new Locale("ES"));
 		nF.setMinimumFractionDigits(2);
-		dTF = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss", new Locale("ES"));
+		dTF = new SimpleDateFormat("dd/MM/yy HH:mm", new Locale("ES"));
+	
 	}
 
 	public  void doGet(HttpServletRequest request, HttpServletResponse  response)
@@ -168,6 +169,11 @@ public class SrvLstDispatch extends HttpServlet {
 				else
 					jSonItems += "\"\": \"" + "\",";
 	
+				if (item.getScheduledEndDate()!=null)
+					jSonItems += "\"FechaHasta\": \"" + dTF.format(item.getScheduledEndDate()) + "\",";
+				else
+					jSonItems += "\"\": \"" + "\",";
+				
 				if (item.getName()!=null)
 					jSonItems += "\"Name\": \"" +StringEscapeUtils.escapeHtml( item.getName() )+ "\",";
 				else

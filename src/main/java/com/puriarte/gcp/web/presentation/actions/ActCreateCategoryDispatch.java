@@ -9,6 +9,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.lang.time.DateUtils;
 import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionError;
@@ -40,6 +41,9 @@ public class ActCreateCategoryDispatch extends RestrictionAction {
 		ActionMessages messages = new ActionMessages();
 		DynaActionForm dynaForm= (DynaActionForm) form;
 
+		PropertiesConfiguration config = new PropertiesConfiguration(com.puriarte.gcp.web.Constantes.PATHAPPCONFIG);
+		String prefix = config.getString("sms.prefix");
+
 		Logger  logger = Logger.getLogger(ActCreateCategoryDispatch.class.getName());
 		if(dynaForm.get("accion").equals("load")){
 			try{
@@ -51,7 +55,7 @@ public class ActCreateCategoryDispatch extends RestrictionAction {
 					persons.add(person);
 				}
 				dynaForm.set("colPerson", persons);
-				dynaForm.set("prefix", "ET");
+				dynaForm.set("prefix", prefix);
 				dynaForm.set("accion", "send");
 
 				try{
@@ -88,18 +92,25 @@ public class ActCreateCategoryDispatch extends RestrictionAction {
 					String[] arPersonIds = dynaForm.get("nroDestino").toString().split(",");
 
 					String strName = (String) dynaForm.get("name");
-					String strMensaje = (String) dynaForm.get("detalleIn");
+					String strMessage = (String) dynaForm.get("detalleIn");
 					String strDate = (String) dynaForm.get("eventDate") ;
 					String strHour = (String) dynaForm.get("eventHour");
+					String strEndHour = (String) dynaForm.get("eventEndHour");
+
 					if ((strHour!=null) && (strHour.trim().toString().length()==5)) strHour += ":00";
 					else strHour = "00:00:00";
 					
+					if ((strEndHour!=null) && (strEndHour.trim().toString().length()==5)) strEndHour += ":00";
+					else strEndHour = "00:00:00";
+
 					String placeId = (String) dynaForm.get("place");
-					String prefix = (String) dynaForm.get("prefix");
 
 					Date creationDate = new Date();
 			 
 				 	Date scheduledDate = com.puriarte.utils.date.DateUtils.parseDate(strDate + " " + strHour , Constants.FORMATO_FECHA_HORA_HTML5_REGEX, Constants.FORMATO_FECHA_HORA_HTML5);
+				 	Date scheduledEndDate = com.puriarte.utils.date.DateUtils.parseDate(strDate + " " + strEndHour , Constants.FORMATO_FECHA_HORA_HTML5_REGEX, Constants.FORMATO_FECHA_HORA_HTML5);
+				 	if (scheduledDate.compareTo(scheduledEndDate)>0)
+				 		scheduledEndDate = new Date();
 				 	
 					strName = prefix + " " +  com.puriarte.utils.date.DateUtils.formatDate(scheduledDate , "EEEE dd MMMM hh:mm a");
 					
@@ -109,8 +120,8 @@ public class ActCreateCategoryDispatch extends RestrictionAction {
 						strName +=  " " + place.getName() + " " ;
 					}finally{}
 					
-					strMensaje = strName.replace("á", "a").replace("é", "e").replace("í", "i").replace("ó", "o").replace("ú", "u");
-					int id = Facade.getInstance().insertDispatch(strMensaje, strName, place, creationDate, scheduledDate , arPersonIds, arPersonCategory);
+					strMessage = strName.replace("á", "a").replace("é", "e").replace("í", "i").replace("ó", "o").replace("ú", "u");
+					int id = Facade.getInstance().insertDispatch(strMessage, strName, place, creationDate, scheduledDate , scheduledEndDate, arPersonIds, arPersonCategory);
 
 				}
 

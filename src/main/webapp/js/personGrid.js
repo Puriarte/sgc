@@ -179,7 +179,7 @@ jQuery(document).ready(function(){
 			{name:"CATEGORIA",		index:"9", key: false, jsonmap:"Category", 	edittype:"select", editoptions:{ dataUrl:'lstPersonCategory'}, editrules:{required:true}, width:90 , editable: true},
 			{name:"ORDEN PRELACION",index:"10",key: false, jsonmap:"Priority", 	align:"center", fixed:true, resizable:false, width:140 ,sortable:true,hidden:false, editable: true},
 			{name:'IMG', 			index:"11", align: 'left', editable: true,   width:1, edittype: 'file', editoptions: { enctype: "multipart/form-data" }, search: false }, 
-			{name:'RNDNAME', 		index:"11", align: 'left', jsonmap:"Picture",  editable: true,   width:1}, 
+			{name:'RNDNAME', 		index:"12", align: 'left', jsonmap:"Picture",  editable: true, hidden:true, width:0}, 
 		],
 		rowNum:60,
 	   	scrollOffset:50,
@@ -488,7 +488,7 @@ function ingresarListaSMS(){
 		modal: true,
 		resizable: true,
 		height:550,
-		width:700
+		width:850
 	});
 	// load remote content
 	dialog.load(
@@ -512,4 +512,3 @@ function removeOptions(selectbox)
         selectbox.remove(i);
     }
 }
-

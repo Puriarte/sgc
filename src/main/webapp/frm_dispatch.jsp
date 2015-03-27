@@ -29,7 +29,6 @@
 	</script>
 
     <!-- Bootstrap core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
@@ -44,6 +43,16 @@
 	<style>
 		.ui-jqgrid tr.jqgrow td {white-space: normal}
 	</style>
+	
+	<style>
+	.row {
+	  margin-right: -10px;
+	}
+	.container {
+	 	width: 100%; 
+	} 
+	</style>
+	
 </head>
 
  <body >
@@ -52,44 +61,25 @@
 	<html:form action="/createCategoryDispatch.do" method="post" styleId="frmAdmDispatch" style="margin: 0px 0px 0px 0px;">
 	<html:hidden  property="accion" styleId="accion"/>
 	<html:hidden property="nroDestino" />
-	<bean:define id="stPrefix" name="frmAdmDispatch" property="prefix"/>
+	<bean:define id="stPrefix" name="frmAdmDispatch" property="prefix" />
 
 	<div class="form-group"  id="dialogo_ingresar_sms" title="Enviar SMS">
 	<div class="row">
 			<div class="col-md-12">&nbsp;</div>
 		</div>
+		
 		<div class="row">
 			<div class="col-md-1">
-				<label class="control-label">Prefijo</label>
+				<label class="control-label input-sm">Prefijo</label>
 			</div>
-			<div class="col-md-3">
-				<input type="text" class="form-control" name="prefix" value="${stPrefix}" id="prefix" required >
-			</div>
-			<div class="col-md-1">
-				<label class="control-label">Fecha</label>
-			</div>
-			<div class="col-md-3">
-				<input type="date" class="form-control" name="eventDate"  value="" id="eventDate" required>
+			<div class="col-md-2">
+				<input type="text" class="form-control input-sm" name="prefix" value="${stPrefix}" id="prefix" required >
 			</div>
 			<div class="col-md-1">
-				<label class="control-label">Hora</label>
+				<label class="control-label input-sm">Lugar</label>
 			</div>
-			<div class="col-md-3">
-				<input type="time" class="form-control" name="eventHour"  value="" id="eventHour" required>
-			</div>
-
-		</div>
-		<div class="row">
-			<div class="col-md-12">&nbsp;</div>
-		</div>
-
-
-		<div class="row">
-			<div class="col-md-1">
-				<label class="control-label">Lugar</label>
-			</div>
-			<div class="col-md-11">
-				<select class="form-control" name="place" id="place" required>
+			<div class="col-md-7">
+				<select class="form-control input-sm" name="place" id="place" required>
 		          	<option value="">Seleccione</option>
 				<logic:present name="frmAdmDispatch" property="places">
 					<logic:iterate name="frmAdmDispatch" property="places" id="item" indexId="idx">
@@ -98,13 +88,46 @@
 					</select>
 				</logic:present>
 			</div>
+
+
+
 		</div>
+		<div class="row">
+			<div class="col-md-12">&nbsp;</div>
+		</div>
+
+
+		<div class="row">
+			<div class="col-md-1">
+				<label class="control-label input-sm">Fecha</label>
+			</div>
+			<div class="col-md-5">
+				<div class="col-md-6">
+					<input type="date" class="form-control input-sm" name="eventDate"  value="" id="eventDate" required>
+				</div>
+				<div class="col-md-6">
+					<input type="time" class="form-control input-sm"  name="eventHour"  value="" id="eventHour" required>
+				</div>
+			</div>
+			<div class="col-md-1">
+				<label class="control-label input-sm">Hasta</label>
+			</div>
+			<div class="col-md-5">
+				<div class="col-md-6">
+					<input type="time" class="form-control input-sm" name="eventEndHour"  value="" id="eventEndHour" required>
+				</div>
+				<div class="col-md-6">
+					<label class="control-label input-sm">(Opcional)</label>
+				</div>
+			</div>
+		</div>
+
 		<div class="row">	
 			<div class="col-md-5">&nbsp;</div>
 		</div>
 		<div class="row">
 			<div class="col-md-1">
-				<label class="control-label">Destinatarios  </label>
+				<label class="control-label input-sm">Destinatarios  </label>
 			</div>
 			<div class="col-md-11">
 				<logic:present name="frmAdmDispatch" property="colPerson">
@@ -112,10 +135,10 @@
 					<logic:iterate id="person" name="listaPerson" indexId="index">
 	       			<div class="row">
 						<div class="col-md-4">
-							<label class="control-label">${person.person.name}</label>
+							<label class="control-label input-sm">${person.person.name}</label>
 						</div>
 						<div class="col-md-6">
-							<select class="form-control" name="personCategory_${person.person.id}" id="personCategory_${person.person.id}" required>
+							<select class="form-control input-sm" name="personCategory_${person.person.id}" id="personCategory_${person.person.id}" required>
 		                    	<option value="">Seleccione</option>
 								<logic:iterate name="frmAdmDispatch" property="categories" id="item" indexId="idx">
 								<c:if test="${person.person.category.id==item.id}">

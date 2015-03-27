@@ -111,7 +111,9 @@
 		<form-property name="name" type="java.lang.String" />
 		<form-property name="prefix" type="java.lang.String" />
 		<form-property name="eventDate" type="java.lang.String" />
+		<form-property name="eventDateAlt2" type="java.lang.String" />
 		<form-property name="eventHour" type="java.lang.String" />
+		<form-property name="eventEndHour" type="java.lang.String" />		
 		<form-property name="place" type="java.lang.String" />
 		<form-property name="personCategory" type="java.lang.String" />
 		<form-property name="colPerson" type="java.util.ArrayList" />

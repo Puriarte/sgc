@@ -1,8 +1,6 @@
 package com.puriarte.gcp.web.presentation.actions;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -11,13 +9,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.puriarte.utils.date.DateUtils;
-
-
-
-//import org.apache.commons.lang.time.DateUtils;
+import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.log4j.Logger;
-import org.apache.struts.action.ActionError;
 import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -26,17 +19,17 @@ import org.apache.struts.action.ActionMessage;
 import org.apache.struts.action.ActionMessages;
 import org.apache.struts.action.DynaActionForm;
 
+import com.puriarte.convocatoria.core.domain.Constants;
 import com.puriarte.convocatoria.core.domain.services.Facade;
 import com.puriarte.convocatoria.persistence.Assignment;
 import com.puriarte.convocatoria.persistence.AssignmentStatus;
 import com.puriarte.convocatoria.persistence.Dispatch;
 import com.puriarte.convocatoria.persistence.DispatchStatus;
 import com.puriarte.convocatoria.persistence.Job;
-import com.puriarte.convocatoria.persistence.Person;
 import com.puriarte.convocatoria.persistence.PersonCategory;
 import com.puriarte.convocatoria.persistence.PersonMovil;
 import com.puriarte.convocatoria.persistence.Place;
-import com.puriarte.convocatoria.core.domain.Constants;
+import com.puriarte.utils.date.DateUtils;
 
 public class ActModifyCategoryDispatch extends RestrictionAction {
 
@@ -51,6 +44,9 @@ public class ActModifyCategoryDispatch extends RestrictionAction {
 		ActionMessages messages = new ActionMessages();
 		DynaActionForm dynaForm= (DynaActionForm) form;
 
+		PropertiesConfiguration config = new PropertiesConfiguration(com.puriarte.gcp.web.Constantes.PATHAPPCONFIG);
+		String prefix = config.getString("sms.prefix");
+		
 		Logger  logger = Logger.getLogger(ActModifyCategoryDispatch.class.getName());
 		if(dynaForm.get("accion").equals("load")){
 			try{
@@ -84,14 +80,17 @@ public class ActModifyCategoryDispatch extends RestrictionAction {
 						dynaForm.set("colAssignment", assignments);
 						dynaForm.set("colDispatchStatus", dispatchsStatus);
 						
-						dynaForm.set("prefix", "ET");
+						dynaForm.set("prefix", prefix);
 						dynaForm.set("accion", "send");
 						
 						if (dispatch.getScheduledDate()!=null){
-							Calendar calendar = Calendar.getInstance();
-							
-							dynaForm.set("eventDate", DateUtils.formatDate(dispatch.getScheduledDate(),   Constants.FORMATO_FECHA_HTML5));
-							dynaForm.set("eventHour", DateUtils.formatDate(dispatch.getScheduledDate(),   Constants.FORMATO_HORA_HTML5));
+							dynaForm.set("eventDate", DateUtils.formatDate(dispatch.getScheduledDate(), Constants.FORMATO_FECHA_HTML5));
+							dynaForm.set("eventDateAlt2", DateUtils.formatDate(dispatch.getScheduledDate(), Constants.FORMATO_FECHA_HTML5_ALT2));
+							dynaForm.set("eventHour", DateUtils.formatDate(dispatch.getScheduledDate(), Constants.FORMATO_HORA_HTML5));
+						}
+						
+						if (dispatch.getScheduledEndDate()!=null){
+							dynaForm.set("eventEndHour", DateUtils.formatDate(dispatch.getScheduledEndDate(), Constants.FORMATO_HORA_HTML5));
 						}
 						
 						try{
@@ -114,24 +113,23 @@ public class ActModifyCategoryDispatch extends RestrictionAction {
 						}catch(Exception e ){
 		
 						}
-
-					
 					}catch(Exception e ){
-						
+						logger.error(e.getMessage(), null);
 					}
 				}
 			} catch (Exception e) {
-				errors.add("error", new ActionError("dispatch.error.db.ingresar"));
+				logger.error(e.getMessage(), null);
+				errors.add("error", new ActionMessage ("dispatch.error.db.ingresar"));
 			}
 			if (!errors.isEmpty()) {
-				saveErrors(request, errors);
+				saveMessages(request, errors);
 				return mapping.findForward("failure");
 			} else {
 				return mapping.findForward("load");
 			}
 		}else if(dynaForm.get("accion").equals("addAssignmentRow")){
 			
-			if(dynaForm.get("colAssignment")==null)dynaForm.set("colAssignment", new ArrayList());
+			if(dynaForm.get("colAssignment")==null)dynaForm.set("colAssignment", new ArrayList<Assignment>());
 			Assignment assignment = new Assignment();
 			Job job = new Job();
 			job.setCategory(new PersonCategory());
@@ -149,11 +147,11 @@ public class ActModifyCategoryDispatch extends RestrictionAction {
 			try {
 				if (dynaForm.get("nroDestino")!=null){
 
-					HashMap arPersonCategory = getCategoryRequest(request,"personCategory_");
-					HashMap arStatusIds = getCategoryRequest(request,"assignmentStatus_");
-					HashMap personIds = getCategoryRequest(request,"personMovil_");
-					HashMap assignmentIds = getCategoryRequest(request,"assignment_");
-					HashMap forwardIds = getCategoryRequest(request,"forward_");
+					HashMap<Integer, Object> arPersonCategory = getCategoryRequest(request,"personCategory_");
+					HashMap<Integer, Object> arStatusIds = getCategoryRequest(request,"assignmentStatus_");
+					HashMap<Integer, Object> personIds = getCategoryRequest(request,"personMovil_");
+					HashMap<Integer, Object> assignmentIds = getCategoryRequest(request,"assignment_");
+					HashMap<Integer, Object> forwardIds = getCategoryRequest(request,"forward_");
 
 //					String[] arPersonIds = dynaForm.get("nroDestino").toString().split(",");
 //					String[] arAssignmentIds = dynaForm.get("assignment").toString().split(",");
@@ -175,7 +173,6 @@ public class ActModifyCategoryDispatch extends RestrictionAction {
 //					else strHour = "00:00:00";
 //					
 					String placeId = (String) dynaForm.get("place");
-					String prefix = (String) dynaForm.get("prefix");
 					int id = (int) dynaForm.get("dispatchId");
 					Date creationDate = new Date();
 			 
@@ -196,10 +193,11 @@ public class ActModifyCategoryDispatch extends RestrictionAction {
 				}
 
 			} catch (Exception e) {
-				errors.add("error", new ActionError("dispatch.error.db.ingresar"));
+				errors.add("error", new ActionMessage ("dispatch.error.db.ingresar"));
 			}
+
 			if (!errors.isEmpty()) {
-				saveErrors(request, errors);
+				saveMessages(request, errors);
 				return mapping.findForward("failure");
 			} else {
 				messages.add("msg", new ActionMessage("dispatch.insert.ok"));
@@ -213,10 +211,18 @@ public class ActModifyCategoryDispatch extends RestrictionAction {
 	}
 
 
-	private HashMap getCategoryRequest(HttpServletRequest request,String data) throws Exception {
+	/**
+	 * Carga las categorías seleccionadas en la página web
+	 * 
+	 * @param request
+	 * @param data
+	 * @return
+	 * @throws Exception
+	 */
+	private HashMap<Integer, Object> getCategoryRequest(HttpServletRequest request,String data) throws Exception {
 
-  		Enumeration enume = request.getParameterNames();
-  		HashMap hmValores = new HashMap();
+  		Enumeration<String> enume = request.getParameterNames();
+  		HashMap<Integer, Object> hmValores = new HashMap<Integer, Object>();
 
   		while(enume.hasMoreElements()) {
   			String paramName = (String)enume.nextElement();
@@ -234,7 +240,6 @@ public class ActModifyCategoryDispatch extends RestrictionAction {
   				}
   			}
   		}
-
   		return hmValores;
   	}
 

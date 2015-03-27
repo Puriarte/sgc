@@ -546,11 +546,11 @@ public class Facade {
 	}
 
 	public int insertDispatch(String message, String name, Place place,
-			Date creationDate, Date scheduledDate, String[] personIds,
+			Date creationDate, Date scheduledDate, Date scheduledEndDate, String[] personIds,
 			HashMap categories) {
 		SmsStatus status = selectSmsStatus(Constants.SMS_STATUS_PENDIENTE);
 		return dispatchService.insert(message, name, place, creationDate,
-				scheduledDate, personIds, categories, status);
+				scheduledDate, scheduledEndDate, personIds, categories, status);
 	}
 
 	public int updateDispatch(int id, String mensaje, String name, Place place,
