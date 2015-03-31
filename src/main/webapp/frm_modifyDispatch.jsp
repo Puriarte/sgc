@@ -128,25 +128,28 @@
 					<div class="col-md-2">
 						<input type="text" value="${stEventEndHour}" class="form-control input-sm"
 							disabled="disabled" /> 
-						<input type="hidden" value="${stEventEndHour}" name="eventHour" id="eventHour" />
+						<input type="hidden" value="${stEventEndHour}" name="eventEndHour" id="eventEndHour" />
 					</div>
 					
-					<!-- 
-					<div class="row">	
-						<div class="col-md-1">
-							<label class="control-label input-sm">Paciente</label>
+
+					<logic:notEmpty name="frmAdmDispatch" property="attribute1"  > 
+						<div class="row">	
 						</div>
-						<div class="col-md-5">
-							<input type="text" class="form-control input-sm" name="attribute1"  value="" id="attribute1">
+						<div class="row">	
+							<div class="col-md-1">
+								<label class="control-label input-sm">Paciente</label>
+							</div>
+							<div class="col-md-5">
+								<input type="text" class="form-control input-sm" name="attribute1"  value="" id="attribute1">
+							</div>
+							<div class="col-md-1">
+								<label class="control-label input-sm">Sala</label>
+							</div>
+							<div class="col-md-5">
+								<input type="text" class="form-control input-sm" name="attribute2"  value="" id="attribute2">
+							</div>
 						</div>
-						<div class="col-md-1">
-							<label class="control-label input-sm">Sala</label>
-						</div>
-						<div class="col-md-5">
-							<input type="text" class="form-control input-sm" name="attribute2"  value="" id="attribute2">
-						</div>
-					</div>
-					-->
+					</logic:notEmpty>
 		
 					<div class="col-md-1">
 						<label class="control-label input-sm">Estado</label>

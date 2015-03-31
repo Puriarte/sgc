@@ -111,13 +111,20 @@ public class ActCreateCategoryDispatch extends RestrictionAction {
 					String placeId = (String) dynaForm.get("place");
 
 					Date creationDate = new Date();
-			 
+					Date scheduledEndDate =null;
 				 	Date scheduledDate = com.puriarte.utils.date.DateUtils.parseDate(strDate + " " + strHour , Constants.FORMATO_FECHA_HORA_HTML5_REGEX, Constants.FORMATO_FECHA_HORA_HTML5);
-				 	Date scheduledEndDate = com.puriarte.utils.date.DateUtils.parseDate(strDate + " " + strEndHour , Constants.FORMATO_FECHA_HORA_HTML5_REGEX, Constants.FORMATO_FECHA_HORA_HTML5);
-				 	if (scheduledDate.compareTo(scheduledEndDate)>0 )
-				 		scheduledEndDate=new Date(scheduledEndDate.getTime() + (1000 * 60 * 60 * 24));
+
+				 	if (strEndHour!=null){
+				 		scheduledEndDate = com.puriarte.utils.date.DateUtils.parseDate(strDate + " " + strEndHour , Constants.FORMATO_FECHA_HORA_HTML5_REGEX, Constants.FORMATO_FECHA_HORA_HTML5);
+				 		if (scheduledDate.compareTo(scheduledEndDate)>0 )
+				 			scheduledEndDate=new Date(scheduledEndDate.getTime() + (1000 * 60 * 60 * 24));
+				 	}
 				 	
 					String xDate = com.puriarte.utils.date.DateUtils.formatDate(scheduledDate , "EEEE dd MMMM hh:mm a");
+
+					String xEndDate = "";
+				 	if (strEndHour!=null)
+				 		xEndDate =  " hasta "  + com.puriarte.utils.date.DateUtils.formatDate(scheduledEndDate , "hh:mm a");
 
 					String xPlace="";
 					Place place = null;
@@ -147,9 +154,9 @@ public class ActCreateCategoryDispatch extends RestrictionAction {
 							}finally{}
 						}
 					}
-
-				 	String message  = prefix + " " +  xDate + " " + xPlace + " " + xAttr1 + xAttr2;
-				 	String name=  xDate + " " + xPlace + " " + xAttr1 + xAttr2;
+						
+				 	String message  = prefix + " " +  xDate + xEndDate + " " + xPlace + " " + xAttr1 + xAttr2;
+				 	String name=  xDate + xEndDate + " " + xPlace + " " + xAttr1 + xAttr2;
 					
 					message = message.replace("á", "a").replace("é", "e").replace("í", "i").replace("ó", "o").replace("ú", "u");
 					name= name.replace("á", "a").replace("é", "e").replace("í", "i").replace("ó", "o").replace("ú", "u");

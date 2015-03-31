@@ -46,7 +46,9 @@ public class ActModifyCategoryDispatch extends RestrictionAction {
 
 		PropertiesConfiguration config = new PropertiesConfiguration(com.puriarte.gcp.web.Constantes.PATHAPPCONFIG);
 		String prefix = config.getString("sms.prefix");
-		
+		String attribute1Name = config.getString("dispatch.attribute1");
+		String attribute2Name = config.getString("dispatch.attribute2");
+
 		Logger  logger = Logger.getLogger(ActModifyCategoryDispatch.class.getName());
 		if(dynaForm.get("accion").equals("load")){
 			try{
@@ -169,12 +171,8 @@ public class ActModifyCategoryDispatch extends RestrictionAction {
 					}catch(Exception e){
 						
 					}
-					
-//					if ((strHour!=null) && (strHour.trim().toString().length()==5)) strHour += ":00";
-//					else strHour = "00:00:00";
-//					
-					if ((strEndHour!=null) && (strEndHour.trim().toString().length()==5)) strEndHour += ":00";
-					else strEndHour = "00:00:00";
+ 
+					if (strEndHour==null) strEndHour = "00:00:00";
 					
 					String placeId = (String) dynaForm.get("place");
 					int id = (int) dynaForm.get("dispatchId");
@@ -184,17 +182,54 @@ public class ActModifyCategoryDispatch extends RestrictionAction {
 					Date scheduledEndDate = com.puriarte.utils.date.DateUtils.parseDate(strDate + " " + strEndHour , Constants.FORMATO_FECHA_HORA_HTML5_REGEX, Constants.FORMATO_FECHA_HORA_HTML5);
 					if (scheduledDate.compareTo(scheduledEndDate)>0 )
 						scheduledEndDate=new Date(scheduledEndDate.getTime() + (1000 * 60 * 60 * 24));
-				 	
-					strName = prefix + " " + com.puriarte.utils.date.DateUtils.formatDate(scheduledDate ,  "EEEE dd MMMM hh:mm a");  
+	 
+					String xDate = com.puriarte.utils.date.DateUtils.formatDate(scheduledDate , "EEEE dd MMMM hh:mm a");
 					
+					String xEndDate = "";
+				 	if (strEndHour!=null)
+				 		xEndDate =  " hasta "  + com.puriarte.utils.date.DateUtils.formatDate(scheduledEndDate , "hh:mm a");
+
+					
+					String xPlace="";
 					Place place = null;
 					try{
 						place = Facade.getInstance().selectPlace(Integer.valueOf(placeId));
-						strName +=  " " + place.getName() + " " ;
+						xPlace = place.getName();
 					}finally{}
+				
+					// Atributos extra
+					String strAttribute1, strAttribute2;
+					String xAttr1="",xAttr2 ="";
 					
-					strMensaje = strName.replace("á", "a").replace("é", "e").replace("í", "i").replace("ó", "o").replace("ú", "u");
-					Facade.getInstance().updateDispatch(id, strMensaje, strName, place, creationDate, scheduledDate , dispatchStatus,
+					if ((attribute1Name!=null)&&(!attribute1Name.equals(""))){
+						if ( dynaForm.get("attribute1")!=null)  {
+							strAttribute1= (String) dynaForm.get("attribute1");
+							try{
+								xAttr1 =  ", " + attribute1Name + " " + strAttribute1.trim() ;
+							}finally{}
+						}
+					}
+					
+					if ((attribute2Name!=null)&&(!attribute2Name.equals(""))){
+						if ( dynaForm.get("attribute2")!=null)  {
+							strAttribute2= (String) dynaForm.get("attribute2");
+							try{
+								xAttr2 =  ", " + attribute2Name + " " + strAttribute2.trim() ;
+							}finally{}
+						}
+					}					
+					
+				
+				 	String message  = prefix + " " +  xDate + xEndDate + " " + xPlace + " " + xAttr1 + xAttr2;
+				 	String name=  xDate + xEndDate + " " + xPlace + " " + xAttr1 + xAttr2;
+				
+				 	
+					message = message.replace("á", "a").replace("é", "e").replace("í", "i").replace("ó", "o").replace("ú", "u");
+					name= name.replace("á", "a").replace("é", "e").replace("í", "i").replace("ó", "o").replace("ú", "u");
+		
+					
+//					strMensaje = strName.replace("á", "a").replace("é", "e").replace("í", "i").replace("ó", "o").replace("ú", "u");
+					Facade.getInstance().updateDispatch(id, message, name, place, creationDate, scheduledDate , dispatchStatus,
 							 personIds, arPersonCategory, arStatusIds, assignmentIds, forwardIds);
 
 				}
