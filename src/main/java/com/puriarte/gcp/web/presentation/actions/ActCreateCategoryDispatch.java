@@ -43,6 +43,8 @@ public class ActCreateCategoryDispatch extends RestrictionAction {
 
 		PropertiesConfiguration config = new PropertiesConfiguration(com.puriarte.gcp.web.Constantes.PATHAPPCONFIG);
 		String prefix = config.getString("sms.prefix");
+		String attribute1Name = config.getString("dispatch.attribute1");
+		String attribute2Name = config.getString("dispatch.attribute2");
 
 		Logger  logger = Logger.getLogger(ActCreateCategoryDispatch.class.getName());
 		if(dynaForm.get("accion").equals("load")){
@@ -57,7 +59,10 @@ public class ActCreateCategoryDispatch extends RestrictionAction {
 				dynaForm.set("colPerson", persons);
 				dynaForm.set("prefix", prefix);
 				dynaForm.set("accion", "send");
-
+				
+				dynaForm.set("attribute1", attribute1Name);
+				dynaForm.set("attribute2", attribute2Name);
+				
 				try{
 					List<Place> places= new ArrayList<Place>(Facade.getInstance().selectPlaceList());
 					dynaForm.set("places", places);
@@ -91,11 +96,6 @@ public class ActCreateCategoryDispatch extends RestrictionAction {
 
 					String[] arPersonIds = dynaForm.get("nroDestino").toString().split(",");
 
-					String strAttribute1, strAttribute2;
-	
-					if ( dynaForm.get("attribute1")!=null)  strAttribute1= (String) dynaForm.get("attribute1");
-					if ( dynaForm.get("attribute1")!=null)  strAttribute2= (String) dynaForm.get("attribute2");
-					
 		//			String strName = (String) dynaForm.get("name");
 		//			String strMessage = (String) dynaForm.get("detalleIn");
 					String strDate = (String) dynaForm.get("eventDate") ;
@@ -125,18 +125,31 @@ public class ActCreateCategoryDispatch extends RestrictionAction {
 						place = Facade.getInstance().selectPlace(Integer.valueOf(placeId));
 						xPlace = place.getName();
 					}finally{}
+					
+					// Atributos extra
+					String strAttribute1, strAttribute2;
+					String xAttr1="",xAttr2 ="";
+					
+					if ((attribute1Name!=null)&&(!attribute1Name.equals(""))){
+						if ( dynaForm.get("attribute1")!=null)  {
+							strAttribute1= (String) dynaForm.get("attribute1");
+							try{
+								xAttr1 =  ", " + attribute1Name + " " + strAttribute1.trim() ;
+							}finally{}
+						}
+					}
+					
+					if ((attribute2Name!=null)&&(!attribute2Name.equals(""))){
+						if ( dynaForm.get("attribute2")!=null)  {
+							strAttribute2= (String) dynaForm.get("attribute2");
+							try{
+								xAttr2 =  ", " + attribute2Name + " " + strAttribute2.trim() ;
+							}finally{}
+						}
+					}
 
-				 	String message  = prefix + " " +  xDate + " " + xPlace + " ";
-				 	String name=  xDate + " " + xPlace + " ";
-
-/*					try{
-						strName +=  ", Habitacion " + strAttribute1.trim() ;
-					}finally{}
-
-					try{
-						strName +=  ", Paciente " + strAttribute2.trim() + " " ;
-					}finally{}
-		*/			
+				 	String message  = prefix + " " +  xDate + " " + xPlace + " " + xAttr1 + xAttr2;
+				 	String name=  xDate + " " + xPlace + " " + xAttr1 + xAttr2;
 					
 					message = message.replace("á", "a").replace("é", "e").replace("í", "i").replace("ó", "o").replace("ú", "u");
 					name= name.replace("á", "a").replace("é", "e").replace("í", "i").replace("ó", "o").replace("ú", "u");

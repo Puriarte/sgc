@@ -122,7 +122,9 @@
 			</div>
 		</div>
 
-<!-- 
+	<logic:notEmpty name="frmAdmDispatch" property="attribute1"  > 
+		<div class="row">	
+		</div>
 		<div class="row">	
 			<div class="col-md-1">
 				<label class="control-label input-sm">Paciente</label>
@@ -137,7 +139,7 @@
 				<input type="text" class="form-control input-sm" name="attribute2"  value="" id="attribute2">
 			</div>
 		</div>
-		-->
+	</logic:notEmpty>
 
 		<div class="row">	
 			<div class="col-md-5">&nbsp;</div>
