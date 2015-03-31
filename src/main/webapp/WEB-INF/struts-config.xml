@@ -122,6 +122,9 @@
 		<form-property name="assignmentsStatus" type="java.util.ArrayList" />
 		<form-property name="personsMovil" type="java.util.ArrayList" />
 		
+		<form-property name="attribute1" type="java.lang.String" />
+		<form-property name="attribute2" type="java.lang.String" />
+
 		<form-property name="dispatch" type="com.puriarte.convocatoria.persistence.Dispatch" />
 		<form-property name="dispatchId" type="java.lang.Integer" />
 		<form-property name="colAssignment" type="java.util.ArrayList" />	

@@ -130,6 +130,24 @@
 							disabled="disabled" /> 
 						<input type="hidden" value="${stEventEndHour}" name="eventHour" id="eventHour" />
 					</div>
+					
+					<!-- 
+					<div class="row">	
+						<div class="col-md-1">
+							<label class="control-label input-sm">Paciente</label>
+						</div>
+						<div class="col-md-5">
+							<input type="text" class="form-control input-sm" name="attribute1"  value="" id="attribute1">
+						</div>
+						<div class="col-md-1">
+							<label class="control-label input-sm">Sala</label>
+						</div>
+						<div class="col-md-5">
+							<input type="text" class="form-control input-sm" name="attribute2"  value="" id="attribute2">
+						</div>
+					</div>
+					-->
+		
 					<div class="col-md-1">
 						<label class="control-label input-sm">Estado</label>
 					</div>
