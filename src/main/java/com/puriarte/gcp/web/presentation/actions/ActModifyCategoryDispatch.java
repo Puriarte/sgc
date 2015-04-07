@@ -171,27 +171,26 @@ public class ActModifyCategoryDispatch extends RestrictionAction {
 					}catch(Exception e){
 						
 					}
- 
-					if ( (strEndHour!=null) && (!strEndHour.equals("")) )  strEndHour = "00:00:00";
-					
+ 					
 					String placeId = (String) dynaForm.get("place");
 					int id = (int) dynaForm.get("dispatchId");
 					Date creationDate = new Date();
 					Date scheduledEndDate = null;
 				 	Date scheduledDate = com.puriarte.utils.date.DateUtils.parseDate(strDate + " " + strHour , Constants.FORMATO_FECHA_HORA_HTML5_REGEX, Constants.FORMATO_FECHA_HORA_HTML5);
 
-				 	if ( (strEndHour!=null) && (!strEndHour.equals("")) ) {
+					String xEndDate = "";
+					boolean existEndHour = ( (strEndHour!=null) && (!strEndHour.equals("")) );
+					if (existEndHour==true){
+						if (strEndHour.trim().toString().length()==5) strEndHour += ":00";
+						else strEndHour = "00:00:00";
 						scheduledEndDate = com.puriarte.utils.date.DateUtils.parseDate(strDate + " " + strEndHour , Constants.FORMATO_FECHA_HORA_HTML5_REGEX, Constants.FORMATO_FECHA_HORA_HTML5);
-						if (scheduledDate.compareTo(scheduledEndDate)>0 )
-							scheduledEndDate=new Date(scheduledEndDate.getTime() + (1000 * 60 * 60 * 24));
-					}
+				 		if (scheduledDate.compareTo(scheduledEndDate)>0 )
+				 			scheduledEndDate=new Date(scheduledEndDate.getTime() + (1000 * 60 * 60 * 24));
+				 		xEndDate =  " hasta "  + com.puriarte.utils.date.DateUtils.formatDate(scheduledEndDate , "hh:mm a");
+				 	}
+				 	
 	 
 					String xDate = com.puriarte.utils.date.DateUtils.formatDate(scheduledDate , "EEEE dd MMMM hh:mm a");
-					
-					String xEndDate = "";
-				 	if( (strEndHour!=null) && (!strEndHour.equals("")) ) 
-				 		xEndDate =  " hasta "  + com.puriarte.utils.date.DateUtils.formatDate(scheduledEndDate , "hh:mm a");
-
 					
 					String xPlace="";
 					Place place = null;
@@ -221,20 +220,16 @@ public class ActModifyCategoryDispatch extends RestrictionAction {
 							}finally{}
 						}
 					}					
-					
 				
 				 	String message  = prefix + " " +  xDate + xEndDate + " " + xPlace + " " + xAttr1 + xAttr2;
 				 	String name=  xDate + xEndDate + " " + xPlace + " " + xAttr1 + xAttr2;
 				
-				 	
 					message = message.replace("á", "a").replace("é", "e").replace("í", "i").replace("ó", "o").replace("ú", "u");
 					name= name.replace("á", "a").replace("é", "e").replace("í", "i").replace("ó", "o").replace("ú", "u");
-		
 					
 //					strMensaje = strName.replace("á", "a").replace("é", "e").replace("í", "i").replace("ó", "o").replace("ú", "u");
 					Facade.getInstance().updateDispatch(id, message, name, place, creationDate, scheduledDate , dispatchStatus,
 							 personIds, arPersonCategory, arStatusIds, assignmentIds, forwardIds);
-
 				}
 
 			} catch (Exception e) {
