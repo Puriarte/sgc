@@ -105,8 +105,9 @@ public class ActCreateCategoryDispatch extends RestrictionAction {
 					if ((strHour!=null) && (strHour.trim().toString().length()==5)) strHour += ":00";
 					else strHour = "00:00:00";
 					
-					if ((strEndHour!=null) && (strEndHour.trim().toString().length()==5)) strEndHour += ":00";
-					else strEndHour = "00:00:00";
+					if ((strEndHour!=null)&&(!strEndHour.equals("")))
+							if (strEndHour.trim().toString().length()==5) strEndHour += ":00";
+							else strEndHour = "00:00:00";
 
 					String placeId = (String) dynaForm.get("place");
 
@@ -114,7 +115,7 @@ public class ActCreateCategoryDispatch extends RestrictionAction {
 					Date scheduledEndDate =null;
 				 	Date scheduledDate = com.puriarte.utils.date.DateUtils.parseDate(strDate + " " + strHour , Constants.FORMATO_FECHA_HORA_HTML5_REGEX, Constants.FORMATO_FECHA_HORA_HTML5);
 
-				 	if (strEndHour!=null){
+				 	if ( (strEndHour!=null) && (!strEndHour.equals("")) ){
 				 		scheduledEndDate = com.puriarte.utils.date.DateUtils.parseDate(strDate + " " + strEndHour , Constants.FORMATO_FECHA_HORA_HTML5_REGEX, Constants.FORMATO_FECHA_HORA_HTML5);
 				 		if (scheduledDate.compareTo(scheduledEndDate)>0 )
 				 			scheduledEndDate=new Date(scheduledEndDate.getTime() + (1000 * 60 * 60 * 24));
@@ -123,7 +124,7 @@ public class ActCreateCategoryDispatch extends RestrictionAction {
 					String xDate = com.puriarte.utils.date.DateUtils.formatDate(scheduledDate , "EEEE dd MMMM hh:mm a");
 
 					String xEndDate = "";
-				 	if (strEndHour!=null)
+					if ( (strEndHour!=null) && (!strEndHour.equals("")) )
 				 		xEndDate =  " hasta "  + com.puriarte.utils.date.DateUtils.formatDate(scheduledEndDate , "hh:mm a");
 
 					String xPlace="";
