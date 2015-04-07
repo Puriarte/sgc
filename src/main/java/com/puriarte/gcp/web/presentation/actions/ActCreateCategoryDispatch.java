@@ -105,7 +105,7 @@ public class ActCreateCategoryDispatch extends RestrictionAction {
 					if ((strHour!=null) && (strHour.trim().toString().length()==5)) strHour += ":00";
 					else strHour = "00:00:00";
 					
-					if ((strEndHour!=null)&&(!strEndHour.equals("")))
+					if ((strEndHour!=null)&&(!strEndHour.equals(""))==true)
 							if (strEndHour.trim().toString().length()==5) strEndHour += ":00";
 							else strEndHour = "00:00:00";
 
