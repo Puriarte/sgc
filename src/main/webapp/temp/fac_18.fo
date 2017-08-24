@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fo:root xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:fox="http://xml.apache.org/fop/extensions">
+<!-- Creator="html2fo" Version="0.4.2" -->
+<fo:layout-master-set>
+<fo:simple-page-master margin-right="2.0cm" margin-left="2.0cm" margin-bottom="1.0cm" margin-top="1.0cm" page-width="21cm" page-height="29.7cm" master-name="first">
+	<fo:region-body margin-bottom="1.5cm" margin-top="0cm"/>
+</fo:simple-page-master>
+</fo:layout-master-set>
+
+<fo:page-sequence master-reference="first" language="en" hyphenate="true">
+
+<fo:flow flow-name="xsl-region-body">
+	<fo:table>
+		<fo:table-column column-width="40mm"/>
+		<fo:table-body>
+       <fo:table-row>
+         <fo:table-cell>
+           <fo:block margin="12pt" font-size="8pt">
+           </fo:block>
+         </fo:table-cell>
+         <fo:table-cell>
+           <fo:block margin="12pt" font-size="18pt">
+				Escolaridad del empleado
+           </fo:block>
+         </fo:table-cell>
+       </fo:table-row>
+	</fo:table-body>
+   </fo:table>
+
+	<fo:table>
+		<fo:table-column column-width="40mm"/>
+		<fo:table-body>
+       <fo:table-row>
+         <fo:table-cell>
+           <fo:block margin="12pt" font-size="18pt">
+           </fo:block>
+         </fo:table-cell>
+       </fo:table-row>
+	</fo:table-body>
+   </fo:table>
+
+
+	<fo:table background-color="#F2F2F2">
+		<fo:table-column  column-width="140mm"/>
+		<fo:table-body>
+       <fo:table-row>
+         <fo:table-cell>
+           <fo:block  font-size="18pt">
+				Datos personales
+           </fo:block>
+         </fo:table-cell>
+       </fo:table-row>
+	</fo:table-body>
+   	</fo:table>
+
+	<fo:table>
+		<fo:table-column column-width="110mm"/>
+     <fo:table-body>
+       <fo:table-row>
+         <fo:table-cell number-columns-spanned="2">
+           <fo:block margin="6pt" font-size="8pt"></fo:block>
+         </fo:table-cell>
+       </fo:table-row>
+       <fo:table-row>
+         <fo:table-cell>
+           <fo:block margin="6pt" font-size="8pt">Nombre: <![CDATA[Juan Romero]]></fo:block>
+         </fo:table-cell>
+         <fo:table-cell>
+           <fo:block margin="6pt" font-size="8pt">Sobrenombre: <![CDATA[]]></fo:block>
+         </fo:table-cell>
+       </fo:table-row>
+       <fo:table-row>
+         <fo:table-cell>
+           <fo:block margin="6pt" font-size="8pt">Categoría: <![CDATA[Ayudante de Barra]]></fo:block>
+         </fo:table-cell>
+         <fo:table-cell>
+           <fo:block margin="6pt" font-size="8pt">Prioridad: <![CDATA[0]]></fo:block>
+         </fo:table-cell>
+       </fo:table-row>
+       <fo:table-row>
+         <fo:table-cell number-columns-spanned="2">
+           <fo:block margin="6pt" font-size="8pt">Telefonos :  <![CDATA[094315363]]></fo:block>
+         </fo:table-cell>
+       </fo:table-row>
+       <fo:table-row>
+         <fo:table-cell number-columns-spanned="2">
+           <fo:block margin="6pt" font-size="8pt"></fo:block>
+         </fo:table-cell>
+       </fo:table-row>
+
+	</fo:table-body>
+   	</fo:table>
+
+	<fo:table background-color="#F2F2F2">
+		<fo:table-column  column-width="140mm"/>
+		<fo:table-body>
+       <fo:table-row>
+         <fo:table-cell>
+           <fo:block  font-size="18pt">
+				Datos estadísticos
+           </fo:block>
+         </fo:table-cell>
+       </fo:table-row>
+	</fo:table-body>
+   	</fo:table>
+
+
+	<fo:table>
+		<fo:table-column column-width="110mm"/>
+     <fo:table-body>
+       <fo:table-row>
+         <fo:table-cell number-columns-spanned="2">
+           <fo:block margin="6pt" font-size="8pt"></fo:block>
+         </fo:table-cell>
+       </fo:table-row>
+       <fo:table-row>
+         <fo:table-cell number-columns-spanned="2">
+           <fo:block margin="6pt" font-size="8pt">Convocatorias enviadas :  <![CDATA[0]]></fo:block>
+         </fo:table-cell>
+       </fo:table-row>
+       <fo:table-row>
+         <fo:table-cell number-columns-spanned="2">
+           <fo:block margin="6pt" font-size="8pt">Convocatorias con respuesta SI :  <![CDATA[2]]></fo:block>
+         </fo:table-cell>
+       </fo:table-row>
+       <fo:table-row>
+         <fo:table-cell number-columns-spanned="2">
+           <fo:block margin="6pt" font-size="8pt">Convocatorias con respuesta NO :  <![CDATA[0]]></fo:block>
+         </fo:table-cell>
+       </fo:table-row>
+       <fo:table-row>
+         <fo:table-cell number-columns-spanned="2">
+           <fo:block margin="6pt" font-size="8pt">Convocatorias vencidas sin respuesta :  <![CDATA[0]]></fo:block>
+         </fo:table-cell>
+       </fo:table-row>
+		</fo:table-body>
+   </fo:table>
+
+	<fo:table>
+		<fo:table-column column-width="40mm"/>
+		<fo:table-body>
+       <fo:table-row>
+         <fo:table-cell>
+           <fo:block margin="12pt" font-size="8pt">
+			<fo:external-graphic src=""/>
+           </fo:block>
+         </fo:table-cell>
+       </fo:table-row>
+	</fo:table-body>
+   </fo:table>
+
+
+</fo:flow>
+
+</fo:page-sequence>
+</fo:root>
