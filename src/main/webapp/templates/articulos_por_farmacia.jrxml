@@ -10,17 +10,20 @@
 	<property name="net.sf.jasperreports.export.xls.workbook.template" value="macro21.xlt"/>
 	<parameter name="P_ID_PERSON" class="java.lang.Integer"/>
 	<parameter name="P_PICTURE" class="java.lang.String"/>
-	<parameter name="P_FECHA_DESDE" class="java.lang.String"/>
-	<parameter name="P_FECHA_HASTA" class="java.lang.String"/>
+	<parameter name="P_FECHA_DESDE" class="java.util.Date"/>
+	<parameter name="P_FECHA_HASTA" class="java.util.Date"/>
 	<queryString>
-		<![CDATA[select a.ASSIGNMENTDATE, ast.name as statusName, c.name as categoryName, d.name as  dispatchName
+		<![CDATA[select d.scheduledDate, a.ASSIGNMENTDATE, ast.name as statusName, c.name as categoryName, d.name as  dispatchName
 from assignment a
 left outer join assignmentStatus ast on a.IDASSIGNMENTSTATUS = ast.id
 left outer join job j on a.idJob = j.id
 left outer join personcategory c on j.idCategory = c.id
 left outer join dispatch d on j.idDispatch = d.id
-where a.idpersonmovil=$P{P_ID_PERSON}]]>
+where a.idpersonmovil=$P{P_ID_PERSON}
+and $X{[GREATER, d.scheduledDate , P_FECHA_DESDE}
+and $X{LESS], d.scheduledDate, P_FECHA_HASTA}]]>
 	</queryString>
+	<field name="scheduleddate" class="java.sql.Timestamp"/>
 	<field name="assignmentdate" class="java.sql.Timestamp"/>
 	<field name="statusname" class="java.lang.String"/>
 	<field name="categoryname" class="java.lang.String"/>
