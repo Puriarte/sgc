@@ -9,6 +9,7 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
  
 
+
 import javax.activation.MimetypesFileTypeMap;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -44,36 +45,38 @@ public class Uploads extends HttpServlet {
         out.println(fileName + " was uploaded to " + System.getenv("OPENSHIFT_DATA_DIR"));
     }
   }
- 
   protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
- 
-    String filePath = request.getRequestURI();
- 
-	
-    String contextFacesPath;
-    if (getServletContext().getRealPath("")==null){
-    	contextFacesPath =System.getenv("OPENSHIFT_DATA_DIR") + filePath.replace("/uploads/","/faces/");
-	}else{
-        contextFacesPath = getServletContext().getRealPath("")+ "/images/faces/" ;
-	}
+	  
+	    String filePath = request.getRequestURI();
+		
+	    
+	    String contextFacesPath;
+	    
+	    if (getServletContext().getRealPath("")==null){
+	    	contextFacesPath =System.getenv("OPENSHIFT_DATA_DIR") + "/faces/" + filePath.substring(filePath.lastIndexOf("/")+1);
+		}else{
+	        contextFacesPath = getServletContext().getRealPath("")+ "/images/faces/" ;
+	        contextFacesPath = getServletContext().getRealPath("")+ "/images/faces/" + filePath.substring(filePath.lastIndexOf("/")+1);
+		}
 
-    File file = new File(contextFacesPath + filePath.substring(filePath.lastIndexOf("/")+1));
-    InputStream input = new FileInputStream(file);
- 
-    response.setContentLength((int) file.length());
-    response.setContentType(new MimetypesFileTypeMap().getContentType(file));
- 
-    OutputStream output = response.getOutputStream();
-    byte[] bytes = new byte[BUFFER_LENGTH];
-    int read = 0;
-    while ((read = input.read(bytes, 0, BUFFER_LENGTH)) != -1) {
-        output.write(bytes, 0, read);
-        output.flush();
-    }
- 
-    input.close();
-    output.close();
-  }
+	    File file = new File(contextFacesPath );
+	    InputStream input = new FileInputStream(file);
+	 
+	    response.setContentLength((int) file.length());
+	    response.setContentType(new MimetypesFileTypeMap().getContentType(file));
+	 
+	    OutputStream output = response.getOutputStream();
+	    byte[] bytes = new byte[BUFFER_LENGTH];
+	    int read = 0;
+	    while ((read = input.read(bytes, 0, BUFFER_LENGTH)) != -1) {
+	        output.write(bytes, 0, read);
+	        output.flush();
+	    }
+	 
+	    input.close();
+	    output.close();
+	  }
+  
  
   private String getFileName(Part part) {
         for (String cd : part.getHeader("content-disposition").split(";")) {
