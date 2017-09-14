@@ -110,7 +110,7 @@ public class ActModifyCategoryDispatch extends RestrictionAction {
 						}
 						
 						try{
-							List<PersonMovil> personsMovil= new ArrayList<PersonMovil>(Facade.getInstance().selectPersonMovilList("", 0, 100));
+							List<PersonMovil> personsMovil= new ArrayList<PersonMovil>(Facade.getInstance().selectPersonMovilObjectList("", 0, 100));
 							dynaForm.set("personsMovil", personsMovil);
 						}catch(Exception e ){
 		

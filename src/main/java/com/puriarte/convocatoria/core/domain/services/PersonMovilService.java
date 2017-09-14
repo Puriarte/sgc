@@ -13,12 +13,16 @@ import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Root;
 
+import org.eclipse.persistence.config.HintValues;
+import org.eclipse.persistence.config.QueryHints;
+
 import com.puriarte.convocatoria.persistence.EntityManagerHelper;
 import com.puriarte.convocatoria.persistence.Job;
 import com.puriarte.convocatoria.persistence.Movil;
 import com.puriarte.convocatoria.persistence.Person;
 import com.puriarte.convocatoria.persistence.PersonCategory;
 import com.puriarte.convocatoria.persistence.PersonMovil;
+import com.puriarte.convocatoria.persistence.result.PersonMovilResult;
 
 public class PersonMovilService {
 	static private PersonMovilService INSTANCE = null;
@@ -139,7 +143,36 @@ public class PersonMovilService {
 
 	}
 
-	public List<PersonMovil> selectList(List<String> priorities, int category ,int estado, String orderByColumn, Integer pos, Integer limit) {
+	
+	public List<PersonMovilResult> selectList(List<String> priorities, int category ,int estado, String orderByColumn, Integer pos, Integer limit) {
+		
+		final EntityManager em = getEntityManager();
+		em.getEntityManagerFactory().getCache().evictAll();
+		try {
+			Query query = em.createNamedQuery("PersonMovil.SelectPersonMovilList", PersonMovilResult.class);
+			if ((priorities==null) || (priorities.size()==0))
+				query.setParameter("p", null);
+			else
+				query.setParameter("p", priorities);
+
+//		*/	query.setParameter(2, category);
+//			query.setParameter(3, estado);
+
+			query.setHint(QueryHints.BIND_PARAMETERS, HintValues.FALSE);//<--the hint
+
+			query.setHint("javax.persistence.cache.storeMode", "REFRESH");
+			query.setHint("eclipselink.refresh", "true");
+			query.setHint("eclipselink.refresh.cascade", "CascadeAllParts");
+
+			return query.getResultList();
+		} catch (Exception se) {
+			return null;
+		}
+
+		
+	}
+	
+	public List<PersonMovil> selectObjectList(List<String> priorities, int category ,int estado, String orderByColumn, Integer pos, Integer limit) {
 
 		final EntityManager em = getEntityManager();
 		em.getEntityManagerFactory().getCache().evictAll();
@@ -213,7 +246,7 @@ public class PersonMovilService {
 		final EntityManager em = getEntityManager();
 
 		try{
-			Query query = em.createNamedQuery("SelectPersonMovils")
+			Query query = em.createNamedQuery("PersonMovil.SelectPersonMovils")
 					.setParameter("status", status)
 					.setParameter("number", numero )
 					.setParameter("order", "priority");
@@ -234,7 +267,7 @@ public class PersonMovilService {
 		final EntityManager em = getEntityManager();
 
 		try{
-			Query query = em.createNamedQuery("SelectPersonMovil")
+			Query query = em.createNamedQuery("PersonMovil.SelectPersonMovil")
 					.setParameter("id", id);
 
 			query.setHint("javax.persistence.cache.storeMode", "REFRESH");
@@ -248,6 +281,28 @@ public class PersonMovilService {
 			return null;
 		}
 	}
+
+	public PersonMovil selectWithCategories(Integer id) {
+		final EntityManager em = getEntityManager();
+
+		try{
+			Query query = em.createNamedQuery("PersonMovil.SelectPersonMovil")
+					.setParameter("id", id);
+
+			query.setHint("javax.persistence.cache.storeMode", "REFRESH");
+			query.setHint("eclipselink.refresh", "true");
+			query.setHint("eclipselink.refresh.cascade", "CascadeAllParts");
+			query.setHint("eclipselink.join-fetch", "pm.person.categories");
+
+			PersonMovil a = (PersonMovil) query.getSingleResult();
+
+			return a;
+		}catch(Exception e){
+			return null;
+		}
+	}
+
+
 
 	public void updatePersonMovil(PersonMovil person, String movilNumber) {
 		

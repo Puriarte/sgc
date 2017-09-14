@@ -176,7 +176,7 @@ jQuery(document).ready(function(){
 			{name:"NRO DOCUMENTO",	index:"6", key: false, jsonmap:"Texto", 	align:"left", 	fixed:true, width:120, resizable:false, sortable:true,hidden:false, editable:true },
 			{name:"NOMBRE",			index:"7", key: false, jsonmap:"Name", 		align:"center", fixed:true, width:150, resizable:false, sortable:true,hidden:false, editable: true },
 			{name:"SOBRENOMBRE",	index:"8", key: false, jsonmap:"Nickname", 	align:"center", fixed:true, width:100, resizable:false, sortable:true,hidden:false, editable: true},
-			{name:"CATEGORIA",		index:"9", key: false, jsonmap:"Category", 	edittype:"select", editoptions:{ dataUrl:'lstPersonCategory'}, editrules:{required:true}, width:90 , editable: true},
+			{name:"CATEGORIA",		index:"9", key: false, jsonmap:"Category", 	edittype:"select", editoptions:{ multiple:true, dataUrl:'lstPersonCategory'}, editrules:{required:true}, width:90 , editable: true},
 			{name:"ORDEN PRELACION",index:"10",key: false, jsonmap:"Priority", 	align:"center", fixed:true, resizable:false, width:140 ,sortable:true,hidden:false, editable: true},
 			{name:'IMG', 			index:"11", align: 'left', editable: true,   width:1, edittype: 'file', editoptions: { enctype: "multipart/form-data" }, search: false }, 
 			{name:'RNDNAME', 		index:"12", align: 'left', jsonmap:"Picture",  editable: true, hidden:true, width:0}, 

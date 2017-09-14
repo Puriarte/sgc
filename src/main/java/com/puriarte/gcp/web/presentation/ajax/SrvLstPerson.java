@@ -26,6 +26,7 @@ import com.puriarte.convocatoria.core.domain.services.Facade;
 import com.puriarte.convocatoria.persistence.Person;
 import com.puriarte.convocatoria.persistence.PersonMovil;
 import com.puriarte.convocatoria.persistence.SMS;
+import com.puriarte.convocatoria.persistence.result.PersonMovilResult;
 import com.puriarte.gcp.web.Constantes;
 import com.puriarte.utils.date.DateUtils;
 
@@ -148,6 +149,50 @@ public class SrvLstPerson extends HttpServlet {
 	}
 
 	private String procesar() throws Exception {
+		List<PersonMovilResult> resultados = Facade.getInstance().selectPersonMovilList(priorities, category,estado,orderBy,  null,null);
+		String jSonItems="";
+		int i=0;
+
+		for(PersonMovilResult item : resultados) {
+			try{
+
+				jSonItems += "{\"Id\": \"" +item.getId()+ "\",";
+				jSonItems += "\"Pos\": \"" + i++ + "\",";
+				jSonItems += "\"Cliente\": \"" +item.getId()+ "\",";
+				jSonItems += "\"IdDoc\": \"" + item.getId() + "\",";
+				jSonItems += "\"Fecha\": \"" + "\",";
+				jSonItems += "\"Numero\": \"" +  item.getMovilNumber() + "\",";
+				jSonItems += "\"Texto\": \"" + item.getPersonDocumentNumber() + "\",";
+				jSonItems += "\"FechaEnvio\": \"" + item.getDocumentTypeName()+ "\",";
+				jSonItems += "\"Name\": \"" + item.getPersonName() + "\",";
+				jSonItems += "\"Nickname\": \"" + item.getPersonNickName()  + "\",";
+				jSonItems += "\"Picture\": \"" + item.getPersonPicture() + "\",";
+				jSonItems += "\"Category\": \"" + item.getCategoryNames()  + "\",";
+				jSonItems += "\"Priority\": \"" + item.getPriority() + "\",";
+				jSonItems += "\"Saldo\": \"\"},";
+				}
+				catch(Exception e){}
+		}
+		
+		jSonItems = jSonItems.replaceAll(System.getProperty("line.separator"), "");
+		System.out.println(jSonItems);
+
+		if (jSonItems.lastIndexOf(",")>0) jSonItems=jSonItems.substring(0,jSonItems.lastIndexOf(","));
+
+		//totalRegistros=resultados.size();
+		totalRegistros=(long) 100;
+		String strXml = "{\"total\": 1," ;
+		strXml +="\"page\": " + strPage + ",";
+		strXml +="\"records\": " + totalRegistros + ",";
+		strXml +="\"total\": " + totalRegistros/strRows + ",";
+		strXml +="\"rows\": " +"[" + jSonItems + "],";
+		strXml +="\"footer\": " +"[{\"saldo\":" + totalSaldo + ",\"facturas\":" + totalFacturas + ",\"contados\":" + totalContados + ",\"afavor\":" + totalAFavor + "}]}";
+
+		System.out.println(strXml);
+		return strXml;
+		
+	}
+/*	private String procesar() throws Exception {
 		List<PersonMovil> resultados = Facade.getInstance().selectPersonMovilList(priorities, category,estado,orderBy,  null,null);
 
 		String jSonItems="";
@@ -221,8 +266,8 @@ public class SrvLstPerson extends HttpServlet {
 
 		System.out.println(strXml);
 		return strXml;
-
 	}
+*/
 
 	private Date getDateRequest(HttpServletRequest request, String parameter) {
 		try{

@@ -27,6 +27,7 @@ import com.puriarte.convocatoria.persistence.SMSIn;
 import com.puriarte.convocatoria.persistence.SMSOut;
 import com.puriarte.convocatoria.persistence.SmsStatus;
 import com.puriarte.convocatoria.persistence.User;
+import com.puriarte.convocatoria.persistence.result.PersonMovilResult;
 import com.puriarte.convocatoria.core.domain.Constants;
 
 public class Facade {
@@ -138,6 +139,18 @@ public class Facade {
 	public PersonMovil selectPersonMovil(Integer id) {
 		return this.personMovilService.select(id);
 	}
+	
+	/**
+	 * Obtener un movil a parteir de su id, Trae todas las categorias de la persona ya cargados
+	 * 
+	 * @param nroDestinoSMS1
+	 * @return
+	 */
+	public PersonMovil selectPersonMovilWithCategories(Integer id) {
+		return this.personMovilService.selectWithCategories(id);
+	}
+	
+	
 
 	// public Movil selectMovilActiveFirst(String numero) {
 	// return this.movilService.selectMovilActiveFirst(numero);
@@ -183,16 +196,31 @@ public class Facade {
 				pos, limit);
 	}
 
-	public List<PersonMovil> selectPersonMovilList(List<String> priorities,
+	public List<PersonMovilResult> selectPersonMovilList(List<String> priorities,
 			int category, int estado, String order, Integer pos, Integer limit) {
-		return personMovilService.selectList(priorities, category, estado,
+
+		
+		List<PersonMovilResult> values = personMovilService.selectList(priorities, category, estado,
 				order, pos, limit);
+		
+		for(PersonMovilResult result : values){
+			result.setCategories(personCategoryService.selectByPersonList(result.getId()) );
+		}
+		
+		return values;
 	}
 
-	public List<PersonMovil> selectPersonMovilList(String order, Integer pos,
-			Integer limit) {
-		return this.selectPersonMovilList(null, 0, 0, "", pos, limit);
+	public List<PersonMovil> selectPersonMovilObjectList(List<String> priorities,
+			int category, int estado, String order, Integer pos, Integer limit) {
+		return personMovilService.selectObjectList(priorities, category, estado,
+				order, pos, limit);
 	}
+	
+	public List<PersonMovil> selectPersonMovilObjectList(String order, Integer pos,
+			Integer limit) {
+		return this.selectPersonMovilObjectList(null, 0, 0, "", pos, limit);
+	}
+	
 
 	// public boolean existSMS(String origen , Date date) {
 	// return smsService.exist(origen, date);

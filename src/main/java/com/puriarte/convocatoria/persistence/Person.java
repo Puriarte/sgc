@@ -2,6 +2,7 @@ package com.puriarte.convocatoria.persistence;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -10,6 +11,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -26,7 +29,10 @@ import com.puriarte.convocatoria.core.exceptions.MovilException;
       @NamedQuery(name="SelectPersonListWithPriority",
       	query="SELECT p FROM Person p WHERE ((:category = 0) or (p.category.id = :category))   and p.priority in :priorities "),
       @NamedQuery(name="SelectPersonList",
-      	query="SELECT p FROM Person p WHERE ((:category = 0) or (p.category.id = :category))  ")
+      	query="SELECT p FROM Person p WHERE ((:category = 0) or (p.category.id = :category))  "),
+        @NamedQuery(name="Person.SelectPersonPersonCategoriesList",
+      	query="SELECT p.categories FROM Person p WHERE (p.id = :idPerson)  "),
+      	
 	})
 @Entity
 public class Person {
@@ -54,6 +60,15 @@ public class Person {
 	@Transient
 	private String selectedMovil;
 
+	@ManyToMany
+    @JoinTable(name="personpersoncategory",
+    	     joinColumns=@JoinColumn(name="idperson", referencedColumnName="ID"),
+    	     inverseJoinColumns=@JoinColumn(name="idpersoncategory", referencedColumnName="ID"))
+    private List<PersonCategory> categories = new ArrayList<>();
+	
+	public List<PersonCategory> getCategories() { return categories; }
+	
+	
 	public DocumentType getDocumentType() {
 		return documentType;
 	}
@@ -143,5 +158,32 @@ public class Person {
 	}
 
 
+	public void setCategories(List<PersonCategory> categories) {
+		this.categories = categories;
+	}
+
+	public void addCategory(PersonCategory personCategory){
+		this.categories.add(personCategory);
+	}
+
+
+	public void clearCategories() {
+		if ((this.categories!=null) && (this.categories.size()>0)){
+			int cant=this.categories.size();
+			for(int i=cant-1;i>=0;i--){
+				this.categories.remove(i);
+			}
+		}
+	}
+
+/*
+	public void updateCategories(List<PersonCategory> newCategories) {
+		for(PersonCategory cat:this.categories){
+			boolean exists=false;
+			for(PersonCategory cat1:newCategories){
+				if (cat.getId()==cat1)
+			}
+		}
+	}*/
 
 }

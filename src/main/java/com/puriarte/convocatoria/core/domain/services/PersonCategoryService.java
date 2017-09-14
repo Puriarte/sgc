@@ -1,5 +1,6 @@
 package com.puriarte.convocatoria.core.domain.services;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -54,7 +55,7 @@ public class PersonCategoryService {
 		final EntityManager em = getEntityManager();
 
 		try{
-			Query query = em.createNamedQuery("SelectPersonCategoryList");
+			Query query = em.createNamedQuery("PersonCategory.SelectPersonCategoryList");
 			query.setHint("javax.persistence.cache.storeMode", "REFRESH");
 			query.setHint("eclipselink.refresh", "true");
 			query.setHint("eclipselink.refresh.cascade", "CascadeAllParts");
@@ -67,6 +68,26 @@ public class PersonCategoryService {
 		}
 	}
 
+	public ArrayList<PersonCategory> selectByPersonList(int idPerson) {
+		final EntityManager em = getEntityManager();
+
+		try{
+			Query query = em.createNamedQuery("Person.SelectPersonPersonCategoriesList");
+			query.setParameter("idPerson", idPerson);
+			
+			query.setHint("javax.persistence.cache.storeMode", "REFRESH");
+			query.setHint("eclipselink.refresh", "true");
+			query.setHint("eclipselink.refresh.cascade", "CascadeAllParts");
+
+			ArrayList<PersonCategory> a = new ArrayList<PersonCategory> (query.getResultList());
+
+			return a;
+		}catch(Exception e){
+			return null;
+		}
+	}
+
+	
 	public int insert(PersonCategory dt) {
 		final EntityManager em = getEntityManager();
 
@@ -94,5 +115,6 @@ public class PersonCategoryService {
 		em.getTransaction().commit();
 
 	}
+
 
 }

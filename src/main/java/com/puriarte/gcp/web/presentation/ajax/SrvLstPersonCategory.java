@@ -30,13 +30,13 @@ public class SrvLstPersonCategory extends RestrictionServlet {
 
         try {
             	List<PersonCategory> listItems = Facade.getInstance().selectPersonCategoryList();
-            	String strXml = "<select>";
+            	String strXml = "<select multiple>";
             	for ( PersonCategory personCategory : listItems ) {
             		strXml += "<option value='" + personCategory.getId() +"'>" + personCategory.getName().trim()  + "</option>";
             	}
 
  	           strXml += "</select>";
-	           System.out.println(strXml);
+           	   System.out.println(strXml);
 	           out.print(strXml);
 
 

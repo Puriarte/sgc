@@ -1,8 +1,5 @@
 package com.puriarte.convocatoria.persistence;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -13,22 +10,26 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Transient;
-
-import com.puriarte.convocatoria.core.exceptions.MovilException;
 
 @NamedQueries({
-	@NamedQuery(name="SelectPersonMovil",
-		query="SELECT pm FROM PersonMovil pm where pm.id= :id "),
-	@NamedQuery(name="SelectPersonMovilList",
+	@NamedQuery(name="PersonMovil.SelectPersonMovil",
+			query="SELECT pm FROM PersonMovil pm where pm.id= :id "),
+	@NamedQuery(name="PersonMovil.SelectPersonMovilList2",
    		query="SELECT pm FROM PersonMovil pm WHERE ((:category = 0) or (pm.person.category.id = :category)) order by pm.person.name  "),
-   @NamedQuery(name="SelectPersonMovils",
+   @NamedQuery(name="PersonMovil.SelectPersonMovils",
    		query="SELECT pm FROM PersonMovil pm WHERE pm.movil.number LIKE :number and ((:status is null) or (pm.movil.movilStatus.id = :status)) order by :order "),
-   @NamedQuery(name="SelectPersonMovilListWithPriority",
+   @NamedQuery(name="PersonMovil.SelectPersonMovilListWithPriority",
        	query="SELECT pm FROM PersonMovil pm WHERE ((:category = 0) or (pm.person.category.id = :category))   and pm.person.priority in :priorities order by pm.person.name "),
-
+   @NamedQuery(name="PersonMovil.SelectPersonMovilList",
+	    query="SELECT new com.puriarte.convocatoria.persistence.result.PersonMovilResult(pm.id, pm.movil.number, pm.person.documentNumber ,pm.person.documentType.name, "
+	    		+ "pm.person.name, pm.person.nickname , "
+	    		+ "pm.person.picture, pm.person.category.name, pm.person.priority ) " +
+		 	  " FROM PersonMovil pm  "
+		 	  + " where ( (:p IS NULL) or (pm.person.priority IN (:p) )) "),
+//		 	  + " and ( (?2 is null) or (pm.person.category.id IN (?2) ))"),
 	})
+
+
 @Entity
 public class PersonMovil {
 

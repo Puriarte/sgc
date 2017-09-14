@@ -18,6 +18,7 @@ import com.puriarte.convocatoria.persistence.Job;
 import com.puriarte.convocatoria.persistence.Movil;
 import com.puriarte.convocatoria.persistence.Person;
 import com.puriarte.convocatoria.persistence.PersonMovil;
+import com.puriarte.convocatoria.persistence.result.PersonMovilResult;
 
 public class A4_TestPerson {
 
@@ -69,12 +70,32 @@ public class A4_TestPerson {
 
 	@Test
 	public void TestPerson() throws SQLException{
-		listarPersonAlMomento("LISTA DE PERSONAS AL INICIO");
+//		listarPersonAlMomento("LISTA DE PERSONAS AL INICIO");
+		actualizarPersona(1);
+	}
+
+	private void actualizarPersona(int i) {
+		try{
+			PersonMovil p = Facade.getInstance().selectPersonMovilWithCategories(i);
+			p.getPerson().clearCategories();
+			p.getPerson().addCategory(Facade.getInstance().selectPersonCategory(1));
+			Facade.getInstance().updatePersonMovil(p, "098312914");
+		}catch(Exception e ){
+			e.printStackTrace();
+		}
+		
 	}
 
 	private void listarPersonAlMomento(String mensaje){
+		PersonMovil person = Facade.getInstance().selectPersonMovilWithCategories(1);
+		
 		List<String> priorities = new ArrayList<String>();
 		priorities.add("0");
+
+		List<PersonMovilResult> list = Facade.getInstance().selectPersonMovilList(null, 1 ,1,  "", 0, 100);
+		if (list!=null){
+			String a=";";
+		}
 
 //		List<PersonMovil> list = Facade.getInstance().selectPersonMovilList(priorities, 1 ,1, 1, "", 0, 100);
 		/*		System.out.println(mensaje);
