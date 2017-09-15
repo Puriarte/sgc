@@ -26,7 +26,7 @@ public class PersonMovilResult {
 	public PersonMovilResult(int id, String movilNumber,
 			String personDocumentNumber, String documentTypeName,
 			String personName, String personNickName, String personPicture,
-			String categoryName, int priority) {
+			int priority) {
 		super();
 		this.id = id;
 		this.movilNumber = movilNumber;
@@ -35,7 +35,6 @@ public class PersonMovilResult {
 		this.personName = personName;
 		this.personNickName = personNickName;
 		this.personPicture = personPicture;
-		this.categoryName = categoryName;
 		this.priority = priority;
 	}
 
@@ -94,14 +93,6 @@ public class PersonMovilResult {
 
 	public void setPersonPicture(String personPicture) {
 		this.personPicture = personPicture;
-	}
-
-	public String getCategoryName() {
-		return categoryName;
-	}
-
-	public void setCategoryName(String categoryName) {
-		this.categoryName = categoryName;
 	}
 
 	public int getPriority() {

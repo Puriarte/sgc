@@ -22,9 +22,9 @@ var editMessage = function(response,postdata){
 
 
 var editOptions={
-		top: 180, left: 250,
+		top: 120, left: 250,
 		width: 400,
-		height:400,
+		height:460,
 		recreateForm:true,
 		closeOnEscape: true,
 		closeAfterAdd:true,
@@ -241,8 +241,18 @@ jQuery(document).ready(function(){
 			}
 			}
 		}
-	}).navGrid('#pagerArticulos',{edit:true,add:true,del:false,search: false}, editOptions , addOptions)
-	.navButtonAdd('#pagerArticulos', {
+	}).navGrid('#pagerArticulos',{edit:true,add:true,del:false,search: false}) //, editOptions , addOptions)
+	.navButtonAdd("#pagerArticulos", {
+		    caption: "Modificar",
+		    buttonicon: "ui-icon-disk",
+		    onClickButton: function () {
+				var id = jQuery("#gridArticulos").jqGrid('getGridParam','selrow');
+				if (id)	{
+			    	modificarCliente();
+				}else alert("Seleccione una persona");
+		    },
+		    position: "last"
+		}).navButtonAdd('#pagerArticulos', {
         caption: "Crear mensaje",
         buttonicon: "ui-icon-mail-open",
         onClickButton: function () {
@@ -511,4 +521,29 @@ function removeOptions(selectbox)
     {
         selectbox.remove(i);
     }
+}
+
+
+function modificarCliente(){
+	try{
+		$("#accion").val("cargar");
+		var personId = jQuery("#gridArticulos").jqGrid('getGridParam','selrow');
+		refDialogIframe = $('<iframe id="ifModCliente" frameborder="0" marginwidth="0px" marginheight="0px" src="updatePerson.do?accion=load&ID=' + personId + '"/>').dialog({
+			resizable: false,
+			width:400,
+			height:500,
+			modal: true,
+			title: "Modificar Persona",
+			open: function(event, ui){
+				$('body').css('overflow','hidden');
+				$('.ui-widget-overlay').css('width','100%');
+			},
+			close: function(event, ui) {
+				$('body').css('overflow','auto');
+			}
+		}).width(400).height(500);
+	}catch(Exception){
+		alert(Exception.message);
+	}
+	return false;
 }

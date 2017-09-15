@@ -26,11 +26,11 @@ import com.puriarte.convocatoria.core.exceptions.MovilException;
 			  query="SELECT p FROM Person p WHERE p.documentType.id = :documentTypeId and p.documentNumber= :document "),
 	  @NamedQuery(name="SelectPersonById",
 	  	query="SELECT p FROM Person p WHERE p.id = :id "),
-      @NamedQuery(name="SelectPersonListWithPriority",
+/*      @NamedQuery(name="SelectPersonListWithPriority",
       	query="SELECT p FROM Person p WHERE ((:category = 0) or (p.category.id = :category))   and p.priority in :priorities "),
       @NamedQuery(name="SelectPersonList",
       	query="SELECT p FROM Person p WHERE ((:category = 0) or (p.category.id = :category))  "),
-        @NamedQuery(name="Person.SelectPersonPersonCategoriesList",
+  */  @NamedQuery(name="Person.SelectPersonPersonCategoriesList",
       	query="SELECT p.categories FROM Person p WHERE (p.id = :idPerson)  "),
       	
 	})
@@ -46,10 +46,6 @@ public class Person {
 	private String nickname;
 	private String picture;
 	private int priority;
-
-	@ManyToOne(cascade={CascadeType.REFRESH},fetch=FetchType.LAZY)
-	@JoinColumn(name="idPersonCategory")
-	private PersonCategory category;
 
 	@ManyToOne(cascade={CascadeType.REFRESH},fetch=FetchType.LAZY)
 	@JoinColumn(name="idDocumentType")
@@ -124,13 +120,6 @@ public class Person {
 		this.picture = picture;
 	}
 
-	public PersonCategory getCategory() {
-		return category;
-	}
-
-	public void setCategory(PersonCategory category) {
-		this.category = category;
-	}
 
 	public String getDocumentNumber() {
 		return documentNumber;

@@ -70,11 +70,17 @@ public class A4_TestPerson {
 
 	@Test
 	public void TestPerson() throws SQLException{
-//		listarPersonAlMomento("LISTA DE PERSONAS AL INICIO");
-		actualizarPersona(1);
+		listarPersonAlMomento("LISTA DE PERSONAS AL INICIO");
+/*		modificarDatosPersona(37);
+		modificarDatosPersona(1);
+	*/}
+
+	
+	private void crearPersona(){
+		
 	}
 
-	private void actualizarPersona(int i) {
+	private void modificarDatosPersona(int i) {
 		try{
 			PersonMovil p = Facade.getInstance().selectPersonMovilWithCategories(i);
 			p.getPerson().clearCategories();
@@ -87,7 +93,7 @@ public class A4_TestPerson {
 	}
 
 	private void listarPersonAlMomento(String mensaje){
-		PersonMovil person = Facade.getInstance().selectPersonMovilWithCategories(1);
+	//	PersonMovil person = Facade.getInstance().selectPersonMovilWithCategories(1);
 		
 		List<String> priorities = new ArrayList<String>();
 		priorities.add("0");

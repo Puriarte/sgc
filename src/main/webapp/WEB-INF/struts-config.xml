@@ -136,16 +136,20 @@
 	</form-bean>
 
 	<form-bean dynamic="true" name="frmAdmPereson" type="org.apache.struts.action.DynaActionForm">
+		<form-property name="accion" type="java.lang.String" />
 		<form-property name="NOMBRE" type="java.lang.String" />
 		<form-property name="SOBRENOMBRE" type="java.lang.String" />
 		<form-property name="CATEGORIA" type="java.lang.String" />
-		<form-property name="ORDEN PRELACION" type="java.lang.String" />
-		<form-property name="ID" type="java.lang.String" />
+		<form-property name="ORDEN PRELACION" type="java.lang.Integer" />
+		<form-property name="ID" type="java.lang.Integer" />
 		<form-property name="NUMERO" type="java.lang.String" />
 		<form-property name="NRO DOCUMENTO" type="java.lang.String" />
 		<form-property name="IMG" type="org.apache.struts.upload.FormFile" />
 		<form-property name="RNDNAME" type="java.lang.String" />
 		<form-property name="FOTO" type="java.lang.String" />
+		<form-property name="CATEGORIAS" type="java.util.ArrayList" />
+		<form-property name="CATEGORIA PREFERIDA" type="java.lang.Integer" />
+
 	</form-bean>
 
 	<form-bean dynamic="true" name="frmSchool" type="org.apache.struts.action.DynaActionForm">
@@ -382,6 +386,7 @@
 
 		<set-property property="idOpMenu" value="502"/>
 		<set-property property="idComponente" value="13"/>
+		<forward name="load" path="/frm_person.jsp"/>
 		<forward name="success" path="/resultado_operacion_json.jsp"/>
 		<forward name="failure" path="/resultado_operacion_json.jsp"/>
 </action>

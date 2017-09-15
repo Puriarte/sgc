@@ -27,8 +27,9 @@ public class CP_1_AltaPersona {
 	private String cedulaPersona2= "33173535";
 	private String cedulaPersona3= "34023364";
 
-	@Test
-	public void pruebaDeMensajesRecibidosParaRegistro() throws ParseException{
+	
+/*	@Test
+ * public void pruebaDeMensajesRecibidosParaRegistro() throws ParseException{
 		SimpleDateFormat dTF = new SimpleDateFormat("dd-MM-yyyy", new Locale("ES"));
 		Date date = dTF.parse("03-11-2014");
 
@@ -39,7 +40,7 @@ public class CP_1_AltaPersona {
 		registrarPersona("REGISTRO " + cedulaPersona3, movil3, cedulaPersona3, date);
 //		registrarPersona("REGISTRO " + cedulaPersona4, movil4, cedulaPersona4, date);
 	}
-
+*/
 	private void registrarPersona(String text, String movil, String cedula, Date date){
 		try{
 			// Tengo problemas con los milisegundos así que los dejo en 0

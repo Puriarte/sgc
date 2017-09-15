@@ -163,7 +163,7 @@ public class PersonMovilService {
 			query.setHint("javax.persistence.cache.storeMode", "REFRESH");
 			query.setHint("eclipselink.refresh", "true");
 			query.setHint("eclipselink.refresh.cascade", "CascadeAllParts");
-
+			
 			return query.getResultList();
 		} catch (Exception se) {
 			return null;
@@ -292,7 +292,7 @@ public class PersonMovilService {
 			query.setHint("javax.persistence.cache.storeMode", "REFRESH");
 			query.setHint("eclipselink.refresh", "true");
 			query.setHint("eclipselink.refresh.cascade", "CascadeAllParts");
-			query.setHint("eclipselink.join-fetch", "pm.person.categories");
+			query.setHint("eclipselink.left-join-fetch", "pm.person.categories");
 
 			PersonMovil a = (PersonMovil) query.getSingleResult();
 

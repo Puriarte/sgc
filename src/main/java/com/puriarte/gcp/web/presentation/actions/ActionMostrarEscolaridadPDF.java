@@ -134,9 +134,9 @@ public class ActionMostrarEscolaridadPDF extends HttpServlet {
 		// Cargo los datos del parametro
     	parametrosComprobante[1] = (personMovil.getPerson().getName()==null? "" :personMovil.getPerson().getName()) ;
     	parametrosComprobante[2] = (personMovil.getPerson().getNickname()==null? "" : personMovil.getPerson().getNickname());
-    	if (personMovil.getPerson().getCategory()!=null)
+/*    	if (personMovil.getPerson().getCategory()!=null)
     		parametrosComprobante[3] = personMovil.getPerson().getCategory().getName();
-    	parametrosComprobante[4] = personMovil.getPerson().getPriority();
+  */  	parametrosComprobante[4] = personMovil.getPerson().getPriority();
 
     	parametrosComprobante[10] = countSent;
     	parametrosComprobante[11] = countSI;
