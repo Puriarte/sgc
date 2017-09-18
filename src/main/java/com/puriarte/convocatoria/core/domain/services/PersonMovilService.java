@@ -149,7 +149,7 @@ public class PersonMovilService {
 		final EntityManager em = getEntityManager();
 		em.getEntityManagerFactory().getCache().evictAll();
 		try {
-			Query query = em.createNamedQuery("PersonMovil.SelectPersonMovilList", PersonMovilResult.class);
+			Query query = em.createNativeQuery("PersonMovil.SelectPersonMovilList", "PersonMovilResult");
 			if ((priorities==null) || (priorities.size()==0))
 				query.setParameter("p", null);
 			else
@@ -166,10 +166,10 @@ public class PersonMovilService {
 
 			query.setHint(QueryHints.BIND_PARAMETERS, HintValues.FALSE);//<--the hint
 
-			query.setHint("javax.persistence.cache.storeMode", "REFRESH");
+/*			query.setHint("javax.persistence.cache.storeMode", "REFRESH");
 			query.setHint("eclipselink.refresh", "true");
 			query.setHint("eclipselink.refresh.cascade", "CascadeAllParts");
-			
+	*/		
 			return query.getResultList();
 		} catch (Exception se) {
 			return null;

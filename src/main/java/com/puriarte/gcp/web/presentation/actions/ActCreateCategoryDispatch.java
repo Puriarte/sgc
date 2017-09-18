@@ -43,6 +43,7 @@ public class ActCreateCategoryDispatch extends RestrictionAction {
 
 		PropertiesConfiguration config = new PropertiesConfiguration(com.puriarte.gcp.web.Constantes.PATHAPPCONFIG);
 		String prefix = config.getString("sms.prefix");
+		String code = "";
 		String attribute1Name = config.getString("dispatch.attribute1");
 		String attribute2Name = config.getString("dispatch.attribute2");
 
@@ -58,6 +59,7 @@ public class ActCreateCategoryDispatch extends RestrictionAction {
 				}
 				dynaForm.set("colPerson", persons);
 				dynaForm.set("prefix", prefix);
+				dynaForm.set("code", code);
 				dynaForm.set("accion", "send");
 				
 				dynaForm.set("attribute1", attribute1Name);
@@ -153,7 +155,7 @@ public class ActCreateCategoryDispatch extends RestrictionAction {
 						}
 					}
 						
-				 	String message  = prefix + " " +  xDate + xEndDate + " " + xPlace + " " + xAttr1 + xAttr2;
+				 	String message  = prefix + " " +  code + " " +  xDate + xEndDate + " " + xPlace + " " + xAttr1 + xAttr2;
 				 	String name=  xDate + xEndDate + " " + xPlace + " " + xAttr1 + xAttr2;
 					
 					message = message.replace("á", "a").replace("é", "e").replace("í", "i").replace("ó", "o").replace("ú", "u");

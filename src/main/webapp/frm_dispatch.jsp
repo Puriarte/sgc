@@ -62,6 +62,7 @@
 	<html:hidden  property="accion" styleId="accion"/>
 	<html:hidden property="nroDestino" />
 	<bean:define id="stPrefix" name="frmAdmDispatch" property="prefix" />
+	<bean:define id="stCode" name="frmAdmDispatch" property="code" />
 
 	<div class="form-group"  id="dialogo_ingresar_sms" title="Enviar SMS">
 	<div class="row">
@@ -76,9 +77,15 @@
 				<input type="text" class="form-control input-sm" name="prefix" value="${stPrefix}" id="prefix" required >
 			</div>
 			<div class="col-md-1">
+				<label class="control-label input-sm">Código</label>
+			</div>
+			<div class="col-md-2">
+				<input type="text" class="form-control input-sm" name="code" value="${stCode}" id="code" required >
+			</div>
+			<div class="col-md-1">
 				<label class="control-label input-sm">Lugar</label>
 			</div>
-			<div class="col-md-7">
+			<div class="col-md-5">
 				<select class="form-control input-sm" name="place" id="place" required>
 		          	<option value="">Seleccione</option>
 				<logic:present name="frmAdmDispatch" property="places">

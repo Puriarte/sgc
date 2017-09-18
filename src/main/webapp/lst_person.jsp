@@ -134,6 +134,13 @@
 									<input type="text" class="form-control" name="prefix" value=""
 										id="prefix">
 								</div>
+								<div class="col-md-2">
+									<label class="control-label">Codigo</label>
+								</div>
+								<div class="col-md-2">
+									<input type="text" class="form-control" name="code" value=""
+										id="code">
+								</div>
 								<div class="col-md-1">
 									<label class="control-label">Fecha</label>
 								</div>

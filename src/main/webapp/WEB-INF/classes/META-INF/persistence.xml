@@ -14,6 +14,7 @@
 		<class>com.puriarte.convocatoria.persistence.Person</class>
 		<class>com.puriarte.convocatoria.persistence.PersonCategory</class>
 		<class>com.puriarte.convocatoria.persistence.PersonMovil</class>
+
 		<class>com.puriarte.convocatoria.persistence.Place</class>
 		<class>com.puriarte.convocatoria.persistence.SMS</class>
 		<class>com.puriarte.convocatoria.persistence.SmsStatus</class>
@@ -32,7 +33,7 @@
 		<property name="eclipselink.ddl-generation.output-mode" value="database"/>
 		 -->
 		 <property name="eclipselink.ddl-generation.output-mode" value="sql-script"/>
-		 <property name="eclipselink.logging.level" value="FINE" />
+		 <property name="eclipselink.logging.level" value="FINEST" />
 		   <property name="eclipselink.cache.shared.default" value="false"/>
          <property name="eclipselink.cache.size.default" value="0"/>
         <property name="eclipselink.cache.type.default" value="None"/>

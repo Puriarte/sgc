@@ -49,12 +49,14 @@
 			<html:hidden property="accion" styleId="accion" />
 			<html:hidden property="nroDestino" />
 			<bean:define id="stPrefix" name="frmAdmDispatch" property="prefix" />
+			<bean:define id="stCode" name="frmAdmDispatch" property="code" />
 			<bean:define id="objDispatch" name="frmAdmDispatch"	property="dispatch" />
 			<bean:define id="stEventHour" name="frmAdmDispatch"	property="eventHour" />
 			<bean:define id="stEventEndHour" name="frmAdmDispatch"	property="eventEndHour" />
 			<bean:define id="stEventDate" name="frmAdmDispatch"	property="eventDate" />
 			<bean:define id="stEventDateAlt2" name="frmAdmDispatch"	property="eventDateAlt2" />
 			<input type="hidden" value="${stPrefix}" name="prefix" id="prefix" />
+			<input type="hidden" value="${stCode}" name="prefix" id="code" />
 			
 		
 			<div class="row" id="assignmentRowModel" style="display: none">

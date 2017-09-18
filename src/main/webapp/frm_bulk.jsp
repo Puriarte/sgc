@@ -42,6 +42,7 @@
 	<html:hidden  property="accion" styleId="accion"/>
 	<html:hidden property="nroDestino" />
 	<bean:define id="stPrefix" name="frmAdmDispatch" property="prefix"/>
+	<bean:define id="stCode" name="frmAdmDispatch" property="code"/>
 	<input type="hidden" class="form-control" name="name"  id="name"></textarea>
 
 	<div class="control-group"  id="dialogo_ingresar_sms" title="Enviar SMS">

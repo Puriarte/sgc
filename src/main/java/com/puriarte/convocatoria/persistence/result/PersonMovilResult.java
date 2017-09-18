@@ -1,14 +1,20 @@
 package com.puriarte.convocatoria.persistence.result;
 
+import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.persistence.Entity;
+import javax.persistence.FieldResult;
+import javax.persistence.Id;
 
 import com.puriarte.convocatoria.persistence.Person;
 import com.puriarte.convocatoria.persistence.PersonCategory;
 
-public class PersonMovilResult {
+public class PersonMovilResult implements javax.persistence.EntityResult{
 
 	private int id;
+
 	private String movilNumber;
 	private String personDocumentNumber;
 	private String documentTypeName;
@@ -23,6 +29,10 @@ public class PersonMovilResult {
 	public PersonMovilResult(){
 	}
 	
+	public PersonMovilResult(int id) {
+		super();
+		this.id = id;
+	}
 	
 	public PersonMovilResult(int id, String movilNumber,
 			String personDocumentNumber, String documentTypeName,
@@ -40,7 +50,7 @@ public class PersonMovilResult {
 		this.preferedCategoryName=preferedCategoryName;
 	}
 
-
+/*
 	public int getId() {
 		return id;
 	}
@@ -131,5 +141,33 @@ public class PersonMovilResult {
 		}
 		if(value.length()>0) value=value.substring(0,value.length()-2);
 		return value;
+	}
+
+*/
+	@Override
+	public Class<? extends Annotation> annotationType() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public Class entityClass() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public FieldResult[] fields() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public String discriminatorColumn() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
