@@ -197,10 +197,10 @@ public class Facade {
 	}
 
 	public List<PersonMovilResult> selectPersonMovilList(List<String> priorities,
-			int category, int estado, String order, Integer pos, Integer limit) {
+			List<String>  categories, int estado, String order, Integer pos, Integer limit) {
 
 		
-		List<PersonMovilResult> values = personMovilService.selectList(priorities, category, estado,
+		List<PersonMovilResult> values = personMovilService.selectList(priorities, categories, estado,
 				order, pos, limit);
 		
 		for(PersonMovilResult result : values){

@@ -23,7 +23,7 @@ var editMessage = function(response,postdata){
 
 var editOptions={
 		top: 120, left: 250,
-		width: 400,
+		width: 800,
 		height:460,
 		recreateForm:true,
 		closeOnEscape: true,
@@ -72,7 +72,7 @@ var editOptions={
 
 var addOptions={
 		top: 180, left: 250,
-		width: 400,
+		width: 800,
 		height:400,
 		recreateForm:true,
 		closeOnEscape: true,
@@ -164,7 +164,7 @@ jQuery(document).ready(function(){
 	   	loadonce:false,
 	   	mtype: 'GET',
 	   	datatype: "local", // se usa local para que no cargue registros en el primer acceso a la grilla
-	 	colNames:['POS','ID', 'FOTO' ,'NUMERO','TIPO DOC.','NRO DOCUMENTO','NOMBRE','SOBRENOMBRE','CATEGORIA', 'ORDEN PRELACION', 'IMG', 'RNDNAME'],
+	 	colNames:['POS','ID', 'FOTO' ,'NUMERO','TIPO DOC.','NRO DOCUMENTO','NOMBRE','SOBRENOMBRE','CATEGORIA', 'CATEGORIA PREFERIDA','ORDEN PRELACION', 'IMG', 'RNDNAME'],
 	   	colModel:[
    			{name:"POS",			index:"1", key: false, jsonmap:"Pos", 		align:"center", 			width:10,  hidden:true, sortable:false},
    			{name:'ID',				index:'2', key: true,  jsonmap:"Id",									width:55,  editable:true, editoptions:{readonly:true,size:10},hidden:true},
@@ -176,7 +176,8 @@ jQuery(document).ready(function(){
 			{name:"NRO DOCUMENTO",	index:"6", key: false, jsonmap:"Texto", 	align:"left", 	fixed:true, width:120, resizable:false, sortable:true,hidden:false, editable:true },
 			{name:"NOMBRE",			index:"7", key: false, jsonmap:"Name", 		align:"center", fixed:true, width:150, resizable:false, sortable:true,hidden:false, editable: true },
 			{name:"SOBRENOMBRE",	index:"8", key: false, jsonmap:"Nickname", 	align:"center", fixed:true, width:100, resizable:false, sortable:true,hidden:false, editable: true},
-			{name:"CATEGORIA",		index:"9", key: false, jsonmap:"Category", 	edittype:"select", editoptions:{ multiple:true, dataUrl:'lstPersonCategory'}, editrules:{required:true}, width:90 , editable: true},
+			{name:"CATEGORIA",		index:"9", key: false, jsonmap:"Category", 	edittype:"select", editoptions:{ multiple:true, dataUrl:'lstPersonCategory?multiple=1'}, editrules:{required:true}, width:90 , editable: true},
+			{name:"CATEGORIA PREFERIDA",index:"9", key: false, jsonmap:"PreferedCategory", 	edittype:"select", editoptions:{ dataUrl:'lstPersonCategory?multiple=1'}, editrules:{required:true}, width:90 , editable: true},
 			{name:"ORDEN PRELACION",index:"10",key: false, jsonmap:"Priority", 	align:"center", fixed:true, resizable:false, width:140 ,sortable:true,hidden:false, editable: true},
 			{name:'IMG', 			index:"11", align: 'left', editable: true,   width:1, edittype: 'file', editoptions: { enctype: "multipart/form-data" }, search: false }, 
 			{name:'RNDNAME', 		index:"12", align: 'left', jsonmap:"Picture",  editable: true, hidden:true, width:0}, 
@@ -241,7 +242,7 @@ jQuery(document).ready(function(){
 			}
 			}
 		}
-	}).navGrid('#pagerArticulos',{edit:true,add:true,del:false,search: false}) //, editOptions , addOptions)
+	}).navGrid('#pagerArticulos',{edit:true,add:true,del:false,search: false}, editOptions , addOptions)
 	.navButtonAdd("#pagerArticulos", {
 		    caption: "Modificar",
 		    buttonicon: "ui-icon-disk",
@@ -530,7 +531,7 @@ function modificarCliente(){
 		var personId = jQuery("#gridArticulos").jqGrid('getGridParam','selrow');
 		refDialogIframe = $('<iframe id="ifModCliente" frameborder="0" marginwidth="0px" marginheight="0px" src="updatePerson.do?accion=load&ID=' + personId + '"/>').dialog({
 			resizable: false,
-			width:400,
+			width:800,
 			height:500,
 			modal: true,
 			title: "Modificar Persona",
@@ -541,7 +542,7 @@ function modificarCliente(){
 			close: function(event, ui) {
 				$('body').css('overflow','auto');
 			}
-		}).width(400).height(500);
+		}).width(800).height(500);
 	}catch(Exception){
 		alert(Exception.message);
 	}

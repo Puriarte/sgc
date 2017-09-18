@@ -16,6 +16,7 @@ public class PersonMovilResult {
 	private String personNickName;
 	private String personPicture;
 	private String categoryName;
+	private String preferedCategoryName;
 	private int priority;
 	private ArrayList<PersonCategory> categories;
 
@@ -26,7 +27,7 @@ public class PersonMovilResult {
 	public PersonMovilResult(int id, String movilNumber,
 			String personDocumentNumber, String documentTypeName,
 			String personName, String personNickName, String personPicture,
-			int priority) {
+			int priority, String preferedCategoryName) {
 		super();
 		this.id = id;
 		this.movilNumber = movilNumber;
@@ -36,6 +37,7 @@ public class PersonMovilResult {
 		this.personNickName = personNickName;
 		this.personPicture = personPicture;
 		this.priority = priority;
+		this.preferedCategoryName=preferedCategoryName;
 	}
 
 
@@ -102,6 +104,17 @@ public class PersonMovilResult {
 	public void setPriority(int priority) {
 		this.priority = priority;
 	}
+
+	
+	public String getPreferedCategoryName() {
+		return preferedCategoryName;
+	}
+
+
+	public void setPreferedCategoryName(String preferedCategoryName) {
+		this.preferedCategoryName = preferedCategoryName;
+	}
+
 
 	public ArrayList<PersonCategory> getCategories() {
 		return categories;

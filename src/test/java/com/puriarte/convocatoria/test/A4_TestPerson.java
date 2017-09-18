@@ -98,7 +98,7 @@ public class A4_TestPerson {
 		List<String> priorities = new ArrayList<String>();
 		priorities.add("0");
 
-		List<PersonMovilResult> list = Facade.getInstance().selectPersonMovilList(null, 1 ,1,  "", 0, 100);
+		List<PersonMovilResult> list = Facade.getInstance().selectPersonMovilList(null, null ,1,  "", 0, 100);
 		if (list!=null){
 			String a=";";
 		}

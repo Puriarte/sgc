@@ -98,7 +98,9 @@ public class ActUpdatePerson extends RestrictionAction {
 							person.getPerson().addCategory(pc);
 						}
 					}
-					if ((!dynaForm.get("ORDEN PRELACION").equals("")) && (dynaForm.get("ORDEN PRELACION")!="")) person.getPerson().setPriority(Integer.parseInt((String) dynaForm.get("ORDEN PRELACION")));
+					
+					if ((!dynaForm.get("CATEGORIA PREFERIDA").equals("")) && (dynaForm.get("CATEGORIA PREFERIDA")!="")) person.getPerson().setPreferedCategory( Facade.getInstance().selectPersonCategory((int) dynaForm.get("CATEGORIA PREFERIDA")));
+					if ((!dynaForm.get("ORDEN PRELACION").equals("")) && (dynaForm.get("ORDEN PRELACION")!="")) person.getPerson().setPriority((int) dynaForm.get("ORDEN PRELACION"));
 					if (dynaForm.get("NUMERO")!=null) movilNumber = (String) dynaForm.get("NUMERO");
 					if (dynaForm.get("RNDNAME")!=null) person.getPerson().setPicture((String) dynaForm.get("RNDNAME"));
 					
@@ -124,7 +126,8 @@ public class ActUpdatePerson extends RestrictionAction {
 						}
 					}
 					
-					if ((!dynaForm.get("ORDEN PRELACION").equals("")) && (dynaForm.get("ORDEN PRELACION")!="")) person.setPriority(Integer.parseInt((String) dynaForm.get("ORDEN PRELACION")));
+					if ((!dynaForm.get("CATEGORIA PREFERIDA").equals("")) && (dynaForm.get("CATEGORIA PREFERIDA")!="")) person.setPreferedCategory( Facade.getInstance().selectPersonCategory((int) dynaForm.get("CATEGORIA PREFERIDA")));
+					if ((!dynaForm.get("ORDEN PRELACION").equals("")) && (dynaForm.get("ORDEN PRELACION")!="")) person.setPriority((int) dynaForm.get("ORDEN PRELACION"));
 					if (dynaForm.get("NUMERO")!=null) movilNumber = (String) dynaForm.get("NUMERO");
 	
 					DocumentType dt = Facade.getInstance().selectDocumentType(Constants.PERSON_TYPE_CI);

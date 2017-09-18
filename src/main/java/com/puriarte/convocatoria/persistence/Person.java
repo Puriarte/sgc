@@ -53,6 +53,10 @@ public class Person {
 
 	private String documentNumber;
 
+	@ManyToOne(cascade={CascadeType.REFRESH},fetch=FetchType.LAZY)
+	@JoinColumn(name="idPersonCategory")
+	private PersonCategory preferedCategory;
+	
 	@Transient
 	private String selectedMovil;
 
@@ -163,6 +167,16 @@ public class Person {
 				this.categories.remove(i);
 			}
 		}
+	}
+
+
+	public PersonCategory getPreferedCategory() {
+		return preferedCategory;
+	}
+
+
+	public void setPreferedCategory(PersonCategory preferedCategory) {
+		this.preferedCategory = preferedCategory;
 	}
 
 /*

@@ -21,11 +21,8 @@ import javax.persistence.NamedQuery;
   /* @NamedQuery(name="PersonMovil.SelectPersonMovilListWithPriority",
        	query="SELECT pm FROM PersonMovil pm WHERE ((:category = 0) or (pm.person.category.id = :category))   and pm.person.priority in :priorities order by pm.person.name "),
    */@NamedQuery(name="PersonMovil.SelectPersonMovilList",
-	    query="SELECT new com.puriarte.convocatoria.persistence.result.PersonMovilResult(pm.id, pm.movil.number, pm.person.documentNumber ,pm.person.documentType.name, "
-	    		+ "pm.person.name, pm.person.nickname , "
-	    		+ "pm.person.picture,  pm.person.priority ) " +
-		 	  " FROM PersonMovil pm  "
-		 	  + " where ( (:p IS NULL) or (pm.person.priority IN (:p) )) "),
+	    query="SELECT new com.puriarte.convocatoria.persistence.result.PersonMovilResult(pm.id, pm.movil.number, pm.person.documentNumber ,pm.person.documentType.name, pm.person.name, pm.person.nickname , pm.person.picture,  pm.person.priority, pm.person.preferedCategory.name ) "
+	    		+ " FROM PersonMovil pm JOIN pm.person p JOIN p.categories c  where ( (:p IS NULL) or (pm.person.priority IN (:p) )) and ( (:c IS NULL) or (c.id IN (:c) )) "),
 //		 	  + " and ( (?2 is null) or (pm.person.category.id IN (?2) ))"),
 	})
 

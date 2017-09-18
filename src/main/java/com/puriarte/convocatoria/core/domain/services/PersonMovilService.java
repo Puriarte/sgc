@@ -144,7 +144,7 @@ public class PersonMovilService {
 	}
 
 	
-	public List<PersonMovilResult> selectList(List<String> priorities, int category ,int estado, String orderByColumn, Integer pos, Integer limit) {
+	public List<PersonMovilResult> selectList(List<String> priorities, List<String>  categories ,int estado, String orderByColumn, Integer pos, Integer limit) {
 		
 		final EntityManager em = getEntityManager();
 		em.getEntityManagerFactory().getCache().evictAll();
@@ -155,7 +155,13 @@ public class PersonMovilService {
 			else
 				query.setParameter("p", priorities);
 
-//		*/	query.setParameter(2, category);
+
+			if ((categories==null) || (categories.size()==0))
+				query.setParameter("c", null);
+			else
+				query.setParameter("c", categories);
+
+			//		*/	query.setParameter(2, category);
 //			query.setParameter(3, estado);
 
 			query.setHint(QueryHints.BIND_PARAMETERS, HintValues.FALSE);//<--the hint

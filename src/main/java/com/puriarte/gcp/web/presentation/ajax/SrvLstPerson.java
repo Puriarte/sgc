@@ -39,7 +39,7 @@ public class SrvLstPerson extends HttpServlet {
 	private String strOrder;
 	private String orderBy;
 	private boolean soloImpagos;
-	private Integer category;
+	//private Integer category;
 	private String idRazon;
 	private String nroComprobante;
 	private Integer nroComprobanteInt;
@@ -60,6 +60,7 @@ public class SrvLstPerson extends HttpServlet {
 	private SimpleDateFormat dTF;
 	private String priority;
 	private List<String> priorities = new ArrayList<String>();
+	private List<String> categories= new ArrayList<String>();
 
 	public void init(ServletConfig config) throws ServletException {
 		super.init(config);
@@ -112,10 +113,9 @@ public class SrvLstPerson extends HttpServlet {
 		}
 
 		//	Datos de filtors para la consulta
-		category = ((request.getParameter("category")!=null) && NumberUtils.isNumber(request.getParameter("category")))? Integer.parseInt(request.getParameter("category")) : 0;
+//		category = ((request.getParameter("category")!=null) && NumberUtils.isNumber(request.getParameter("category")))? Integer.parseInt(request.getParameter("category")) : 0;
 
 		priorities =  new ArrayList<String>();
-
 		if (request.getParameter("priority")!=null){
 			String[] arPriority = request.getParameter("priority").split(",");
 			for(String auxPriority: arPriority){
@@ -123,8 +123,19 @@ public class SrvLstPerson extends HttpServlet {
 					priorities.add(auxPriority);
 				}
 			}
+		}
+		
+		categories =  new ArrayList<String>();
+		if (request.getParameter("category")!=null){
+			String[] arCategories= request.getParameter("category").split(",");
+			for(String auxCategory: arCategories){
+				if ((auxCategory!=null) && NumberUtils.isNumber(auxCategory)){
+					categories.add(auxCategory);
+				}
+			}
 
 		}
+
 	}
 
 	public void _doProcess(HttpServletRequest request, HttpServletResponse response)
@@ -149,7 +160,7 @@ public class SrvLstPerson extends HttpServlet {
 	}
 
 	private String procesar() throws Exception {
-		List<PersonMovilResult> resultados = Facade.getInstance().selectPersonMovilList(priorities, category,estado,orderBy,  null,null);
+		List<PersonMovilResult> resultados = Facade.getInstance().selectPersonMovilList(priorities, categories ,estado,orderBy,  null,null);
 		String jSonItems="";
 		int i=0;
 
@@ -168,6 +179,7 @@ public class SrvLstPerson extends HttpServlet {
 				jSonItems += "\"Nickname\": \"" + item.getPersonNickName()  + "\",";
 				jSonItems += "\"Picture\": \"" + item.getPersonPicture() + "\",";
 				jSonItems += "\"Category\": \"" + item.getCategoryNames()  + "\",";
+				jSonItems += "\"PreferedCategory\": \"" + item.getPreferedCategoryName()  + "\",";
 				jSonItems += "\"Priority\": \"" + item.getPriority() + "\",";
 				jSonItems += "\"Saldo\": \"\"},";
 				}

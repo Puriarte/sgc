@@ -55,15 +55,8 @@
 <fieldset>
 
 <!-- Prepended text-->
-<div class="form-group">
-  <div class="col-md-4">
-    <div class="input-group">
-      <span class="input-group-addon">prepend</span>
-      <input id="prependedtext" name="prependedtext" class="form-control" placeholder="placeholder" type="text">
-    </div>
-  </div>
-</div>
 <!-- Text input-->
+<div class="row">
 <div class="form-group">
   <div class="col-md-4">
 	  <label class="col-md-4 control-label" for="NUMERO">NUMERO</label>  
@@ -72,8 +65,10 @@
 	  <input id="NUMERO" name="NUMERO" type="text" placeholder="" class="form-control input-md">
   </div>
 </div>
+</div>
 
 <!-- Text input-->
+<div class="row">
 <div class="form-group">
   <label class="col-md-4 control-label" for="NRO DOCUMENTO">NRO DOCUMENTO</label>  
   <div class="col-md-4">
@@ -81,17 +76,20 @@
     
   </div>
 </div>
-
-<!-- Text input-->
-<div class="form-group">
-  <label class="col-md-4 control-label" for="NOMBRE">NOMBRE</label>  
-  <div class="col-md-4">
-  <input id="NOMBRE" name="NOMBRE" type="text" placeholder="" class="form-control input-md">
-    
-  </div>
 </div>
 
 <!-- Text input-->
+<div class="row">
+	<div class="form-group">
+	  <label class="col-md-4 control-label" for="NOMBRE">NOMBRE</label>  
+	  <div class="col-md-4">
+		  <input id="NOMBRE" name="NOMBRE" type="text" placeholder="" class="form-control input-md">
+	  </div>
+	</div>
+</div>
+
+<!-- Text input-->
+<div class="row">
 <div class="form-group">
   <label class="col-md-4 control-label" for="SOBRENOMBRE">SOBRENOMBRE</label>  
   <div class="col-md-4">
@@ -99,8 +97,10 @@
     
   </div>
 </div>
+</div>
 
 <!-- Multiple Checkboxes (inline) -->
+<div class="row">
 <div class="form-group">
   <label class="col-md-4 control-label" for="CATEGORIAS">CATEGORIAS</label>
   <div class="col-md-4">
@@ -122,8 +122,10 @@
     </label>
   </div>
 </div>
+</div>
 
 <!-- Select Basic -->
+<div class="row">
 <div class="form-group">
   <label class="col-md-4 control-label" for="CATEGORIA PREFERIDA">CATEGORIA PREFERIDA</label>
   <div class="col-md-4">
@@ -133,8 +135,10 @@
     </select>
   </div>
 </div>
+</div>
 
 <!-- Text input-->
+<div class="row">
 <div class="form-group">
   <label class="col-md-4 control-label" for="ORDEN PRELACION">ORDEN PRELACION</label>  
   <div class="col-md-4">
@@ -142,77 +146,21 @@
     
   </div>
 </div>
+</div>
 
 <!-- Button -->
+<div class="row">
 <div class="form-group">
   <label class="col-md-4 control-label" for="OK"></label>
   <div class="col-md-4">
     <button id="OK" name="OK" class="btn btn-primary">OK</button>
   </div>
 </div>
+</div>
 
 </fieldset>
 	
 
-	<div class="form-group"  id="dialogo_ingresar_sms" title="Datos de Persona">
-	<div class="row">
-			<div class="col-md-12">&nbsp;</div>
-		</div>
-		
-		<div class="row">
-			<div class="col-md-1">
-				<label class="control-label input-sm">Prefijo</label>
-			</div>
-			<div class="col-md-2">
-				<input type="text" class="form-control input-sm" name="prefix" value="${stPrefix}" id="prefix" required >
-			</div>
-			<div class="col-md-1">
-				<label class="control-label input-sm">Lugar</label>
-			</div>
-			<div class="col-md-7">
-				<select class="form-control input-sm" name="place" id="place" required>
-		          	<option value="">Seleccione</option>
-				<logic:present name="frmAdmDispatch" property="places">
-					<logic:iterate name="frmAdmDispatch" property="places" id="item" indexId="idx">
-			        	<option value="${item.id}">${item.name}</option>
-					</logic:iterate>
-					</select>
-				</logic:present>
-			</div>
-
-
-
-		</div>
-		<div class="row">
-			<div class="col-md-12">&nbsp;</div>
-		</div>
-
-
-		<div class="row">
-			<div class="col-md-1">
-				<label class="control-label input-sm">Fecha</label>
-			</div>
-			<div class="col-md-5">
-				<div class="col-md-6">
-					<input type="date" class="form-control input-sm" name="eventDate"  value="" id="eventDate" required>
-				</div>
-				<div class="col-md-6">
-					<input type="time" class="form-control input-sm"  name="eventHour"  value="" id="eventHour" required>
-				</div>
-			</div>
-			<div class="col-md-1">
-				<label class="control-label input-sm">Hasta</label>
-			</div>
-			<div class="col-md-5">
-				<div class="col-md-6">
-					<input type="time" class="form-control input-sm" name="eventEndHour"  value="" id="eventEndHour" >
-				</div>
-				<div class="col-md-6">
-					<label class="control-label input-sm">(Opcional)</label>
-				</div>
-			</div>
-		</div>
-	</div>
 	</html:form>
 </div>
 </body>
