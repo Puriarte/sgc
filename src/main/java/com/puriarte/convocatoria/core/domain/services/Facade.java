@@ -204,7 +204,7 @@ public class Facade {
 				order, pos, limit);
 		
 		for(PersonMovilResult result : values){
-//			result.setCategories(personCategoryService.selectByPersonList(result.getId()) );
+			result.setCategories(personCategoryService.selectByPersonList(result.getId()) );
 		}
 		
 		return values;
@@ -573,11 +573,11 @@ public class Facade {
 		return dispatchService.insert(dispatch);
 	}
 
-	public int insertDispatch(String message, String name, Place place,
+	public int insertDispatch(String message, String name, String code, Place place,
 			Date creationDate, Date scheduledDate, Date scheduledEndDate, String[] personIds,
 			HashMap categories) {
 		SmsStatus status = selectSmsStatus(Constants.SMS_STATUS_PENDIENTE);
-		return dispatchService.insert(message, name, place, creationDate,
+		return dispatchService.insert(message, name, code, place, creationDate,
 				scheduledDate, scheduledEndDate, personIds, categories, status);
 	}
 

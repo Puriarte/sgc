@@ -103,7 +103,9 @@ public class ActCreateCategoryDispatch extends RestrictionAction {
 					String strDate = (String) dynaForm.get("eventDate") ;
 					String strHour = (String) dynaForm.get("eventHour");
 					String strEndHour = (String) dynaForm.get("eventEndHour");
-					
+
+					code = (String) dynaForm.get("code");
+
 					if ((strHour!=null) && (strHour.trim().toString().length()==5)) strHour += ":00";
 					else strHour = "00:00:00";
 					
@@ -160,7 +162,7 @@ public class ActCreateCategoryDispatch extends RestrictionAction {
 					
 					message = message.replace("á", "a").replace("é", "e").replace("í", "i").replace("ó", "o").replace("ú", "u");
 					name= name.replace("á", "a").replace("é", "e").replace("í", "i").replace("ó", "o").replace("ú", "u");
-					int id = Facade.getInstance().insertDispatch(message, name, place, creationDate, scheduledDate , scheduledEndDate, arPersonIds, arPersonCategory);
+					int id = Facade.getInstance().insertDispatch(message, name, code, place, creationDate, scheduledDate , scheduledEndDate, arPersonIds, arPersonCategory);
 
 				}
 

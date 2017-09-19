@@ -43,6 +43,8 @@ public class Dispatch implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	private String name;
+	private String code;
+
 	@Temporal(TemporalType.TIMESTAMP)
 	private java.util.Date scheduledDate;
 
@@ -114,6 +116,14 @@ public class Dispatch implements Serializable {
 
 	public String getName() {
 		return name;
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
 	}
 
 	public List<Job> getJobList() {

@@ -166,7 +166,7 @@ public class SrvLstPerson extends HttpServlet {
 
 		for(PersonMovilResult item : resultados) {
 			try{
-/*
+
 				jSonItems += "{\"Id\": \"" +item.getId()+ "\",";
 				jSonItems += "\"Pos\": \"" + i++ + "\",";
 				jSonItems += "\"Cliente\": \"" +item.getId()+ "\",";
@@ -182,7 +182,7 @@ public class SrvLstPerson extends HttpServlet {
 				jSonItems += "\"PreferedCategory\": \"" + item.getPreferedCategoryName()  + "\",";
 				jSonItems += "\"Priority\": \"" + item.getPriority() + "\",";
 				jSonItems += "\"Saldo\": \"\"},";
-*/				}
+				}
 				catch(Exception e){}
 		}
 		

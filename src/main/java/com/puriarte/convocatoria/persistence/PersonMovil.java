@@ -1,7 +1,5 @@
 package com.puriarte.convocatoria.persistence;
 
-import java.util.Date;
-
 import javax.persistence.ConstructorResult ;
 import javax.persistence.CascadeType;
 import javax.persistence.ColumnResult;
@@ -23,7 +21,15 @@ import javax.persistence.SqlResultSetMappings;
 import com.puriarte.convocatoria.persistence.result.PersonMovilResult;
 @SqlResultSetMappings({
 	@SqlResultSetMapping(name = "PersonMovilResult", classes = { @ConstructorResult(targetClass = PersonMovilResult.class, columns = {
-		@ColumnResult(name = "PERSONMOVIL_ID")}) })
+		@ColumnResult(name = "PERSONMOVIL_ID"),
+		@ColumnResult(name = "MOVIL_NUMBER"),
+		@ColumnResult(name = "DOCUMENT_NUMBER"),
+		@ColumnResult(name = "DOCUMENT_TYPE"),
+		@ColumnResult(name = "PERSON_NAME"),
+		@ColumnResult(name = "PERSON_NICKNAME"),
+		@ColumnResult(name = "PERSON_PICTURE"),
+		@ColumnResult(name = "PRIORITY"),
+		@ColumnResult(name = "CATEGORY_NAME") }) })
 })
 
 @NamedQueries({
@@ -45,8 +51,17 @@ import com.puriarte.convocatoria.persistence.result.PersonMovilResult;
 
 @NamedNativeQueries({
 	@NamedNativeQuery(name = "PersonMovil.SelectPersonMovilList", 
-			query = "  SELECT t0.ID as PERSONMOVIL_ID FROM  PERSON t2 " +
-					"  "
+//			query = "SELECT t0.ID as PERSONMOVIL_ID, t1.NUMBER as MOVIL_NUMBER, t2.DOCUMENTNUMBER as DOCUMENT_NUMBER,  t3.NAME as DOCUMENT_TYPE, t2.NAME as PERSON_NAME,  t2.NICKNAME as PERSON_NICKNAME, t2.PICTURE as PERSON_PICTURE, t2.PRIORITY as PRIORITY, T4.NAME AS CATEGORY_NAME  FROM PERSONCATEGORY t4, DOCUMENTTYPE t3, PERSON t2, MOVIL t1, PERSONMOVIL t0  WHERE (t2.ID = t0.idPerson)  AND (t1.ID = t0.idMovil)  AND (t3.ID = t2.idDocumentType)  AND (t4.ID = t2.idPersonCategory) "
+			query = "  SELECT t0.ID as PERSONMOVIL_ID, t1.NUMBER as MOVIL_NUMBER, t2.DOCUMENTNUMBER as DOCUMENT_NUMBER, "
+					+ " t3.NAME as DOCUMENT_TYPE, t2.NAME as PERSON_NAME, " +
+					" t2.NICKNAME as PERSON_NICKNAME, t2.PICTURE as PERSON_PICTURE, t2.PRIORITY as PRIORITY, T4.NAME AS CATEGORY_NAME " +
+					" FROM PERSONCATEGORY t4, DOCUMENTTYPE t3, PERSON t2, MOVIL t1, PERSONMOVIL t0 " +
+					" WHERE (t2.ID = t0.idPerson) " +
+					" AND (t1.ID = t0.idMovil) "+
+					" AND (t3.ID = t2.idDocumentType) " + 
+					" AND (t4.ID = t2.idPersonCategory) " +
+					" AND ((?1 IS NULL) or (t2.PRIORITY IN (?1))) "  + 
+					" AND ((?2 IS NULL) or (t0.idPerson IN (select idPerson from personpersoncategory where idPersoncategory in (?2)))   ) "  
 					, resultSetMapping = "PersonMovilResult"),
 })
 

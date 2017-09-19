@@ -69,7 +69,7 @@ public class A2_TestDispatch {
 			Date scheduledDate = new Date();
 			Date creationDate = new Date();
 
-			int id = Facade.getInstance().insertDispatch(strMensaje, strName, null, creationDate, creationDate, scheduledDate , arPersonIds, null);
+			int id = Facade.getInstance().insertDispatch(strMensaje, strName, "", null, creationDate, creationDate, scheduledDate , arPersonIds, null);
 
 		}catch(Exception e){
 			fail(e.getMessage());

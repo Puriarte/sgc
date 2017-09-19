@@ -149,17 +149,18 @@ public class PersonMovilService {
 		final EntityManager em = getEntityManager();
 		em.getEntityManagerFactory().getCache().evictAll();
 		try {
-			Query query = em.createNativeQuery("PersonMovil.SelectPersonMovilList", "PersonMovilResult");
+			Query query = em.createNamedQuery("PersonMovil.SelectPersonMovilList" , PersonMovilResult.class);
+			
 			if ((priorities==null) || (priorities.size()==0))
-				query.setParameter("p", null);
+				query.setParameter(1, null);
 			else
-				query.setParameter("p", priorities);
+				query.setParameter(1, priorities);
 
 
 			if ((categories==null) || (categories.size()==0))
-				query.setParameter("c", null);
+				query.setParameter(2, null);
 			else
-				query.setParameter("c", categories);
+				query.setParameter(2, categories);
 
 			//		*/	query.setParameter(2, category);
 //			query.setParameter(3, estado);

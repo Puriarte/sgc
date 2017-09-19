@@ -23,7 +23,7 @@ public class PersonMovilResult implements javax.persistence.EntityResult{
 	private String personPicture;
 	private String categoryName;
 	private String preferedCategoryName;
-	private int priority;
+	private Integer priority;
 	private ArrayList<PersonCategory> categories;
 
 	public PersonMovilResult(){
@@ -37,8 +37,9 @@ public class PersonMovilResult implements javax.persistence.EntityResult{
 	public PersonMovilResult(int id, String movilNumber,
 			String personDocumentNumber, String documentTypeName,
 			String personName, String personNickName, String personPicture,
-			int priority, String preferedCategoryName) {
+			Integer priority, String preferedCategoryName) {
 		super();
+try{
 		this.id = id;
 		this.movilNumber = movilNumber;
 		this.personDocumentNumber = personDocumentNumber;
@@ -48,9 +49,12 @@ public class PersonMovilResult implements javax.persistence.EntityResult{
 		this.personPicture = personPicture;
 		this.priority = priority;
 		this.preferedCategoryName=preferedCategoryName;
-	}
+}catch (Exception e){
+e.printStackTrace();	
+}
+}
 
-/*
+
 	public int getId() {
 		return id;
 	}
@@ -107,11 +111,11 @@ public class PersonMovilResult implements javax.persistence.EntityResult{
 		this.personPicture = personPicture;
 	}
 
-	public int getPriority() {
+	public Integer getPriority() {
 		return priority;
 	}
 
-	public void setPriority(int priority) {
+	public void setPriority(Integer priority) {
 		this.priority = priority;
 	}
 
@@ -137,13 +141,14 @@ public class PersonMovilResult implements javax.persistence.EntityResult{
 	public String getCategoryNames() {
 		String value="";
 		for(PersonCategory pc: categories){
-			value+=pc.getName() + ", ";
+			if (pc!=null)
+				value+=pc.getName() + ", ";
 		}
 		if(value.length()>0) value=value.substring(0,value.length()-2);
 		return value;
 	}
 
-*/
+
 	@Override
 	public Class<? extends Annotation> annotationType() {
 		// TODO Auto-generated method stub
