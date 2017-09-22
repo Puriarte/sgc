@@ -56,7 +56,7 @@
 			<bean:define id="stEventDate" name="frmAdmDispatch"	property="eventDate" />
 			<bean:define id="stEventDateAlt2" name="frmAdmDispatch"	property="eventDateAlt2" />
 			<input type="hidden" value="${stPrefix}" name="prefix" id="prefix" />
-			<input type="hidden" value="${stCode}" name="prefix" id="code" />
+			<input type="hidden" value="${stCode}" name="code" id="code" />
 			
 		
 			<div class="row" id="assignmentRowModel" style="display: none">
@@ -100,7 +100,10 @@
 					<div class="col-md-2">
 						<label class="control-label input-sm">Convocatoria</label>
 					</div>
-					<div class="col-md-10">
+					<div class="col-md-2">
+						<input type="text" class="form-control input-sm" value="${stCode}" disabled="disabled"> 
+					</div>
+					<div class="col-md-8">
 						<input type="text" class="form-control input-sm" value="${objDispatch.name}" disabled="disabled"> 
 						<input type="hidden" name="dispatchId" id="dispatchId" value="${objDispatch.id}" >
 					</div>

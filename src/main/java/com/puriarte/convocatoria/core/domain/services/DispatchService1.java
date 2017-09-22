@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.UUID;
 import java.util.Vector;
 
 import javax.persistence.EntityManager;
@@ -18,6 +19,8 @@ import javax.persistence.criteria.Join;
 import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+
+import org.apache.commons.lang.RandomStringUtils;
 
 import com.puriarte.convocatoria.core.domain.Constants;
 import com.puriarte.convocatoria.persistence.Assignment;
@@ -403,4 +406,23 @@ public class DispatchService1 {
 		em.getTransaction().commit();
 	}
 
+	public String selectNextCode() {
+		final EntityManager em = getEntityManager();
+		String code = "";
+		try{
+			int i1=1;
+			int i=0;
+			while ( (i<100)&&(i1>0) ) {
+				code = RandomStringUtils.randomNumeric(4);
+			
+				i1 = em.createNativeQuery("select count(*) from dispatch where code = '" + code + "'" ).getFirstResult();
+				i=i+1;
+			}
+			return code;
+		}catch(Exception e){
+			return null;
+		}
+		
+	}
+	
 }

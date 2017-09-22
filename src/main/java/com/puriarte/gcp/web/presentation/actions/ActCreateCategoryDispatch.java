@@ -51,6 +51,7 @@ public class ActCreateCategoryDispatch extends RestrictionAction {
 		if(dynaForm.get("accion").equals("load")){
 			try{
 				String[] arPersonIds = dynaForm.get("nroDestino").toString().split(",");
+				code = Facade.getInstance().selectNextCode();
 
 				ArrayList<PersonMovil> persons = new ArrayList();
 				for(String id : arPersonIds){

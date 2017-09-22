@@ -10,7 +10,9 @@ import java.util.Locale;
 
 import org.junit.Test;
 
+import com.puriarte.convocatoria.core.domain.Constants;
 import com.puriarte.convocatoria.core.domain.services.Facade;
+import com.puriarte.convocatoria.persistence.PersonMovil;
 import com.puriarte.convocatoria.persistence.SMS;
 
 public class SMStest {
@@ -30,6 +32,22 @@ public class SMStest {
 //		else
 //			System.out.print(smss.size());
 
+	}
+	@Test
+	public void test2()  {
+		try{
+			PersonMovil movil = Facade.getInstance().selectPersonMovil("098312914",
+					Constants.MOVIL_STATUS_ACTIVE);
+			
+			List<SMS> smsList = Facade
+				.getInstance()
+				.SelectRelatedSMSList(
+						movil, 
+						Facade.getInstance().selectAssingmentStatus(Constants.ASSIGNMENT_STATUS_ASSIGNED),
+						new Date(), 0, 1);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 	}
 
 }

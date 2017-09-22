@@ -10,7 +10,7 @@ import javax.persistence.metamodel.EntityType;
 
 public class EntityManagerHelper {
 
-	private static final String JPA_TEST = "convocatoriaRemote";
+	private static final String JPA_TEST = "convocatoria";
 	private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory(JPA_TEST);
 	private static final ThreadLocal<EntityManager> threadLocal = new ThreadLocal<EntityManager>();
 

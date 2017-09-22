@@ -362,7 +362,7 @@ public class SMSService1 {
 
 		final EntityManager em = getEntityManager();
 
-		Query query = em.createNamedQuery("SelectRelatedSMSList")
+		Query query = em.createNamedQuery("SMS.SelectRelatedSMSList")
 			.setParameter("movilId", movil.getId())
 			.setParameter("status", assignmentStatus.getId())
 			.setParameter("receivedDate" , receivedDate);

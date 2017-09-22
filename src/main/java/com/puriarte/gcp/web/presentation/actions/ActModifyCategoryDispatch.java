@@ -46,7 +46,6 @@ public class ActModifyCategoryDispatch extends RestrictionAction {
 
 		PropertiesConfiguration config = new PropertiesConfiguration(com.puriarte.gcp.web.Constantes.PATHAPPCONFIG);
 		String prefix = config.getString("sms.prefix");
-		String code = config.getString("sms.code");
 		String attribute1Name = config.getString("dispatch.attribute1");
 		String attribute2Name = config.getString("dispatch.attribute2");
 
@@ -59,6 +58,8 @@ public class ActModifyCategoryDispatch extends RestrictionAction {
 						Integer id = new Integer(arDispatchIds[0]);
 						
 						Dispatch dispatch = Facade.getInstance().selectDispatch(id);
+
+						String code = (dispatch.getCode()==null)?"":dispatch.getCode();
 
 						List<DispatchStatus > dispatchsStatus = new ArrayList<DispatchStatus>(Facade.getInstance().selectDispatchStatusList());
 						
@@ -222,6 +223,7 @@ public class ActModifyCategoryDispatch extends RestrictionAction {
 							}finally{}
 						}
 					}					
+					String code = (String) dynaForm.get("code");
 				
 				 	String message  = prefix + " " + code + " " + xDate + xEndDate + " " + xPlace + " " + xAttr1 + xAttr2;
 				 	String name=  xDate + xEndDate + " " + xPlace + " " + xAttr1 + xAttr2;
