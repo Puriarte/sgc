@@ -83,16 +83,17 @@ jQuery(document).ready(function(){
 	   	loadonce:false,
 	   	mtype: 'GET',
 	   	datatype: "local", // se usa local para que no cargue registros en el primer acceso a la grilla
-	   	colNames:['POS','ID','LUGAR','FECHA EVENTO','HASTA','NRO.DOCUMENTO','TEXTO','ESTADO'],
+	   	colNames:['POS','ID', 'CODIGO', 'LUGAR','FECHA EVENTO','HASTA','NRO.DOCUMENTO','TEXTO','ESTADO'],
 	   	colModel:[
    			{name:"POS"			,index:"1", key: false, jsonmap:"Pos", 			align:"center", hidden:true, width:10, sortable:false},
    			{name:'ID'			,index:'2',	key: true, 	jsonmap:"Id", 			width:55,		editable:true,editoptions:{readonly:true,size:10},hidden:true},
-			{name:"LUGAR"		,index:"3", key: false, jsonmap:"Place",		align:"left", 	fixed:true,  width:250 ,resizable:false, sortable:true,hidden:false},
-			{name:"FECHA EVENTO",index:"4", key: false, jsonmap:"FechaEnvio",	align:"center", fixed:true, resizable:false,  width:80  ,sortable:true,hidden:false},
-			{name:"HASTA"		,index:"5", key: false, jsonmap:"FechaHasta",	align:"center", fixed:true, resizable:false,  width:80  ,sortable:true,hidden:false},
-			{name:"NRO.DOCUMENTO",index:"6",key: false, jsonmap:"Texto", 		align:"left", 	fixed:true,  width:160 ,resizable:false, sortable:true,hidden:true},
-			{name:"TEXTO"		,index:"7", key: false, jsonmap:"Name", 		align:"center", editable: true,  fixed:true, width:350, resizable:false, sortable:true,hidden:false},
-			{name:"ESTADO"		,index:"8", key: false, jsonmap:"DispatchStatus",align:"center",  editable: true,  fixed:true, width:60, resizable:false, sortable:true,hidden:false},
+			{name:"CODIGO"		,index:"3", key: false, jsonmap:"DispatchCode",	align:"left", 	fixed:true,  width:50 ,resizable:false, sortable:true,hidden:false},
+			{name:"LUGAR"		,index:"4", key: false, jsonmap:"Place",		align:"left", 	fixed:true,  width:250 ,resizable:false, sortable:true,hidden:false},
+			{name:"FECHA EVENTO",index:"5", key: false, jsonmap:"FechaEnvio",	align:"center", fixed:true, resizable:false,  width:80  ,sortable:true,hidden:false},
+			{name:"HASTA"		,index:"6", key: false, jsonmap:"FechaHasta",	align:"center", fixed:true, resizable:false,  width:80  ,sortable:true,hidden:false},
+			{name:"NRO.DOCUMENTO",index:"7",key: false, jsonmap:"Texto", 		align:"left", 	fixed:true,  width:160 ,resizable:false, sortable:true,hidden:true},
+			{name:"TEXTO"		,index:"8", key: false, jsonmap:"Name", 		align:"center", editable: true,  fixed:true, width:350, resizable:false, sortable:true,hidden:false},
+			{name:"ESTADO"		,index:"9", key: false, jsonmap:"DispatchStatus",align:"center",  editable: true,  fixed:true, width:60, resizable:false, sortable:true,hidden:false},
 			],
 	   	rowNum:60,
 	   	scrollOffset:50,
@@ -177,7 +178,30 @@ jQuery(document).ready(function(){
                 height: "100%",
                 rowNum: 100,
                 sortname: "Person",
-                idPrefix: "s_" + rowid + "_"
+                idPrefix: "s_" + rowid + "_", 
+                afterInsertRow: function(rowid, aData){
+                    if (aData.Status == "Convocado"){
+                        $("#" + subgridTableId).setCell(rowid,"Movil","",{"background-color":"#A9BCF5"});
+                        $("#" + subgridTableId).setCell(rowid,"Person","",{"background-color":"#A9BCF5"});
+                        $("#" + subgridTableId).setCell(rowid,"PersonCategory","",{"background-color":"#A9BCF5"});
+                        $("#" + subgridTableId).setCell(rowid,"Status","",{"background-color":"#A9BCF5"});
+                        $("#" + subgridTableId).setCell(rowid,"AssignmentDate","",{"background-color":"#A9BCF5"});
+                    }
+                	if (aData.Status == "Aceptado"){
+                        $("#" + subgridTableId).setCell(rowid,"Movil","",{"background-color":"#CEF6E3"});
+                        $("#" + subgridTableId).setCell(rowid,"Person","",{"background-color":"#CEF6E3"});
+                        $("#" + subgridTableId).setCell(rowid,"PersonCategory","",{"background-color":"#CEF6E3"});
+                        $("#" + subgridTableId).setCell(rowid,"Status","",{"background-color":"#CEF6E3"});
+                        $("#" + subgridTableId).setCell(rowid,"AssignmentDate","",{"background-color":"#CEF6E3"});
+                    }
+                	if (aData.Status == "Rechazado"){
+                        $("#" + subgridTableId).setCell(rowid,"Movil","",{"background-color":"#FA5858"});
+                        $("#" + subgridTableId).setCell(rowid,"Person","",{"background-color":"#FA5858"});
+                        $("#" + subgridTableId).setCell(rowid,"PersonCategory","",{"background-color":"#FA5858"});
+                        $("#" + subgridTableId).setCell(rowid,"Status","",{"background-color":"#FA5858"});
+                        $("#" + subgridTableId).setCell(rowid,"AssignmentDate","",{"background-color":"#FA5858"});
+                    }
+                }
             });
         }
 	}).navGrid('#pagerArticulos',{edit:false,add:false,del:false,search: false})

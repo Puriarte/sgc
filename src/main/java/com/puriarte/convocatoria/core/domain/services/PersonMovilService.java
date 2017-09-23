@@ -2,6 +2,7 @@ package com.puriarte.convocatoria.core.domain.services;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -152,15 +153,15 @@ public class PersonMovilService {
 			Query query = em.createNamedQuery("PersonMovil.SelectPersonMovilList" , PersonMovilResult.class);
 			
 			if ((priorities==null) || (priorities.size()==0))
-				query.setParameter(1, null);
-			else
-				query.setParameter(1, priorities);
+				priorities =Arrays.asList("-1");
+	
+			query.setParameter(1, priorities);
 
 
 			if ((categories==null) || (categories.size()==0))
-				query.setParameter(2, null);
-			else
-				query.setParameter(2, categories);
+				categories =Arrays.asList("-1");
+
+			query.setParameter(2, categories);
 
 			//		*/	query.setParameter(2, category);
 //			query.setParameter(3, estado);

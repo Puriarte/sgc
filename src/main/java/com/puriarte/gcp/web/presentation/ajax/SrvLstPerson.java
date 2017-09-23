@@ -180,7 +180,7 @@ public class SrvLstPerson extends HttpServlet {
 				jSonItems += "\"Picture\": \"" + item.getPersonPicture() + "\",";
 				jSonItems += "\"Category\": \"" + item.getCategoryNames()  + "\",";
 				jSonItems += "\"PreferedCategory\": \"" + item.getPreferedCategoryName()  + "\",";
-				jSonItems += "\"Priority\": \"" + item.getPriority() + "\",";
+				jSonItems += "\"Priority\": \"" + ((item.getPriority()<0)?"":item.getPriority().toString()) + "\",";
 				jSonItems += "\"Saldo\": \"\"},";
 				}
 				catch(Exception e){}

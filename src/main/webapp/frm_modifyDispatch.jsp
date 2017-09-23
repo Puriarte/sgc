@@ -212,8 +212,22 @@
 					<logic:present name="frmAdmDispatch" property="colAssignment">
 						<bean:define id="listAssignment" name="frmAdmDispatch"	property="colAssignment" />
 						<logic:iterate id="assignment" name="listAssignment" indexId="index">
+						<c:choose>
+					    <c:when test="${assignment.status.id == 2}">
+					      <c:set var="bgcolor" value="${'#A9BCF5'}" />
+					    </c:when>
+					    <c:when test="${assignment.status.id ==5}">
+					        <c:set var="bgcolor" value="${'#CEF6E3'}" />
+					    </c:when>
+					    <c:when test="${assignment.status.id ==6}">
+					        <c:set var="bgcolor" value="${'#FA5858'}" />
+					    </c:when>
+					    <c:otherwise>
+					       <c:set var="bgcolor" value="${'white'}" />
+					    </c:otherwise>
+					</c:choose>
 							<c:set var="counter" value="${counter+1}" />
-							<div class="row" id="assignmentRow${counter}">
+							<div class="row" style="background-color: ${bgcolor}" id="assignmentRow${counter}">
 								<div class="col-md-4">
 									<label class="control-label input-sm">${assignment.personMovil.person.name}</label>
 									<input type="hidden" value="${assignment.id}"

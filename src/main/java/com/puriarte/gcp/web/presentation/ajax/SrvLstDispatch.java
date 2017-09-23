@@ -179,6 +179,11 @@ public class SrvLstDispatch extends HttpServlet {
 				else
 					jSonItems += "\"Name\": \"\",";
 	
+				if (item.getName()!=null)
+					jSonItems += "\"DispatchCode\": \"" +item.getCode() + "\",";
+				else
+					jSonItems += "\"DispatchCode\": \"\",";
+				
 				if (item.getDispatchStatus()!=null)
 					jSonItems += "\"DispatchStatus\": \"" + item.getDispatchStatus().getName() + "\"";
 				else

@@ -38,7 +38,7 @@ import javax.persistence.TemporalType;
         		+ "s.assignment.status.id = :status and "
         		+ "s.assignment is not null  and "
         		+ "s.assignment.job.dispatch.scheduledDate >= :receivedDate and " 
-        		+ " s.mensaje like s.assignment.job.dispatch.code  "
+        		+ " LOCATE (s.assignment.job.dispatch.code, :text)>0  "
         		+ " order by s.sentDate desc"),
         @NamedQuery(name="SelectRelatedFromDispatchSMSList",
         query="SELECT s FROM SMS s "

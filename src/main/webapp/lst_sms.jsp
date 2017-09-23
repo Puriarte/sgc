@@ -94,7 +94,7 @@
 								<option value="">Seleccione</option>
 								<logic:iterate name="frmLstSMS" property="convocatorias"
 									id="item" indexId="idx">
-									<option value="${item.id}">${item.name}</option>
+									<option value="${item.id}">${item.code} - ${item.name}</option>
 								</logic:iterate>
 						</select></li>
 					</ul>

@@ -43,6 +43,7 @@ public class SMStest {
 				.getInstance()
 				.SelectRelatedSMSList(
 						movil, 
+						"",
 						Facade.getInstance().selectAssingmentStatus(Constants.ASSIGNMENT_STATUS_ASSIGNED),
 						new Date(), 0, 1);
 		}catch(Exception e){

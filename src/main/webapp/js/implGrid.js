@@ -67,7 +67,7 @@ jQuery(document).ready(function(){
 	   	loadonce:false,
 	   	mtype: 'GET',
 	   	datatype: "local", // se usa local para que no cargue registros en el primer acceso a la grilla
-	   	colNames:['POS','ID','CLIENTE','IDDOCUMENTO', 'Fecha Creado','Numero','Nombre','Texto','Fecha Envio','Dir','Estado', 'Convocatoria'],
+	   	colNames:['POS','ID','CLIENTE','IDDOCUMENTO', 'Fecha Creado','Numero','Nombre','Texto','Fecha Envio','Dir','Estado', 'Cod', 'Convocatoria'],
 	   	colModel:[
    			{name:"POS"			,index:"1", key: true, 	jsonmap:"Pos", 		 align:"center", hidden:true,  width:10,  editable:false, sortable:false},
   			{name:"ID"			,index:"2", key: true, 	jsonmap:"Id", 		 align:"center", hidden:true,  width:100, editable:true, editoptions:{readonly:true,size:10}},
@@ -95,7 +95,8 @@ jQuery(document).ready(function(){
 					}
 			},
 			{name:"ESTADO",		index:"12", 	jsonmap:"Saldo", 	align:"center"	, fixed:true, editable:false, resizable:false, width:70 ,sortable:true,hidden:false},
-			{name:"CONVOCATORIA",index:"13", 	jsonmap:"Dispatch", align:"left"	, fixed:true,  width:270 , edittype:"select", editoptions:{ dataUrl:'selectDispatch'}, editrules:{required:true}, editable:true, resizable:false,sortable:true,hidden:false},	
+			{name:"CODIGO",		index:"13", 	jsonmap:"DispatchCode", 	align:"center"	, fixed:true, editable:false, resizable:false, width:40 ,sortable:true,hidden:false},
+			{name:"CONVOCATORIA",index:"14", 	jsonmap:"Dispatch", align:"left"	, fixed:true,  width:270 , edittype:"select", editoptions:{ dataUrl:'selectDispatch'}, editrules:{required:true}, editable:true, resizable:false,sortable:true,hidden:false},	
 			],
 	   	rowNum:60,
 	   	scrollOffset:50,
@@ -160,7 +161,7 @@ jQuery(document).ready(function(){
 			}
 			}
 		}
-	}).navGrid('#pagerArticulos',{edit:true,add:false,del:true,search: false}, editOptions, null, deleteOptions);
+	}).navGrid('#pagerArticulos',{edit:false,add:false,del:false,search: false}, editOptions, null, deleteOptions);
 
 
     function parseXMLAutocomplete(xml) {

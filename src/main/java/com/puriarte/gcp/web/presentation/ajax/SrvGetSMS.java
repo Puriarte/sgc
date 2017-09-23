@@ -27,7 +27,7 @@ import com.puriarte.convocatoria.core.domain.services.Facade;
 import com.puriarte.convocatoria.persistence.SMS;
 import com.puriarte.convocatoria.persistence.SMSIn;
 import com.puriarte.utils.date.DateUtils;
-//http://localhost:8083/getSMS?data={"id":"88901","encoding":"7","gateway_id":"myModem","message_date":"2017-09-22 17:00:19.665","original_receive_date":null,"original_ref_no":null,"originator":"098312914","process":"0","receive_date":"2017-09-22 17:00:39.805","text":"Si","type":"I","uu_id":"b2c1ffe7-f15c-481e-9b27-387a2961a9a3"}
+//http://localhost:8083/ROOT/getSMS?data={"id":"88901","encoding":"7","gateway_id":"myModem","message_date":"2017-09-22 17:00:19.665","original_receive_date":null,"original_ref_no":null,"originator":"098312914","process":"0","receive_date":"2017-09-22 17:00:39.805","text":"Si","type":"I","uu_id":"b2c1ffe7-f15c-481e-9b27-387a2961a9a3"}
 public class SrvGetSMS extends HttpServlet {
 
 	private String data;

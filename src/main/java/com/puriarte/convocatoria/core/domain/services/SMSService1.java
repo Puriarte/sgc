@@ -133,6 +133,8 @@ public class SMSService1 {
 			if(order.equals("direction"))	q.orderBy(cb.asc(sms.get("action")));
 			if(order.equals("status"))	q.orderBy(cb.asc(status.get("name")));
 			if(order.equals("dispatch"))	q.orderBy(cb.asc(dispatch.get("name")));
+			if(order.equals("dispatchCode"))	q.orderBy(cb.asc(dispatch.get("code")));
+
 			if(order.trim().equals("person.name asc, message")==true)
 				q.orderBy(cb.asc(person.get("name")));
 		}else{
@@ -144,6 +146,8 @@ public class SMSService1 {
 			if(order.equals("direction"))	q.orderBy(cb.desc(sms.get("action")));
 			if(order.equals("status"))	q.orderBy(cb.desc(status.get("name")));
 			if(order.equals("dispatch"))	q.orderBy(cb.desc(dispatch.get("name")));
+			if(order.equals("dispatchCode"))	q.orderBy(cb.desc(dispatch.get("code")));
+
 			if(order.trim().equals("person.name desc, message")==true)
 				q.orderBy(cb.desc(person.get("name")));
 		}
@@ -194,6 +198,7 @@ public class SMSService1 {
 			if(order.equals("direction"))	q.orderBy(cb.asc(sms.get("action")));
 			if(order.equals("status"))	q.orderBy(cb.asc(status.get("name")));
 			if(order.equals("dispatch"))	q.orderBy(cb.asc(dispatch.get("name")));
+			if(order.equals("dispatchCode"))	q.orderBy(cb.asc(dispatch.get("code")));
 			if(order.trim().equals("person.name asc, message")==true)
 				q.orderBy(cb.asc(person.get("name")));
 		}else{
@@ -205,6 +210,7 @@ public class SMSService1 {
 			if(order.equals("direction"))	q.orderBy(cb.desc(sms.get("action")));
 			if(order.equals("status"))	q.orderBy(cb.desc(status.get("name")));
 			if(order.equals("dispatch"))	q.orderBy(cb.desc(dispatch.get("name")));
+			if(order.equals("dispatchCode"))	q.orderBy(cb.desc(dispatch.get("code")));
 			if(order.trim().equals("person.name desc, message")==true)
 				q.orderBy(cb.desc(person.get("name")));
 		}
@@ -358,12 +364,13 @@ public class SMSService1 {
 	 * @param limit
 	 * @return
 	 */
-	public List<SMS> SelectRelatedSMSList(PersonMovil movil, AssignmentStatus assignmentStatus, Date receivedDate, Integer pos, Integer limit) {
+	public List<SMS> SelectRelatedSMSList(PersonMovil movil, String text, AssignmentStatus assignmentStatus, Date receivedDate, Integer pos, Integer limit) {
 
 		final EntityManager em = getEntityManager();
 
 		Query query = em.createNamedQuery("SMS.SelectRelatedSMSList")
-			.setParameter("movilId", movil.getId())
+				.setParameter("movilId", movil.getId())
+			.setParameter("text", text)
 			.setParameter("status", assignmentStatus.getId())
 			.setParameter("receivedDate" , receivedDate);
 		

@@ -79,10 +79,14 @@
 			<div class="row">
 				<div class="col-sm-3 col-md-2 sidebar">
 					<ul class="nav nav-sidebar">
-						<li class="active"><label class="control-label">Categor&iacute;a</label></li>
-						<li><select class="form-control" name="category"
+						<li class="active">
+							<div class="row">
+								<div class="col-md-8"><label class="control-label">Categor&iacute;a</label></div>
+								<div class="col-md-4"><a href="#" onclick="desmarcarSelect('categories')">Borrar</a></div>
+							</div>
+						</li>
+						<li><select class="form-control" name="category" multiple="multiple"
 							id="category" required>
-								<option value="">Seleccione</option>
 								<logic:iterate name="frmLstPerson" property="categories"
 									id="item" indexId="idx">
 									<option value="${item.id}">${item.name}</option>
@@ -90,10 +94,14 @@
 						</select></li>
 					</ul>
 					<ul class="nav nav-sidebar">
-						<li><label class="control-label">Orden&nbsp;Prelaci&oacute;n</label></li>
+						<li class="active">
+							<div class="row">
+								<div class="col-md-8"><label class="control-label">Orden&nbsp;Prelaci&oacute;n</label></div>
+								<div class="col-md-4"><a href="#" onclick="desmarcarSelect('priority')">Borrar</a></div>
+							</div>
+						</li>
 						<li><select class="form-control" name="priority"
-							id="priority" multiple="multiple" style="height: 50px">
-								<option value="">Todos</option>
+							id="priority" multiple="multiple" style="height: 80px">
 								<option value="0">0</option>
 								<option value="1">1</option>
 								<option value="2">2</option>

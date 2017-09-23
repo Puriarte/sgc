@@ -116,7 +116,7 @@ public class DispatchService1 {
 
 		if (order==null) order ="";
 
-		Query query = em.createNamedQuery("SelectSimpleDispatchList")
+		Query query = em.createNamedQuery("Dispatch.SelectSimpleDispatchList")
 				.setParameter("estado", estado);
 
 		if((pos!=null) && (limit!=null)) query.setFirstResult(pos).setMaxResults(limit);
@@ -131,6 +131,7 @@ public class DispatchService1 {
 			Dispatch aux1 = new Dispatch();
 			aux1.setId(Integer.parseInt(aux[0].toString()));
 			aux1.setName(aux[1].toString());
+			aux1.setCode(aux[2].toString());
 			dispatchList.add(aux1);
 		}
 		return dispatchList;
@@ -144,7 +145,7 @@ public class DispatchService1 {
 		if (order==null) order ="";
 
 		// select * from dispatch, person where 
-		Query query = em.createNamedQuery("SelectSimpleDispatchList")
+		Query query = em.createNamedQuery("Dispatch.SelectSimpleDispatchList")
 				.setParameter("idPersonMovil", idPersonMovil)
 				.setParameter("estado", estado);
 
@@ -160,6 +161,7 @@ public class DispatchService1 {
 			Dispatch aux1 = new Dispatch();
 			aux1.setId(Integer.parseInt(aux[0].toString()));
 			aux1.setName(aux[1].toString());
+			aux1.setCode(aux[2].toString());
 			dispatchList.add(aux1);
 		}
 		return dispatchList;

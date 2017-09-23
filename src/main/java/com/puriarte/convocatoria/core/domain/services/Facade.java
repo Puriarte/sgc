@@ -183,10 +183,10 @@ public class Facade {
 		}
 	}
 
-	public List<SMS> SelectRelatedSMSList(PersonMovil movil, 
+	public List<SMS> SelectRelatedSMSList(PersonMovil movil, String text, 
 			AssignmentStatus assignmentStatus, Date receivedDate, int pos,
 			int limit) {
-		return smsService.SelectRelatedSMSList(movil,  assignmentStatus,
+		return smsService.SelectRelatedSMSList(movil, text, assignmentStatus,
 				receivedDate, pos, limit);
 	}
 
@@ -307,6 +307,7 @@ public class Facade {
 					.getInstance()
 					.SelectRelatedSMSList(
 							movil, 
+							text,
 							selectAssingmentStatus(Constants.ASSIGNMENT_STATUS_ASSIGNED),
 							new Date(), 0, 1);
 			// List<SMS> smsList =

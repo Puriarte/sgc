@@ -243,7 +243,7 @@ jQuery(document).ready(function(){
 			}
 		}
 	}).navGrid('#pagerArticulos',{edit:true,add:true,del:false,search: false}, editOptions , addOptions)
-	.navButtonAdd("#pagerArticulos", {
+/*	.navButtonAdd("#pagerArticulos", {
 		    caption: "Modificar",
 		    buttonicon: "ui-icon-disk",
 		    onClickButton: function () {
@@ -253,7 +253,9 @@ jQuery(document).ready(function(){
 				}else alert("Seleccione una persona");
 		    },
 		    position: "last"
-		}).navButtonAdd('#pagerArticulos', {
+		})
+		*/
+	.navButtonAdd('#pagerArticulos', {
         caption: "Crear mensaje",
         buttonicon: "ui-icon-mail-open",
         onClickButton: function () {
@@ -548,3 +550,19 @@ function modificarCliente(){
 	}
 	return false;
 }
+
+
+function desmarcarSelect(selectName){
+
+	var selectbox = document.getElementById("priority");
+	if (!hasOptions(selectbox)) { return; }
+	for (var i=0; i<selectbox.options.length; i++) {
+		selectbox.options[i].selected = true;
+	}
+}
+
+function hasOptions(obj) {
+	if (obj!=null && obj.options!=null) { return true; }
+	return false;
+	}
+

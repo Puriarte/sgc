@@ -88,7 +88,8 @@ public class SrvLstSMS extends HttpServlet {
 		if (strSort.equals("10")) orderBy = "sentDate"; 
 		if (strSort.equals("11")) orderBy = "direction"; 
 		if (strSort.equals("12")) orderBy = "status"; 
-		if (strSort.equals("13")) orderBy = "dispatch"; 
+		if (strSort.equals("13")) orderBy = "dispatchCode"; 
+		if (strSort.equals("14")) orderBy = "dispatch"; 
 		
 		fechaInicio = getDateRequest(request, "fechaDesde");
 		fechaFin = getDateRequest(request, "fechaHasta");
@@ -178,11 +179,29 @@ public class SrvLstSMS extends HttpServlet {
 			else
 				jSonItems += "\"Saldo\": \"\",";
 
+			if ((item.getDispatch()!=null) &&  (item.getDispatch().getCode()!=null))
+				jSonItems += "\"DispatchCode\": \"" +  item.getDispatch().getCode() + "\",";
+			else
+				jSonItems += "\"DispatchCode\": \"\",";
+				
 			if (item.getDispatch()!=null)
 				jSonItems += "\"Dispatch\": \"" +   StringEscapeUtils.escapeHtml(item.getDispatch().getName()) + "\"},";
 			else
 				jSonItems += "\"Dispatch\": \"\"},";
 			}
+			
+			/*
+			 * 			if (item.getDispatch()!=null){
+				jSonItems += "\"Dispatch\": \"" + StringEscapeUtils.escapeHtml(item.getDispatch().getName()) + "\",";
+				if (item.getDispatch().getCode()!=null)
+					jSonItems += "\"DispatchCode\": \"" + item.getDispatch().getCode() + "\"}";
+				else
+					jSonItems += "\"DispatchCode\": \"" + item.getDispatch().getCode() + "\"}";
+			}else
+				jSonItems += "\"Dispatch\": \"\", \"DispatchCode\": \"\"}";
+			}
+
+			 */
 			catch(Exception e){}
 		}
 

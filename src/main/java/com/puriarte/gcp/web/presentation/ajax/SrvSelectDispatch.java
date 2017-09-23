@@ -47,8 +47,12 @@ public class SrvSelectDispatch extends RestrictionServlet {
         	 	
         	String strXml = "<select>";
         	for ( Dispatch dispatch : listItems ) {
+        		String stCode ="";
+        		if (dispatch.getCode()!=null){
+        			stCode= dispatch.getCode() + " ";
+        		}
 //        		strXml += "<option value='" + dispatch.getId() +"'>" + dispatch.getName().trim().replaceAll("á", "&aamp;").replaceAll("é", "&eamp;").replaceAll("í", "&iamp;").replaceAll("ó", "&oamp;").replaceAll("ú", "&uamp;")      + "</option>";
-        		strXml += "<option value='" + dispatch.getId() +"'>" + dispatch.getName().trim()     + "</option>";
+        		strXml += "<option value='" + dispatch.getId() +"'>" +  stCode + dispatch.getName().trim()     + "</option>";
         }
 
  	           strXml += "</select>";
