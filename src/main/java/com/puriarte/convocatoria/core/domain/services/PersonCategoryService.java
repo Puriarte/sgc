@@ -8,6 +8,7 @@ import javax.persistence.Query;
 
 import com.puriarte.convocatoria.persistence.EntityManagerHelper;
 import com.puriarte.convocatoria.persistence.PersonCategory;
+import com.puriarte.convocatoria.persistence.PersonCategoryAsociation;
 
 public class PersonCategoryService {
 	static private PersonCategoryService INSTANCE = null;
@@ -60,15 +61,13 @@ public class PersonCategoryService {
 			query.setHint("eclipselink.refresh", "true");
 			query.setHint("eclipselink.refresh.cascade", "CascadeAllParts");
 
-			List<PersonCategory> a = query.getResultList();
-
-			return a;
+			return new ArrayList<PersonCategory>(query.getResultList());
 		}catch(Exception e){
 			return null;
 		}
 	}
 
-	public ArrayList<PersonCategory> selectByPersonList(int idPerson) {
+	public ArrayList<PersonCategoryAsociation> selectByPersonList(int idPerson) {
 		final EntityManager em = getEntityManager();
 
 		try{
@@ -79,7 +78,7 @@ public class PersonCategoryService {
 			query.setHint("eclipselink.refresh", "true");
 			query.setHint("eclipselink.refresh.cascade", "CascadeAllParts");
 
-			ArrayList<PersonCategory> a = new ArrayList<PersonCategory> (query.getResultList());
+			ArrayList<PersonCategoryAsociation> a = new ArrayList<PersonCategoryAsociation> (query.getResultList());
 
 			return a;
 		}catch(Exception e){

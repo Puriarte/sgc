@@ -17,6 +17,7 @@ import com.puriarte.convocatoria.persistence.Dispatch;
 import com.puriarte.convocatoria.persistence.Job;
 import com.puriarte.convocatoria.persistence.Movil;
 import com.puriarte.convocatoria.persistence.Person;
+import com.puriarte.convocatoria.persistence.PersonCategory;
 import com.puriarte.convocatoria.persistence.PersonMovil;
 import com.puriarte.convocatoria.persistence.result.PersonMovilResult;
 
@@ -70,9 +71,9 @@ public class A4_TestPerson {
 
 	@Test
 	public void TestPerson() throws SQLException{
-		listarPersonAlMomento("LISTA DE PERSONAS AL INICIO");
-/*		modificarDatosPersona(37);
 		modificarDatosPersona(1);
+//		listarPersonAlMomento("LISTA DE PERSONAS AL INICIO");
+/*		modificarDatosPersona(37);
 	*/}
 
 	
@@ -84,7 +85,10 @@ public class A4_TestPerson {
 		try{
 			PersonMovil p = Facade.getInstance().selectPersonMovilWithCategories(i);
 			p.getPerson().clearCategories();
-			p.getPerson().addCategory(Facade.getInstance().selectPersonCategory(1));
+			PersonCategory pc = Facade.getInstance().selectPersonCategory(1);
+		//	p.addCategory(pc);
+			
+//			p.getPerson().addCategory(Facade.getInstance().selectPersonCategory(1));
 			Facade.getInstance().updatePersonMovil(p, "098312914");
 		}catch(Exception e ){
 			e.printStackTrace();

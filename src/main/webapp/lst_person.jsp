@@ -60,7 +60,7 @@
 <script src="js/ajax/jquery.ajaxfileupload.js" type="text/javascript"></script>
 
 <script
-	src="js/personGrid.js?var=<%=com.jcabi.manifests.Manifests.read("App-Version")%>"
+	src="js/personGrid.js?var=<%=com.jcabi.manifests.Manifests.read("App-Version")%>2"
 	type="text/javascript"></script>
 </head>
 

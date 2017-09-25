@@ -60,15 +60,34 @@ public class Person {
 	@Transient
 	private String selectedMovil;
 
+
+    @OneToMany(mappedBy = "person" , cascade = CascadeType.PERSIST)
+    private List<PersonCategoryAsociation> categories;
+
+    public void addPersonCategory(PersonCategory personCategory, Integer priority){
+    	PersonCategoryAsociation association = new PersonCategoryAsociation();
+    	 association.setPersonCategory(personCategory);
+    	 association.setPerson(this);
+    	 association.setIdPersonCategory(personCategory.getId());
+    	 association.setIdPerson(this.getId());
+    	 association.setPriority(priority);
+    	 if(this.categories == null)
+    		 this.categories= new ArrayList<>();
+
+    	 this.categories.add(association);
+    }
+    
+	/*
 	@ManyToMany
     @JoinTable(name="personpersoncategory",
     	     joinColumns=@JoinColumn(name="idperson", referencedColumnName="ID"),
     	     inverseJoinColumns=@JoinColumn(name="idpersoncategory", referencedColumnName="ID"))
     private List<PersonCategory> categories = new ArrayList<>();
 	
-	public List<PersonCategory> getCategories() { return categories; }
-	
-	
+	*/
+
+	public List<PersonCategoryAsociation> getCategories() { return categories; }
+
 	public DocumentType getDocumentType() {
 		return documentType;
 	}
@@ -151,13 +170,10 @@ public class Person {
 	}
 
 
-	public void setCategories(List<PersonCategory> categories) {
+	public void setCategories(List<PersonCategoryAsociation> categories) {
 		this.categories = categories;
 	}
 
-	public void addCategory(PersonCategory personCategory){
-		this.categories.add(personCategory);
-	}
 
 
 	public void clearCategories() {

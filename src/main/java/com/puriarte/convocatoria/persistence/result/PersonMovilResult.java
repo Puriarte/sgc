@@ -10,6 +10,7 @@ import javax.persistence.Id;
 
 import com.puriarte.convocatoria.persistence.Person;
 import com.puriarte.convocatoria.persistence.PersonCategory;
+import com.puriarte.convocatoria.persistence.PersonCategoryAsociation;
 
 public class PersonMovilResult implements javax.persistence.EntityResult{
 
@@ -24,7 +25,7 @@ public class PersonMovilResult implements javax.persistence.EntityResult{
 	private String categoryName;
 	private String preferedCategoryName;
 	private Integer priority;
-	private ArrayList<PersonCategory> categories;
+	private ArrayList<PersonCategoryAsociation> categories;
 
 	public PersonMovilResult(){
 	}
@@ -130,19 +131,19 @@ e.printStackTrace();
 	}
 
 
-	public ArrayList<PersonCategory> getCategories() {
+	public ArrayList<PersonCategoryAsociation> getCategories() {
 		return categories;
 	}
 
-	public void setCategories(ArrayList<PersonCategory> categories) {
+	public void setCategories(ArrayList<PersonCategoryAsociation> categories) {
 		this.categories = categories;
 	}
 
 	public String getCategoryNames() {
 		String value="";
-		for(PersonCategory pc: categories){
+		for(PersonCategoryAsociation pc: categories){
 			if (pc!=null)
-				value+=pc.getName() + ", ";
+				value+=pc.getPersonCategory().getName() + "(" + pc.getPriority() + "), ";
 		}
 		if(value.length()>0) value=value.substring(0,value.length()-2);
 		return value;

@@ -33,7 +33,7 @@
 		<property name="eclipselink.ddl-generation.output-mode" value="database"/>
 		 -->
 		 <property name="eclipselink.ddl-generation.output-mode" value="sql-script"/>
-		 <property name="eclipselink.logging.level" value="FINEST" />
+		 <property name="eclipselink.logging.level" value="FINE" />
 		   <property name="eclipselink.cache.shared.default" value="false"/>
          <property name="eclipselink.cache.size.default" value="0"/>
         <property name="eclipselink.cache.type.default" value="None"/>

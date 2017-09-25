@@ -52,7 +52,8 @@ import com.puriarte.convocatoria.persistence.result.PersonMovilResult;
 @NamedNativeQueries({
 	@NamedNativeQuery(name = "PersonMovil.SelectPersonMovilList", 
 //			query = "SELECT t0.ID as PERSONMOVIL_ID, t1.NUMBER as MOVIL_NUMBER, t2.DOCUMENTNUMBER as DOCUMENT_NUMBER,  t3.NAME as DOCUMENT_TYPE, t2.NAME as PERSON_NAME,  t2.NICKNAME as PERSON_NICKNAME, t2.PICTURE as PERSON_PICTURE, t2.PRIORITY as PRIORITY, T4.NAME AS CATEGORY_NAME  FROM PERSONCATEGORY t4, DOCUMENTTYPE t3, PERSON t2, MOVIL t1, PERSONMOVIL t0  WHERE (t2.ID = t0.idPerson)  AND (t1.ID = t0.idMovil)  AND (t3.ID = t2.idDocumentType)  AND (t4.ID = t2.idPersonCategory) "
-			query = "  SELECT t0.ID as PERSONMOVIL_ID, t1.NUMBER as MOVIL_NUMBER, t2.DOCUMENTNUMBER as DOCUMENT_NUMBER, "
+			query = "  SELECT * FROM ( "
+					+ "SELECT t0.ID as PERSONMOVIL_ID, t1.NUMBER as MOVIL_NUMBER, t2.DOCUMENTNUMBER as DOCUMENT_NUMBER, "
 					+ " COALESCE(t3.NAME , '' ) as DOCUMENT_TYPE, COALESCE(t2.NAME, '' ) as PERSON_NAME, " +
 					" COALESCE(t2.NICKNAME, '' ) as PERSON_NICKNAME, COALESCE(t2.PICTURE, '' ) as PERSON_PICTURE, COALESCE(t2.PRIORITY , -1) as PRIORITY, COALESCE(T4.NAME, '' ) AS CATEGORY_NAME " +
 					" FROM PERSONCATEGORY t4, DOCUMENTTYPE t3, PERSON t2, MOVIL t1, PERSONMOVIL t0 " +
@@ -61,9 +62,20 @@ import com.puriarte.convocatoria.persistence.result.PersonMovilResult;
 					" AND (t3.ID = t2.idDocumentType) " + 
 					" AND (t4.ID = t2.idPersonCategory) " +
 					" AND ((-1 IN ?1) or (t2.PRIORITY IN ?1)) "  + 
-					" AND ((-1 IN ?2) or (t0.idPerson IN (select idPerson from personpersoncategory where idPersoncategory in ?2)) ) "  
+					" AND ((-1 IN ?2) or (t0.idPerson IN (select idPerson from personpersoncategory where idPersoncategory in ?2)) ) "
+					+ ") AS q"
+					+ " order by "
+					+ "		CASE WHEN(?3) = 'document_type,document_number' THEN document_number "
+					+ "		 WHEN(?3) =  'movil_number' THEN movil_number "
+					+ "		 WHEN(?3) =  'document_number' THEN document_number "
+					+ "		 WHEN(?3) =  'person_name' THEN person_name "
+					+ "		 WHEN(?3) =  'person_nickname' THEN person_nickname "
+					+ "		 WHEN(?3) =  'category_name' THEN category_name "
+					+ "		 WHEN(?3) =  'priority' THEN CAST (priority AS text)   "
+					+ " END "
 					, resultSetMapping = "PersonMovilResult"),
 })
+
 
 @Entity
 public class PersonMovil {

@@ -30,12 +30,6 @@
       <script src="js/html5shiv.min.js"></script>
       <script src="js/respond.min.js"></script>
     <![endif]-->	
-    	<script src="http://cdn.jsdelivr.net/webshim/1.12.4/polyfiller.js"></script>
-	<script>
-	  webshims.setOptions('waitReady', false);
-	  webshims.setOptions('forms-ext', {types: 'date'});
-	  webshims.polyfill('forms forms-ext');
-	</script>
     
     <style>
 	 
@@ -59,7 +53,7 @@
 	}    
 	</style>
 	<script
-	src="js/personGrid.js?var=<%=com.jcabi.manifests.Manifests.read("App-Version")%>11"
+	src="js/personGrid.js?var=<%=com.jcabi.manifests.Manifests.read("App-Version")%>"
 	type="text/javascript"></script>
 </head>
 
@@ -101,7 +95,8 @@
                     <td colspan="3"><input id="SOBRENOMBRE" name="SOBRENOMBRE" type="text" placeholder="" class="form-control input-md" value="${stSobreNombre}"></td>
                 </tr>
                 <tr id="categoryModel" >
-                	<td><html:file property="IMG" style="width:150px;"/></td>
+                	<td><input type="file" enctype="multipart/form-data" style="width:200px; display:none;"  id="IMG" name="IMG" class="FormElement" />
+                	<input type="button" value="Select an Image" onclick="$('#IMG').click();" /></td>
                     <td><label class="col-md-2 control-label input-sm" for="NUMERO">Categor&iacute;a Preferida</label>  </td>
                     <td>
 	                    <select class="form-control input-sm" name="CATEGORIA PREFERIDA" id="CATEGORIA PREFERIDA">
@@ -124,7 +119,7 @@
 				<c:set var="counter" value="${counter+1}" />
 				<tr >
                     <td><label class="col-md-2 control-label input-sm" for="NUMERO">Otras Categorias</label>  </td>
-                    <td><button  class="btn btn-sm btn-primary btn-block" id="btnborrar"
+                    <td><label class="col-md-2 control-label input-sm" for="NUMERO"></label><button  class="btn btn-sm btn-primary btn-block" id="btnborrar"
 							type="button" onclick="deleteCategoryRow(this);return false;" >Borrar</button></td>
                     <td>
 	                    <select class="form-control input-sm" name="CATEGORIA_${counter}" id="CATEGORIA_${counter}">
@@ -149,11 +144,24 @@
 		</div>
 	</div>			
 
-
-	<button id="btnAddaAsignment" type="button"  style="display:none;"
+	<table class="table table-bordered">
+	<tr>
+		<td>
+					<button class="btn btn-sm btn-primary btn-block"
+							id="btnAddaAsignment" type="button"
 							onclick="addCategoryRow(this, ${counter});return false;">Agregar
 							Categor&iacute;a</button>
-	<button  id="btnEnviar" style="display:none;" type="submit" >Guardar</button>
+		</td>
+		<td>
+				<button  class="btn btn-sm btn-primary btn-block" id="btnEnviar"
+							type="submit" >Guardar</button>
+		</td>
+		<td>
+				<button  class="btn btn-sm btn-primary btn-block" id="btnCancel"
+							type="button" onclick="this.window.close();" >Cancelar</button>
+		</td>
+	</tr>
+	</table>
 
 	</html:form>
 </div>

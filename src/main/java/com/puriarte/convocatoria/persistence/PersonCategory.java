@@ -11,7 +11,7 @@ import javax.persistence.*;
 	  @NamedQuery(name="SelectPersonCategory",
 		  query="SELECT pc FROM PersonCategory pc WHERE pc.id = :id"),
 	  @NamedQuery(name="PersonCategory.SelectPersonCategoryList",
-	  	query="SELECT pc FROM PersonCategory pc order by pc.name "),
+	  	query="SELECT pc FROM PersonCategory pc order by pc.name " ),
 	  @NamedQuery(name="PersonCategory.SelectPersonCategoryByPersonList",
 		query="SELECT pc FROM PersonCategory pc where pc.id = :category order by pc.name "),
 	})
@@ -25,9 +25,13 @@ public class PersonCategory implements Serializable {
 
 	private String name;
 	
+	@OneToMany(mappedBy = "personCategory" , cascade = CascadeType.PERSIST , orphanRemoval = true )
+	private List<PersonCategoryAsociation> persons;
+	
+	/*
 	@ManyToMany(mappedBy = "categories")
 	private List<Person> persons = new ArrayList<>();
-	 
+*/	 
 	public PersonCategory() {
 	}
 
@@ -51,13 +55,16 @@ public class PersonCategory implements Serializable {
 		this.name = name;
 	}
 
-	public List<Person> getPersons() {
+	public List<PersonCategoryAsociation> getPersons() {
 		return persons;
 	}
 
-	public void setPersons(List<Person> persons) {
+	public void setPersons(List<PersonCategoryAsociation> persons) {
 		this.persons = persons;
 	}
 
+	public void remove(PersonCategoryAsociation pc) {
+		persons.remove(pc);
+	}
 
 }

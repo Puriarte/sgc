@@ -149,8 +149,8 @@
 		<form-property name="RNDNAME" type="java.lang.String" />
 		<form-property name="FOTO" type="java.lang.String" />
 		<form-property name="CATEGORIAS" type="java.util.ArrayList" />
+		<form-property name="COLCATEGORIAS" type="java.util.ArrayList" />
 		<form-property name="CATEGORIA PREFERIDA" type="java.lang.Integer" />
-
 	</form-bean>
 
 	<form-bean dynamic="true" name="frmSchool" type="org.apache.struts.action.DynaActionForm">

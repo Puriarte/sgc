@@ -5,6 +5,7 @@ var documento_fac=2;
 var documento_nc=3;
 var documento_fav=11;
 var documento_pag=21;
+var counter = 0;
 var urlReload = "lstPerson";
 var formName = "#frmLstPerson";
 var rndNAme= "";
@@ -164,23 +165,23 @@ jQuery(document).ready(function(){
 	   	loadonce:false,
 	   	mtype: 'GET',
 	   	datatype: "local", // se usa local para que no cargue registros en el primer acceso a la grilla
-	 	colNames:['POS','ID', 'FOTO' ,'NUMERO','TIPO DOC.','NRO DOCUMENTO','NOMBRE','SOBRENOMBRE','CATEGORIA', 'CATEGORIA PREFERIDA', 'ORDEN PRELACION', 'IMG', 'RNDNAME'],
+	 	colNames:['POS','ID', 'FOTO' ,'NUMERO','TIPO DOC.','NRO DOCUMENTO','NOMBRE','SOBRENOMBRE', 'CATEGORIA PREFERIDA', 'ORDEN PRELACION', 'OTRAS CATEGORIAS', 'IMG', 'RNDNAME'],
 	   	colModel:[
-   			{name:"POS",			index:"1", key: false, jsonmap:"Pos", 		align:"center", 			width:10,  hidden:true, sortable:false},
-   			{name:'ID',				index:'2', key: true,  jsonmap:"Id",									width:55,  editable:true, editoptions:{readonly:true,size:10},hidden:true},
-   			{name:'FOTO', 			index:'3', key: false, jsonmap:"Picture", 	width: 15, 			align:"center", editable: true, edittype: 'image', editoptions: {src: ''}, formatter: function (cell, options) { 
+   			{name:"POS",			index:"1", key: false, jsonmap:"Pos", 		align:"center", 			width:10, hidden:true, sortable:false},
+   			{name:'ID',				index:'2', key: true,  jsonmap:"Id",									width:55, hidden:true},
+   			{name:'FOTO', 			index:'3', key: false, jsonmap:"Picture", 	width: 15, 	align:"center", formatter: function (cell, options) { 
    				return '<img width="25px" src="./uploads/flag_chica_' +  cell + '.jpg"/>'; 
    				}},
-   			{name:"NUMERO",			index:"4", key: false, jsonmap:"Numero", 	align:"center", editable: true, fixed:true, width:80,  resizable:false, sortable:true,hidden:false},
-			{name:"TIPO DOC.",		index:"5", key: false, jsonmap:"FechaEnvio",align:"center", fixed:true, width:80,  sortable:true,resizable:false,  hidden:false},
-			{name:"NRO DOCUMENTO",	index:"6", key: false, jsonmap:"Texto", 	align:"left", 	fixed:true, width:120, resizable:false, sortable:true,hidden:false, editable:true },
-			{name:"NOMBRE",			index:"7", key: false, jsonmap:"Name", 		align:"center", fixed:true, width:150, resizable:false, sortable:true,hidden:false, editable: true },
-			{name:"SOBRENOMBRE",	index:"8", key: false, jsonmap:"Nickname", 	align:"center", fixed:true, width:100, resizable:false, sortable:true,hidden:false, editable: true},
-			{name:"CATEGORIA",		index:"9", key: false, jsonmap:"Category", 	edittype:"select", editoptions:{ multiple:true, dataUrl:'lstPersonCategory?multiple=1'}, editrules:{required:true}, width:90 , editable: true},
-			{name:"CATEGORIA PREFERIDA",index:"10", key: false, jsonmap:"PreferedCategory", 	edittype:"select", editoptions:{ dataUrl:'lstPersonCategory?multiple=1'}, editrules:{required:true}, width:90 , editable: true},
-			{name:"ORDEN PRELACION",index:"11",key: false, jsonmap:"Priority", 	align:"center", fixed:true, resizable:false, width:140 ,sortable:true,hidden:false, editable: true},
-			{name:'IMG', 			index:"12", align: 'left', editable: true,   width:1, edittype: 'file', editoptions: { enctype: "multipart/form-data" }, search: false }, 
-			{name:'RNDNAME', 		index:"13", align: 'left', jsonmap:"Picture",  editable: true, hidden:true, width:0}, 
+   			{name:"NUMERO",			index:"4", key: false, jsonmap:"Numero", 	align:"center", fixed:true, width:80,  resizable:false, sortable:true, sorttype:'number' , hidden:false},
+			{name:"TIPO DOC.",		index:"5", key: false, jsonmap:"FechaEnvio",align:"center", fixed:true, width:80,  sortable:true, resizable:false,  hidden:false},
+			{name:"NRO DOCUMENTO",	index:"6", key: false, jsonmap:"Texto", 	align:"left", 	fixed:true, width:120, resizable:false, sortable:true, sorttype:'number', hidden:false },
+			{name:"NOMBRE",			index:"7", key: false, jsonmap:"Name", 		align:"center", fixed:true, width:150, resizable:false, sortable:true,hidden:false },
+			{name:"SOBRENOMBRE",	index:"8", key: false, jsonmap:"Nickname", 	align:"center", fixed:true, width:100, resizable:false, sortable:true,hidden:false},
+			{name:"CATEGORIA PREFERIDA",index:"10", key: false, jsonmap:"PreferedCategory", width:90},
+			{name:"ORDEN PRELACION",index:"11",key: false, jsonmap:"Priority", 	align:"center", fixed:true, resizable:false, width:140 ,sortable:true,hidden:false},
+			{name:"OTRAS CATEGORIAS",		index:"9", key: false, jsonmap:"Category", width:90},
+			{name:'IMG', 			index:"12", align: 'left', width:1,  search: false }, 
+			{name:'RNDNAME', 		index:"13", align: 'left', jsonmap:"Picture",  hidden:true, width:0}, 
 		],
 		rowNum:60,
 	   	scrollOffset:50,
@@ -242,8 +243,16 @@ jQuery(document).ready(function(){
 			}
 			}
 		}
-	}).navGrid('#pagerArticulos',{edit:true,add:true,del:false,search: false}, editOptions , addOptions)
-/*	.navButtonAdd("#pagerArticulos", {
+	}).navGrid('#pagerArticulos',{edit:false,add:false,del:false,search: false}, editOptions , addOptions)
+	.navButtonAdd("#pagerArticulos", {
+		    caption: "Agregar",
+		    buttonicon: "ui-icon-disk",
+		    onClickButton: function () {
+		    	agregarCliente();
+		    },
+		    position: "last"
+		})
+	.navButtonAdd("#pagerArticulos", {
 		    caption: "Modificar",
 		    buttonicon: "ui-icon-disk",
 		    onClickButton: function () {
@@ -254,7 +263,6 @@ jQuery(document).ready(function(){
 		    },
 		    position: "last"
 		})
-		*/
 	.navButtonAdd('#pagerArticulos', {
         caption: "Crear mensaje",
         buttonicon: "ui-icon-mail-open",
@@ -532,8 +540,8 @@ function modificarCliente(){
 		$("#accion").val("cargar");
 		var personId = jQuery("#gridArticulos").jqGrid('getGridParam','selrow');
 		refDialogIframe = $('<iframe id="ifModCliente" frameborder="0" marginwidth="0px" marginheight="0px" src="updatePerson.do?accion=load&ID=' + personId + '"/>').dialog({
-			resizable: false,
-			width:800,
+			resizable: true,
+			width:775,
 			height:500,
 			modal: true,
 			title: "Modificar Persona",
@@ -543,8 +551,59 @@ function modificarCliente(){
 			},
 			close: function(event, ui) {
 				$('body').css('overflow','auto');
+			},
+			buttons: {
+				"Aceptar": function() {
+					refDialogIframe["0"].contentDocument.getElementById("btnEnviar").click();
+					$( this ).dialog( "close" );
+					$("#lk_actualizar").click();
+				},
+				"Agregar Categoria": function() {
+					refDialogIframe["0"].contentDocument.getElementById("btnAddaAsignment").click();
+				},
+				"Cancelar": function() {
+					$( this ).dialog( "close" );
+				}
 			}
-		}).width(800).height(500);
+		}).width(775).height(500);
+	}catch(Exception){
+		alert(Exception.message);
+	}
+	return false;
+}
+
+
+function agregarCliente(){
+	try{
+		$("#accion").val("cargar");
+		var personId = jQuery("#gridArticulos").jqGrid('getGridParam','selrow');
+		refDialogIframe = $('<iframe id="ifModCliente" frameborder="0" marginwidth="0px" marginheight="0px" src="updatePerson.do?accion=load&ID=' + '"/>').dialog({
+			resizable: true,
+			width:775,
+			height:500,
+			modal: true,
+			title: "Modificar Persona",
+			open: function(event, ui){
+				$('body').css('overflow','hidden');
+				$('.ui-widget-overlay').css('width','100%');
+			},
+			close: function(event, ui) {
+				$('body').css('overflow','auto');
+			},
+			buttons: {
+				"Aceptar": function() {
+					refDialogIframe["0"].contentDocument.getElementById("btnEnviar").click();
+					$( this ).dialog( "close" );
+					$("#lk_actualizar").click();
+				},
+				"Agregar Categoria": function() {
+					refDialogIframe["0"].contentDocument.getElementById("btnAddaAsignment").click();
+				},
+				"Cancelar": function() {
+					$( this ).dialog( "close" );
+				}
+			}
+		}).width(775).height(500);
 	}catch(Exception){
 		alert(Exception.message);
 	}
@@ -554,10 +613,10 @@ function modificarCliente(){
 
 function desmarcarSelect(selectName){
 
-	var selectbox = document.getElementById("priority");
+	var selectbox = document.getElementById(selectName);
 	if (!hasOptions(selectbox)) { return; }
 	for (var i=0; i<selectbox.options.length; i++) {
-		selectbox.options[i].selected = true;
+		selectbox.options[i].selected = false;
 	}
 }
 
@@ -566,3 +625,41 @@ function hasOptions(obj) {
 	return false;
 	}
 
+
+function addCategoryRow(element, elementCounter){
+	
+	
+	try{
+		if (counter==0)	counter = elementCounter;
+		counter = counter +1;
+		
+		var tr = document.createElement('tr');
+
+		var innerTr= document.createElement('tr');
+		innerTr.innerHTML=document.getElementById("categoryModel").innerHTML;
+
+		innerTr.childNodes[1].innerHTML="";
+		innerTr.childNodes[2].innerHTML="";
+		innerTr.childNodes[3].innerHTML="<button  class='btn btn-sm btn-primary btn-block' id='btnborrar' type='button' onclick='deleteCategoryRow(this);return false;'>Borrar</button>";
+		innerTr.childNodes[5].childNodes[1].id ="CATEGORIA_" + counter;
+		innerTr.childNodes[5].childNodes[1].name ="CATEGORIA_" + counter;
+
+		innerTr.childNodes[9].childNodes[0].id ="ORDEN PRELACION_" + counter;
+		innerTr.childNodes[9].childNodes[0].name ="ORDEN PRELACION_" + counter;
+
+		document.getElementById("personTable").appendChild(innerTr);
+
+
+	}catch(E){
+		
+	}
+		
+	
+}
+
+function deleteCategoryRow(element){
+	try{
+		element.parentElement.parentElement.remove();
+	}catch(E){
+	}
+}

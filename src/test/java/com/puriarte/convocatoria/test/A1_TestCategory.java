@@ -28,7 +28,7 @@ public class A1_TestCategory {
 	@Test
 	public void pruebaDeMensajesRecibidosParaRegistro() throws ParseException, SQLException{
 		listarCategoriasAlMomento("LISTA DE CATEGORIAS AL INICIO");
-
+		/*
 		System.out.println("AGREGO CATEGORIA " + category1);
 		PersonCategory cat = new PersonCategory();
 		cat.setName(category1);;
@@ -47,13 +47,13 @@ public class A1_TestCategory {
 		Facade.getInstance().removePersonCategory(cat1);
 
 		listarCategoriasAlMomento("LISTA DE CATEGORIAS AL ELIMINAR CATEGORIA"+ category2);
-
+*/
 	}
 
 
 	private void listarCategoriasAlMomento(String mensaje){
 
-		List<PersonCategory> categories = Facade.getInstance().selectPersonCategoryList();
+		ArrayList<PersonCategory> categories = (ArrayList<PersonCategory> )Facade.getInstance().selectPersonCategoryList();
 		System.out.println(mensaje);
 		if (categories!=null){
 		for(PersonCategory aux : categories){

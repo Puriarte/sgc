@@ -197,11 +197,11 @@ public class Facade {
 	}
 
 	public List<PersonMovilResult> selectPersonMovilList(List<String> priorities,
-			List<String>  categories, int estado, String order, Integer pos, Integer limit) {
+			List<String>  categories, int estado, String order, String asc, Integer pos, Integer limit) {
 
 		
 		List<PersonMovilResult> values = personMovilService.selectList(priorities, categories, estado,
-				order, pos, limit);
+				order, asc, pos, limit);
 		
 		for(PersonMovilResult result : values){
 			result.setCategories(personCategoryService.selectByPersonList(result.getId()) );
@@ -669,6 +669,16 @@ public class Facade {
 
 	}
 
+	public void updatePerson(Person person, String movilNumber) {
+		this.personMovilService.updatePerson(person, movilNumber);
+
+	}
+	
+	public void celanPersonCategories(int idperson) {
+		this.personMovilService.celanPersonCategories(idperson);
+
+	}
+	
 	// ASSIGNMENT STATUS
 	public AssignmentStatus selectAssingmentStatus(int id) {
 		return this.assignmentStatusService.select(id);

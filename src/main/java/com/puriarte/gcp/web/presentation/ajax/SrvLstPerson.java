@@ -102,14 +102,14 @@ public class SrvLstPerson extends HttpServlet {
 
 		//Armo el criterio en que se quiere ordenar
 		if(strSort != null) {
-			if(strSort.equals("3"))  orderBy = "movil.number " + strOrder;
-			else if (strSort.equals("4")) orderBy = "person.documentType.name " + strOrder + ", person.documentNumber " + strOrder;
-			else if (strSort.equals("5")) orderBy = "person.documentNumber " + strOrder;
-			else if (strSort.equals("6")) orderBy = "person.name " + strOrder;
-			else if (strSort.equals("7")) orderBy = "person.nickname " + strOrder;
-			else if (strSort.equals("8")) orderBy = "person.category.name " + strOrder;
-			else if (strSort.equals("9")) orderBy = "priority " + strOrder;
-			else  orderBy = "person.name " + strOrder;
+			if(strSort.equals("4"))  orderBy = "movil_number"; // + strOrder;
+			else if (strSort.equals("5")) orderBy = "document_type,document_number" ; //+ strOrder;
+			else if (strSort.equals("6")) orderBy = "document_number" ; //+ strOrder;
+			else if (strSort.equals("7")) orderBy = "person_name" ; //+ strOrder;
+			else if (strSort.equals("8")) orderBy = "person_nickname" ; //+ strOrder;
+			else if (strSort.equals("10")) orderBy = "category_name" ; //+ strOrder;
+			else if (strSort.equals("11")) orderBy = "priority"; // + strOrder;
+			else  orderBy = "person_name"; // + strOrder;
 		}
 
 		//	Datos de filtors para la consulta
@@ -160,7 +160,7 @@ public class SrvLstPerson extends HttpServlet {
 	}
 
 	private String procesar() throws Exception {
-		List<PersonMovilResult> resultados = Facade.getInstance().selectPersonMovilList(priorities, categories ,estado,orderBy,  null,null);
+		List<PersonMovilResult> resultados = Facade.getInstance().selectPersonMovilList(priorities, categories ,estado,orderBy, strOrder,   null,null);
 		String jSonItems="";
 		int i=0;
 

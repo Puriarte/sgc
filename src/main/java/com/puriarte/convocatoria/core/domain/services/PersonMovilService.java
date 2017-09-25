@@ -3,6 +3,7 @@ package com.puriarte.convocatoria.core.domain.services;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -16,6 +17,7 @@ import javax.persistence.criteria.Root;
 
 import org.eclipse.persistence.config.HintValues;
 import org.eclipse.persistence.config.QueryHints;
+import org.eclipse.persistence.jpa.config.NamedNativeQuery;
 
 import com.puriarte.convocatoria.persistence.EntityManagerHelper;
 import com.puriarte.convocatoria.persistence.Job;
@@ -145,11 +147,12 @@ public class PersonMovilService {
 	}
 
 	
-	public List<PersonMovilResult> selectList(List<String> priorities, List<String>  categories ,int estado, String orderByColumn, Integer pos, Integer limit) {
+	public List<PersonMovilResult> selectList(List<String> priorities, List<String>  categories ,int estado, String orderByColumn, String asc, Integer pos, Integer limit) {
 		
 		final EntityManager em = getEntityManager();
 		em.getEntityManagerFactory().getCache().evictAll();
 		try {
+
 			Query query = em.createNamedQuery("PersonMovil.SelectPersonMovilList" , PersonMovilResult.class);
 			
 			if ((priorities==null) || (priorities.size()==0))
@@ -162,6 +165,7 @@ public class PersonMovilService {
 				categories =Arrays.asList("-1");
 
 			query.setParameter(2, categories);
+			query.setParameter(3, orderByColumn);
 
 			//		*/	query.setParameter(2, category);
 //			query.setParameter(3, estado);
@@ -172,7 +176,12 @@ public class PersonMovilService {
 			query.setHint("eclipselink.refresh", "true");
 			query.setHint("eclipselink.refresh.cascade", "CascadeAllParts");
 	*/		
-			return query.getResultList();
+			ArrayList<PersonMovilResult> listaResultados = (ArrayList<PersonMovilResult>) query.getResultList();
+			
+			if (asc.equals("desc"))
+				Collections.reverse(listaResultados);
+
+			return listaResultados;
 		} catch (Exception se) {
 			return null;
 		}
@@ -317,13 +326,35 @@ public class PersonMovilService {
 		final EntityManager em = getEntityManager();
 
 		person.getMovil().setNumber(movilNumber);
-		
+/*		em.getTransaction().begin();
+		em.createNativeQuery("DELETE FROM personpersoncategory where idPerson = "  + person.getPerson().getId()).executeUpdate();
+		em.getTransaction().commit();
+*/		
 		em.getTransaction().begin();
 		em.persist(person);
 		em.getTransaction().commit();
+		
+	}
+	
 
+	public void celanPersonCategories(int idperson) {
+		
+		final EntityManager em = getEntityManager();
+
+		em.getTransaction().begin();
+		em.createNativeQuery("DELETE FROM personpersoncategory where idPerson = "  + idperson).executeUpdate();
+		em.getTransaction().commit();
 		
 	}
 
+	public void updatePerson(Person person, String movilNumber) {
+		
+		final EntityManager em = getEntityManager();
+
+		em.getTransaction().begin();
+		em.persist(person);
+		em.getTransaction().commit();
+		
+	}
 
 }
