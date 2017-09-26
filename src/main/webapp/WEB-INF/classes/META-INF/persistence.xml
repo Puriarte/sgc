@@ -13,6 +13,7 @@
 		<class>com.puriarte.convocatoria.persistence.MovilStatus</class>
 		<class>com.puriarte.convocatoria.persistence.Person</class>
 		<class>com.puriarte.convocatoria.persistence.PersonCategory</class>
+		<class>com.puriarte.convocatoria.persistence.PersonCategoryAsociation</class>
 		<class>com.puriarte.convocatoria.persistence.PersonMovil</class>
 
 		<class>com.puriarte.convocatoria.persistence.Place</class>
@@ -24,7 +25,7 @@
 		<class>com.puriarte.convocatoria.persistence.BulkSMS</class>
 
 	<properties>
- 		<property name="javax.persistence.jdbc.url" value="jdbc:postgresql://127.0.0.1:5433/sgc"/>
+ 		<property name="javax.persistence.jdbc.url" value="jdbc:postgresql://172.16.2.205:5432/sgc"/>
 		<property name="javax.persistence.jdbc.user" value="admin9hhrrb4"/>
 		<property name="javax.persistence.jdbc.password" value="PD6FPqPsFiYD"/>
 		<property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
