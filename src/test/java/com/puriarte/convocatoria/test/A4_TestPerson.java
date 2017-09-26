@@ -106,10 +106,10 @@ public class A4_TestPerson {
 		categories.add("1");
 		categories.add("453");
 
-		List<PersonMovilResult> list = Facade.getInstance().selectPersonMovilList(null, categories ,1,  "", 0, 100);
+/*		List<PersonMovilResult> list = Facade.getInstance().selectPersonMovilList(null, categories ,1,  "", 0, 100);
 		if (list!=null){
 			String a=";";
-		}
+		}*/
 
 //		List<PersonMovil> list = Facade.getInstance().selectPersonMovilList(priorities, 1 ,1, 1, "", 0, 100);
 		/*		System.out.println(mensaje);
