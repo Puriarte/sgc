@@ -69,12 +69,20 @@ public class Person {
     	 association.setPersonCategory(personCategory);
     	 association.setPerson(this);
     	 association.setIdPersonCategory(personCategory.getId());
-    	 association.setIdPerson(this.getId());
+    	 if (this.getId()>0)
+    		 association.setIdPerson(this.getId());
     	 association.setPriority(priority);
-    	 if(this.categories == null)
+    	 boolean agregar=true;
+    	 if(this.categories == null){
     		 this.categories= new ArrayList<>();
-
-    	 this.categories.add(association);
+    	 }else{
+    		 // Me fijo que no exista una asociacion,si la hay tomo la primera
+    		 for(PersonCategoryAsociation aux:categories){
+    			 if ((aux.getIdPersonCategory()==(association.getIdPersonCategory())) && (aux.getIdPerson()==(association.getIdPerson())) ) 
+    				 agregar=false;
+    		 }
+    	 }
+    	 if (agregar) this.categories.add(association);
     }
     
 	/*

@@ -24,6 +24,7 @@ import com.puriarte.convocatoria.persistence.Job;
 import com.puriarte.convocatoria.persistence.Movil;
 import com.puriarte.convocatoria.persistence.Person;
 import com.puriarte.convocatoria.persistence.PersonCategory;
+import com.puriarte.convocatoria.persistence.PersonCategoryAsociation;
 import com.puriarte.convocatoria.persistence.PersonMovil;
 import com.puriarte.convocatoria.persistence.result.PersonMovilResult;
 
@@ -309,7 +310,7 @@ public class PersonMovilService {
 			query.setHint("javax.persistence.cache.storeMode", "REFRESH");
 			query.setHint("eclipselink.refresh", "true");
 			query.setHint("eclipselink.refresh.cascade", "CascadeAllParts");
-			query.setHint("eclipselink.left-join-fetch", "pm.person.categories");
+	//		query.setHint("eclipselink.left-join-fetch", "pm.person.categories");
 
 			PersonMovil a = (PersonMovil) query.getSingleResult();
 

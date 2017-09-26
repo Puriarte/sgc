@@ -57,6 +57,8 @@
     .input-sm{
     	height: 26px;
 	}    
+	
+
 	</style>
 	<script
 	src="js/personGrid.js?var=<%=com.jcabi.manifests.Manifests.read("App-Version")%>11"
@@ -83,10 +85,10 @@
 
 	<div class="row" id="categoryRowModel">
 		<div class="table-responsive"> 
-			<table class="table table-bordered" id="personTable">
+			<table class="table-condensed" id="personTable">
             <tbody>
                 <tr >
-                	<td rowspan="3"><img width="120px" height="120px" /></td>
+                	<td rowspan="3"><img width="120px" height="120px"  src="./uploads/${stFoto}" /></td>
                     <td><label class="col-md-2 control-label input-sm" for="NUMERO">Numero</label>  </td>
                     <td><input id="NUMERO" name="NUMERO" type="text" placeholder="" class="form-control input-md" value="${stNumero}"></td>
                     <td><label class="col-md-2 control-label input-sm" for="NRO DOCUMENTO">Documento</label>  </td>
@@ -101,11 +103,10 @@
                     <td colspan="3"><input id="SOBRENOMBRE" name="SOBRENOMBRE" type="text" placeholder="" class="form-control input-md" value="${stSobreNombre}"></td>
                 </tr>
                 <tr id="categoryModel" >
-                	<td><html:file property="IMG" style="width:150px;"/></td>
-                    <td><label class="col-md-2 control-label input-sm" for="NUMERO">Categor&iacute;a Preferida</label>  </td>
+                	<td><html:file property="IMG" style="width:140px;" value="Cambiar"/></td>
+                    <td ><label class="col-md-2 control-label input-sm" for="NUMERO">Categor&iacute;a Preferida</label>  </td>
                     <td>
 	                    <select class="form-control input-sm" name="CATEGORIA PREFERIDA" id="CATEGORIA PREFERIDA">
-							<option value="">Seleccione</option>
 							<logic:iterate name="frmAdmPereson" property="COLCATEGORIAS" id="item" indexId="idx">
 								<c:if test="${stCategoriaPreferida == item.id}">
 									<option value="${item.id}" selected="selected">${item.name}</option>
@@ -119,16 +120,18 @@
                     <td><label class="col-md-2 control-label input-sm" for="ORDEN PRELACION">Orden Prelaci&oacute;n</label>  </td>
                     <td><input id="ORDEN PRELACION" name="ORDEN PRELACION" type="text" placeholder="" class="form-control input-md" value="${stOrdenPrelacion}"></td>
                 </tr>
+                <tr>
+                <td colspan="5" align="center" ><h5><b>Otras Categ&iacute;as</b></small></h5></td>
+                </tr>
                 <c:set var="counter" value="${0}" />
 				<logic:iterate name="frmAdmPereson" property="CATEGORIAS" id="personCategory" indexId="idx">
 				<c:set var="counter" value="${counter+1}" />
 				<tr >
-                    <td><label class="col-md-2 control-label input-sm" for="NUMERO">Otras Categorias</label>  </td>
+                    <td>  </td>
                     <td><button  class="btn btn-sm btn-primary btn-block" id="btnborrar"
-							type="button" onclick="deleteCategoryRow(this);return false;" >Borrar</button></td>
+							type="button" onclick="deleteCategoryRow(this);return false;" >Quitar</button></td>
                     <td>
 	                    <select class="form-control input-sm" name="CATEGORIA_${counter}" id="CATEGORIA_${counter}">
-							<option value="">Seleccione</option>
 							<logic:iterate  name="frmAdmPereson" property="COLCATEGORIAS" id="item" indexId="idx">
 								<c:if test="${personCategory.personCategory.id == item.id}">
 									<option value="${item.id}" selected="selected">${item.name}</option>
@@ -140,7 +143,7 @@
 						</select>
                     </td>                    
                     <td><label class="col-md-2 control-label input-sm" for="ORDEN PRELACION">Orden Prelaci&oacute;n</label>  </td>
-                    <td><input id="ORDEN PRELACION_${counter}" name="ORDEN PRELACION_${counter}" type="text" placeholder="" class="form-control input-md" value="${stOrdenPrelacion}"></td>
+                    <td><input id="ORDEN PRELACION_${counter}" name="ORDEN PRELACION_${counter}" type="text" placeholder="" class="form-control input-md" value="${personCategory.priority}"></td>
                 </tr>
 				</logic:iterate>
 	

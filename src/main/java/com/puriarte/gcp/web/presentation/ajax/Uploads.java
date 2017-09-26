@@ -55,13 +55,13 @@ public class Uploads extends HttpServlet {
 	    
 	    String contextFacesPath;
 	    
-	    if (getServletContext().getRealPath("")==null){
+//	    if (getServletContext().getRealPath("")==null){
 	    	contextFacesPath =System.getenv("OPENSHIFT_DATA_DIR") + "/faces/" + filePath.substring(filePath.lastIndexOf("/")+1);
-		}else{
+	/*	}else{
 	        contextFacesPath = getServletContext().getRealPath("")+ "/images/faces/" ;
 	        contextFacesPath = getServletContext().getRealPath("")+ "/images/faces/" + filePath.substring(filePath.lastIndexOf("/")+1);
 		}
-
+*/
 	    File file = new File(contextFacesPath );
 	    InputStream input = new FileInputStream(file);
 	 

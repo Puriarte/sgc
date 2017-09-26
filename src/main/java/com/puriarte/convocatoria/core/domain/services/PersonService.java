@@ -11,6 +11,7 @@ import com.puriarte.convocatoria.persistence.Job;
 import com.puriarte.convocatoria.persistence.Movil;
 import com.puriarte.convocatoria.persistence.Person;
 import com.puriarte.convocatoria.persistence.PersonCategory;
+import com.puriarte.convocatoria.persistence.PersonCategoryAsociation;
 
 public class PersonService {
 	static private PersonService INSTANCE = null;
@@ -44,7 +45,6 @@ public class PersonService {
 		em.getTransaction().begin();
 		em.persist(p);
 		em.getTransaction().commit();
-
 		return p.getId();
 	}
 

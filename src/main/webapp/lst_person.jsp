@@ -82,11 +82,10 @@
 						<li class="active">
 							<div class="row">
 								<div class="col-md-8"><label class="control-label">Categor&iacute;a</label></div>
-								<div class="col-md-4"><a href="#" onclick="desmarcarSelect('categories')">Borrar</a></div>
+								<div class="col-md-4"><a href="#" onclick="desmarcarSelect('category')">Borrar</a></div>
 							</div>
 						</li>
-						<li><select class="form-control" name="category" multiple="multiple"
-							id="category" required>
+						<li><select class="form-control" name="category" multiple="multiple" id="category" required>
 								<logic:iterate name="frmLstPerson" property="categories"
 									id="item" indexId="idx">
 									<option value="${item.id}">${item.name}</option>

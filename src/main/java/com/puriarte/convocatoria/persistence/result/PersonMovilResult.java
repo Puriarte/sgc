@@ -15,7 +15,8 @@ import com.puriarte.convocatoria.persistence.PersonCategoryAsociation;
 public class PersonMovilResult implements javax.persistence.EntityResult{
 
 	private int id;
-
+	private int personId;
+	
 	private String movilNumber;
 	private String personDocumentNumber;
 	private String documentTypeName;
@@ -35,25 +36,26 @@ public class PersonMovilResult implements javax.persistence.EntityResult{
 		this.id = id;
 	}
 	
-	public PersonMovilResult(int id, String movilNumber,
+	public PersonMovilResult(int id, int personId, String movilNumber,
 			String personDocumentNumber, String documentTypeName,
 			String personName, String personNickName, String personPicture,
 			Integer priority, String preferedCategoryName) {
 		super();
-try{
-		this.id = id;
-		this.movilNumber = movilNumber;
-		this.personDocumentNumber = personDocumentNumber;
-		this.documentTypeName = documentTypeName;
-		this.personName = personName;
-		this.personNickName = personNickName;
-		this.personPicture = personPicture;
-		this.priority = priority;
-		this.preferedCategoryName=preferedCategoryName;
-}catch (Exception e){
-e.printStackTrace();	
-}
-}
+		try{
+				this.id = id;
+				this.personId = personId;
+				this.movilNumber = movilNumber;
+				this.personDocumentNumber = personDocumentNumber;
+				this.documentTypeName = documentTypeName;
+				this.personName = personName;
+				this.personNickName = personNickName;
+				this.personPicture = personPicture;
+				this.priority = priority;
+				this.preferedCategoryName=preferedCategoryName;
+		}catch (Exception e){
+		e.printStackTrace();	
+		}
+	}
 
 
 	public int getId() {
@@ -62,6 +64,22 @@ e.printStackTrace();
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public int getPersonId() {
+		return personId;
+	}
+
+	public void setPersonId(int personId) {
+		this.personId = personId;
+	}
+
+	public String getCategoryName() {
+		return categoryName;
+	}
+
+	public void setCategoryName(String categoryName) {
+		this.categoryName = categoryName;
 	}
 
 	public String getMovilNumber() {

@@ -15,6 +15,7 @@ import java.util.Map.Entry;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.RandomStringUtils;
 import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionError;
 import org.apache.struts.action.ActionErrors;
@@ -64,6 +65,7 @@ public class ActUpdatePerson extends RestrictionAction {
 					// NUEVO
 					if (((dynaForm.get("ID")==null)||(dynaForm.get("ID").equals(0)))==true){
 						ArrayList<PersonCategory> colCategories =(ArrayList<PersonCategory>)Facade.getInstance().selectPersonCategoryList();
+						dynaForm.set("FOTO", Constants.PICTURE_EMPTY_MEDIA);
 						dynaForm.set("COLCATEGORIAS", colCategories);
 						dynaForm.set("CATEGORIA PREFERIDA", -1);
 						dynaForm.set("ORDEN PRELACION", 0);
@@ -72,22 +74,26 @@ public class ActUpdatePerson extends RestrictionAction {
 						PersonMovil person = Facade.getInstance().selectPersonMovilWithCategories(new Integer(dynaForm.get("ID").toString()));
 						
 			//			Person person = Facade.getInstance().selectPerson(new Integer(dynaForm.get("ID").toString()));
-						dynaForm.set("ID", person.getPerson().getId()); 
+						dynaForm.set("ID", person.getId()); 
 						dynaForm.set("SOBRENOMBRE", person.getPerson().getNickname()); 
 						dynaForm.set("NOMBRE", person.getPerson().getName());
 						dynaForm.set("NRO DOCUMENTO", person.getPerson().getDocumentNumber());
+						dynaForm.set("ORDEN PRELACION", person.getPerson().getPriority());
+						dynaForm.set("NUMERO", person.getMovil().getNumber());
+						dynaForm.set("FOTO", ((person.getPerson().getPicture()==null) || (person.getPerson().getPicture().equals(""))) ?Constants.PICTURE_EMPTY_MEDIA:person.getPerson().getPicture());
+						int idPreferedCategory=(person.getPerson().getPreferedCategory()==null)?-1:person.getPerson().getPreferedCategory().getId();
+						dynaForm.set("CATEGORIA PREFERIDA",idPreferedCategory );
+
 						ArrayList<PersonCategoryAsociation> categories = new ArrayList<PersonCategoryAsociation>();
 						for (PersonCategoryAsociation category: person.getPerson().getCategories()){
-							categories.add(category);
+							if (category.getIdPersonCategory()!=idPreferedCategory)
+								categories.add(category);
 						}
 						ArrayList<PersonCategory> colCategories =(ArrayList<PersonCategory>)Facade.getInstance().selectPersonCategoryList();
 	
 						dynaForm.set("CATEGORIAS", categories);
 						dynaForm.set("COLCATEGORIAS", colCategories);
-						dynaForm.set("ORDEN PRELACION", person.getPerson().getPriority());
-						dynaForm.set("NUMERO", person.getMovil().getNumber());
-						dynaForm.set("FOTO", (person.getPerson().getPicture()==null)?"":person.getPerson().getPicture());
-						dynaForm.set("CATEGORIA PREFERIDA", (person.getPerson().getPreferedCategory()==null)?-1:person.getPerson().getPreferedCategory().getId());
+
 					}					
 					dynaForm.set("accion", "send");
 
@@ -105,36 +111,23 @@ public class ActUpdatePerson extends RestrictionAction {
 				// MODIFICAR
 				if ( (dynaForm.get("ID")!=null) && (!dynaForm.get("ID").equals(0)) &&(!dynaForm.get("ID").toString().trim().equals(""))) {
 
-					
-					 // Process the FormFile
-			        FormFile myFile = (FormFile) dynaForm.get("IMG");
-			        String fileName    = myFile.getFileName();
-
-			        /*			        String contentType = myFile.getContentType();
-			        int fileSize       = myFile.getFileSize();
-			        byte[] fileData    = myFile.getFileData();
-	*/		        
-			        InputStream is = myFile.getInputStream();
-			        
-			        int BUFFER_LENGTH = 4096;
-			        FileOutputStream os = new FileOutputStream(System.getenv("OPENSHIFT_DATA_DIR") + fileName);
-			        byte[] bytes = new byte[BUFFER_LENGTH];
-			        int read = 0;
-			        while ((read = is.read(bytes, 0, BUFFER_LENGTH)) != -1) {
-			            os.write(bytes, 0, read);
-			        }
-			        os.flush();
-			        is.close();
-			        os.close();
-			        
-			        
 					int idPerson = new Integer(dynaForm.get("ID").toString());				
-					Facade.getInstance().celanPersonCategories(idPerson );
 					PersonMovil person = Facade.getInstance().selectPersonMovilWithCategories(idPerson );
+
+					Facade.getInstance().celanPersonCategories(person.getPerson().getId());
 	
 					if (dynaForm.get("SOBRENOMBRE")!=null) person.getPerson().setNickname((String) dynaForm.get("SOBRENOMBRE"));
 					if (dynaForm.get("NOMBRE")!=null) person.getPerson().setName((String) dynaForm.get("NOMBRE"));
 					if ((dynaForm.get("NRO DOCUMENTO")!=null) && (!dynaForm.get("NRO DOCUMENTO").equals(""))) person.getPerson().setDocumentNumber((String) dynaForm.get("NRO DOCUMENTO"));
+					if (dynaForm.get("NUMERO")!=null) movilNumber = (String) dynaForm.get("NUMERO");
+
+					// CATEGORIA PREFERIDA
+					if ((!dynaForm.get("CATEGORIA PREFERIDA").equals("")) && (dynaForm.get("CATEGORIA PREFERIDA")!="")) person.getPerson().setPreferedCategory( Facade.getInstance().selectPersonCategory((int) dynaForm.get("CATEGORIA PREFERIDA")));
+					person.getPerson().setPriority(((!dynaForm.get("ORDEN PRELACION").equals("")) && (dynaForm.get("ORDEN PRELACION")!=""))? (int) dynaForm.get("ORDEN PRELACION"):0);
+
+					if (person.getPerson().getPreferedCategory()!=null){
+						person.getPerson().addPersonCategory(person.getPerson().getPreferedCategory(),person.getPerson().getPriority());
+					}
 
 					// CARGO LAS CATEGORIAS
 					HashMap<Integer, Object> arPersonCategory = getCategoryRequest(request,"CATEGORIA_");
@@ -154,12 +147,11 @@ public class ActUpdatePerson extends RestrictionAction {
 						person.getPerson().addPersonCategory(pc,priority);
 					}
 					
-					if ((!dynaForm.get("CATEGORIA PREFERIDA").equals("")) && (dynaForm.get("CATEGORIA PREFERIDA")!="")) person.getPerson().setPreferedCategory( Facade.getInstance().selectPersonCategory((int) dynaForm.get("CATEGORIA PREFERIDA")));
-					if ((!dynaForm.get("ORDEN PRELACION").equals("")) && (dynaForm.get("ORDEN PRELACION")!="")) person.getPerson().setPriority((int) dynaForm.get("ORDEN PRELACION"));
-					if (dynaForm.get("NUMERO")!=null) movilNumber = (String) dynaForm.get("NUMERO");
-					if (dynaForm.get("RNDNAME")!=null) person.getPerson().setPicture((String) dynaForm.get("RNDNAME"));
-					
-					person.getPerson().setPicture(fileName);
+			        FormFile foto = (FormFile) dynaForm.get("IMG");
+					String filename = cargarFotoDePersona(foto);
+					if (filename!=null)
+						person.getPerson().setPicture(filename);
+
 					Facade.getInstance().updatePersonMovil(person, movilNumber);
 	
 				}else{
@@ -168,7 +160,16 @@ public class ActUpdatePerson extends RestrictionAction {
 					if (dynaForm.get("SOBRENOMBRE")!=null) person.setNickname((String) dynaForm.get("SOBRENOMBRE"));
 					if (dynaForm.get("NOMBRE")!=null) person.setName((String) dynaForm.get("NOMBRE"));
 					if ((dynaForm.get("NRO DOCUMENTO")!=null) && (!dynaForm.get("NRO DOCUMENTO").equals(""))) person.setDocumentNumber((String) dynaForm.get("NRO DOCUMENTO"));
+					if (dynaForm.get("NUMERO")!=null) movilNumber = (String) dynaForm.get("NUMERO");
 
+					// CATEGORIA PREFERIDA
+					if ((!dynaForm.get("CATEGORIA PREFERIDA").equals("")) && (dynaForm.get("CATEGORIA PREFERIDA")!="")) person.setPreferedCategory( Facade.getInstance().selectPersonCategory((int) dynaForm.get("CATEGORIA PREFERIDA")));
+					person.setPriority(((!dynaForm.get("ORDEN PRELACION").equals("")) && (dynaForm.get("ORDEN PRELACION")!=""))? (int) dynaForm.get("ORDEN PRELACION"):0);
+
+					if (person.getPreferedCategory()!=null){
+						person.addPersonCategory(person.getPreferedCategory(),person.getPriority());
+					}
+					
 					// CARGO LAS CATEGORIAS
 					HashMap<Integer, Object> arPersonCategory = getCategoryRequest(request,"CATEGORIA_");
 					HashMap<Integer, Object> arPriority = getCategoryRequest(request,"ORDEN PRELACION_");
@@ -187,13 +188,14 @@ public class ActUpdatePerson extends RestrictionAction {
 						person.addPersonCategory(pc,priority);
 					}
 					
-					if ((!dynaForm.get("CATEGORIA PREFERIDA").equals("")) && (dynaForm.get("CATEGORIA PREFERIDA")!="")) person.setPreferedCategory( Facade.getInstance().selectPersonCategory((int) dynaForm.get("CATEGORIA PREFERIDA")));
-					if ((!dynaForm.get("ORDEN PRELACION").equals("")) && (dynaForm.get("ORDEN PRELACION")!="")) person.setPriority((int) dynaForm.get("ORDEN PRELACION"));
-					if (dynaForm.get("NUMERO")!=null) movilNumber = (String) dynaForm.get("NUMERO");
-	
 					DocumentType dt = Facade.getInstance().selectDocumentType(Constants.PERSON_TYPE_CI);
 					person.setDocumentType(dt);
 	
+			        FormFile foto = (FormFile) dynaForm.get("IMG");
+					String filename = cargarFotoDePersona(foto);
+					if (filename!=null)
+						person.setPicture(filename);
+
 					try{
 						Facade.getInstance().insertPersonMovil(person, movilNumber);
 					}catch(MovilException me){
@@ -223,6 +225,31 @@ public class ActUpdatePerson extends RestrictionAction {
 		}
 	}
 	
+	private String cargarFotoDePersona(FormFile foto) {
+		try{
+			if (foto.getFileName().equals("")){
+				return null;
+			}else{
+				String fileName    = RandomStringUtils.randomAlphanumeric(14);
+		    	InputStream is = foto.getInputStream();
+		    
+		        int BUFFER_LENGTH = 4096;
+		        FileOutputStream os = new FileOutputStream(System.getenv("OPENSHIFT_DATA_DIR") + "faces/"+ fileName);
+		        byte[] bytes = new byte[BUFFER_LENGTH];
+		        int read = 0;
+		        while ((read = is.read(bytes, 0, BUFFER_LENGTH)) != -1) {
+		            os.write(bytes, 0, read);
+		        }
+		        os.flush();
+		        is.close();
+		        os.close();
+		        return fileName;
+			}
+		}catch(Exception e){
+			return null;
+		}
+	}
+
 	/**
 	 * Carga las categorías seleccionadas en la página web
 	 * 
@@ -254,6 +281,5 @@ public class ActUpdatePerson extends RestrictionAction {
   		}
   		return hmValores;
   	}
-
 
 }

@@ -22,6 +22,7 @@ import com.puriarte.convocatoria.persistence.result.PersonMovilResult;
 @SqlResultSetMappings({
 	@SqlResultSetMapping(name = "PersonMovilResult", classes = { @ConstructorResult(targetClass = PersonMovilResult.class, columns = {
 		@ColumnResult(name = "PERSONMOVIL_ID"),
+		@ColumnResult(name = "PERSON_ID"),
 		@ColumnResult(name = "MOVIL_NUMBER"),
 		@ColumnResult(name = "DOCUMENT_NUMBER"),
 		@ColumnResult(name = "DOCUMENT_TYPE"),
@@ -53,7 +54,7 @@ import com.puriarte.convocatoria.persistence.result.PersonMovilResult;
 	@NamedNativeQuery(name = "PersonMovil.SelectPersonMovilList", 
 //			query = "SELECT t0.ID as PERSONMOVIL_ID, t1.NUMBER as MOVIL_NUMBER, t2.DOCUMENTNUMBER as DOCUMENT_NUMBER,  t3.NAME as DOCUMENT_TYPE, t2.NAME as PERSON_NAME,  t2.NICKNAME as PERSON_NICKNAME, t2.PICTURE as PERSON_PICTURE, t2.PRIORITY as PRIORITY, T4.NAME AS CATEGORY_NAME  FROM PERSONCATEGORY t4, DOCUMENTTYPE t3, PERSON t2, MOVIL t1, PERSONMOVIL t0  WHERE (t2.ID = t0.idPerson)  AND (t1.ID = t0.idMovil)  AND (t3.ID = t2.idDocumentType)  AND (t4.ID = t2.idPersonCategory) "
 			query = "  SELECT * FROM ( "
-					+ "SELECT t0.ID as PERSONMOVIL_ID, t1.NUMBER as MOVIL_NUMBER, t2.DOCUMENTNUMBER as DOCUMENT_NUMBER, "
+					+ "SELECT t0.ID as PERSONMOVIL_ID, t2.ID as PERSON_ID, t1.NUMBER as MOVIL_NUMBER, t2.DOCUMENTNUMBER as DOCUMENT_NUMBER, "
 					+ " COALESCE(t3.NAME , '' ) as DOCUMENT_TYPE, COALESCE(t2.NAME, '' ) as PERSON_NAME, " +
 					" COALESCE(t2.NICKNAME, '' ) as PERSON_NICKNAME, COALESCE(t2.PICTURE, '' ) as PERSON_PICTURE, COALESCE(t2.PRIORITY , -1) as PRIORITY, COALESCE(T4.NAME, '' ) AS CATEGORY_NAME " +
 					" FROM PERSONCATEGORY t4, DOCUMENTTYPE t3, PERSON t2, MOVIL t1, PERSONMOVIL t0 " +

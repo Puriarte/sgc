@@ -46,6 +46,9 @@ public final class Constants {
     public static final int ASSIGNMENT_STATUS_CONFIRMED = 8;
 
 	public static final int DISPATCH_STATUS_ACTIVE = 1; 
-	public static final int DISPATCH_STATUS_CLOSED = 2; 
+	public static final int DISPATCH_STATUS_CLOSED = 2;
+
+	public static final String PICTURE_EMPTY_MEDIA = "flag_mediana_.jpg"; 
+	public static final String PICTURE_EMPTY_CHICA = "flag_chica_.jpg"; 
  
 }

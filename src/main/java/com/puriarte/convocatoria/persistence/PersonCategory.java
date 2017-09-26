@@ -24,7 +24,9 @@ public class PersonCategory implements Serializable {
 	private int id;
 
 	private String name;
-	
+
+	private String prefix;
+
 	@OneToMany(mappedBy = "personCategory" , cascade = CascadeType.PERSIST , orphanRemoval = true )
 	private List<PersonCategoryAsociation> persons;
 	
@@ -65,6 +67,14 @@ public class PersonCategory implements Serializable {
 
 	public void remove(PersonCategoryAsociation pc) {
 		persons.remove(pc);
+	}
+
+	public String getPrefix() {
+		return prefix;
+	}
+
+	public void setPrefix(String prefix) {
+		this.prefix = prefix;
 	}
 
 }

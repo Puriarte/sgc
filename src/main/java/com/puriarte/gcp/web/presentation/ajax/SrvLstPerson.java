@@ -166,8 +166,9 @@ public class SrvLstPerson extends HttpServlet {
 
 		for(PersonMovilResult item : resultados) {
 			try{
-
+				
 				jSonItems += "{\"Id\": \"" +item.getId()+ "\",";
+				jSonItems += "\"IdPerson\": \"" + item.getPersonId() + "\",";
 				jSonItems += "\"Pos\": \"" + i++ + "\",";
 				jSonItems += "\"Cliente\": \"" +item.getId()+ "\",";
 				jSonItems += "\"IdDoc\": \"" + item.getId() + "\",";

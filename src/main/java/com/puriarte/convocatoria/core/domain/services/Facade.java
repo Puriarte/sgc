@@ -204,7 +204,7 @@ public class Facade {
 				order, asc, pos, limit);
 		
 		for(PersonMovilResult result : values){
-			result.setCategories(personCategoryService.selectByPersonList(result.getId()) );
+			result.setCategories(personCategoryService.selectByPersonList(result.getPersonId()) );
 		}
 		
 		return values;

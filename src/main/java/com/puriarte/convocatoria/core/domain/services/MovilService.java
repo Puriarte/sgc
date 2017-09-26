@@ -1,6 +1,7 @@
 package com.puriarte.convocatoria.core.domain.services;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -9,6 +10,12 @@ import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 
 
+
+
+
+
+
+import org.apache.fop.fo.expr.PPColWidthFunction;
 
 import com.puriarte.convocatoria.core.domain.Constants;
 import com.puriarte.convocatoria.core.exceptions.MovilException;
@@ -19,6 +26,8 @@ import com.puriarte.convocatoria.persistence.EntityManagerHelper;
 import com.puriarte.convocatoria.persistence.Movil;
 import com.puriarte.convocatoria.persistence.MovilStatus;
 import com.puriarte.convocatoria.persistence.Person;
+import com.puriarte.convocatoria.persistence.PersonCategory;
+import com.puriarte.convocatoria.persistence.PersonCategoryAsociation;
 import com.puriarte.convocatoria.persistence.PersonMovil;
 
 public class MovilService {
@@ -152,8 +161,22 @@ public class MovilService {
 
 	private PersonMovil insertPersonAndMovil( Movil movil, Person person) throws SQLException{
 
+		List<PersonCategoryAsociation> pc = new ArrayList<PersonCategoryAsociation>();
+		// Voy a sacar las asociaciones con categoría porque me lo esta guardando con idPersona 0
+		for(PersonCategoryAsociation pcs : person.getCategories()){
+			pc.add(pcs);
+		}
+		person.clearCategories();
+
 		int idPerson = Facade.getInstance().insertPerson(person );
 		person.setId(idPerson);
+
+		// Vuelvo a cargar las asociaciones por categoria
+		for(PersonCategoryAsociation cat : pc){
+			person.addPersonCategory(cat.getPersonCategory(), cat.getPriority());
+		}
+		
+		Facade.getInstance().updatePerson(person );
 
 		Facade.getInstance().insertMovil(movil);
 
