@@ -7,10 +7,12 @@ public final class Constants {
 	//  ESTADOS DE SMS
 	public static final int SMS_STATUS_RECIBIDO = 1;			// Activo es recibido o ya enviado
 	public static final int SMS_STATUS_NOT_REGISTRED = 2;		// Correspodne a un movil no registrado con documento
-	public static final int SMS_STATUS_MULTIPLE_PERSON = 3;		//
+	public static final int SMS_STATUS_MULTIPLE_PERSON = 3;		// 
 	public static final int SMS_STATUS_PENDIENTE = 4;			// Pendiente de ser enviado
-	public static final int SMS_STATUS_ENVIADO= 5;				// Pendiente de ser enviado
-	public static final int SMS_STATUS_REGISTRATION_FAILED= 6;
+	public static final int SMS_STATUS_ENVIADO= 5;				// Enviado
+	public static final int SMS_STATUS_REGISTRATION_FAILED= 6;	// Envio Fallido
+	public static final int SMS_STATUS_EN_ESPERA_CIERRE_DISPATCH= 7;	// En espera de que se confirme el dispatch
+	
 	// DIRECCION DE SMS
 	public static final int SMS_ACTION_INCOME= 1;
 	public static final int SMS_ACTION_OUTCOME = 2;

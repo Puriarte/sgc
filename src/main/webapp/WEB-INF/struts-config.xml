@@ -131,8 +131,7 @@
 		<form-property name="colAssignment" type="java.util.ArrayList" />	
 		<form-property name="colDispatchStatus" type="java.util.ArrayList" />	
 		<form-property name="dispatchStatus" type="java.lang.String" />
-		
-			
+		<form-property name="enviarSMS" type="java.lang.Boolean" />
 
 	</form-bean>
 

@@ -227,8 +227,8 @@ public class DispatchService1 {
 			if (person!=null){
 				PersonCategory category=new PersonCategory();
 				try{
-					if(categories.containsKey(person.getId())){
-						int categoryId = (int) categories.get(person.getId());
+					if(categories.containsKey(person.getPerson().getId())){
+						int categoryId = (int) categories.get(person.getPerson().getId());
 						category = Facade.getInstance().selectPersonCategory(categoryId);
 					}
 				}catch(Exception e){}
@@ -388,6 +388,28 @@ public class DispatchService1 {
 		return 0;
 	}
 
+	public int changeSmsStatus(int id, SmsStatus statusEnEspera,
+			SmsStatus statusPendiente) {
+
+		final EntityManager em = getEntityManager();
+		// Me quedo con el ultimo mensaje generado para una persona
+		int i=0;
+		em.getTransaction().begin();
+		Dispatch dispatch2 = this.selectDispatch(id);
+		for (Job jpb :dispatch2.getJobList()){
+			for (Assignment as :jpb.getAssignmentList()){
+				for (SMS sms :as.getSmsList()){
+					if (sms.getStatus().getId()==statusEnEspera.getId()){
+						sms.setStatus(statusPendiente);
+						em.persist(sms);
+						i=i+1;
+					}
+				}
+			}
+		}
+		em.getTransaction().commit();
+		return i;
+	}
 	
 	
 	public void update(Dispatch dispatch) {
@@ -426,5 +448,6 @@ public class DispatchService1 {
 		}
 		
 	}
+
 	
 }

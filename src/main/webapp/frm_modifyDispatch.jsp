@@ -38,6 +38,19 @@
 	.container {
 	 	width: 100%; 
 	} 
+	
+	.bs-example{
+    	margin: 20px;
+    }
+    
+    .form-control{
+    	height: 26px;
+    }
+    
+    .input-sm{
+    	height: 26px;
+	}    
+
 	</style>
 </head>
 

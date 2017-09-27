@@ -73,7 +73,7 @@
 				</div>
 
 				<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-					<h2 class="sub-header">Gestión de Categorías</h2>
+					<h2 class="sub-header">Gestión de Locales</h2>
 
 						<div class="table-responsive">
 							<div id="idsValesSel"></div>

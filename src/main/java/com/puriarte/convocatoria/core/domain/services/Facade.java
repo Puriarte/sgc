@@ -570,14 +570,14 @@ public class Facade {
 				ascending, pos, limit);
 	}
 
-	public int insertDispatch(Dispatch dispatch) {
+	/*public int insertDispatch(Dispatch dispatch) {
 		return dispatchService.insert(dispatch);
-	}
+	}*/
 
 	public int insertDispatch(String message, String name, String code, Place place,
 			Date creationDate, Date scheduledDate, Date scheduledEndDate, String[] personIds,
 			HashMap categories) {
-		SmsStatus status = selectSmsStatus(Constants.SMS_STATUS_PENDIENTE);
+		SmsStatus status = selectSmsStatus(Constants.SMS_STATUS_EN_ESPERA_CIERRE_DISPATCH); //.SMS_STATUS_PENDIENTE);
 		return dispatchService.insert(message, name, code, place, creationDate,
 				scheduledDate, scheduledEndDate, personIds, categories, status);
 	}
@@ -586,10 +586,17 @@ public class Facade {
 			Date creationDate, Date scheduledDate, Integer dispatchStatus,
 			HashMap personIds, HashMap categories, HashMap arStatusIds,
 			HashMap arAssignmentIds, HashMap arForwardIds) {
-		SmsStatus status = selectSmsStatus(Constants.SMS_STATUS_PENDIENTE);
+		SmsStatus status = selectSmsStatus(Constants.SMS_STATUS_EN_ESPERA_CIERRE_DISPATCH); 
 		return dispatchService.update(id, mensaje, name, place, creationDate,
 				scheduledDate, dispatchStatus, personIds, categories,
 				arStatusIds, arAssignmentIds, arForwardIds, status);
+	}
+	
+	public int sendDispatchSMS(int id){
+		SmsStatus statusEnEspera = selectSmsStatus(Constants.SMS_STATUS_EN_ESPERA_CIERRE_DISPATCH); 
+		SmsStatus statusPendiente = selectSmsStatus(Constants.SMS_STATUS_PENDIENTE); 
+		return dispatchService.changeSmsStatus(id, statusEnEspera, statusPendiente );
+		
 	}
 
 	public int insertBulkSMS(String message, String name, Date creationDate,

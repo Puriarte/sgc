@@ -164,7 +164,11 @@ public class ActCreateCategoryDispatch extends RestrictionAction {
 					message = message.replace("á", "a").replace("é", "e").replace("í", "i").replace("ó", "o").replace("ú", "u");
 					name= name.replace("á", "a").replace("é", "e").replace("í", "i").replace("ó", "o").replace("ú", "u");
 					int id = Facade.getInstance().insertDispatch(message, name, code, place, creationDate, scheduledDate , scheduledEndDate, arPersonIds, arPersonCategory);
-
+					
+					if ((dynaForm.get("enviarSMS")!=null)&&((boolean) dynaForm.get("enviarSMS"))){
+						Facade.getInstance().sendDispatchSMS(id);
+					}
+						
 				}
 
 			} catch (Exception e) {

@@ -51,6 +51,18 @@
 	.container {
 	 	width: 100%; 
 	} 
+	
+	.bs-example{
+    	margin: 20px;
+    }
+    
+    .form-control{
+    	height: 26px;
+    }
+    
+    .input-sm{
+    	height: 26px;
+	}    
 	</style>
 	
 </head>
@@ -95,9 +107,6 @@
 					</select>
 				</logic:present>
 			</div>
-
-
-
 		</div>
 		<div class="row">
 			<div class="col-md-12">&nbsp;</div>
@@ -124,6 +133,7 @@
 					<input type="time" class="form-control input-sm" name="eventEndHour"  value="" id="eventEndHour" >
 				</div>
 				<div class="col-md-6">
+					<input type="checkbox" class="form-control input-sm" name="enviarSMS"  value="" id="enviarSMS" >
 					<label class="control-label input-sm">(Opcional)</label>
 				</div>
 			</div>

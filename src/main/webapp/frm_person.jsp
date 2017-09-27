@@ -61,7 +61,7 @@
 
 	</style>
 	<script
-	src="js/personGrid.js?var=<%=com.jcabi.manifests.Manifests.read("App-Version")%>11"
+	src="js/personGrid.js?var=<%=com.jcabi.manifests.Manifests.read("App-Version")%>"
 	type="text/javascript"></script>
 </head>
 
