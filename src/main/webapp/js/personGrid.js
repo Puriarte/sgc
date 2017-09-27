@@ -34,7 +34,7 @@ var editOptions={
 		beforeInitData: function () {
 			var cm = jQuery("#gridArticulos").jqGrid('getColProp','FOTO');
 			var selRowId = jQuery("#gridArticulos").jqGrid('getGridParam','selrow');	
-            cm.editoptions.src = './uploads/flag_mediana_' + $('#gridArticulos').getCell(selRowId, 'RNDNAME') + '.jpg';
+//            cm.editoptions.src = './uploads/flag_mediana_' + $('#gridArticulos').getCell(selRowId, 'RNDNAME') + '.jpg';
         },
         onInitializeForm : function(formid){
         	$(formid).attr('method','POST');
@@ -69,8 +69,6 @@ var editOptions={
 	    afterSubmit: editMessage,
 };
 
-
-
 var addOptions={
 		top: 180, left: 250,
 		width: 800,
@@ -104,6 +102,7 @@ var addOptions={
         }, 
 		afterSubmit: editMessage
 };
+
 
 jQuery(document).ready(function(){
 
@@ -359,9 +358,76 @@ jQuery(document).ready(function(){
 		  alert(Exception.message);
 		}
 	});
+
+
+	//Para acutalizar la grilla
+	$("#lk_edit").click(function(){
+		try{
+			var id = jQuery("#gridArticulos").jqGrid('getGridParam','selrow');
+			if (id)	{
+		    	modificarCliente();
+			}else alert("Seleccione una persona");
+			
+		}catch(Exception){
+			alert(Exception.message);
+		}
+		return false;
+
+	});
+	//Para acutalizar la grilla
+	$("#lk_add").click(function(){
+		try{
+	    	agregarCliente();
+		}catch(Exception){
+			alert(Exception.message);
+		}
+		return false;
+	});
+
+	//Para acutalizar la grilla
+	$("#lk_dispatch").click(function(){
+		try{
+			ingresarListaSMS();
+		}catch(Exception){
+			alert(Exception.message);
+		}
+
+		return false;
+	});
+		
+	//Para acutalizar la grilla
+	$("#lk_addDispatch").click(function(){
+		try{
+			agregarADispatch();
+		}catch(Exception){
+			alert(Exception.message);
+		}
+
+		return false;
+	});
+
+	//Para acutalizar la grilla
+	$("#lk_report").click(function(){
+		var gr = jQuery("#gridArticulos").jqGrid('getGridParam','selrow');
+		if( gr != null )
+			verEscolaridad(gr);
+		else alert("Seleccione una persona");
+
+		return false;
+	});
+
+	//Para acutalizar la grilla
+	$("#lk_message").click(function(){
+		try{
+			ingresarMensajeSMS();
+		}catch(Exception){
+			alert(Exception.message);
+		}
+		return false;
+
+	});
+	
 });
-
-
 
 
 function ingresarMensajeSMS(){
@@ -524,6 +590,144 @@ function ingresarListaSMS(){
 	return false;
 }
 
+function agregarADispatch1212(gr){
+	try{
+		var s;
+		s = jQuery("#gridArticulos").jqGrid('getGridParam','selarrrow');
+		var url= "addToCategoryDispatch.do?accion=load&nroDestino=" + s.toString();
+		var x=1300;
+		var y=600;
+		var x1=(screen.width - x) /2;
+		var y1=(screen.height - y) /2;
+
+		var params="'location=0,toolbar=0,directories=0,status=0,menubar=0,scrollbars=1,copyhistory=0,resizable=0," +
+		"position: absolute, top=" + y1 + ", left=" + x1 + ", height=" + y + ", width=" + x + "'"
+
+		var win = window.open(url,"modVer",params);
+
+
+	}catch(Exception){
+		alert(Exception.message);
+	}
+	return false;
+}
+
+
+function agregarADispatch(gr){
+	try{
+		$("#accion").val("cargar");
+		var personId = jQuery("#gridArticulos").jqGrid('getGridParam','selrow');
+		refDialogIframe = $('<iframe id="ifModCliente" frameborder="0" marginwidth="0px" marginheight="0px" style="overflow-y:hidden; overflow-x:scroll;" src="addToCategoryDispatch.do?accion=load&nroDestino=' + personId + '"/>').dialog({
+			resizable: true,
+			width:875,
+			height:500,
+			modal: true,
+			title: "Agregar Personas a Convocatoria",
+			open: function(event, ui){
+				$('body').css('overflow','hidden');
+				$('.ui-widget-overlay').css('width','100%');
+			},
+			close: function(event, ui) {
+				$('body').css('overflow','auto');
+			},
+			buttons: {
+				"Aceptar": function() {
+					refDialogIframe["0"].contentDocument.getElementById("btnEnviar").click();
+					$( this ).dialog( "close" );
+					$("#lk_actualizar").click();
+				},
+				"Cancelar": function() {
+					$( this ).dialog( "close" );
+				}
+			}
+		}).width(875).height(500);
+	}catch(Exception){
+		alert(Exception.message);
+	}
+	return false;
+}
+
+
+/*
+function agregarADispatch(){
+	var s;
+	s = jQuery("#gridArticulos").jqGrid('getGridParam','selarrrow');
+	var url= "addToCategoryDispatch.do?accion=load&nroDestino=" + s.toString();
+	$("#nroDestino").val(s);
+	var dialog = $('<div style="display:none" class="loading"><iframe> </iframe></div>').appendTo('body');
+
+	// open the dialog
+	dialog.dialog({
+		// add a close listener to prevent adding multiple divs to the document
+		close: function(event, ui) {
+			// remove div with all data and events
+			dialog.remove();
+		},
+		buttons: {
+			"Aceptar": function() {
+				var isValidForm = $('#frmAdmDispatch')[0].checkValidity();
+				if (!isValidForm) {
+					document.getElementById("btnEnviar").click();
+				}else{
+					$.ajax({
+						url: "addToCategoryDispatch.do",
+						data: $("#frmAdmDispatch").serialize(),
+						type: $("#frmAdmDispatch").attr("method"),
+						dataType: "html",
+						dataFilter:function(data,dataType){
+							$("#dialogo_resultados").html(data);
+							$("#dialogo_resultados").dialog({
+								resizable: false,
+								width:400,
+								height:240,
+								modal: true,
+								open: function(event, ui){
+									$('body').css('overflow','hidden');
+									$('.ui-widget-overlay').css('width','100%');
+								},
+								close: function(event, ui) {
+									$('body').css('overflow','auto');
+								},
+								buttons: {
+									"Aceptar": function() {
+										$( this ).dialog( "close" );
+										try{
+											dialog.remove();
+										}catch(e){}
+									}
+								}
+							});
+							$("#dialogo_resultados").dialog("open");
+							return data;
+						},
+						error: function(jqXHR, textStatus, errorThrown){
+							alert("error = " + textStatus);
+						}
+					});
+				}
+			},
+			"Cancelar": function() {
+				$( this ).dialog( "close" );
+			}
+		},
+		modal: true,
+		resizable: true,
+		height:550,
+		width:850
+	});
+	// load remote content
+	dialog.load(
+			url,
+			{}, // omit this param object to issue a GET request instead a POST request, otherwise you may provide post parameters within the object
+			function (responseText, textStatus, XMLHttpRequest) {
+				// remove the loading class
+				dialog.removeClass('loading');
+			}
+	);
+
+	return false;
+}
+*/
 
 function removeOptions(selectbox)
 {
@@ -539,7 +743,7 @@ function modificarCliente(){
 	try{
 		$("#accion").val("cargar");
 		var personId = jQuery("#gridArticulos").jqGrid('getGridParam','selrow');
-		refDialogIframe = $('<iframe id="ifModCliente" frameborder="0" marginwidth="0px" marginheight="0px" src="updatePerson.do?accion=load&ID=' + personId + '"/>').dialog({
+		refDialogIframe = $('<iframe id="ifModCliente" frameborder="0" marginwidth="0px" marginheight="0px" style="overflow-y:hidden; overflow-x:scroll;" src="updatePerson.do?accion=load&ID=' + personId + '"/>').dialog({
 			resizable: true,
 			width:775,
 			height:500,
@@ -555,8 +759,6 @@ function modificarCliente(){
 			buttons: {
 				"Aceptar": function() {
 					refDialogIframe["0"].contentDocument.getElementById("btnEnviar").click();
-					$( this ).dialog( "close" );
-					$("#lk_actualizar").click();
 				},
 				"Agregar Categoria": function() {
 					refDialogIframe["0"].contentDocument.getElementById("btnAddaAsignment").click();
@@ -582,7 +784,7 @@ function agregarCliente(){
 			width:775,
 			height:500,
 			modal: true,
-			title: "Modificar Persona",
+			title: "Agregar Empleado",
 			open: function(event, ui){
 				$('body').css('overflow','hidden');
 				$('.ui-widget-overlay').css('width','100%');
@@ -649,17 +851,23 @@ function addCategoryRow(element, elementCounter){
 
 		document.getElementById("personTable").appendChild(innerTr);
 
-
 	}catch(E){
-		
 	}
-		
-	
 }
 
 function deleteCategoryRow(element){
 	try{
 		element.parentElement.parentElement.remove();
+	}catch(E){
+	}
+}
+
+
+function continueAddToDispatch(i){
+	try{
+		ev.preventDefault();
+		jQuery("#frmAdmDispatch").submit();
+		return false;
 	}catch(E){
 	}
 }

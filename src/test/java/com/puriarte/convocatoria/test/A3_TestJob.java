@@ -44,12 +44,12 @@ public class A3_TestJob {
 		 dispatch1 = new Dispatch();
 		dispatch1.setName(dispatchNombre1);
 		dispatch1.setScheduledDate(new Date());
-		Facade.getInstance().insertDispatch(dispatch1);
+//		Facade.getInstance().insertDispatch(dispatch1);
 
 		 dispatch2 = new Dispatch();
 		dispatch2.setName(dispatchNombre2);
 		dispatch2.setScheduledDate(new Date());
-		Facade.getInstance().insertDispatch(dispatch2);
+//		Facade.getInstance().insertDispatch(dispatch2);
 
 	}
 

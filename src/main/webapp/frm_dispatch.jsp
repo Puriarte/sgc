@@ -134,7 +134,6 @@
 				</div>
 				<div class="col-md-6">
 					<input type="checkbox" class="form-control input-sm" name="enviarSMS"  value="" id="enviarSMS" >
-					<label class="control-label input-sm">(Opcional)</label>
 				</div>
 			</div>
 		</div>

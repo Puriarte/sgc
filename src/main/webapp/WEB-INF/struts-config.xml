@@ -131,7 +131,8 @@
 		<form-property name="colAssignment" type="java.util.ArrayList" />	
 		<form-property name="colDispatchStatus" type="java.util.ArrayList" />	
 		<form-property name="dispatchStatus" type="java.lang.String" />
-		<form-property name="enviarSMS" type="java.lang.Boolean" />
+		<form-property name="enviarSMS" type="java.lang.Integer" />
+		<form-property name="dispatches" type="java.util.ArrayList"></form-property>
 
 	</form-bean>
 
@@ -360,6 +361,24 @@
 
 </action>
 
+
+
+<action className="com.puriarte.gcp.web.presentation.actions.SecurityActionMapping"
+		path="/addToCategoryDispatch"
+		name="frmAdmDispatch"
+		scope="request"
+		type="com.puriarte.gcp.web.presentation.actions.ActAddToCategoryDispatch">
+
+		<set-property property="idOpMenu" value="502"/>
+		<set-property property="idComponente" value="13"/>
+
+		<forward name="load" path="/frm_addtodispatch.jsp"/>
+		<forward name="send" path="/frm_addtodispatch.jsp"/>
+		
+		<forward name="success" path="/resultado_operacion.jsp"/>
+		<forward name="failure" path="/resultado_operacion.jsp"/>
+
+</action>
 
 
 <action className="com.puriarte.gcp.web.presentation.actions.SecurityActionMapping"

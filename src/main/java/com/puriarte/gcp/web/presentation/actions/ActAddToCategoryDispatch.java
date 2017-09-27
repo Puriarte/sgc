@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.configuration.PropertiesConfiguration;
-import org.apache.commons.lang.time.DateUtils;
+//import org.apache.commons.lang.time.DateUtils;
 import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionError;
 import org.apache.struts.action.ActionErrors;
@@ -22,13 +22,18 @@ import org.apache.struts.action.ActionMessages;
 import org.apache.struts.action.DynaActionForm;
 
 import com.puriarte.convocatoria.core.domain.services.Facade;
-import com.puriarte.convocatoria.persistence.Person;
+import com.puriarte.convocatoria.persistence.Assignment;
+import com.puriarte.convocatoria.persistence.AssignmentStatus;
+import com.puriarte.convocatoria.persistence.Dispatch;
+import com.puriarte.convocatoria.persistence.DispatchStatus;
+import com.puriarte.convocatoria.persistence.Job;
 import com.puriarte.convocatoria.persistence.PersonCategory;
 import com.puriarte.convocatoria.persistence.PersonMovil;
 import com.puriarte.convocatoria.persistence.Place;
 import com.puriarte.convocatoria.core.domain.Constants;
+import com.puriarte.utils.date.DateUtils;
 
-public class ActCreateCategoryDispatch extends RestrictionAction {
+public class ActAddToCategoryDispatch extends RestrictionAction {
 
 	public ActionForward _execute(
 		ActionMapping mapping,
@@ -43,14 +48,11 @@ public class ActCreateCategoryDispatch extends RestrictionAction {
 
 		PropertiesConfiguration config = new PropertiesConfiguration(com.puriarte.gcp.web.Constantes.PATHAPPCONFIG);
 		String prefix = config.getString("sms.prefix");
-		String code = "";
-		String attribute1Name = config.getString("dispatch.attribute1");
-		String attribute2Name = config.getString("dispatch.attribute2");
-
-		Logger  logger = Logger.getLogger(ActCreateCategoryDispatch.class.getName());
+		
+		Logger  logger = Logger.getLogger(ActAddToCategoryDispatch.class.getName());
 		if(dynaForm.get("accion").equals("load")){
 			try{
-				String[] arPersonIds = dynaForm.get("nroDestino").toString().split(",");
+/*				String[] arPersonIds = dynaForm.get("nroDestino").toString().split(",");
 				code = Facade.getInstance().selectNextCode();
 
 				ArrayList<PersonMovil> persons = new ArrayList();
@@ -61,24 +63,24 @@ public class ActCreateCategoryDispatch extends RestrictionAction {
 				dynaForm.set("colPerson", persons);
 				dynaForm.set("prefix", prefix);
 				dynaForm.set("code", code);
-				dynaForm.set("accion", "send");
+	*/			dynaForm.set("accion", "addToDispatch");
 				
-				dynaForm.set("attribute1", attribute1Name);
+		/*		dynaForm.set("attribute1", attribute1Name);
 				dynaForm.set("attribute2", attribute2Name);
-				
+			*/	
 				try{
-					List<Place> places= new ArrayList<Place>(Facade.getInstance().selectPlaceList());
-					dynaForm.set("places", places);
+					List<Dispatch> dispatches =   new ArrayList<Dispatch>(Facade.getInstance().selectDispatchList(Constants.DISPATCH_STATUS_ACTIVE, "dispatchStatus.name", true, 0, 100));
+					dynaForm.set("dispatches",dispatches);
 				}catch(Exception e ){
 
 				}
-
+/*
 				try{
 					List<PersonCategory > categories = new ArrayList<PersonCategory>(Facade.getInstance().selectPersonCategoryList());
 					dynaForm.set("categories", categories);
 				}catch(Exception e ){
-
 				}
+*/
 			} catch (Exception e) {
 				errors.add("error", new ActionError("dispatch.error.db.ingresar"));
 			}
@@ -90,11 +92,11 @@ public class ActCreateCategoryDispatch extends RestrictionAction {
 			}
 
 		}else if(dynaForm.get("accion").equals("send")){
-
+			
 			try {
 				if (dynaForm.get("nroDestino")!=null){
 
-					HashMap arPersonCategory = getCategoryRequest(request,"personCategory_");
+/*					HashMap arPersonCategory = getCategoryRequest(request,"personCategory_");
 					HashMap arAssignment = getCategoryRequest(request,"assignmentStatus_");
 
 					String[] arPersonIds = dynaForm.get("nroDestino").toString().split(",");
@@ -168,6 +170,7 @@ public class ActCreateCategoryDispatch extends RestrictionAction {
 					if (dynaForm.get("enviarSMS")!=null){
 						Facade.getInstance().sendDispatchSMS(id);
 					}
+				*/
 				}
 
 			} catch (Exception e) {
@@ -180,6 +183,76 @@ public class ActCreateCategoryDispatch extends RestrictionAction {
 				messages.add("msg", new ActionMessage("dispatch.insert.ok"));
 				saveMessages(request, messages);
 				return mapping.findForward("success");
+			}
+		}else if(dynaForm.get("accion").equals("addToDispatch")){
+			try{
+				String[] arPersonIds = dynaForm.get("nroDestino").toString().split(",");
+				ArrayList<PersonMovil> persons = new ArrayList();
+				for(String id : arPersonIds){
+					PersonMovil person =Facade.getInstance().selectPersonMovil(Integer.parseInt(id));
+					persons.add(person);
+				}
+				dynaForm.set("colPerson", persons);
+		
+				Dispatch dispatch = Facade.getInstance().selectDispatch( (Integer) dynaForm.get("dispatchId") );
+
+				String code = (dispatch.getCode()==null)?"":dispatch.getCode();
+
+				List<DispatchStatus > dispatchsStatus = new ArrayList<DispatchStatus>(Facade.getInstance().selectDispatchStatusList());
+				
+				ArrayList<Assignment> assignments = new ArrayList<Assignment>();
+				for(Job job : dispatch.getJobList()){
+//					//TODO: En esta versión se está trabajando con una sola asignación por puesto. 							
+					assignments.add(job.getAssignmentList().get(0));
+				}
+ 
+				dynaForm.set("dispatch", dispatch);
+				dynaForm.set("colAssignment", assignments);
+				dynaForm.set("colDispatchStatus", dispatchsStatus);
+				
+				dynaForm.set("prefix", prefix);
+				dynaForm.set("code", code);
+				dynaForm.set("accion", "send");
+				
+				if (dispatch.getScheduledDate()!=null){
+					dynaForm.set("eventDate", DateUtils.formatDate(dispatch.getScheduledDate(), Constants.FORMATO_FECHA_HTML5));
+					dynaForm.set("eventDateAlt2", DateUtils.formatDate(dispatch.getScheduledDate(), Constants.FORMATO_FECHA_HTML5_ALT2));
+					dynaForm.set("eventHour", DateUtils.formatDate(dispatch.getScheduledDate(), Constants.FORMATO_HORA_HTML5));
+				}
+				
+				if (dispatch.getScheduledEndDate()!=null){
+					dynaForm.set("eventEndHour", DateUtils.formatDate(dispatch.getScheduledEndDate(), Constants.FORMATO_HORA_HTML5));
+				}
+				
+				try{
+					List<PersonCategory > categories = new ArrayList<PersonCategory>(Facade.getInstance().selectPersonCategoryList());
+					dynaForm.set("categories", categories);
+				}catch(Exception e ){
+
+				}
+										
+				try{
+					List<AssignmentStatus > assignmentsStatus = new ArrayList<AssignmentStatus>(Facade.getInstance().selectAssingmentStatusList());
+					dynaForm.set("assignmentsStatus", assignmentsStatus);
+				}catch(Exception e ){
+
+				}
+				
+				try{
+					List<PersonMovil> personsMovil= new ArrayList<PersonMovil>(Facade.getInstance().selectPersonMovilObjectList("", 0, 100));
+					dynaForm.set("personsMovil", personsMovil);
+				}catch(Exception e ){
+
+				}
+
+			} catch (Exception e) {
+				errors.add("error", new ActionError("dispatch.error.db.ingresar"));
+			}
+			if (!errors.isEmpty()) {
+				saveErrors(request, errors);
+				return mapping.findForward("failure");
+			} else {
+				return mapping.findForward("load");
 			}
 		}else{
 			dynaForm.set("accion", "load");

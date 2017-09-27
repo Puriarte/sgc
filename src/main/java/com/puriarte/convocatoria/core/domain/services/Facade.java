@@ -593,9 +593,7 @@ public class Facade {
 	}
 	
 	public int sendDispatchSMS(int id){
-		SmsStatus statusEnEspera = selectSmsStatus(Constants.SMS_STATUS_EN_ESPERA_CIERRE_DISPATCH); 
-		SmsStatus statusPendiente = selectSmsStatus(Constants.SMS_STATUS_PENDIENTE); 
-		return dispatchService.changeSmsStatus(id, statusEnEspera, statusPendiente );
+		return dispatchService.enviarSmsStatus(id);
 		
 	}
 

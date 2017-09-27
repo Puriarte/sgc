@@ -21,6 +21,13 @@ public class A2_TestDispatch {
 
 	@Test
 	public void TestDispatch(){
+
+		try{
+			enviarDispatch(356);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		/*
 		listarDispatchAlMomento("LISTA DE CONVOCATORIAS AL INICIO");
 
 		Dispatch dispatch = new Dispatch();
@@ -30,7 +37,7 @@ public class A2_TestDispatch {
 		System.out.println("AGREGO CONVOCATORIA " + dispatch1);
 		Dispatch item = new Dispatch();
 		item.setName(dispatch1);;
-		Facade.getInstance().insertDispatch(item);
+//		Facade.getInstance().insertDispatch(item);
 
 		listarDispatchAlMomento("LISTA DE CONVOCATORIAS AL AGREGAR CONVOCATORIA");
 
@@ -45,9 +52,13 @@ public class A2_TestDispatch {
 		Facade.getInstance().removeDispatch(item1);
 
 		listarDispatchAlMomento("LISTA DE CONVOCATORIA AL ELIMINAR CONVOCATORIA"+ dispatch2);
-
-
+*/
 	}
+
+	public void enviarDispatch(int id){
+		Facade.getInstance().sendDispatchSMS(id);
+	}
+
 	public void registrarSMSEntrante() {
 
 		try{

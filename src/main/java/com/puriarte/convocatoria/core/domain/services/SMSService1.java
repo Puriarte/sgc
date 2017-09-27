@@ -345,7 +345,8 @@ public class SMSService1 {
 		final EntityManager em = getEntityManager();
 
 		Query query = em.createNamedQuery("SelectSMSListByStatus")
-			.setParameter("status", status );
+			.setParameter("status", status )
+			.setParameter("fechaActual", new Date());
 		query.setHint("javax.persistence.cache.storeMode", "REFRESH");
 		query.setHint("eclipselink.refresh", "true");
 		query.setHint("eclipselink.refresh.cascade", "CascadeAllParts");

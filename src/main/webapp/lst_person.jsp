@@ -52,6 +52,12 @@
 .ui-jqgrid tr.jqgrow td {
 	white-space: normal
 }
+.nav-sidebar{
+	margin-bottom: 5px;
+}
+.btn{
+	padding: 3px 6px
+}
 </style>
 
 <script src="js/ajax/jquery.validate.min.js" type="text/javascript"></script>
@@ -60,7 +66,7 @@
 <script src="js/ajax/jquery.ajaxfileupload.js" type="text/javascript"></script>
 
 <script
-	src="js/personGrid.js?var=<%=com.jcabi.manifests.Manifests.read("App-Version")%>2"
+	src="js/personGrid.js?var=<%=com.jcabi.manifests.Manifests.read("App-Version")%>"
 	type="text/javascript"></script>
 </head>
 
@@ -111,8 +117,27 @@
 								<option value="7">7</option>
 						</select></li>
 					</ul>
+
 					<ul class="nav nav-sidebar">
 						<li><button id="lk_actualizar" class="btn btn-primary">Refrescar</button></li>
+					</ul>
+					<ul class="nav nav-sidebar">
+						<li><button id="lk_add" class="btn btn-primary">Agregar</button></li>
+					</ul>
+					<ul class="nav nav-sidebar">
+						<li><button id="lk_edit" class="btn btn-primary">Modificar</button></li>
+					</ul>
+					<ul class="nav nav-sidebar">
+						<li><button id="lk_message" class="btn btn-primary">Crear Mensaje</button></li>
+					</ul>
+					<ul class="nav nav-sidebar">
+						<li><button id="lk_dispatch" class="btn btn-primary">Nueva Convocatoria</button></li>
+					</ul>
+					<ul class="nav nav-sidebar">
+						<li><button id="lk_addDispatch" class="btn btn-primary">Agregar a Convocatoria</button></li>
+					</ul>
+					<ul class="nav nav-sidebar">
+						<li><button id="lk_report" class="btn btn-primary">Informes</button></li>
 					</ul>
 
 				</div>

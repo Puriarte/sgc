@@ -21,6 +21,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import org.apache.commons.lang.RandomStringUtils;
+import org.apache.commons.validator.EmailValidator;
 
 import com.puriarte.convocatoria.core.domain.Constants;
 import com.puriarte.convocatoria.persistence.Assignment;
@@ -191,7 +192,7 @@ public class DispatchService1 {
 		em.persist(dispatch);
 		em.getTransaction().commit();
 
-		return 0;
+		return dispatch.getId();
 	}
 
 	/**
@@ -210,10 +211,10 @@ public class DispatchService1 {
 	public int insert(String message, String name, String code, Place place, Date creationDate, Date scheduledDate, Date scheduledEndDate,
 			String[] personIds, HashMap categories, SmsStatus status) {
 
-		AssignmentStatus assignmentstatus = Facade.getInstance().selectAssingmentStatus(Constants.ASSIGNMENT_STATUS_ASSIGNED);
+		AssignmentStatus assignmentstatus = Facade.getInstance().selectAssingmentStatus(Constants.ASSIGNMENT_STATUS_PENDING);
 		DispatchStatus dispatchStatus = Facade.getInstance().selectDispatchStatus(Constants.DISPATCH_STATUS_ACTIVE);
 
-		// Inicializo la convocatoria
+		// Inicializo la convocatoria como ACTIVA
 		Dispatch dispatch = new Dispatch();
 		dispatch.setName(name);
 		dispatch.setCode(code);
@@ -226,6 +227,7 @@ public class DispatchService1 {
 			PersonMovil person = Facade.getInstance().selectPersonMovil(Integer.parseInt(idPerson));
 			if (person!=null){
 				PersonCategory category=new PersonCategory();
+				// Obtengo la categoría de la persona para la convocatoria
 				try{
 					if(categories.containsKey(person.getPerson().getId())){
 						int categoryId = (int) categories.get(person.getPerson().getId());
@@ -447,6 +449,43 @@ public class DispatchService1 {
 			return null;
 		}
 		
+	}
+
+	public int enviarSmsStatus(int id) {
+		SmsStatus statusEnEspera =  Facade.getInstance().selectSmsStatus(Constants.SMS_STATUS_EN_ESPERA_CIERRE_DISPATCH); 
+		SmsStatus statusPendiente =  Facade.getInstance().selectSmsStatus(Constants.SMS_STATUS_PENDIENTE); 
+		AssignmentStatus assignmentstatusPending = Facade.getInstance().selectAssingmentStatus(Constants.ASSIGNMENT_STATUS_PENDING);
+		AssignmentStatus assignmentstatus = Facade.getInstance().selectAssingmentStatus(Constants.ASSIGNMENT_STATUS_ASSIGNED);
+
+		final EntityManager em = getEntityManager();
+		int i=0;
+		try{
+			Dispatch dispatch = this.selectDispatch(id);
+			// Me quedo con el ultimo mensaje generado para una persona
+	
+			em.getTransaction().begin();
+			// Obtengo todas las asignaciones del dispatch
+			for (Job jpb :dispatch.getJobList()){
+				for (Assignment as :jpb.getAssignmentList()){
+					if (as.getStatus().equals(assignmentstatusPending))
+						as.setStatus(assignmentstatus);
+					em.persist(as);
+					for (SMS sms :as.getSmsList()){
+						if (sms.getStatus().getId()==statusEnEspera.getId()){
+							sms.setStatus(statusPendiente);
+							em.persist(sms);
+							i=i+1;
+						}
+					}
+				}
+			}
+			
+			em.getTransaction().commit();
+		}catch(Exception e){
+			em.getTransaction().rollback();
+		}
+		
+		return i;
 	}
 
 	
