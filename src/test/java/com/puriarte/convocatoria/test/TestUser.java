@@ -14,7 +14,7 @@ public class TestUser {
 	public void registrarSMSEntrante() {
 
 		try{
-		Facade.getInstance().selectUser("puriarte", "puriarte");
+	//	Facade.getInstance().selectUser("puriarte", "puriarte");
 		
 		}catch(Exception e){
 			fail(e.getMessage());

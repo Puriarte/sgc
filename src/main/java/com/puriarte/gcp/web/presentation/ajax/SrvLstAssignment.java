@@ -207,7 +207,7 @@ public class SrvLstAssignment extends HttpServlet {
 //		strXml +="\"rows\": " +"[" + jSonItems + "]}";
 		String strXml = "{[" + jSonItems + "]}";
 
-		System.out.println(strXml);
+	//	System.out.println(strXml);
 		return strXml;
 	}
 

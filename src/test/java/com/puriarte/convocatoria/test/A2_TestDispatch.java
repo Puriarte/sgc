@@ -56,7 +56,7 @@ public class A2_TestDispatch {
 	}
 
 	public void enviarDispatch(int id){
-		Facade.getInstance().sendDispatchSMS(id);
+	//	Facade.getInstance().sendDispatchSMS(id);
 	}
 
 	public void registrarSMSEntrante() {

@@ -210,7 +210,7 @@ public class SrvLstDispatch extends HttpServlet {
 		strXml +="\"total\": " + totalRegistros/strRows + ",";
 		strXml +="\"rows\": " +"[" + jSonItems + "]}";
 
-		System.out.println(strXml);
+	//	System.out.println(strXml);
 		return strXml;
 	}
  

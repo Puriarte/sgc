@@ -188,7 +188,7 @@ public class SrvLstPerson extends HttpServlet {
 		}
 		
 		jSonItems = jSonItems.replaceAll(System.getProperty("line.separator"), "");
-		System.out.println(jSonItems);
+//		System.out.println(jSonItems);
 
 		if (jSonItems.lastIndexOf(",")>0) jSonItems=jSonItems.substring(0,jSonItems.lastIndexOf(","));
 
@@ -201,7 +201,7 @@ public class SrvLstPerson extends HttpServlet {
 		strXml +="\"rows\": " +"[" + jSonItems + "],";
 		strXml +="\"footer\": " +"[{\"saldo\":" + totalSaldo + ",\"facturas\":" + totalFacturas + ",\"contados\":" + totalContados + ",\"afavor\":" + totalAFavor + "}]}";
 
-		System.out.println(strXml);
+//		System.out.println(strXml);
 		return strXml;
 		
 	}

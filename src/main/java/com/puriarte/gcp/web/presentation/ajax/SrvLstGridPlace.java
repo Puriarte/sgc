@@ -133,7 +133,7 @@ public class SrvLstGridPlace extends RestrictionServlet {
 		strXml +="\"rows\": " +"[" + jSonItems + "]";
 		strXml +="}";
 
-		System.out.println(strXml);
+//		System.out.println(strXml);
 		return strXml;
 	}
 

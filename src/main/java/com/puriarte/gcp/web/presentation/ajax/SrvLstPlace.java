@@ -37,7 +37,7 @@ public class SrvLstPlace extends RestrictionServlet {
         	}
 
         	strXml += "</select>";
-        	System.out.println(strXml);
+        //	System.out.println(strXml);
         	out.print(strXml);
 
         } catch(Exception e) {

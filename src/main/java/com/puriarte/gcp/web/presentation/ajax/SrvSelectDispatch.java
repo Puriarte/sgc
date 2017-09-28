@@ -56,7 +56,7 @@ public class SrvSelectDispatch extends RestrictionServlet {
         }
 
  	           strXml += "</select>";
-	           System.out.println(strXml);
+	    //       System.out.println(strXml);
 	           out.print(strXml);
 
 

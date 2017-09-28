@@ -88,7 +88,7 @@
 			<table class="table-condensed" id="personTable">
             <tbody>
                 <tr >
-                	<td rowspan="3"><img width="120px" height="120px"  src="./uploads/${stFoto}" /></td>
+                	<td rowspan="3"><img width="120px" height="120px"  src="images/faces/flag_23soz0bpgb9.jpg" /></td>
                     <td><label class="col-md-2 control-label input-sm" for="NUMERO">Numero</label>  </td>
                     <td><input id="NUMERO" name="NUMERO" type="text" placeholder="" class="form-control input-md" value="${stNumero}"></td>
                     <td><label class="col-md-2 control-label input-sm" for="NRO DOCUMENTO">Documento</label>  </td>

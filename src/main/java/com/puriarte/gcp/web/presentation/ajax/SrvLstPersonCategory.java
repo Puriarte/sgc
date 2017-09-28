@@ -36,7 +36,7 @@ public class SrvLstPersonCategory extends RestrictionServlet {
             	}
 
  	           strXml += "</select>";
-           	   System.out.println(strXml);
+           //	   System.out.println(strXml);
 	           out.print(strXml);
 
 

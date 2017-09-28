@@ -234,6 +234,8 @@ public class ActUpdatePerson extends RestrictionAction {
 		    	InputStream is = foto.getInputStream();
 		    
 		        int BUFFER_LENGTH = 4096;
+		        
+	//	        System.out.println(System.getenv("OPENSHIFT_DATA_DIR") + "faces/"+ fileName);
 		        FileOutputStream os = new FileOutputStream(System.getenv("OPENSHIFT_DATA_DIR") + "faces/"+ fileName);
 		        byte[] bytes = new byte[BUFFER_LENGTH];
 		        int read = 0;
