@@ -406,8 +406,8 @@
 		<set-property property="idOpMenu" value="502"/>
 		<set-property property="idComponente" value="13"/>
 		<forward name="load" path="/frm_person.jsp"/>
-		<forward name="success" path="/resultado_operacion_json.jsp"/>
-		<forward name="failure" path="/resultado_operacion_json.jsp"/>
+		<forward name="success" path="/resultado_operacion.jsp"/>
+		<forward name="failure" path="/resultado_operacion.jsp"/>
 </action>
 
 

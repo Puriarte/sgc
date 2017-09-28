@@ -16,6 +16,7 @@ import javax.persistence.criteria.Root;
 
 import org.eclipse.persistence.internal.jpa.querydef.CriteriaQueryImpl;
 
+import com.puriarte.convocatoria.core.domain.Constants;
 import com.puriarte.convocatoria.persistence.Assignment;
 import com.puriarte.convocatoria.persistence.AssignmentStatus;
 import com.puriarte.convocatoria.persistence.EntityManagerHelper;
@@ -157,6 +158,7 @@ public class SMSService1 {
 		if (toDate != null) predicateList.add(cb.lessThanOrEqualTo(sms.<Date>get("creationDate"), toDate));
 		if (estado>0) predicateList.add(cb.equal(status.get("id"), estado));
 		predicateList.add(cb.equal(sms.get("deleted"), deleted));
+		predicateList.add(cb.notEqual(status.get("id"), Constants.SMS_STATUS_EN_ESPERA_CIERRE_DISPATCH));
 		
 		Predicate[] predicates = new Predicate[predicateList.size()];
 		predicateList.toArray(predicates);
@@ -221,6 +223,8 @@ public class SMSService1 {
 		if (toDate != null) predicateList.add(cb.lessThanOrEqualTo(sms.<Date>get("creationDate"), toDate));
 		if (estado>0) predicateList.add(cb.equal(status.get("id"), estado));
 		if (convocatoria!=null) predicateList.add(cb.equal(dispatch.get("id"), convocatoria));
+
+		predicateList.add(cb.notEqual(status.get("id"), Constants.SMS_STATUS_EN_ESPERA_CIERRE_DISPATCH));
 		predicateList.add(cb.equal(sms.get("deleted"), deleted));
 		
 		Predicate[] predicates = new Predicate[predicateList.size()];
@@ -270,7 +274,9 @@ public class SMSService1 {
 		if (estado>0) predicateList.add(cb.equal(status.get("id"), estado));
 		if (convocatoria>0) predicateList.add(cb.equal(dispatch.get("id"), convocatoria));
 		predicateList.add(cb.equal(from.get("deleted"), deleted));
-		
+
+		predicateList.add(cb.notEqual(status.get("id"), Constants.SMS_STATUS_EN_ESPERA_CIERRE_DISPATCH));
+
 		Predicate[] predicates = new Predicate[predicateList.size()];
 		predicateList.toArray(predicates);
 		q.select(cb.count(from));

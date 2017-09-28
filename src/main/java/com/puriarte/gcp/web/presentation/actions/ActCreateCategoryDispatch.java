@@ -166,7 +166,7 @@ public class ActCreateCategoryDispatch extends RestrictionAction {
 					int id = Facade.getInstance().insertDispatch(message, name, code, place, creationDate, scheduledDate , scheduledEndDate, arPersonIds, arPersonCategory);
 					
 					if (dynaForm.get("enviarSMS")!=null){
-						Facade.getInstance().sendDispatchSMS(id);
+						Facade.getInstance().sendDispatchSMS(id, null, null);
 					}
 				}
 

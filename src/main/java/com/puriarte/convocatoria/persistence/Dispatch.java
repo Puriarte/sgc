@@ -178,4 +178,36 @@ public class Dispatch implements Serializable {
 		String a ="";
 	}
 
+	public ArrayList<Integer> getPersonIds() {
+		ArrayList<Integer> resultado = new ArrayList<Integer>();
+		if (jobList==null)
+			return null;
+		
+		for(Job job : jobList){
+			for(Assignment assignment: job.getAssignmentList()){
+				if (!resultado.contains(assignment.getPersonMovil().getId())){
+					resultado.add(assignment.getPersonMovil().getId());
+				}
+			}
+		}
+		return resultado;
+	}
+
+	public boolean containsAssignment(Integer idPersonMovil, int idcategory) {
+
+		if (jobList==null)
+			return false;
+		
+		for(Job job : jobList){
+			int idJobCategory =job.getCategory().getId();
+			for(Assignment assignment: job.getAssignmentList()){
+				if ( (assignment.getPersonMovil().getId()==idPersonMovil) && 
+					(idJobCategory==idcategory) )
+					return true;
+			}
+		}
+
+		return false;
+	}
+
 }

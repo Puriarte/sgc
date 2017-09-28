@@ -133,7 +133,9 @@
 					<input type="time" class="form-control input-sm" name="eventEndHour"  value="" id="eventEndHour" >
 				</div>
 				<div class="col-md-6">
-					<input type="checkbox" class="form-control input-sm" name="enviarSMS"  value="" id="enviarSMS" >
+					<label class="form-check-label">
+						<input type="checkbox" class="form-check-input" name="enviarSMS"  value="" id="enviarSMS">&nbspENVIAR AHORA
+					</label>
 				</div>
 			</div>
 		</div>
@@ -162,7 +164,7 @@
 		</div>
 		<div class="row">
 			<div class="col-md-1">
-				<label class="control-label input-sm">Destinatarios  </label>
+				<label class="control-label input-sm">Destinatarios</label>
 			</div>
 			<div class="col-md-11">
 				<logic:present name="frmAdmDispatch" property="colPerson">

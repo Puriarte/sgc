@@ -7,7 +7,6 @@
 <%@ taglib uri="/WEB-INF/fmt-rt.tld" prefix="fmt-rt"%>
 <%@ taglib uri="/WEB-INF/fn.tld" prefix="fn"%>
 
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//ES" "http://www.w3.org/TR/xhtml2/DTD/xhtml1-strict.dtd">
 <html lang="es">
 <head>
@@ -52,6 +51,12 @@
 <style>
 .ui-jqgrid tr.jqgrow td {
 	white-space: normal
+}
+.nav-sidebar{
+	margin-bottom: 5px;
+}
+.btn{
+	padding: 3px 6px
 }
 </style>
 
@@ -112,6 +117,9 @@
 					</ul>
 					<ul class="nav nav-sidebar">
 						<li><button id="lk_actualizar" class="btn btn-primary">Refrescar</button></li>
+					</ul>
+					<ul class="nav nav-sidebar">
+						<li><button id="lk_edit" class="btn btn-primary">Modificar</button></li>
 					</ul>
 				</div>
 

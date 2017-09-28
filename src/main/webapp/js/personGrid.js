@@ -242,8 +242,8 @@ jQuery(document).ready(function(){
 			}
 			}
 		}
-	}).navGrid('#pagerArticulos',{edit:false,add:false,del:false,search: false}, editOptions , addOptions)
-	.navButtonAdd("#pagerArticulos", {
+	}).navGrid('#pagerArticulos',{edit:false,add:false,del:false,search: false}, editOptions , addOptions);
+/*	.navButtonAdd("#pagerArticulos", {
 		    caption: "Agregar",
 		    buttonicon: "ui-icon-disk",
 		    onClickButton: function () {
@@ -295,7 +295,7 @@ jQuery(document).ready(function(){
         },
         position: "last"
     });
-
+*/
 	$("#bedata").click(function(){
 		var gr = jQuery("#gridArticulos").jqGrid('getGridParam','selrow');
 		if( gr != null ) jQuery("#gridArticulos").jqGrid('editGridRow',gr,{height:280,reloadAfterSubmit:true, closeAfterEdit: true});
@@ -384,7 +384,7 @@ jQuery(document).ready(function(){
 		return false;
 	});
 
-	//Para acutalizar la grilla
+	//Crear Convocatoria
 	$("#lk_dispatch").click(function(){
 		try{
 			ingresarListaSMS();
@@ -572,6 +572,7 @@ function ingresarListaSMS(){
 				$( this ).dialog( "close" );
 			}
 		},
+		title: "Agregar Personas a Convocatoria",
 		modal: true,
 		resizable: true,
 		height:550,
@@ -590,34 +591,12 @@ function ingresarListaSMS(){
 	return false;
 }
 
-function agregarADispatch1212(gr){
-	try{
-		var s;
-		s = jQuery("#gridArticulos").jqGrid('getGridParam','selarrrow');
-		var url= "addToCategoryDispatch.do?accion=load&nroDestino=" + s.toString();
-		var x=1300;
-		var y=600;
-		var x1=(screen.width - x) /2;
-		var y1=(screen.height - y) /2;
-
-		var params="'location=0,toolbar=0,directories=0,status=0,menubar=0,scrollbars=1,copyhistory=0,resizable=0," +
-		"position: absolute, top=" + y1 + ", left=" + x1 + ", height=" + y + ", width=" + x + "'"
-
-		var win = window.open(url,"modVer",params);
-
-
-	}catch(Exception){
-		alert(Exception.message);
-	}
-	return false;
-}
-
 
 function agregarADispatch(gr){
 	try{
 		$("#accion").val("cargar");
-		var personId = jQuery("#gridArticulos").jqGrid('getGridParam','selrow');
-		refDialogIframe = $('<iframe id="ifModCliente" frameborder="0" marginwidth="0px" marginheight="0px" style="overflow-y:hidden; overflow-x:scroll;" src="addToCategoryDispatch.do?accion=load&nroDestino=' + personId + '"/>').dialog({
+		var personId = jQuery("#gridArticulos").jqGrid('getGridParam','selarrrow');
+		refDialogIframe = $('<iframe id="ifModCliente" frameborder="0" marginwidth="20px" marginheight="20px" width="100%" src="addToCategoryDispatch.do?accion=load&nroDestino=' + personId + '"/>').dialog({
 			resizable: true,
 			width:875,
 			height:500,
@@ -633,9 +612,9 @@ function agregarADispatch(gr){
 			buttons: {
 				"Aceptar": function() {
 					refDialogIframe["0"].contentDocument.getElementById("btnEnviar").click();
-					$( this ).dialog( "close" );
+/*					$( this ).dialog( "close" );
 					$("#lk_actualizar").click();
-				},
+	*/			},
 				"Cancelar": function() {
 					$( this ).dialog( "close" );
 				}
@@ -647,87 +626,6 @@ function agregarADispatch(gr){
 	return false;
 }
 
-
-/*
-function agregarADispatch(){
-	var s;
-	s = jQuery("#gridArticulos").jqGrid('getGridParam','selarrrow');
-	var url= "addToCategoryDispatch.do?accion=load&nroDestino=" + s.toString();
-	$("#nroDestino").val(s);
-	var dialog = $('<div style="display:none" class="loading"><iframe> </iframe></div>').appendTo('body');
-
-	// open the dialog
-	dialog.dialog({
-		// add a close listener to prevent adding multiple divs to the document
-		close: function(event, ui) {
-			// remove div with all data and events
-			dialog.remove();
-		},
-		buttons: {
-			"Aceptar": function() {
-				var isValidForm = $('#frmAdmDispatch')[0].checkValidity();
-				if (!isValidForm) {
-					document.getElementById("btnEnviar").click();
-				}else{
-					$.ajax({
-						url: "addToCategoryDispatch.do",
-						data: $("#frmAdmDispatch").serialize(),
-						type: $("#frmAdmDispatch").attr("method"),
-						dataType: "html",
-						dataFilter:function(data,dataType){
-							$("#dialogo_resultados").html(data);
-							$("#dialogo_resultados").dialog({
-								resizable: false,
-								width:400,
-								height:240,
-								modal: true,
-								open: function(event, ui){
-									$('body').css('overflow','hidden');
-									$('.ui-widget-overlay').css('width','100%');
-								},
-								close: function(event, ui) {
-									$('body').css('overflow','auto');
-								},
-								buttons: {
-									"Aceptar": function() {
-										$( this ).dialog( "close" );
-										try{
-											dialog.remove();
-										}catch(e){}
-									}
-								}
-							});
-							$("#dialogo_resultados").dialog("open");
-							return data;
-						},
-						error: function(jqXHR, textStatus, errorThrown){
-							alert("error = " + textStatus);
-						}
-					});
-				}
-			},
-			"Cancelar": function() {
-				$( this ).dialog( "close" );
-			}
-		},
-		modal: true,
-		resizable: true,
-		height:550,
-		width:850
-	});
-	// load remote content
-	dialog.load(
-			url,
-			{}, // omit this param object to issue a GET request instead a POST request, otherwise you may provide post parameters within the object
-			function (responseText, textStatus, XMLHttpRequest) {
-				// remove the loading class
-				dialog.removeClass('loading');
-			}
-	);
-
-	return false;
-}
-*/
 
 function removeOptions(selectbox)
 {

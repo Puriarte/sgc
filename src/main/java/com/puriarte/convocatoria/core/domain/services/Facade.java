@@ -575,13 +575,18 @@ public class Facade {
 	}*/
 
 	public int insertDispatch(String message, String name, String code, Place place,
-			Date creationDate, Date scheduledDate, Date scheduledEndDate, String[] personIds,
+			Date creationDate, Date scheduledDate, Date scheduledEndDate, String[] personMovilIds,
 			HashMap categories) {
 		SmsStatus status = selectSmsStatus(Constants.SMS_STATUS_EN_ESPERA_CIERRE_DISPATCH); //.SMS_STATUS_PENDIENTE);
 		return dispatchService.insert(message, name, code, place, creationDate,
-				scheduledDate, scheduledEndDate, personIds, categories, status);
+				scheduledDate, scheduledEndDate, personMovilIds, categories, status);
 	}
 
+	public void addToDispatch(Dispatch dispatch, String message, Date creationDate,  String[] personMovilIds, HashMap categories) {
+		dispatchService.addToDispatch(dispatch, message, creationDate,  personMovilIds, categories);
+	}
+
+	
 	public int updateDispatch(int id, String mensaje, String name, Place place,
 			Date creationDate, Date scheduledDate, Integer dispatchStatus,
 			HashMap personIds, HashMap categories, HashMap arStatusIds,
@@ -592,9 +597,12 @@ public class Facade {
 				arStatusIds, arAssignmentIds, arForwardIds, status);
 	}
 	
-	public int sendDispatchSMS(int id){
-		return dispatchService.enviarSmsStatus(id);
-		
+	public int sendDispatchSMS(int id, String[] idsPerson, HashMap arPersonCategory){
+		if (idsPerson==null)
+			return dispatchService.enviarSmsStatus(id);
+		else
+			return dispatchService.enviarSmsStatus(id, idsPerson,arPersonCategory);
+			
 	}
 
 	public int insertBulkSMS(String message, String name, Date creationDate,

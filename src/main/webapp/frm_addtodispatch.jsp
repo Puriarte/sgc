@@ -53,6 +53,12 @@
 	
 	<style>
 	 
+	 .body{
+	 	padding-top:10px;
+	  	width:600px;
+   		margin:0 auto;
+   		background-color: #f5faff ;
+	}
 	.row {
 	  margin-right: -10px;
 	}
@@ -76,9 +82,8 @@
 	
 </head>
 
- <body >
-
-	<html:form action="/addToCategoryDispatch.do" method="post" styleId="frmAdmDispatch" style="margin: 0px 0px 0px 0px;">
+ <body style="padding-top:10px;background-color:#f5faff;">
+	<html:form action="/addToCategoryDispatch.do" method="post" styleId="frmAdmDispatch">
 	<html:hidden  property="accion" styleId="accion"/>
 	<bean:define id="stPrefix" name="frmAdmDispatch" property="prefix" />
 	<bean:define id="stCode" name="frmAdmDispatch" property="code" />
@@ -92,7 +97,6 @@
 	<bean:define id="stNroDestino" name="frmAdmDispatch"	property="nroDestino" />
 
 	<html:hidden property="nroDestino" value="${stNroDestino}" />
-
 	<div class="row" id="categoryRowModel">
 		<div class="table-responsive"> 
 			<logic:empty name="frmAdmDispatch" property="dispatchId">
@@ -105,19 +109,22 @@
 				          	<option value="">Seleccione</option>
 							<logic:present name="frmAdmDispatch" property="dispatches">
 								<logic:iterate name="frmAdmDispatch" property="dispatches" id="item" indexId="idx">
-						        	<option value="${item.id}">${item.name}</option>
+						        	<option value="${item.id}">${item.code} - ${item.name}</option>
 								</logic:iterate>
 								</select>
 							</logic:present>
 						</td>
 						<td>
+							<button class="btn btn-sm btn-primary btn-block" id="btnEnviar" type="submit" >Continuar</button>
 						</td>
 	                </tr>
 	             </tbody>
 	             </table>
 			</logic:empty>
-		<logic:notEmpty name="frmAdmDispatch" property="dispatchId">
-				<table class="table-condensed" id="personTable" width="80%">
+			<logic:notEmpty name="frmAdmDispatch" property="dispatchId">
+				<html:hidden property="dispatchId" />			
+				<button class="btn btn-sm btn-primary btn-block" id="btnEnviar" type="submit"  style="display:none"></button>
+				<table class="table-condensed" id="personTable" width="750px">
 	            <tbody>
 	                <tr>
 	                	<td width="120px">
@@ -132,46 +139,50 @@
 					</tr>
 				</tbody>
 				</table>
-
-				<table class="table-condensed" id="personTable">
+				<table class="table-condensed" id="personTable" width="750px">
 	            <tbody>
 	                <tr>
-	                	<td>
+	                	<td width="120px">
 							<label class="control-label input-sm">Fecha</label>
 						</td>
-	                	<td>
+	                	<td width="120px">
 							<input type="text" value="${stEventDateAlt2}" name="eventDate"
 								id="eventDate" class="form-control input-sm" disabled="disabled" /> 
 						</td>
-	                	<td>
+	                	<td width="120px">
 							<input type="text" value="${stEventHour}" class="form-control input-sm"
 							disabled="disabled" /> 
 						</td>
-	                	<td>
+	                	<td width="80px">
 							<label class="control-label input-sm">Hasta</label>
 						</td>
-	                	<td>
-							<input type="text" value="${stEventEndHour}" class="form-control input-sm"
-								disabled="disabled" /> 
+	                	<td width="120px">
+							<input type="text" value="${stEventEndHour}" class="form-control input-sm" disabled="disabled" /> 
+						</td>
+	                	<td width="20px" align="right">
+							<input type="checkbox" class="form-control input-sm" name="enviarSMS"  value="" id="enviarSMS" >
+						</td>
+	                	<td width="180px">ENVIAR AHORA
 						</td>
 					</tr>
 				</tbody>
 				</table>
 
-				<table class="table-condensed" id="personTable">
+				<table class="table-condensed" id="personTable" align="center" width="750px">
 	            <tbody>
 	                <tr>
-	    	            <td align="center" ><h5><b>Destinatarios</b></small></h5></td>
+	    	            <td colspan="2" align="center"><h5><b>Destinatarios</b></small></h5></td>
     	            </tr>
 							<logic:present name="frmAdmDispatch" property="colPerson">
 								<bean:define id="listaPerson" name="frmAdmDispatch" property="colPerson"/>
 								<logic:iterate id="person" name="listaPerson" indexId="index">
 								<tr>
 									<td>
+										<input type="hidden"  name="personId_${person.id}" id="personId_${person.id}" value="${person.id}" />
 										<label class="control-label input-sm">${person.person.name}</label>
 									</td>
 									<td>
-										<select class="form-control input-sm" name="personCategory_${person.person.id}" id="personCategory_${person.person.id}" required>
+										<select class="form-control input-sm" name="personCategory_${person.id}" id="personCategory_${person.id}" required>
 					                    	<option value="">Seleccione</option>
 											<logic:iterate name="frmAdmDispatch" property="categories" id="item" indexId="idx">
 											<c:if test="${person.person.preferedCategory.id==item.id}">
@@ -188,17 +199,11 @@
 							</logic:present>
 				</tbody>
 				</table>
-				
-		</logic:notEmpty>
+			</logic:notEmpty>
+
          </div>
     </div>
 
-		<div class="row">
-		<div></div>
-			<div class="col-md-2">
-				<button class="btn btn-sm btn-primary btn-block" id="btnEnviar" type="submit" >Continuar</button>
-			</div>
-	</div>
      
 
 </html:form>

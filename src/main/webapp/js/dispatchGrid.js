@@ -248,7 +248,22 @@ jQuery(document).ready(function(){
 	});
 
  
+	//Para acutalizar la grilla
+	$("#lk_edit").click(function(){
+		try{
+			var id = jQuery("#gridArticulos").jqGrid('getGridParam','selrow');
+			if (id)	{
+				ingresarListaSMS();
+			}else alert("Seleccione una convocator");
+			
+		}catch(Exception){
+			alert(Exception.message);
+		}
+		return false;
 
+	});
+
+	
 });
 
 
