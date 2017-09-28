@@ -323,10 +323,11 @@ public class DispatchService1 {
 	
 	public int update(int id, String message, String name, Place place,
 			Date creationDate, Date scheduledDate, Integer dispatchStatusId, HashMap personIds,
-			HashMap categories, HashMap arStatus,HashMap arAssignmentIds, HashMap arForwardIds,
-			SmsStatus status) {
+			HashMap categories, HashMap arStatus,HashMap arAssignmentIds, HashMap arForwardIds) {
 
-		AssignmentStatus assignmentstatus = Facade.getInstance().selectAssingmentStatus(Constants.ASSIGNMENT_STATUS_ASSIGNED);
+		SmsStatus status = Facade.getInstance().selectSmsStatus(Constants.SMS_STATUS_EN_ESPERA_CIERRE_DISPATCH); 
+
+		AssignmentStatus assignmentstatuspending = Facade.getInstance().selectAssingmentStatus(Constants.ASSIGNMENT_STATUS_PENDING);
 		DispatchStatus dispatchStatus = Facade.getInstance().selectDispatchStatus( dispatchStatusId);
 		
 		// Obtengo la convocatoria
@@ -334,16 +335,18 @@ public class DispatchService1 {
 		Dispatch dispatch2 = this.selectDispatch(id);
 		dispatch2.setDispatchStatus(dispatchStatus);
 		
+		// Itero en las asignaciones de la convocatoria
 		Iterator it = arAssignmentIds.entrySet().iterator();
 		while (it.hasNext()) {
 			Map.Entry entry = (Entry) it.next();
 			int key = (int) entry.getKey();
 			long idAssignment = new Long((Integer) entry.getValue());
+
 			int categoryId = 0;
 			int idStatus = (int) arStatus.get(key); 
-			boolean forward = false;
-			if ((arForwardIds.get(key)!=null) && arForwardIds.get(key).equals("on")) 
-				forward = true;
+//			boolean forward = false;
+	//		if ((arForwardIds.get(key)!=null) && arForwardIds.get(key).equals("on")) 
+	//			forward = true;
 			
 			PersonCategory category=new PersonCategory();
 			try{
@@ -373,7 +376,7 @@ public class DispatchService1 {
 
 						// Agrego el SMS a una nueva asignaci�n de trabajo
 						Assignment assignment = new Assignment();
-						assignment.setStatus(assignmentstatus);
+						assignment.setStatus(assignmentstatuspending);
 						assignment.setPersonMovil(person);
 						assignment.addSms (sms);
 						assignment.setAssignmentDate(creationDate);
@@ -407,15 +410,17 @@ public class DispatchService1 {
 					sms.setAction(Constants.SMS_ACTION_OUTCOME);
 					sms.setCreationDate(creationDate);
 					
-					assignment1.setStatus(assignmentstatus);
+					assignment1.setStatus(assignmentstatuspending);
 					List smsList = assignment1.getSmsList();
 					smsList.add(sms);
 					assignment1.setSmsList(smsList);
 				}else{
 					// Si hay que reenviar el mensaje
-					if (forward){
+/*					if (forward){
 						PersonCategory pc = Facade.getInstance().selectPersonCategory(categoryId);
 
+						// Me fijo si hay algun mensaje en espera 
+						
 						// Creo el SMS
 						SMS sms = new SMS();
 						sms.setMensaje(message.trim() + " " + pc.getName().trim());
@@ -429,7 +434,7 @@ public class DispatchService1 {
 						smsList.add(sms);
 						assignment1.setSmsList(smsList);
 						haveToUpdate  =true;
-					}
+					}*/
 					if  (!(assignment1.getStatus().getId()==idStatus)){
 						AssignmentStatus newStatus = Facade.getInstance().selectAssingmentStatus(idStatus);
 						assignment1.setStatus(newStatus);
@@ -504,7 +509,54 @@ public class DispatchService1 {
 		}
 		
 	}
+	
+	public int sendDispatchSMSByAssignment(int id, String[] arAssignmentIds,  HashMap arPersonCategory) {
+		SmsStatus statusEnEspera =  Facade.getInstance().selectSmsStatus(Constants.SMS_STATUS_EN_ESPERA_CIERRE_DISPATCH); 
+		SmsStatus statusPendiente =  Facade.getInstance().selectSmsStatus(Constants.SMS_STATUS_PENDIENTE); 
+		AssignmentStatus assignmentstatusPending = Facade.getInstance().selectAssingmentStatus(Constants.ASSIGNMENT_STATUS_PENDING);
+		AssignmentStatus assignmentstatus = Facade.getInstance().selectAssingmentStatus(Constants.ASSIGNMENT_STATUS_ASSIGNED);
 
+		final EntityManager em = getEntityManager();
+		int i=0;
+		try{
+			Dispatch dispatch = this.selectDispatch(id);
+			// Me quedo con el ultimo mensaje generado para una persona
+	
+			em.getTransaction().begin();
+			
+			// Obtengo todas las asignaciones del dispatch
+			for (Job jpb :dispatch.getJobList()){
+				for (Assignment as :jpb.getAssignmentList()){
+					// Me fijo si el assgnment corresponde a una persona de la lista
+					if (Arrays.asList(arAssignmentIds).indexOf(String.valueOf(as.getId()))>=0){
+						// Me fijo que la categoria corresponda a la categoria indicada para la persona en el assignment
+						if(arPersonCategory.containsKey(String.valueOf(as.getId()))){
+							if (((int)arPersonCategory.get(as.getPersonMovil().getId()))==jpb.getCategory().getId()){
+								if (as.getStatus().equals(assignmentstatusPending))
+									as.setStatus(assignmentstatus);
+								em.persist(as);
+								for (SMS sms :as.getSmsList()){
+									if (sms.getStatus().getId()==statusEnEspera.getId()){
+										sms.setStatus(statusPendiente);
+										em.persist(sms);
+										i=i+1;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			
+			em.getTransaction().commit();
+		}catch(Exception e){
+			em.getTransaction().rollback();
+		}
+		
+		return i;
+	}
+
+	
 	public int enviarSmsStatus(int id, String[] arPersonIds,  HashMap arPersonCategory) {
 		SmsStatus statusEnEspera =  Facade.getInstance().selectSmsStatus(Constants.SMS_STATUS_EN_ESPERA_CIERRE_DISPATCH); 
 		SmsStatus statusPendiente =  Facade.getInstance().selectSmsStatus(Constants.SMS_STATUS_PENDIENTE); 
@@ -586,6 +638,20 @@ public class DispatchService1 {
 		}
 		
 		return i;
+	}
+
+	public Assignment getAssignment(long assignmentid) {
+		final EntityManager em = getEntityManager();
+		try{
+			Query query = em.createNamedQuery("Assignment.SelectAssignment")
+					.setParameter("assignmentid", assignmentid);
+
+			Assignment a = (Assignment) query.getSingleResult();
+			
+			return a;
+		}catch(Exception e){
+			return null;
+		}
 	}
 
 

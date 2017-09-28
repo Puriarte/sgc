@@ -204,8 +204,8 @@ jQuery(document).ready(function(){
                 }
             });
         }
-	}).navGrid('#pagerArticulos',{edit:false,add:false,del:false,search: false})
-	.navButtonAdd('#pagerArticulos', {
+	}).navGrid('#pagerArticulos',{edit:false,add:false,del:false,search: false});
+/*	.navButtonAdd('#pagerArticulos', {
         caption: "",
         buttonicon: "ui-icon-pencil",
         onClickButton: function () {
@@ -216,7 +216,7 @@ jQuery(document).ready(function(){
     		}
         },
         position: "last"
-    });;
+    });*/;
 
 	$("#bedata").click(function(){
 		var gr = jQuery("#gridArticulos").jqGrid('getGridParam','selrow');
@@ -411,6 +411,7 @@ function ingresarListaSMS(){
 				$( this ).dialog( "close" );
 			}
 		},
+		title: "Modificar Convocatoria",
 		modal: true,
 		resizable: true,
 		height:550,

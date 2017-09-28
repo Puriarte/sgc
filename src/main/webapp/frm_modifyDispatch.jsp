@@ -211,7 +211,7 @@
 					<div class="col-md-3">
 					</div>
 					<div class="col-md-1">&nbsp;</div>
-					<div class="col-md-1"><label class="control-label input-sm">Reenviar</label></div>
+					<div class="col-md-1"><label class="control-label input-sm">Enviar</label></div>
 				</div>
 
 				<div class="row" id="assignmentRowContainer">
@@ -284,9 +284,16 @@
 									<div class="col-md-1">
 									</div>
 									<div class="checkbox col-md-1">
-										<input type="checkbox" 
-											name="forward_${counter}"
-											id="forward_${counter}" />
+										<c:if test="${assignment.status.id==1}">
+											<input type="checkbox" 
+												name="forward_${counter}"
+												id="forward_${counter}"  checked="checked" />
+										</c:if>
+										<c:if test="${assignment.status.id!=1}">
+											<input type="checkbox" 
+												name="forward_${counter}"
+												id="forward_${counter}"  />
+										</c:if>
 									</div>
 								</div>
 							</logic:iterate>
@@ -303,7 +310,7 @@
 					<div class="col-md-3">
 						<button class="btn btn-sm btn-primary btn-block"
 							id="btnAddaAsignment" type="button"
-							onclick="addAssignmentRow(this, ${counter});return false;">Agregar
+							onclick="addAssignmentRow(this, ${counter});return false;" style="display: none;">Agregar
 							Destinatario</button>
 					</div>
 				</div>

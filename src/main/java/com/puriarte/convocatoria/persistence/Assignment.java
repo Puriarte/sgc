@@ -22,6 +22,8 @@ import javax.persistence.TemporalType;
 
 
 @NamedQueries({
+	@NamedQuery(name="Assignment.SelectAssignment",
+	        query="SELECT s FROM Assignment s where s.id = :assignmentid "),	      
 	@NamedQuery(name="SelectCountAssignmentsByStatus",
 	        query="SELECT count(s) FROM Assignment s where s.personMovil.person.id = :personId and s.status.id = :status and s.assignmentDate BETWEEN :from AND :to  "),	      
 	@NamedQuery(name="SelectCountSentAssignments",

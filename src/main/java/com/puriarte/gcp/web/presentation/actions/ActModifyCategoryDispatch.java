@@ -4,7 +4,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -234,6 +237,26 @@ public class ActModifyCategoryDispatch extends RestrictionAction {
 //					strMensaje = strName.replace("á", "a").replace("é", "e").replace("í", "i").replace("ó", "o").replace("ú", "u");
 					Facade.getInstance().updateDispatch(id, message, name, place, creationDate, scheduledDate , dispatchStatus,
 							 personIds, arPersonCategory, arStatusIds, assignmentIds, forwardIds);
+
+					HashMap<Integer, Object> arPersonCategory1 = new HashMap<Integer, Object>();
+					
+					String aux="";
+					Iterator it = arPersonCategory.entrySet().iterator();
+					while (it.hasNext()) {
+						Map.Entry entry = (Entry) it.next();
+						int categoryKey = (int) entry.getKey();
+						int categoryValue = (Integer) entry.getValue();
+						int assignmentId= (int) assignmentIds.get(categoryKey);
+						if ((forwardIds.get(categoryKey)!=null) && forwardIds.get(categoryKey).equals("on")) {
+							Assignment as = Facade.getInstance().getAssignment(assignmentId);
+							aux=aux+as.getPersonMovil().getId()+",";
+							arPersonCategory1.put(as.getPersonMovil().getId(), categoryValue);
+						}
+					}
+					String[] arPersonIds = aux.split(",");
+					
+					// Envio los mensajes 
+					Facade.getInstance().sendDispatchSMS(id, arPersonIds, arPersonCategory1 );
 				}
 
 			} catch (Exception e) {

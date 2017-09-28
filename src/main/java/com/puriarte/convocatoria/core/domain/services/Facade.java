@@ -591,10 +591,9 @@ public class Facade {
 			Date creationDate, Date scheduledDate, Integer dispatchStatus,
 			HashMap personIds, HashMap categories, HashMap arStatusIds,
 			HashMap arAssignmentIds, HashMap arForwardIds) {
-		SmsStatus status = selectSmsStatus(Constants.SMS_STATUS_EN_ESPERA_CIERRE_DISPATCH); 
 		return dispatchService.update(id, mensaje, name, place, creationDate,
 				scheduledDate, dispatchStatus, personIds, categories,
-				arStatusIds, arAssignmentIds, arForwardIds, status);
+				arStatusIds, arAssignmentIds, arForwardIds);
 	}
 	
 	public int sendDispatchSMS(int id, String[] idsPerson, HashMap arPersonCategory){
@@ -602,6 +601,14 @@ public class Facade {
 			return dispatchService.enviarSmsStatus(id);
 		else
 			return dispatchService.enviarSmsStatus(id, idsPerson,arPersonCategory);
+			
+	}
+	
+	public int sendDispatchSMSByAssignment(int id, String[] idsPerson, HashMap arPersonCategory){
+		if (idsPerson==null)
+			return dispatchService.enviarSmsStatus(id);
+		else
+			return dispatchService.sendDispatchSMSByAssignment(id, idsPerson,arPersonCategory);
 			
 	}
 
@@ -753,6 +760,10 @@ public class Facade {
 	public void deleteSMS(SMS sms) {
 
 		this.smsService.getInstance().deleteSMS(sms);
+	}
+
+	public Assignment getAssignment(long idAssignment) {
+		return this.dispatchService.getInstance().getAssignment(idAssignment);
 	}
 
 }
