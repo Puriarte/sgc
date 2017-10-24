@@ -1,11 +1,25 @@
 package com.puriarte.convocatoria.core.domain.services;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.text.MessageFormat;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Properties;
+
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 
 import com.puriarte.convocatoria.core.exceptions.MovilException;
 import com.puriarte.convocatoria.core.exceptions.PersonException;
@@ -359,12 +373,99 @@ public class Facade {
 			// }
 		}
 
-		if (!enviado)
+		if (!enviado){
 			smsService.getInstance().insert(null, null, null, movil, text,
 					Constants.SMS_ACTION_INCOME,
 					selectSmsStatus(Constants.SMS_STATUS_RECIBIDO), date, uuid);
+			enviarMail(movil, text);
+		}
 	}
+	
+	private void enviarMail(PersonMovil movil, String text){
+		Properties props = new Properties();
+		props.put("mail.smtp.host", "smtp.gmail.com");
+		props.put("mail.smtp.socketFactory.port", "465");
+		props.put("mail.smtp.socketFactory.class",
+				"javax.net.ssl.SSLSocketFactory");
+		props.put("mail.smtp.auth", "true");
+		props.put("mail.smtp.port", "465");
+		
+		Session session = Session.getDefaultInstance(props,
+				new javax.mail.Authenticator() {
+					protected PasswordAuthentication getPasswordAuthentication() {
+						return new PasswordAuthentication("convocatorias983","convocatorias");
+					}
+				});
 
+			try {
+				
+				// Leo el template
+				String path= System.getenv("OPENSHIFT_DATA_DIR") + "templates/email_sms.html";
+
+				byte[] encoded = Files.readAllBytes(Paths.get(path));
+				String mensajeHtml = new String(encoded, java.nio.charset.Charset.defaultCharset());
+
+				String persona = "";
+				String nroMovil = "";
+				if ((movil!=null)&&(movil.getPerson()!=null))
+					persona=movil.getPerson().getName();
+
+				if ((movil!=null)&&(movil.getMovil()!=null))
+					nroMovil=movil.getMovil().getNumber();
+				String[] values = {nroMovil , persona, text};
+				
+			
+				Message message = new MimeMessage(session);
+				message.setFrom(new InternetAddress("convocatorias983@gmail.com"));
+				message.setRecipients(Message.RecipientType.TO,
+						InternetAddress.parse("puriarte@gmail.com"));
+				message.setSubject("MENSAJE RECIBIDO - GESTION DE CONVOCATORIAS");
+				message.setContent(MessageFormat.format(mensajeHtml, values), "text/html; charset=utf-8");
+				Transport.send(message);
+
+			} catch (MessagingException | IOException e) {
+				throw new RuntimeException(e);
+			}
+		
+	}
+/*
+	private void enviarMail2(PersonMovil movil, String text) {
+		try {
+		
+			SMTPSession smtp = new SMTPSession(
+					"localhost",
+					"",
+					""
+					);
+			
+			SMTPMail mail = new SMTPMail(
+					"info@elenatejeira.com.uy",
+					"info@elenatejeira.com.uy",
+					"MENSAJE RECIBIDO - GESTION DE CONVOCATORIAS",
+					"");
+	
+			mail.addToAddress("puriarte@gmail.com", "puriarte@gmail.com");
+	
+			String persona = "";
+			String nroMovil = "";
+			if ((movil!=null)&&(movil.getPerson()!=null))
+				persona=movil.getPerson().getName();
+
+			if ((movil!=null)&&(movil.getMovil()!=null))
+				nroMovil=movil.getMovil().getNumber();
+				
+			Object[] messageArguments = {nroMovil , persona, text};
+			String path;
+			path =   System.getenv("OPENSHIFT_DATA_DIR") + "templates/email_sms";
+
+			mail.setMessageHtmlFile(path,messageArguments);
+			smtp.sendMail(mail);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+	}
+*/
 	// SI este mensaje
 	public void updateSMSAssignment(SMS sms, int dispatchId) {
 
