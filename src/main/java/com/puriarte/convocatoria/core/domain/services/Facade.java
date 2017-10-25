@@ -418,7 +418,10 @@ public class Facade {
 				Message message = new MimeMessage(session);
 				message.setFrom(new InternetAddress("convocatorias983@gmail.com"));
 				message.setRecipients(Message.RecipientType.TO,
+						InternetAddress.parse("joaquin@elenatejeira.com"));
+				message.setRecipients(Message.RecipientType.BCC,
 						InternetAddress.parse("puriarte@gmail.com"));
+
 				message.setSubject("MENSAJE RECIBIDO - GESTION DE CONVOCATORIAS");
 				message.setContent(MessageFormat.format(mensajeHtml, values), "text/html; charset=utf-8");
 				Transport.send(message);
