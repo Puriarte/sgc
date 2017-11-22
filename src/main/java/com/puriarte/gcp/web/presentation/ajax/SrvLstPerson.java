@@ -188,20 +188,23 @@ public class SrvLstPerson extends HttpServlet {
 		}
 		
 		jSonItems = jSonItems.replaceAll(System.getProperty("line.separator"), "");
-//		System.out.println(jSonItems);
 
 		if (jSonItems.lastIndexOf(",")>0) jSonItems=jSonItems.substring(0,jSonItems.lastIndexOf(","));
 
-		//totalRegistros=resultados.size();
-		totalRegistros=(long) 100;
-		String strXml = "{\"total\": 1," ;
+		totalRegistros=(long) resultados.size();
+
+	/*	String strXml = "{\"total\": 1," ;
 		strXml +="\"page\": " + strPage + ",";
 		strXml +="\"records\": " + totalRegistros + ",";
 		strXml +="\"total\": " + totalRegistros/strRows + ",";
 		strXml +="\"rows\": " +"[" + jSonItems + "],";
 		strXml +="\"footer\": " +"[{\"saldo\":" + totalSaldo + ",\"facturas\":" + totalFacturas + ",\"contados\":" + totalContados + ",\"afavor\":" + totalAFavor + "}]}";
+*/
+		String strXml = "{";
+		strXml +="\"rows\": " +"[" + jSonItems + "],";
+		strXml +="\"footer\": " +"[{\"saldo\":" + totalSaldo + ",\"facturas\":" + totalFacturas + ",\"contados\":" + totalContados + ",\"afavor\":" + totalAFavor + "}]}";
 
-//		System.out.println(strXml);
+		//		System.out.println(strXml);
 		return strXml;
 		
 	}

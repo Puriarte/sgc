@@ -182,7 +182,7 @@ jQuery(document).ready(function(){
 			{name:'IMG', 			index:"12", align: 'left', width:1,  search: false }, 
 			{name:'RNDNAME', 		index:"13", align: 'left', jsonmap:"Picture",  hidden:true, width:0}, 
 		],
-		rowNum:300,
+		rowNum:1300,
 	   	scrollOffset:50,
 		multiselect: false,
 		caption: null,

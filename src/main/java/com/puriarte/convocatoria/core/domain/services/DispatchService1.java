@@ -2,15 +2,12 @@ package com.puriarte.convocatoria.core.domain.services;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.UUID;
-import java.util.Vector;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -22,7 +19,6 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import org.apache.commons.lang.RandomStringUtils;
-import org.apache.commons.validator.EmailValidator;
 
 import com.puriarte.convocatoria.core.domain.Constants;
 import com.puriarte.convocatoria.persistence.Assignment;
@@ -31,7 +27,6 @@ import com.puriarte.convocatoria.persistence.Dispatch;
 import com.puriarte.convocatoria.persistence.DispatchStatus;
 import com.puriarte.convocatoria.persistence.EntityManagerHelper;
 import com.puriarte.convocatoria.persistence.Job;
-import com.puriarte.convocatoria.persistence.Person;
 import com.puriarte.convocatoria.persistence.PersonCategory;
 import com.puriarte.convocatoria.persistence.PersonMovil;
 import com.puriarte.convocatoria.persistence.Place;
@@ -652,8 +647,5 @@ public class DispatchService1 {
 		}catch(Exception e){
 			return null;
 		}
-	}
-
-
-	
+	}	
 }

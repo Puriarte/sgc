@@ -55,6 +55,17 @@
 
 	</form-bean>
 
+	<form-bean dynamic="true" name="frmLstReport" type="org.apache.struts.action.DynaActionForm">
+		<form-property name="accion" type="java.lang.String" />
+		<form-property name="allIds" type="java.lang.Integer[]" />
+		<form-property name="maxResults" type="java.lang.Integer" />
+
+		<form-property name="fechaDesde" type="java.lang.String" />
+		<form-property name="fechaHasta" type="java.lang.String" />
+		<form-property name="report" type="java.lang.String" />
+
+	</form-bean>
+
 	<form-bean dynamic="true" name="frmLstDispatch" type="org.apache.struts.action.DynaActionForm">
 		<form-property name="accion" type="java.lang.String" />
 		<form-property name="allIds" type="java.lang.Integer[]" />
@@ -243,6 +254,7 @@
 </action>
 
 
+
 <action className="com.puriarte.gcp.web.presentation.actions.SecurityActionMapping"
 		path="/lstPerson"
 		name="frmLstPerson"
@@ -258,6 +270,20 @@
 
 </action>
 
+<action className="com.puriarte.gcp.web.presentation.actions.SecurityActionMapping"
+		path="/lstReport"
+		name="frmLstReport"
+		scope="request"
+		type="com.puriarte.gcp.web.presentation.actions.ActionListReport">
+
+		<set-property property="idOpMenu" value="1100"/>
+		<set-property property="idComponente" value="18"/>
+
+		<forward name="success" path="/lst_report.jsp"/>
+		<forward name="failure" path="/lst_report.jsp"/>
+		<forward name="resultado" path="/resultado_operacion.jsp"/>
+
+</action>
 
 <action className="com.puriarte.gcp.web.presentation.actions.SecurityActionMapping"
 		path="/lstDispatch"

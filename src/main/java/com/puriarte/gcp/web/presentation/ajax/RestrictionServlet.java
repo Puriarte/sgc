@@ -1,6 +1,8 @@
 package com.puriarte.gcp.web.presentation.ajax;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.util.Date;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -8,6 +10,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import com.puriarte.convocatoria.core.domain.Constants;
+import com.puriarte.utils.date.DateUtils;
 
 
 public abstract class RestrictionServlet extends HttpServlet {
@@ -100,6 +105,25 @@ public abstract class RestrictionServlet extends HttpServlet {
 
   		return false;
   	}
+
+  	protected Date getDateRequest(HttpServletRequest request, String parameter) {
+		try{
+			return DateUtils.parseDate(request.getParameter(parameter), Constants.FORMATO_FECHA_HTML5_REGEX,  Constants.FORMATO_FECHA_HTML5);
+		}catch(ParseException ex){
+			try{
+				return DateUtils.parseDate(request.getParameter(parameter), Constants.FORMATO_FECHA_HTML5_REGEX_ALT1,  Constants.FORMATO_FECHA_HTML5_ALT1);
+			}catch(ParseException ex1){
+				try{
+					return DateUtils.parseDate(request.getParameter(parameter), Constants.FORMATO_FECHA_HTML5_REGEX_ALT2,  Constants.FORMATO_FECHA_HTML5_ALT2);
+				}catch(ParseException ex2){
+					return null;
+				}
+			}
+		}catch(NullPointerException ex){
+			return null;
+		}
+	}
+
 
 
 }

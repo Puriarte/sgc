@@ -24,29 +24,27 @@ jQuery(document).ready(function(){
 	});
 	//--- Fin Botonoes ---------------------------------------------------------
 
-
-
 	//--- Mascaras ---------------------------------------------------------
-	$.mask.masks = $.extend($.mask.masks,{
+	/*$.mask.masks = $.extend($.mask.masks,{
 		importe:{ mask : '99.999999', type : 'reverse' },
 		fecha:{ mask : '19-39-9999'  }
 	});
+	*/
 	//--- Fin Mascaras ---------------------------------------------------------
 
 	//--- Inputs ---------------------------------------------------------
-  	$(function(){
+ /* 	$(function(){
     	$("input:text").setMask();
   	});
   	//--- Fin Inputs ---------------------------------------------------------
   //--- Validacion Formulario -----------------------------------------------------
-	$.validator.addMethod(
+/*	$.validator.addMethod(
 			"dateUY",
 			function (value, element) {
 				return Date.parseExact(value, "dd-MM-yyyy");
 			},
 			"Ingrese una fecha en el formato dd-mm-yyyy"
 	);
-
 	var validator = $(formName).validate({
 		onfocusout: false,
 		onkeyup: false,
@@ -62,7 +60,7 @@ jQuery(document).ready(function(){
 		messages: {
 		}
 	});
-
+*/
 
 	//--- FIN Validacion Formulario -----------------------------------------------------
 	jQuery("#gridArticulos").jqGrid({
@@ -179,29 +177,34 @@ jQuery(document).ready(function(){
                 rowNum: 100,
                 sortname: "Person",
                 idPrefix: "s_" + rowid + "_", 
-                afterInsertRow: function(rowid, aData){
-                    if (aData.Status == "Convocado"){
-                        $("#" + subgridTableId).setCell(rowid,"Movil","",{"background-color":"#A9BCF5"});
-                        $("#" + subgridTableId).setCell(rowid,"Person","",{"background-color":"#A9BCF5"});
-                        $("#" + subgridTableId).setCell(rowid,"PersonCategory","",{"background-color":"#A9BCF5"});
-                        $("#" + subgridTableId).setCell(rowid,"Status","",{"background-color":"#A9BCF5"});
-                        $("#" + subgridTableId).setCell(rowid,"AssignmentDate","",{"background-color":"#A9BCF5"});
-                    }
-                	if (aData.Status == "Aceptado"){
-                        $("#" + subgridTableId).setCell(rowid,"Movil","",{"background-color":"#CEF6E3"});
-                        $("#" + subgridTableId).setCell(rowid,"Person","",{"background-color":"#CEF6E3"});
-                        $("#" + subgridTableId).setCell(rowid,"PersonCategory","",{"background-color":"#CEF6E3"});
-                        $("#" + subgridTableId).setCell(rowid,"Status","",{"background-color":"#CEF6E3"});
-                        $("#" + subgridTableId).setCell(rowid,"AssignmentDate","",{"background-color":"#CEF6E3"});
-                    }
-                	if (aData.Status == "Rechazado"){
-                        $("#" + subgridTableId).setCell(rowid,"Movil","",{"background-color":"#FA5858"});
-                        $("#" + subgridTableId).setCell(rowid,"Person","",{"background-color":"#FA5858"});
-                        $("#" + subgridTableId).setCell(rowid,"PersonCategory","",{"background-color":"#FA5858"});
-                        $("#" + subgridTableId).setCell(rowid,"Status","",{"background-color":"#FA5858"});
-                        $("#" + subgridTableId).setCell(rowid,"AssignmentDate","",{"background-color":"#FA5858"});
-                    }
-                }
+                loadComplete: function(data) {
+                	var myGrid = jQuery("#" +subgridTableId);
+                	var ids = myGrid.jqGrid('getDataIDs');
+                	for (var i = 0; i < ids.length; i++) {
+                	    var rowid=ids[i];
+                	    if (myGrid.jqGrid('getCell',rowid,'Status') == "Convocado"){
+                            $("#" + subgridTableId).setCell(rowid,"Movil","",{"background-color":"#A9BCF5"});
+                            $("#" + subgridTableId).setCell(rowid,"Person","",{"background-color":"#A9BCF5"});
+                            $("#" + subgridTableId).setCell(rowid,"PersonCategory","",{"background-color":"#A9BCF5"});
+                            $("#" + subgridTableId).setCell(rowid,"Status","",{"background-color":"#A9BCF5"});
+                            $("#" + subgridTableId).setCell(rowid,"AssignmentDate","",{"background-color":"#A9BCF5"});
+                	    }
+                	    if (myGrid.jqGrid('getCell',rowid,'Status') ==  "Aceptado"){
+                            $("#" + subgridTableId).setCell(rowid,"Movil","",{"background-color":"#CEF6E3"});
+                            $("#" + subgridTableId).setCell(rowid,"Person","",{"background-color":"#CEF6E3"});
+                            $("#" + subgridTableId).setCell(rowid,"PersonCategory","",{"background-color":"#CEF6E3"});
+                            $("#" + subgridTableId).setCell(rowid,"Status","",{"background-color":"#CEF6E3"});
+                            $("#" + subgridTableId).setCell(rowid,"AssignmentDate","",{"background-color":"#CEF6E3"});
+                        }
+                	    if (myGrid.jqGrid('getCell',rowid,'Status') ==  "Rechazado"){
+                            $("#" + subgridTableId).setCell(rowid,"Movil","",{"background-color":"#FA5858"});
+                            $("#" + subgridTableId).setCell(rowid,"Person","",{"background-color":"#FA5858"});
+                            $("#" + subgridTableId).setCell(rowid,"PersonCategory","",{"background-color":"#FA5858"});
+                            $("#" + subgridTableId).setCell(rowid,"Status","",{"background-color":"#FA5858"});
+                            $("#" + subgridTableId).setCell(rowid,"AssignmentDate","",{"background-color":"#FA5858"});
+                        }
+                	}
+        		}
             });
         }
 	}).navGrid('#pagerArticulos',{edit:false,add:false,del:false,search: false});
@@ -217,8 +220,35 @@ jQuery(document).ready(function(){
         },
         position: "last"
     });*/;
-
-	$("#bedata").click(function(){
+    
+    $("#export").click(function(){ 
+    	var id= jQuery("#gridArticulos").jqGrid('getGridParam','selrow');
+    	var len=jQuery("#gridArticulos_" + id + "_t").jqGrid('getDataIDs').length;
+    	
+    	if (len>0){
+        	$("#gridArticulos_" + id + "_t").jqGrid("exportToExcel",{
+    			includeLabels : true,
+    			includeGroupHeader : true,
+    			includeFooter: true,
+    			fileName : "jqGridExport.xlsx",
+    			maxlength : 40 // maxlength for visible string data
+    		});
+    	}else{
+    		alert("Se debe seleccionar y expandir una convocatoria.");
+    	}
+    	
+    	/*
+    	$("#gridArticulos").jqGrid("exportToExcel",{
+			includeLabels : true,
+			includeGroupHeader : true,
+			includeFooter: true,
+			fileName : "jqGridExport.xlsx",
+			maxlength : 40 // maxlength for visible string data 
+		});*/
+		return false;
+	});
+	
+    $("#bedata").click(function(){
 		var gr = jQuery("#gridArticulos").jqGrid('getGridParam','selrow');
 		if( gr != null ) jQuery("#gridArticulos").jqGrid('editGridRow',gr,{height:280,reloadAfterSubmit:true, closeAfterEdit: true});
 		else alert("Seleccione una convocatoria");

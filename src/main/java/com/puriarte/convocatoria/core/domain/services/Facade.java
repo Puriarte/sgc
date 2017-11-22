@@ -21,6 +21,9 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import org.apache.commons.configuration.ConfigurationException;
+import org.apache.commons.configuration.PropertiesConfiguration;
+
 import com.puriarte.convocatoria.core.exceptions.MovilException;
 import com.puriarte.convocatoria.core.exceptions.PersonException;
 import com.puriarte.convocatoria.core.exceptions.SMSException;
@@ -42,6 +45,7 @@ import com.puriarte.convocatoria.persistence.SMSOut;
 import com.puriarte.convocatoria.persistence.SmsStatus;
 import com.puriarte.convocatoria.persistence.User;
 import com.puriarte.convocatoria.persistence.result.PersonMovilResult;
+import com.puriarte.convocatoria.persistence.result.Report1;
 import com.puriarte.convocatoria.core.domain.Constants;
 
 public class Facade {
@@ -63,6 +67,8 @@ public class Facade {
 	private SMSOutService smsOutService;
 	private DispatchStatusService dispatchStatusService;
 
+	private ReportService reportService;
+
 	private Facade() {
 		this.userService = UserService.getInstance();
 		this.smsService = SMSService1.getInstance();
@@ -79,6 +85,7 @@ public class Facade {
 		this.smsInService = SMSInService.getInstance();
 		this.smsOutService = SMSOutService.getInstance();
 		this.dispatchStatusService = DispatchStatusService.getInstance();
+		this.reportService = ReportService.getInstance();
 	}
 
 	private static synchronized void createInstance() {
@@ -381,7 +388,7 @@ public class Facade {
 		}
 	}
 	
-	private void enviarMail(PersonMovil movil, String text){
+	public void enviarMail(PersonMovil movil, String text){
 		Properties props = new Properties();
 		props.put("mail.smtp.host", "smtp.gmail.com");
 		props.put("mail.smtp.socketFactory.port", "465");
@@ -402,6 +409,15 @@ public class Facade {
 				// Leo el template
 				String path= System.getenv("OPENSHIFT_DATA_DIR") + "templates/email_sms.html";
 
+				PropertiesConfiguration config = new PropertiesConfiguration(com.puriarte.gcp.web.Constantes.PATHAPPCONFIG);
+				String[] mailTo = config.getString("mail.nodispatch.to").split(";");
+
+				InternetAddress[] recipientsTo = new InternetAddress[mailTo.length];
+				//= {new InternetAddress("joaquin@elenatejeira.com"), new InternetAddress("valonso@elenatejeira.com")}; 
+				for(int i=0;i<mailTo.length;i++){
+					recipientsTo[i]=new InternetAddress(mailTo[i]);
+				}
+				
 				byte[] encoded = Files.readAllBytes(Paths.get(path));
 				String mensajeHtml = new String(encoded, java.nio.charset.Charset.defaultCharset());
 
@@ -413,12 +429,12 @@ public class Facade {
 				if ((movil!=null)&&(movil.getMovil()!=null))
 					nroMovil=movil.getMovil().getNumber();
 				String[] values = {nroMovil , persona, text};
-				
 			
+						
 				Message message = new MimeMessage(session);
 				message.setFrom(new InternetAddress("convocatorias983@gmail.com"));
-				message.setRecipients(Message.RecipientType.TO,
-						InternetAddress.parse("joaquin@elenatejeira.com"));
+				message.setRecipients(Message.RecipientType.TO, recipientsTo);
+
 				message.setRecipients(Message.RecipientType.BCC,
 						InternetAddress.parse("puriarte@gmail.com"));
 
@@ -426,7 +442,7 @@ public class Facade {
 				message.setContent(MessageFormat.format(mensajeHtml, values), "text/html; charset=utf-8");
 				Transport.send(message);
 
-			} catch (MessagingException | IOException e) {
+			} catch (MessagingException | IOException | ConfigurationException e) {
 				throw new RuntimeException(e);
 			}
 		
@@ -868,6 +884,11 @@ public class Facade {
 
 	public Assignment getAssignment(long idAssignment) {
 		return this.dispatchService.getInstance().getAssignment(idAssignment);
+	}
+
+	// *-----------REPORTES -----------------**//
+	public List<Report1> selectReport1(Date from, Date to, String orderBy) {
+		return this.reportService.getInstance().report1(from, to, orderBy);
 	}
 
 }

@@ -7,6 +7,7 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.FieldResult;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -14,14 +15,33 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedNativeQueries;
+import javax.persistence.NamedNativeQuery;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.SqlResultSetMapping;
+import javax.persistence.SqlResultSetMappings;
 import javax.persistence.Transient;
+import javax.persistence.ConstructorResult;
+import javax.persistence.ColumnResult;
 
 import com.puriarte.convocatoria.core.exceptions.MovilException;
-
-@NamedQueries({
+import com.puriarte.convocatoria.persistence.result.Report1;
+@SqlResultSetMappings({
+	@SqlResultSetMapping(name = "Report1Map", classes = { 
+		@ConstructorResult(targetClass = Report1.class, 
+			columns = {
+		    	@ColumnResult(name = "name"),
+		    	@ColumnResult(name = "phone") ,
+		    	@ColumnResult(name = "convened") ,
+		    	@ColumnResult(name = "accepted") ,
+		    	@ColumnResult(name = "rejected") ,
+		    	@ColumnResult(name = "cancelled") ,
+			}) 
+		})
+	})
+ @NamedQueries({
 	  @NamedQuery(name="SelectPerson",
 			  query="SELECT p FROM Person p WHERE p.documentType.id = :documentTypeId and p.documentNumber= :document "),
 	  @NamedQuery(name="SelectPersonById",
@@ -33,6 +53,17 @@ import com.puriarte.convocatoria.core.exceptions.MovilException;
   */  @NamedQuery(name="Person.SelectPersonPersonCategoriesList",
       	query="SELECT p.categories FROM Person p WHERE (p.id = :idPerson)  "),
       	
+	})
+@NamedNativeQueries({
+	@NamedNativeQuery(name="Report1",
+	  	query=" select p.name as name , m.number as phone , " + 
+	  			" (select count(*) from assignment a left outer join job j on a.idJob = j.id left outer join dispatch d on j.idDispatch = d.id where idpersonmovil  = pm.id  and assignmentdate between ?1 and ?2  ) as convened, " +
+	  			" (select count(*) from assignment a left outer join job j on a.idJob = j.id left outer join dispatch d on j.idDispatch = d.id where idpersonmovil  = pm.id  and assignmentdate between ?1 and ?2  and a.IDASSIGNMENTSTATUS=5 ) as accepted, " +
+	  			" (select count(*) from assignment a left outer join job j on a.idJob = j.id left outer join dispatch d on j.idDispatch = d.id where idpersonmovil  = pm.id  and assignmentdate between ?1 and ?2  and a.IDASSIGNMENTSTATUS=6 ) as rejected, " +
+	  			" (select count(*) from assignment a left outer join job j on a.idJob = j.id left outer join dispatch d on j.idDispatch = d.id where idpersonmovil  = pm.id  and assignmentdate between ?1 and ?2  and a.IDASSIGNMENTSTATUS=3 ) as cancelled " +
+	  			" from personmovil pm  left outer join person p on pm.idperson=p.id " +
+	  			" left outer join movil m on pm.idmovil=m.id " + 
+	  			" order by p.name ", resultSetMapping = "Report1Map"),
 	})
 @Entity
 public class Person {

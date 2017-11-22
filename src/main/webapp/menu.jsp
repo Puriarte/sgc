@@ -19,6 +19,8 @@
 					class="dropdown-toggle">Empleados</a></li>
 				<li class="dropdown"><a href="lstDispatch.do?accion=cargar"
 					class="dropdown-toggle">Convocatorias</a></li>
+				<li class="dropdown"><a href="lstReport.do?accion=cargar"
+					class="dropdown-toggle">Reportes</a></li>
 				<li class="dropdown"><a href="lstCategory.do?accion=cargar"
 					class="dropdown-toggle">Categor&iacute;as</a></li>
 				<li class="dropdown"><a href="lstPlace.do?accion=cargar"
