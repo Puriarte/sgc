@@ -28,10 +28,12 @@
    
     <link rel="stylesheet" type="text/css" media="screen" href="css/jquery/ui.jqgrid-bootstrap.css" />
 
-	<script src="js/report.js?var=<%= com.jcabi.manifests.Manifests.read("App-Version") %>" type="text/javascript"></script>
+	<script src="js/report.js?var=<%= com.jcabi.manifests.Manifests.read("App-Version") %>1233" type="text/javascript"></script>
 
 	<style>
-		.ui-jqgrid tr.jqgrow td {white-space: normal}
+		.ui-jqgrid tr.jqgrow td {	white-space: normal}
+		.nav-sidebar{	margin-bottom: 5px;}
+		.btn{	padding: 3px 6px}
 	</style>
 
 </head>

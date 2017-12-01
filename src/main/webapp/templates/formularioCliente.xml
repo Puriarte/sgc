@@ -131,6 +131,16 @@
 								vencidas sin respuesta :  <![CDATA[{13}]]></fo:block>
 						</fo:table-cell>
 					</fo:table-row>
+					<fo:table-row>
+						<fo:table-cell number-columns-spanned="2">
+							<fo:block margin="6pt" font-size="8pt">Convocatorias canceladas :  <![CDATA[{18}]]></fo:block>
+						</fo:table-cell>
+					</fo:table-row>
+					<fo:table-row>
+						<fo:table-cell number-columns-spanned="2">
+							<fo:block margin="6pt" font-size="8pt">Convocatorias sin respuesta :  <![CDATA[{19}]]></fo:block>
+						</fo:table-cell>
+					</fo:table-row>
 				</fo:table-body>
 			</fo:table>
 

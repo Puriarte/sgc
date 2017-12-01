@@ -128,6 +128,9 @@ public class ActionMostrarEscolaridadPDF extends HttpServlet {
 		int countSI = Facade.getInstance().selectCountAssignment(personMovil.getId(), Constants.ASSIGNMENT_STATUS_ACCEPTED , fechaDesde, fechaHasta);
 		int countNo = Facade.getInstance().selectCountAssignment(personMovil.getId(), Constants.ASSIGNMENT_STATUS_REGECTED, fechaDesde, fechaHasta);
 		int countExpired = Facade.getInstance().selectCountAssignment(personMovil.getId(), Constants.ASSIGNMENT_STATUS_EXPIRED, fechaDesde, fechaHasta);
+		int countCancelled = Facade.getInstance().selectCountAssignment(personMovil.getId(), Constants.ASSIGNMENT_STATUS_CANCELED, fechaDesde, fechaHasta);
+		int countAssigned= Facade.getInstance().selectCountAssignment(personMovil.getId(), Constants.ASSIGNMENT_STATUS_ASSIGNED, fechaDesde, fechaHasta);
+		
 
 		int countSent = Facade.getInstance().selectCountSentAssignment(personMovil.getPerson().getId(), fechaDesde, fechaHasta);
 	 
@@ -142,7 +145,9 @@ public class ActionMostrarEscolaridadPDF extends HttpServlet {
     	parametrosComprobante[11] = countSI;
     	parametrosComprobante[12] = countNo;
     	parametrosComprobante[13] = countExpired;
-
+    	parametrosComprobante[18] = countCancelled;    	
+    	parametrosComprobante[19] = countAssigned;
+    	
     	parametrosComprobante[16] = DateUtils.formatDate(fechaDesde,   Constants.FORMATO_FECHA_HTML5_ALT2)  ;
     	parametrosComprobante[17] =  DateUtils.formatDate(fechaHasta,   Constants.FORMATO_FECHA_HTML5_ALT2) ;
 
@@ -185,7 +190,9 @@ public class ActionMostrarEscolaridadPDF extends HttpServlet {
     		    	
     		    	DefaultPieDataset dataset = new DefaultPieDataset();
 	    			dataset.setValue("SI", countSI);
-	    			dataset.setValue("NO", countNo);
+	    			dataset.setValue("NO", countNo );
+	    			if (countCancelled +countExpired+countAssigned>0)
+	    				dataset.setValue("OTR", countCancelled +countExpired+countAssigned);
 
 	    			boolean legend = false;
 	    			boolean tooltips = false;

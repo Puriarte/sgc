@@ -41,7 +41,7 @@ public class ReportService {
 		final EntityManager em = getEntityManager();
 
 		try{
-			Query query = em.createNamedQuery("Report1")
+			Query query = em.createNamedQuery("Report.Report1")
 					.setParameter(1, from)
 					.setParameter(2, to);
 			List<Report1> a = query.getResultList();

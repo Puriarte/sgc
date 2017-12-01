@@ -121,6 +121,7 @@ public class SrvLstGridReport extends RestrictionServlet {
 				jSonItems += "\"Aceptada\": \"" + item.getAccepted() + "\",";
 				jSonItems += "\"Rechazada\": \"" + item.getRejected() + "\",";
 				jSonItems += "\"Cancelada\": \"" + item.getCancelled() + "\",";
+				jSonItems += "\"SinResp\": \"" + item.getAssigned() + "\",";
 				jSonItems += "\"Aceptacion\": \"" + item.getPercAccepted() + "\",";
 				jSonItems += "\"Phone\": \"" +item.getPhone()+ "\"},";		
 				

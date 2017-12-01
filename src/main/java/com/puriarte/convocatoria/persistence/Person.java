@@ -38,6 +38,7 @@ import com.puriarte.convocatoria.persistence.result.Report1;
 		    	@ColumnResult(name = "accepted") ,
 		    	@ColumnResult(name = "rejected") ,
 		    	@ColumnResult(name = "cancelled") ,
+		    	@ColumnResult(name = "assigned") ,
 			}) 
 		})
 	})
@@ -55,14 +56,16 @@ import com.puriarte.convocatoria.persistence.result.Report1;
       	
 	})
 @NamedNativeQueries({
-	@NamedNativeQuery(name="Report1",
+	@NamedNativeQuery(name="Report.Report1",
 	  	query=" select p.name as name , m.number as phone , " + 
 	  			" (select count(*) from assignment a left outer join job j on a.idJob = j.id left outer join dispatch d on j.idDispatch = d.id where idpersonmovil  = pm.id  and assignmentdate between ?1 and ?2  ) as convened, " +
 	  			" (select count(*) from assignment a left outer join job j on a.idJob = j.id left outer join dispatch d on j.idDispatch = d.id where idpersonmovil  = pm.id  and assignmentdate between ?1 and ?2  and a.IDASSIGNMENTSTATUS=5 ) as accepted, " +
 	  			" (select count(*) from assignment a left outer join job j on a.idJob = j.id left outer join dispatch d on j.idDispatch = d.id where idpersonmovil  = pm.id  and assignmentdate between ?1 and ?2  and a.IDASSIGNMENTSTATUS=6 ) as rejected, " +
-	  			" (select count(*) from assignment a left outer join job j on a.idJob = j.id left outer join dispatch d on j.idDispatch = d.id where idpersonmovil  = pm.id  and assignmentdate between ?1 and ?2  and a.IDASSIGNMENTSTATUS=3 ) as cancelled " +
+	  			" (select count(*) from assignment a left outer join job j on a.idJob = j.id left outer join dispatch d on j.idDispatch = d.id where idpersonmovil  = pm.id  and assignmentdate between ?1 and ?2  and a.IDASSIGNMENTSTATUS=3 ) as cancelled, " +
+	  			" (select count(*) from assignment a left outer join job j on a.idJob = j.id left outer join dispatch d on j.idDispatch = d.id where idpersonmovil  = pm.id  and assignmentdate between ?1 and ?2  and a.IDASSIGNMENTSTATUS=2 ) as assigned " +
 	  			" from personmovil pm  left outer join person p on pm.idperson=p.id " +
-	  			" left outer join movil m on pm.idmovil=m.id " + 
+	  			" left outer join movil m on pm.idmovil=m.id "
+	  			+ " where p.deleted=false" + 
 	  			" order by p.name ", resultSetMapping = "Report1Map"),
 	})
 @Entity

@@ -10,7 +10,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//ES" "http://www.w3.org/TR/xhtml2/DTD/xhtml1-strict.dtd">
 <html lang="es">
 <head>
-
  <meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -22,10 +21,13 @@
   	<link href="css/bootstrap.min.css" rel="stylesheet">
   	<link href="css/dashboard.css" rel="stylesheet">
 
-	<link href="css/jquery/jquery-ui-1.8.13.custom.css" rel="stylesheet" type="text/css" />
+	<link href="css/jquery/jquery-ui-1.12.1.css" rel="stylesheet"
+		type="text/css" />
+
 	<link href="css/jquery/ui.jqgrid.css" rel="stylesheet" type="text/css" />
 
     <script type="text/ecmascript" src="js/jquery-2.1.1.min.js"></script> 
+    <script type="text/ecmascript" src="js/jquery-ui.min.js"></script> 
     <script type="text/ecmascript" src="js/jquery.jqGrid-5.2.1.js"></script>
     <script type="text/ecmascript" src="js/grid.locale-es.js"></script>
 	<script type="text/javascript" language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
@@ -33,7 +35,7 @@
     <link rel="stylesheet" type="text/css" media="screen" href="css/jquery/ui.jqgrid-bootstrap.css" />
 
 	<script
-		src="js/dispatchGrid.js?var=<%=com.jcabi.manifests.Manifests.read("App-Version")%>30"
+		src="js/dispatchGrid.js?var=<%=com.jcabi.manifests.Manifests.read("App-Version")%>"
 		type="text/javascript"></script>
 
 		<style>
@@ -42,7 +44,6 @@
 			.btn{	padding: 3px 6px}
 		</style>
 	</head>
-
 <body>
 	<jsp:include page="menu.jsp" />
 

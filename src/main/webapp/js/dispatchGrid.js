@@ -230,7 +230,7 @@ jQuery(document).ready(function(){
     			includeLabels : true,
     			includeGroupHeader : true,
     			includeFooter: true,
-    			fileName : "jqGridExport.xlsx",
+    			fileName : "convocatoria.xlsx",
     			maxlength : 40 // maxlength for visible string data
     		});
     	}else{
@@ -444,9 +444,10 @@ function ingresarListaSMS(){
 		title: "Modificar Convocatoria",
 		modal: true,
 		resizable: true,
-		height:550,
+		height:530,
 		width:850
 	});
+
 	// load remote content
 	dialog.load(
 			url,
@@ -472,7 +473,6 @@ function removeOptions(selectbox)
 
 
 function addAssignmentRow(element, elementCounter){
-	
 	
 	try{
 		if (counter==0)	counter = elementCounter;
@@ -502,8 +502,4 @@ function addAssignmentRow(element, elementCounter){
 	}catch(E){
 		
 	}
-		
-	
 }
-
-

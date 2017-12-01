@@ -25,9 +25,10 @@ jQuery(document).ready(function(){
 		           { label: 'Número', name: 'Phone', width: 150 , sorttype:'number'  },
 		           { label: 'Convocatorias', name: 'Convoc', width: 110 , sorttype:'number'  },
 		           { label: 'Aceptadas', name: 'Aceptada', width: 110 , sorttype:'number'  },
-		           { label:'Rechazadas', name: 'Rechazada', width: 110 , sorttype:'number'  },
-		           { label:'Canceladas', name: 'Cancelada', width: 110 , sorttype:'number'  },
-		           { label:'Aceptación', name: 'Aceptacion', width: 110, formatter: 'currency', formatoptions: {  suffix: ' %' }, sorttype:'number'  }
+		           { label: 'Rechazadas', name: 'Rechazada', width: 100 , sorttype:'number'  },
+		           { label: 'Canceladas', name: 'Cancelada', width: 100 , sorttype:'number'  },
+		           { label: 'Sin.Resp', name: 'SinResp', width: 80 , sorttype:'number'  },
+		           { label: 'Aceptación', name: 'Aceptacion', width: 110, formatter: 'currency', formatoptions: {  suffix: ' %' }, sorttype:'number'  }
           ],
           jsonReader: {
         	  repeatitems : false,
@@ -45,7 +46,7 @@ jQuery(document).ready(function(){
 			includeLabels : true,
 			includeGroupHeader : true,
 			includeFooter: true,
-			fileName : "jqGridExport.xlsx",
+			fileName : "report.xlsx",
 			maxlength : 40 // maxlength for visible string data 
 		});
 		return false;

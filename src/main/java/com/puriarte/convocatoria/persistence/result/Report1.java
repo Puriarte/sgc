@@ -18,12 +18,13 @@ public class Report1 {
 	private Long  accepted;
 	private Long  rejected;
 	private Long cancelled;
+	private Long assigned;
 	
     public Report1(){}
  
 
 	public Report1(String name, String phone, Long convened, Long accepted,
-			Long rejected, Long cancelled) {
+			Long rejected, Long cancelled, Long assigned) {
 		super();
 		this.name = name;
 		this.phone = phone;
@@ -31,6 +32,7 @@ public class Report1 {
 		this.accepted = accepted;
 		this.rejected = rejected;
 		this.cancelled=cancelled;
+		this.assigned=assigned;
 	}
 
 
@@ -88,6 +90,21 @@ public class Report1 {
 
 	public void setCancelled(Long cancelled) {
 		this.cancelled = cancelled;
+	}
+
+
+	public Long getAssigned() {
+		return assigned;
+	}
+
+
+	public void setAssigned(Long assigned) {
+		this.assigned = assigned;
+	}
+
+
+	public void setRejected(Long rejected) {
+		this.rejected = rejected;
 	}
  
     
