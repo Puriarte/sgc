@@ -37,7 +37,16 @@ jQuery(document).ready(function(){
 	});
 	//--- Fin Botonoes ---------------------------------------------------------
 
-
+	
+	
+	
+	
+	
+	
+	
+	
+	
+/*
 
 	//--- Mascaras ---------------------------------------------------------
 	$.mask.masks = $.extend($.mask.masks,{
@@ -75,7 +84,7 @@ jQuery(document).ready(function(){
 		messages: {
 		}
 	});
-
+*/
 
 	//--- FIN Validacion Formulario -----------------------------------------------------
 	jQuery("#gridArticulos").jqGrid({

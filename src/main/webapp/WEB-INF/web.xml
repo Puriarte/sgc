@@ -236,6 +236,11 @@
 	    <servlet-class>com.puriarte.gcp.web.presentation.ajax.SrvConfirmSMS</servlet-class>
 	</servlet>
 
+  	<servlet>
+	    <servlet-name>Notificaciones</servlet-name>
+	    <servlet-class>com.puriarte.gcp.web.presentation.ajax.SrvNotificaciones</servlet-class>
+	</servlet>
+
 
 
 	<!-- Action Servlet Mapping -->
@@ -319,6 +324,11 @@
 	<servlet-mapping>
 		<servlet-name>SendSMS</servlet-name>
 		<url-pattern>/sendSMS</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>Notificaciones</servlet-name>
+		<url-pattern>/notificaciones</url-pattern>
 	</servlet-mapping>
 
 

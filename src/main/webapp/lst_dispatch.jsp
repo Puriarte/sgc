@@ -18,31 +18,43 @@
 	<link rel="icon" href="http://getbootstrap.com/favicon.ico">
 	<title>G.C.P.</title>
 
-  	<link href="css/bootstrap.min.css" rel="stylesheet">
-  	<link href="css/dashboard.css" rel="stylesheet">
+  	<!-- Bootstrap core CSS -->
+	<link href="css/bootstrap.min.css" rel="stylesheet">
+	<!-- Custom styles for this template -->
+	<link href="css/dashboard.css" rel="stylesheet">
+	
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	<link rel="stylesheet" href="/resources/demos/style.css">
+  	
+  	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 
-	<link href="css/jquery/jquery-ui-1.12.1.css" rel="stylesheet"
-		type="text/css" />
+  	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.0/themes/start/jquery-ui.css">
 
-	<link href="css/jquery/ui.jqgrid.css" rel="stylesheet" type="text/css" />
-
-    <script type="text/ecmascript" src="js/jquery-2.1.1.min.js"></script> 
-    <script type="text/ecmascript" src="js/jquery-ui.min.js"></script> 
-    <script type="text/ecmascript" src="js/jquery.jqGrid-5.2.1.js"></script>
+    <!-- This is the Javascript file of jqGrid -->
+    <script type="text/ecmascript" src="js/jquery.jqGrid.min.js"></script>
+    <!-- This is the localization file of the grid controlling messages, labels, etc.-->
+    <!-- We support more than 40 localizations -->
     <script type="text/ecmascript" src="js/grid.locale-es.js"></script>
-	<script type="text/javascript" language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
-   
-    <link rel="stylesheet" type="text/css" media="screen" href="css/jquery/ui.jqgrid-bootstrap.css" />
+ 
+    <!-- The link to the CSS that the grid needs -->
+    <link rel="stylesheet" type="text/css"  href="css/ui.jqgrid.css" />
+	
+	<script src="js/dist/rx.lite.compat.js"></script>
+	<script src="js/bootstrap-notify-master/bootstrap-notify.min.js"></script>
+
+	<script src="js/autocomplete.js?a=<%= (int) (Math.random() * 100) %>"></script>
 
 	<script
 		src="js/dispatchGrid.js?var=<%=com.jcabi.manifests.Manifests.read("App-Version")%>"
 		type="text/javascript"></script>
 
-		<style>
-			.ui-jqgrid tr.jqgrow td {	white-space: normal}
-			.nav-sidebar{	margin-bottom: 5px;}
-			.btn{	padding: 3px 6px}
-		</style>
+	<style>
+		.ui-jqgrid tr.jqgrow td {white-space: normal}
+		.nav-sidebar{margin-bottom: 5px;}
+		.btn{padding: 3px 6px}
+	</style>
+	
 	</head>
 <body>
 	<jsp:include page="menu.jsp" />

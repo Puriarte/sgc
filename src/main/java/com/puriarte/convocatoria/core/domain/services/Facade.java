@@ -634,8 +634,13 @@ public class Facade {
 	 * @return
 	 */
 	public List<SMS> getPendingSMS() {
-		return SMSService1.getInstance().selectList(
+		return SMSService1.getInstance().selectListByStatusAndDispatchDate(
 				Constants.SMS_STATUS_PENDIENTE);
+	}
+
+	public List<SMS> getIncomingSMS(Date fromDate) {
+		return SMSService1.getInstance().selectListByActionAndDate(
+				Constants.SMS_ACTION_INCOME, fromDate);
 	}
 
 	public void updatePerson(Person person) {

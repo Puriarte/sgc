@@ -18,7 +18,7 @@ import javax.persistence.TemporalType;
 
 
 @NamedQueries({
-	  	@NamedQuery(name="SelectSMSList",
+	  	@NamedQuery(name="SMS.SelectSMSList",
         query="SELECT s FROM SMS s " +
         		" where s.creationDate BETWEEN :from AND :to and ((:estado =0) or (s.status.id = :estado) ) order by :orden "),
         @NamedQuery(name="SelectSMSByDispatchList",
@@ -30,10 +30,14 @@ import javax.persistence.TemporalType;
         query="SELECT s FROM SMS s LEFT OUTER JOIN s.personMovil pm LEFT OUTER JOIN pm.movil m where m.number = :movilNumber AND s.creationDate = :creationDate  AND s.uuid = :uuid "),
         @NamedQuery(name="SelectSMS",
         query="SELECT s FROM SMS s WHERE s.uuid = :uuid "),
-        @NamedQuery(name="SelectSMSListByStatus",
+        @NamedQuery(name="SMS.SelectSMSListByStatusAndDispatchDate",
         query="SELECT s FROM SMS s LEFT OUTER JOIN s.assignment asi  LEFT OUTER JOIN asi.job j LEFT OUTER JOIN j.dispatch dis"
         		+ " where s.status.id = :status and "
         		+ " ((asi is null) or ((dis.scheduledDate>= :fechaActual))) "),
+    	@NamedQuery(name="SMS.SelectSMSListByActionAndSmsDate",
+        query="SELECT s FROM SMS s "
+        		+ " where s.action = :action and "
+                + " s.creationDate>= :fecha "),
         @NamedQuery(name="SMS.SelectRelatedSMSList",
         query="SELECT s FROM SMS s "
         		+ "where s.assignment.personMovil.id = :movilId and "

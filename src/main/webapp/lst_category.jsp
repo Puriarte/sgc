@@ -18,43 +18,35 @@
 	<link rel="icon" href="http://getbootstrap.com/favicon.ico">
 	<title>G.C.P.</title>
 	
-	<!-- Bootstrap core CSS -->
+		<!-- Bootstrap core CSS -->
 	<link href="css/bootstrap.min.css" rel="stylesheet">
-	
 	<!-- Custom styles for this template -->
 	<link href="css/dashboard.css" rel="stylesheet">
+	
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	<link rel="stylesheet" href="/resources/demos/style.css">
+  	
+  	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+
+  	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.0/themes/start/jquery-ui.css">
 
 
-	<!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
-	<!--[if lt IE 9]><script src="http://getbootstrap.com/assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
-	<script src="js/ie-emulation-modes-warning.js"></script>
+    <!-- This is the Javascript file of jqGrid -->
+    <script type="text/ecmascript" src="js/jquery.jqGrid.min.js"></script>
+    <!-- This is the localization file of the grid controlling messages, labels, etc.-->
+    <!-- We support more than 40 localizations -->
+    <script type="text/ecmascript" src="js/grid.locale-es.js"></script>
+ 
+    <!-- The link to the CSS that the grid needs -->
+    <link rel="stylesheet" type="text/css"  href="css/ui.jqgrid.css" />
 	
-	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-	<!--[if lt IE 9]>
-	      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-	      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-	    <![endif]-->
-	
-	<link href="css/jquery/jquery-ui-1.8.13.custom.css" rel="stylesheet"
-		type="text/css" />
-	<link href="css/jquery/ui.jqgrid.css" rel="stylesheet" type="text/css" />
-	
-	<script src="js/ajax/jquery-1.6.1.min.js" type="text/javascript"></script>
-	<script src="js/ajax/jquery-ui-1.8.13.custom.min.js"
-		type="text/javascript"></script>
-	<script src="js/ajax/i18n/grid.locale-es.js" type="text/javascript"></script>
-	<script src="js/ajax/jquery.jqGrid.min.js" type="text/javascript"></script>
-	
-	<script src="js/utils/date-es-UY.js" type="text/javascript"></script>
-	<style>
-	.ui-jqgrid tr.jqgrow td {
-		white-space: normal
-	}
-	</style>
+	<script src="js/dist/rx.lite.compat.js"></script>
+	<script src="js/bootstrap-notify-master/bootstrap-notify.min.js"></script>
 
-	<script src="js/ajax/jquery.validate.min.js" type="text/javascript"></script>
-	<script src="js/ajax/jquery.meio.mask.min.js" type="text/javascript"></script>
-	<script src="js/categoryGrid.js?var=<%= com.jcabi.manifests.Manifests.read("App-Version") %>" type="text/javascript"></script>
+	<script src="js/autocomplete.js?a=<%= (int) (Math.random() * 100) %>"></script>
+
+	<script src="js/categoryGrid.js?var=<%= com.jcabi.manifests.Manifests.read("App-Version") %><%= (int) (Math.random() * 100) %>" type="text/javascript"></script>
 
 </head>
 
@@ -90,16 +82,7 @@
 		</div>
 	</html:form>
 	
-	
-	<!-- Bootstrap core JavaScript
-    ================================================== -->
-	<!-- Placed at the end of the document so the pages load faster -->
-	<script src="js/bootstrap.min.js"></script>
-	<!-- Just to make our placeholder images work. Don't actually copy the next line! -->
-	<script src="http://getbootstrap.com/assets/js/vendor/holder.js"></script>
-	<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-	<script
-		src="http://getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js"></script>
+
 </body>
 </html>
 

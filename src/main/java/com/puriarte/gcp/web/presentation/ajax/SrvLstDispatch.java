@@ -127,7 +127,9 @@ public class SrvLstDispatch extends HttpServlet {
 	private String procesar() throws Exception {
 	 	int pos = (strPage-1) * strRows ;
 
+		System.out.println((new Date()).toString());
 		List<Dispatch> resultados = Facade.getInstance().selectDispatchList(dispatchStatus, orderBy, asc, pos, strRows);
+		System.out.println((new Date()).toString());
 		String jSonItems="";
 		int i=0;
 

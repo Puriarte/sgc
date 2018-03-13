@@ -342,17 +342,38 @@ public class SMSService1 {
 	
 
 	/**
+	 * Selecciona la lista de SMS por estado
+	 *
+	 * @param smsStatusPendiente
+	 * @return
+	 */
+	public List<SMS> selectListByStatusAndDispatchDate(int status) {
+		final EntityManager em = getEntityManager();
+
+		Query query = em.createNamedQuery("SMS.SelectSMSListByStatusAndDispatchDate")
+			.setParameter("status", status )
+			.setParameter("fechaActual", new Date());
+		query.setHint("javax.persistence.cache.storeMode", "REFRESH");
+		query.setHint("eclipselink.refresh", "true");
+		query.setHint("eclipselink.refresh.cascade", "CascadeAllParts");
+
+		List<SMS> a = (List<SMS>) query.getResultList();
+
+		return a;
+	}
+	
+	/**
 	 * Selecciona la lista de SMS or estado
 	 *
 	 * @param smsStatusPendiente
 	 * @return
 	 */
-	public List<SMS> selectList(int status) {
+	public List<SMS> selectListByActionAndDate(int action, Date fecha) {
 		final EntityManager em = getEntityManager();
 
-		Query query = em.createNamedQuery("SelectSMSListByStatus")
-			.setParameter("status", status )
-			.setParameter("fechaActual", new Date());
+		Query query = em.createNamedQuery("SMS.SelectSMSListByActionAndSmsDate")
+			.setParameter("action", action)
+			.setParameter("fecha", fecha);
 		query.setHint("javax.persistence.cache.storeMode", "REFRESH");
 		query.setHint("eclipselink.refresh", "true");
 		query.setHint("eclipselink.refresh.cascade", "CascadeAllParts");

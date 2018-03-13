@@ -112,26 +112,25 @@ jQuery(document).ready(function(){
 	//--- Fin Botonoes ---------------------------------------------------------
 
 	//--- Mascaras ---------------------------------------------------------
-	$.mask.masks = $.extend($.mask.masks,{
+/*	$.mask.masks = $.extend($.mask.masks,{
 		importe:{ mask : '99.999999', type : 'reverse' },
 		fecha:{ mask : '19-39-9999'  }
 	});
-	//--- Fin Mascaras ---------------------------------------------------------
+	*///--- Fin Mascaras ---------------------------------------------------------
 
 	//--- Inputs ---------------------------------------------------------
-  	$(function(){
+/*  	$(function(){
     	$("input:text").setMask();
   	});
-  	//--- Fin Inputs ---------------------------------------------------------
+  */	//--- Fin Inputs ---------------------------------------------------------
   //--- Validacion Formulario -----------------------------------------------------
-	$.validator.addMethod(
+/*	$.validator.addMethod(
 			"dateUY",
 			function (value, element) {
 				return Date.parseExact(value, "dd-MM-yyyy");
 			},
 			"Ingrese una fecha en el formato dd-mm-yyyy"
 	);
-
 	var validator = $(formName).validate({
 		onfocusout: false,
 		onkeyup: false,
@@ -147,7 +146,8 @@ jQuery(document).ready(function(){
 		messages: {
 		}
 	});
-
+*/
+	
 	//--- FIN Validacion Formulario -----------------------------------------------------
 	jQuery("#gridArticulos").jqGrid({
 	   	url:urlReload,
