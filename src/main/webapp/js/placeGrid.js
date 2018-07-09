@@ -12,25 +12,6 @@ Number.prototype.format = function(){
    return this.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.");
 };
 
-var editOptions={
-		top: 140, left: 250,
-		width: 500,
-		height:200,
-		recreateForm:true,
-		closeOnEscape: true,
-		closeAfterAdd:true,
-		closeAfterEdit:true,
-		modal: true};
-
-var addOptions={
-		top: 140, left: 250,
-		width: 500,
-		height:200,
-		recreateForm:true,
-		closeOnEscape: true,
-		closeAfterAdd:true,
-		closeAfterEdit:true,
-		modal: true};
 
 jQuery(document).ready(function(){
 
@@ -102,7 +83,7 @@ jQuery(document).ready(function(){
 			}
 			}
 		}
-	}).navGrid('#pagerArticulos',{edit:true,add:true,del:false, search: false}, editOptions, addOptions);
+	}).navGrid('#pagerArticulos',{edit:true,add:true,del:false, search: false});
 
 	
 	//--- FIN - Filtros -----------------------------------------------------
@@ -117,4 +98,95 @@ jQuery(document).ready(function(){
 		  alert(Exception.message);
 		}
 	});
+	
+	$("#lk_add_place").click(function(){
+		try{
+	    	addPlace();
+		}catch(Exception){
+			alert(Exception.message);
+		}
+		return false;
+	});
+	
+	//Para acutalizar la grilla
+	$("#lk_edit_place").click(function(){
+		try{
+			var id = jQuery("#gridArticulos").jqGrid('getGridParam','selrow');
+			if (id)	{
+				modificarPlace();
+			}else alert("Seleccione una persona");
+			
+		}catch(Exception){
+			alert(Exception.message);
+		}
+		return false;
+	});
+		
+
+	function modificarPlace(){
+		try{
+			$("#accion").val("cargar");
+			var personId = jQuery("#gridArticulos").jqGrid('getGridParam','selrow');
+			refDialogIframe = $('<iframe id="ifModCliente" frameborder="0" marginwidth="0px" marginheight="0px" style="overflow-y:hidden; overflow-x:scroll;" src="updatePlace.do?accion=load&ID=' + personId + '"/>').dialog({
+				resizable: true,
+				width:320,
+				height:160,
+				modal: true,
+				title: "Modificar Lugar",
+				open: function(event, ui){
+					$('body').css('overflow','hidden');
+					$('.ui-widget-overlay').css('width','100%');
+				},
+				close: function(event, ui) {
+					$('body').css('overflow','auto');
+				},
+				buttons: {
+					"Aceptar": function() {
+						refDialogIframe["0"].contentDocument.getElementById("btnEnviar").click();
+					},
+					"Cancelar": function() {
+						$( this ).dialog( "close" );
+					}
+				}
+			}).width(300).height(140);
+		}catch(Exception){
+			alert(Exception.message);
+		}
+		return false;
+	}
+	
+	function addPlace(){
+		try{
+			$("#accion").val("cargar");
+			var personId = jQuery("#gridArticulos").jqGrid('getGridParam','selrow');
+			refDialogIframe = $('<iframe id="ifModCliente" frameborder="0" marginwidth="0px" marginheight="0px" src="updatePlace.do?accion=load&ID=' + '"/>').dialog({
+				resizable: true,
+				width:320,
+				height:160,
+				modal: true,
+				title: "Agregar Lugar",
+				open: function(event, ui){
+					$('body').css('overflow','hidden');
+					$('.ui-widget-overlay').css('width','100%');
+				},
+				close: function(event, ui) {
+					$('body').css('overflow','auto');
+				},
+				buttons: {
+					"Aceptar": function() {
+						refDialogIframe["0"].contentDocument.getElementById("btnEnviar").click();
+						$( this ).dialog( "close" );
+						$("#lk_actualizar").click();
+					},
+					"Cancelar": function() {
+						$( this ).dialog( "close" );
+					}
+				}
+			}).width(300).height(140);
+		}catch(Exception){
+			alert(Exception.message);
+		}
+		return false;
+	}
 });
+

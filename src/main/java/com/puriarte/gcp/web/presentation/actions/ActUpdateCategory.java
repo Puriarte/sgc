@@ -23,6 +23,7 @@ import com.puriarte.convocatoria.persistence.Movil;
 import com.puriarte.convocatoria.persistence.Person;
 import com.puriarte.convocatoria.persistence.PersonCategory;
 import com.puriarte.convocatoria.persistence.PersonMovil;
+import com.puriarte.convocatoria.persistence.Place;
 import com.puriarte.convocatoria.persistence.SMS;
 
 public class ActUpdateCategory extends RestrictionAction {
@@ -41,24 +42,50 @@ public class ActUpdateCategory extends RestrictionAction {
 		Logger  logger = Logger.getLogger(ActUpdateCategory.class.getName());
 
 		try {
+			if(dynaForm.get("accion").equals("load")){
+				try{
+					// NUEVO
+					if ((dynaForm.get("ID")==null) || (dynaForm.get("ID").equals(0)==true)|| (dynaForm.get("ID").equals(""))){
+						dynaForm.set("NOMBRE", "");
+					}else{
+						PersonCategory category = Facade.getInstance().selectPersonCategory(Integer.parseInt((String) dynaForm.get("ID")));
+						
+						dynaForm.set("ID", category.getId()); 
+						dynaForm.set("NOMBRE", category.getName());
+					}					
+					dynaForm.set("accion", "send");
 
-			if ( (dynaForm.get("ID")!=null) && (!dynaForm.get("ID").toString().trim().equals(""))) {
-
-				PersonCategory category = Facade.getInstance().selectPersonCategory(Integer.parseInt((String) dynaForm.get("ID")));
-
-				if (dynaForm.get("NOMBRE")!=null) category.setName((String) dynaForm.get("NOMBRE"));
-
-				Facade.getInstance().updatePersonCategory(category);
+				} catch (Exception e) {
+					errors.add("error", new ActionError("dispatch.error.db.ingresar"));
+				}
+				if (!errors.isEmpty()) {
+					saveErrors(request, errors);
+					return mapping.findForward("failure");
+				} else {
+					return mapping.findForward("load");
+				}
+				
 			}else{
+				if ( (dynaForm.get("ID")!=null) && (!dynaForm.get("ID").toString().trim().equals(""))) {
 
-				PersonCategory category = new PersonCategory();
-				if (dynaForm.get("NOMBRE")!=null) {
-					category.setName((String) dynaForm.get("NOMBRE"));
-					Facade.getInstance().insertPersonCategory(category);
+					PersonCategory category = Facade.getInstance().selectPersonCategory(Integer.parseInt((String) dynaForm.get("ID")));
+
+					if (dynaForm.get("NOMBRE")!=null) category.setName((String) dynaForm.get("NOMBRE"));
+
+					Facade.getInstance().updatePersonCategory(category);
 				}else{
-					errors.add("error", new ActionError("person.error.db.ingresar"));
+
+					PersonCategory category = new PersonCategory();
+					if (dynaForm.get("NOMBRE")!=null) {
+						category.setName((String) dynaForm.get("NOMBRE"));
+						Facade.getInstance().insertPersonCategory(category);
+					}else{
+						errors.add("error", new ActionError("person.error.db.ingresar"));
+					}
 				}
 			}
+
+
 
 		} catch (Exception e) {
 			errors.add("error", new ActionError("person.error.db.ingresar"));

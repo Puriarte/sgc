@@ -9,6 +9,7 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+
 <meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -48,6 +49,7 @@
 
 	<script src="js/categoryGrid.js?var=<%= com.jcabi.manifests.Manifests.read("App-Version") %><%= (int) (Math.random() * 100) %>" type="text/javascript"></script>
 
+
 </head>
 
 <body>
@@ -61,6 +63,12 @@
 				<div class="col-sm-3 col-md-2 sidebar">
 					<ul class="nav nav-sidebar">
 						<li><button id="lk_actualizar" class="btn btn-primary">Refrescar</button></li>
+					</ul>
+					<ul class="nav nav-sidebar">
+						<li><button id="lk_add_category" class="btn btn-primary">Agregar</button></li>
+					</ul>
+					<ul class="nav nav-sidebar">
+						<li><button id="lk_edit_category" class="btn btn-primary">Modificar</button></li>
 					</ul>
 				</div>
 

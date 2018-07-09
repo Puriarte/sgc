@@ -93,6 +93,7 @@
 	</form-bean>
 
 	<form-bean dynamic="true" name="frmAdmCategory" type="org.apache.struts.action.DynaActionForm">
+		<form-property name="accion" type="java.lang.String" />
 		<form-property name="NOMBRE" type="java.lang.String" />
 		<form-property name="ID" type="java.lang.String" />
 	</form-bean>
@@ -107,6 +108,7 @@
 	</form-bean>
 
 	<form-bean dynamic="true" name="frmAdmPlace" type="org.apache.struts.action.DynaActionForm">
+		<form-property name="accion" type="java.lang.String" />
 		<form-property name="NOMBRE" type="java.lang.String" />
 		<form-property name="DIRECCION" type="java.lang.String" />
 		<form-property name="TELEFONO" type="java.lang.String" />
@@ -488,6 +490,7 @@
 		<set-property property="idOpMenu" value="502"/>
 		<set-property property="idComponente" value="13"/>
 
+		<forward name="load" path="/frm_category.jsp"/>
 		<forward name="success" path="/resultado_operacion.jsp"/>
 		<forward name="failure" path="/resultado_operacion.jsp"/>
 
@@ -503,6 +506,7 @@
 		<set-property property="idOpMenu" value="502"/>
 		<set-property property="idComponente" value="13"/>
 
+		<forward name="load" path="/frm_place.jsp"/>
 		<forward name="success" path="/resultado_operacion.jsp"/>
 		<forward name="failure" path="/resultado_operacion.jsp"/>
 

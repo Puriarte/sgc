@@ -39,7 +39,7 @@
     <script type="text/ecmascript" src="js/grid.locale-es.js"></script>
  
     <!-- The link to the CSS that the grid needs -->
-    <link rel="stylesheet" type="text/css"  href="css/ui.jqgrid.css" />
+    <link rel="stylesheet" type="text/css"  href="css/ui.jqgrid.css?a=<%= (int) (Math.random() * 100) %>" />
 	
 	<script src="js/dist/rx.lite.compat.js"></script>
 	<script src="js/bootstrap-notify-master/bootstrap-notify.min.js"></script>
@@ -52,7 +52,7 @@
 	}
 	</style>
 
-	<script src="js/placeGrid.js?var=<%= com.jcabi.manifests.Manifests.read("App-Version") %>" type="text/javascript"></script>
+	<script src="js/placeGrid.js?var=<%= com.jcabi.manifests.Manifests.read("App-Version") %><%= (int) (Math.random() * 100) %>" type="text/javascript"></script>
 
 </head>
 
@@ -67,6 +67,12 @@
 				<div class="col-sm-3 col-md-2 sidebar">
 					<ul class="nav nav-sidebar">
 						<li><button id="lk_actualizar" class="btn btn-primary">Refrescar</button></li>
+					</ul>
+					<ul class="nav nav-sidebar">
+						<li><button id="lk_add_place" class="btn btn-primary">Agregar</button></li>
+					</ul>
+					<ul class="nav nav-sidebar">
+						<li><button id="lk_edit_place" class="btn btn-primary">Modificar</button></li>
 					</ul>
 				</div>
 

@@ -12,79 +12,13 @@ Number.prototype.format = function(){
    return this.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.");
 };
 
-var editOptions={top: 150, left: 250,
-		width: 350,
-		height:100,
-		recreateForm:true,
-		closeOnEscape: true,
-		closeAfterAdd:true,
-		closeAfterEdit:true,
-		modal: true};
-
-var addOptions={top: 150, left: 250,
-		width: 350,
-		height:100,
-		recreateForm:true,
-		closeOnEscape: true,
-		closeAfterAdd:true,
-		closeAfterEdit:true,
-		modal: true};
-
 jQuery(document).ready(function(){
 
 	//--- Botonoes ---------------------------------------------------------
 	$(function(){
 	});
 	//--- Fin Botonoes ---------------------------------------------------------
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
-/*
-
-	//--- Mascaras ---------------------------------------------------------
-	$.mask.masks = $.extend($.mask.masks,{
-		importe:{ mask : '99.999999', type : 'reverse' },
-		fecha:{ mask : '19-39-9999'  }
-	});
-	//--- Fin Mascaras ---------------------------------------------------------
-
-	//--- Inputs ---------------------------------------------------------
-  	$(function(){
-    	$("input:text").setMask();
-  	});
-  	//--- Fin Inputs ---------------------------------------------------------
-  //--- Validacion Formulario -----------------------------------------------------
-	$.validator.addMethod(
-			"dateUY",
-			function (value, element) {
-				return Date.parseExact(value, "dd-MM-yyyy");
-			},
-			"Ingrese una fecha en el formato dd-mm-yyyy"
-	);
-
-	var validator = $(formName).validate({
-		onfocusout: false,
-		onkeyup: false,
-		onclick: false,
-		ignore: ":hidden",
-		wrapper: "li",
-		errorClass: "ui-state-error-text",
-		errorPlacement: function(error, element) {
-			error.appendTo(element.parent());
-		},
-		rules: {
-		},
-		messages: {
-		}
-	});
-*/
+ 
 
 	//--- FIN Validacion Formulario -----------------------------------------------------
 	jQuery("#gridArticulos").jqGrid({
@@ -159,7 +93,7 @@ jQuery(document).ready(function(){
 			}
 			}
 		}
-	}).navGrid('#pagerArticulos',{edit:true,add:true,del:false, search: false}, editOptions, addOptions);
+	}).navGrid('#pagerArticulos',{edit:true,add:true,del:false, search: false} );
 
 	$("#bedata").click(function(){
 		var gr = jQuery("#gridArticulos").jqGrid('getGridParam','selrow');
@@ -221,6 +155,97 @@ jQuery(document).ready(function(){
 		}
 		return false;
 	});
+	
+	$("#lk_add_category").click(function(){
+		try{
+	    	addCategory();
+		}catch(Exception){
+			alert(Exception.message);
+		}
+		return false;
+	});
+	
+	//Para acutalizar la grilla
+	$("#lk_edit_category").click(function(){
+		try{
+			var id = jQuery("#gridArticulos").jqGrid('getGridParam','selrow');
+			if (id)	{
+				modificarCategory();
+			}else alert("Seleccione una categoria");
+			
+		}catch(Exception){
+			alert(Exception.message);
+		}
+		return false;
+	});
+	
+	
+	
+	function modificarCategory(){
+		try{
+			$("#accion").val("cargar");
+			var personId = jQuery("#gridArticulos").jqGrid('getGridParam','selrow');
+			refDialogIframe = $('<iframe id="ifModCliente" frameborder="0" marginwidth="0px" marginheight="0px" style="overflow-y:hidden; overflow-x:scroll;" src="updateCategory.do?accion=load&ID=' + personId + '"/>').dialog({
+				resizable: true,
+				width:320,
+				height:160,
+				modal: true,
+				title: "Modificar Categoria",
+				open: function(event, ui){
+					$('body').css('overflow','hidden');
+					$('.ui-widget-overlay').css('width','100%');
+				},
+				close: function(event, ui) {
+					$('body').css('overflow','auto');
+				},
+				buttons: {
+					"Aceptar": function() {
+						refDialogIframe["0"].contentDocument.getElementById("btnEnviar").click();
+					},
+					"Cancelar": function() {
+						$( this ).dialog( "close" );
+					}
+				}
+			}).width(300).height(140);
+		}catch(Exception){
+			alert(Exception.message);
+		}
+		return false;
+	}
+
+	function addCategory(){
+		try{
+			$("#accion").val("cargar");
+			var personId = jQuery("#gridArticulos").jqGrid('getGridParam','selrow');
+			refDialogIframe = $('<iframe id="ifModCliente" frameborder="0" marginwidth="0px" marginheight="0px" src="updateCategory.do?accion=load&ID=' + '"/>').dialog({
+				resizable: true,
+				width:320,
+				height:160,
+				modal: true,
+				title: "Agregar Categoria",
+				open: function(event, ui){
+					$('body').css('overflow','hidden');
+					$('.ui-widget-overlay').css('width','100%');
+				},
+				close: function(event, ui) {
+					$('body').css('overflow','auto');
+				},
+				buttons: {
+					"Aceptar": function() {
+						refDialogIframe["0"].contentDocument.getElementById("btnEnviar").click();
+						$( this ).dialog( "close" );
+						$("#lk_actualizar").click();
+					},
+					"Cancelar": function() {
+						$( this ).dialog( "close" );
+					}
+				}
+			}).width(300).height(140);
+		}catch(Exception){
+			alert(Exception.message);
+		}
+		return false;
+	}
 
 });
 

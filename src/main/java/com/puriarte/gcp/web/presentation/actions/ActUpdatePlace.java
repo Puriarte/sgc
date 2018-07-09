@@ -1,6 +1,7 @@
 package com.puriarte.gcp.web.presentation.actions;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,6 +23,7 @@ import com.puriarte.convocatoria.persistence.Dispatch;
 import com.puriarte.convocatoria.persistence.Movil;
 import com.puriarte.convocatoria.persistence.Person;
 import com.puriarte.convocatoria.persistence.PersonCategory;
+import com.puriarte.convocatoria.persistence.PersonCategoryAsociation;
 import com.puriarte.convocatoria.persistence.PersonMovil;
 import com.puriarte.convocatoria.persistence.Place;
 import com.puriarte.convocatoria.persistence.SMS;
@@ -42,23 +44,51 @@ public class ActUpdatePlace extends RestrictionAction {
 		Logger  logger = Logger.getLogger(ActUpdatePlace.class.getName());
 
 		try {
+			if(dynaForm.get("accion").equals("load")){
+				try{
+					// NUEVO
+					if ((dynaForm.get("ID")==null) || (dynaForm.get("ID").equals(0)==true)|| (dynaForm.get("ID").equals(""))){
+						dynaForm.set("NOMBRE", "");
+						dynaForm.set("DIRECCION", "");
+						dynaForm.set("TELEFONO", "");
+					}else{
+						Place place = Facade.getInstance().selectPlace(new Integer(dynaForm.get("ID").toString()));
+						
+						dynaForm.set("ID", place.getId()); 
+						dynaForm.set("NOMBRE", place.getName());
+						dynaForm.set("DIRECCION", place.getAddress());
+						dynaForm.set("TELEFONO", place.getPhone());
+					}					
+					dynaForm.set("accion", "send");
 
-			if ( (dynaForm.get("ID")!=null) && (!dynaForm.get("ID").toString().trim().equals(""))) {
-
-				Place place= Facade.getInstance().selectPlace(Integer.parseInt((String) dynaForm.get("ID")));
-
-				if (dynaForm.get("NOMBRE")!=null) place.setName((String) dynaForm.get("NOMBRE"));
-				if (dynaForm.get("DIRECCION")!=null) place.setAddress((String) dynaForm.get("DIRECCION"));
-				if (dynaForm.get("TELEFONO")!=null) place.setPhone((String) dynaForm.get("TELEFONO"));
-
-				Facade.getInstance().updatePlace(place);
+				} catch (Exception e) {
+					errors.add("error", new ActionError("dispatch.error.db.ingresar"));
+				}
+				if (!errors.isEmpty()) {
+					saveErrors(request, errors);
+					return mapping.findForward("failure");
+				} else {
+					return mapping.findForward("load");
+				}
+				
 			}else{
-				Place place = new Place();
-				if (dynaForm.get("NOMBRE")!=null) place.setName((String) dynaForm.get("NOMBRE"));
-				if (dynaForm.get("DIRECCION")!=null) place.setAddress((String) dynaForm.get("DIRECCION"));
-				if (dynaForm.get("TELEFONO")!=null) place.setPhone((String) dynaForm.get("TELEFONO"));
+				if ( (dynaForm.get("ID")!=null) && (!dynaForm.get("ID").toString().trim().equals(""))) {
 
-				Facade.getInstance().insertPlace(place);
+					Place place= Facade.getInstance().selectPlace(Integer.parseInt((String) dynaForm.get("ID")));
+
+					if (dynaForm.get("NOMBRE")!=null) place.setName((String) dynaForm.get("NOMBRE"));
+					if (dynaForm.get("DIRECCION")!=null) place.setAddress((String) dynaForm.get("DIRECCION"));
+					if (dynaForm.get("TELEFONO")!=null) place.setPhone((String) dynaForm.get("TELEFONO"));
+
+					Facade.getInstance().updatePlace(place);
+				}else{
+					Place place = new Place();
+					if (dynaForm.get("NOMBRE")!=null) place.setName((String) dynaForm.get("NOMBRE"));
+					if (dynaForm.get("DIRECCION")!=null) place.setAddress((String) dynaForm.get("DIRECCION"));
+					if (dynaForm.get("TELEFONO")!=null) place.setPhone((String) dynaForm.get("TELEFONO"));
+
+					Facade.getInstance().insertPlace(place);
+				}
 			}
 
 
