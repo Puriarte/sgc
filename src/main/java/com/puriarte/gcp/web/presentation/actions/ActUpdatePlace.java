@@ -54,7 +54,7 @@ public class ActUpdatePlace extends RestrictionAction {
 					}else{
 						Place place = Facade.getInstance().selectPlace(new Integer(dynaForm.get("ID").toString()));
 						
-						dynaForm.set("ID", place.getId()); 
+						dynaForm.set("ID", place.getId().toString()); 
 						dynaForm.set("NOMBRE", place.getName());
 						dynaForm.set("DIRECCION", place.getAddress());
 						dynaForm.set("TELEFONO", place.getPhone());
@@ -100,8 +100,8 @@ public class ActUpdatePlace extends RestrictionAction {
 			saveErrors(request, errors);
 			return mapping.findForward("failure");
 		} else {
-//			messages.add("msg", new ActionMessage("person.update.ok"));
-//			saveMessages(request, messages);
+			messages.add("msg", new ActionMessage("place.update.ok"));
+			saveMessages(request, messages);
 			return mapping.findForward("success");
 		}
 	}

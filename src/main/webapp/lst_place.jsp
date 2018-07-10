@@ -24,7 +24,6 @@
 	<link href="css/dashboard.css" rel="stylesheet">
 	
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-	<link rel="stylesheet" href="/resources/demos/style.css">
   	
   	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 
@@ -53,6 +52,7 @@
 	</style>
 
 	<script src="js/placeGrid.js?var=<%= com.jcabi.manifests.Manifests.read("App-Version") %><%= (int) (Math.random() * 100) %>" type="text/javascript"></script>
+	
 
 </head>
 
@@ -100,9 +100,6 @@
 	<!-- Placed at the end of the document so the pages load faster -->
 	<script src="js/bootstrap.min.js"></script>
 	<!-- Just to make our placeholder images work. Don't actually copy the next line! -->
-	<script src="http://getbootstrap.com/assets/js/vendor/holder.js"></script>
-	<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-	<script
-		src="http://getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js"></script>
+	<script src="js/holder.js"></script>
 </body>
 </html>

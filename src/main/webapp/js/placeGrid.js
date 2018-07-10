@@ -14,13 +14,13 @@ Number.prototype.format = function(){
 
 
 jQuery(document).ready(function(){
-
+	
 	jQuery("#gridArticulos").jqGrid({
 	   	url:urlReload,
 	   	postData: {
 			primeraVez:primeraVez
 	   	},
-	   	loadonce:false,
+	   	loadonce:true,
 	   	mtype: 'GET',
 	   	datatype: "local", // se usa local para que no cargue registros en el primer acceso a la grilla
 	   	colNames:['POS','ID','NOMBRE','DIRECCION', 'TELEFONO'],
@@ -127,6 +127,12 @@ jQuery(document).ready(function(){
 		try{
 			$("#accion").val("cargar");
 			var personId = jQuery("#gridArticulos").jqGrid('getGridParam','selrow');
+			var cerrarBtns = {
+	                "Aceptar": function () {
+						$("#lk_actualizar").click();
+	                    $(this).dialog("close");
+	                }
+	            };
 			refDialogIframe = $('<iframe id="ifModCliente" frameborder="0" marginwidth="0px" marginheight="0px" style="overflow-y:hidden; overflow-x:scroll;" src="updatePlace.do?accion=load&ID=' + personId + '"/>').dialog({
 				resizable: true,
 				width:320,
@@ -143,6 +149,7 @@ jQuery(document).ready(function(){
 				buttons: {
 					"Aceptar": function() {
 						refDialogIframe["0"].contentDocument.getElementById("btnEnviar").click();
+						refDialogIframe.dialog("option",'buttons',cerrarBtns);
 					},
 					"Cancelar": function() {
 						$( this ).dialog( "close" );
@@ -155,10 +162,19 @@ jQuery(document).ready(function(){
 		return false;
 	}
 	
+	
 	function addPlace(){
 		try{
+
 			$("#accion").val("cargar");
 			var personId = jQuery("#gridArticulos").jqGrid('getGridParam','selrow');
+			var cerrarBtns = {
+	                "Aceptar": function () {
+						$("#lk_actualizar").click();
+	                    $(this).dialog("close");
+	                }
+	            };
+			
 			refDialogIframe = $('<iframe id="ifModCliente" frameborder="0" marginwidth="0px" marginheight="0px" src="updatePlace.do?accion=load&ID=' + '"/>').dialog({
 				resizable: true,
 				width:320,
@@ -175,8 +191,7 @@ jQuery(document).ready(function(){
 				buttons: {
 					"Aceptar": function() {
 						refDialogIframe["0"].contentDocument.getElementById("btnEnviar").click();
-						$( this ).dialog( "close" );
-						$("#lk_actualizar").click();
+						refDialogIframe.dialog("option",'buttons',cerrarBtns);
 					},
 					"Cancelar": function() {
 						$( this ).dialog( "close" );

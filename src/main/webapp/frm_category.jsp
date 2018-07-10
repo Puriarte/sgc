@@ -68,7 +68,7 @@
  <body >
 
  <div align="center" class="container" >
-	<html:form action="/updatePerson.do" method="post" styleId="frmAdmPereson" style="margin: 0px 0px 0px 0px;" enctype="multipart/form-data">
+	<html:form action="/updateCategory.do" method="post" styleId="frmAdmCategory" style="margin: 0px 0px 0px 0px;" enctype="multipart/form-data">
 	<html:hidden  property="accion" styleId="accion"/>
 	<html:hidden property="ID" />
 	<bean:define id="stNombre" name="frmAdmCategory" property="NOMBRE" />

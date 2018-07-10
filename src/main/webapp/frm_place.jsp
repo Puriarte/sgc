@@ -7,7 +7,7 @@
 <%@ taglib uri="/WEB-INF/fmt-rt.tld" prefix="fmt-rt" %>
 <%@ taglib uri="/WEB-INF/fn.tld" prefix="fn" %>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//ES" "http://www.w3.org/TR/xhtml2/DTD/xhtml1-strict.dtd">
+
 <html lang="es">
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -31,6 +31,7 @@
       <script src="js/respond.min.js"></script>
     <![endif]-->	
     	<script src="http://cdn.jsdelivr.net/webshim/1.12.4/polyfiller.js"></script>
+
 	<script>
 	  webshims.setOptions('waitReady', false);
 	  webshims.setOptions('forms-ext', {types: 'date'});
@@ -60,9 +61,7 @@
 	
 
 	</style>
-	<script
-	src="js/placeGrid.js?var=<%=com.jcabi.manifests.Manifests.read("App-Version")%><%= (int) (Math.random() * 100) %>"
-	type="text/javascript"></script>
+
 </head>
 
  <body >

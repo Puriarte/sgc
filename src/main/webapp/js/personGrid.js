@@ -243,65 +243,12 @@ jQuery(document).ready(function(){
 			}
 		}
 	}).navGrid('#pagerArticulos',{edit:false,add:false,del:false,search: false}, editOptions , addOptions);
-/*	.navButtonAdd("#pagerArticulos", {
-		    caption: "Agregar",
-		    buttonicon: "ui-icon-disk",
-		    onClickButton: function () {
-		    	agregarCliente();
-		    },
-		    position: "last"
-		})
-	.navButtonAdd("#pagerArticulos", {
-		    caption: "Modificar",
-		    buttonicon: "ui-icon-disk",
-		    onClickButton: function () {
-				var id = jQuery("#gridArticulos").jqGrid('getGridParam','selrow');
-				if (id)	{
-			    	modificarCliente();
-				}else alert("Seleccione una persona");
-		    },
-		    position: "last"
-		})
-	.navButtonAdd('#pagerArticulos', {
-        caption: "Crear mensaje",
-        buttonicon: "ui-icon-mail-open",
-        onClickButton: function () {
-        	try{
-    			ingresarMensajeSMS();
-    		}catch(Exception){
-    			alert(Exception.message);
-    		}
-        },
-        position: "last"
-    }).navButtonAdd('#pagerArticulos', {
-        caption: "Crear convocatoria",
-        buttonicon: "ui-icon-comment",
-        onClickButton: function () {
-        	try{
-    			ingresarListaSMS();
-    		}catch(Exception){
-    			alert(Exception.message);
-    		}
-        },
-        position: "last"
-    }).navButtonAdd('#pagerArticulos', {
-        caption: "Informes",
-        buttonicon: "ui-icon-disk",
-        onClickButton: function () {
-        	var gr = jQuery("#gridArticulos").jqGrid('getGridParam','selrow');
-    		if( gr != null )
-    			verEscolaridad(gr);
-    		else alert("Seleccione una persona");
-        },
-        position: "last"
-    });
-*/
+
 	$("#bedata").click(function(){
 		var gr = jQuery("#gridArticulos").jqGrid('getGridParam','selrow');
 		if( gr != null ) jQuery("#gridArticulos").jqGrid('editGridRow',gr,{height:280,reloadAfterSubmit:true, closeAfterEdit: true});
 		else alert("Seleccione una persona");
 	});
-
 
 	function verEscolaridad(gr){
 		try{
@@ -315,9 +262,6 @@ jQuery(document).ready(function(){
 			"position: absolute, top=" + y1 + ", left=" + x1 + ", height=" + y + ", width=" + x + "'"
 
 			var win = window.open("school.do?idPerson=" + gr,"modVer",params);
-
-
-//			var win = window.open("mostrarEscolaridadPDF?idPerson=" + gr,"modVer",params);
 
 		}catch(Exception){
 			alert(Exception.message);
@@ -492,10 +436,12 @@ function ingresarMensajeSMS(){
 				$( this ).dialog( "close" );
 			}
 		},
+		
+		
 		modal: true,
 		resizable: true,
-		height:550,
-		width:700
+		height:570,
+		width:920
 	});
 	// load remote content
 	dialog.load(
@@ -637,14 +583,23 @@ function removeOptions(selectbox)
 }
 
 
+
 function modificarCliente(){
 	try{
 		$("#accion").val("cargar");
 		var personId = jQuery("#gridArticulos").jqGrid('getGridParam','selrow');
+		
+		var cerrarBtns = {
+                "Aceptar": function () {
+					$("#lk_actualizar").click();
+                    $(this).dialog("close");
+                }
+            };
+		
 		refDialogIframe = $('<iframe id="ifModCliente" frameborder="0" marginwidth="0px" marginheight="0px" style="overflow-y:hidden; overflow-x:scroll;" src="updatePerson.do?accion=load&ID=' + personId + '"/>').dialog({
 			resizable: true,
-			width:775,
-			height:500,
+			width:795,
+			height:520,
 			modal: true,
 			title: "Modificar Persona",
 			open: function(event, ui){
@@ -657,6 +612,7 @@ function modificarCliente(){
 			buttons: {
 				"Aceptar": function() {
 					refDialogIframe["0"].contentDocument.getElementById("btnEnviar").click();
+					refDialogIframe.dialog("option",'buttons',cerrarBtns);
 				},
 				"Agregar Categoria": function() {
 					refDialogIframe["0"].contentDocument.getElementById("btnAddaAsignment").click();
@@ -672,15 +628,22 @@ function modificarCliente(){
 	return false;
 }
 
-
 function agregarCliente(){
 	try{
 		$("#accion").val("cargar");
 		var personId = jQuery("#gridArticulos").jqGrid('getGridParam','selrow');
+		
+		var cerrarBtns = {
+                "Aceptar": function () {
+					$("#lk_actualizar").click();
+                    $(this).dialog("close");
+                }
+            };
+		
 		refDialogIframe = $('<iframe id="ifModCliente" frameborder="0" marginwidth="0px" marginheight="0px" src="updatePerson.do?accion=load&ID=' + '"/>').dialog({
 			resizable: true,
-			width:775,
-			height:500,
+			width:795,
+			height:520,
 			modal: true,
 			title: "Agregar Empleado",
 			open: function(event, ui){
@@ -693,8 +656,7 @@ function agregarCliente(){
 			buttons: {
 				"Aceptar": function() {
 					refDialogIframe["0"].contentDocument.getElementById("btnEnviar").click();
-					$( this ).dialog( "close" );
-					$("#lk_actualizar").click();
+					refDialogIframe.dialog("option",'buttons',cerrarBtns);
 				},
 				"Agregar Categoria": function() {
 					refDialogIframe["0"].contentDocument.getElementById("btnAddaAsignment").click();
@@ -759,7 +721,6 @@ function deleteCategoryRow(element){
 	}catch(E){
 	}
 }
-
 
 function continueAddToDispatch(i){
 	try{

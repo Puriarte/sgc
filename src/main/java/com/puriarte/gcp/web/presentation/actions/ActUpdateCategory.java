@@ -50,7 +50,7 @@ public class ActUpdateCategory extends RestrictionAction {
 					}else{
 						PersonCategory category = Facade.getInstance().selectPersonCategory(Integer.parseInt((String) dynaForm.get("ID")));
 						
-						dynaForm.set("ID", category.getId()); 
+						dynaForm.set("ID", Integer.toString(category.getId())); 
 						dynaForm.set("NOMBRE", category.getName());
 					}					
 					dynaForm.set("accion", "send");
