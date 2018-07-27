@@ -32,7 +32,7 @@ import javax.persistence.TemporalType;
         query="SELECT s FROM SMS s WHERE s.uuid = :uuid "),
         @NamedQuery(name="SMS.SelectSMSListByStatusAndDispatchDate",
         query="SELECT s FROM SMS s LEFT OUTER JOIN s.assignment asi  LEFT OUTER JOIN asi.job j LEFT OUTER JOIN j.dispatch dis"
-        		+ " where s.status.id = :status and "
+        		+ " where s.deleted=false and s.status.id = :status and "
         		+ " ((asi is null) or ((dis.scheduledDate>= :fechaActual))) "),
     	@NamedQuery(name="SMS.SelectSMSListByActionAndSmsDate",
         query="SELECT s FROM SMS s "
