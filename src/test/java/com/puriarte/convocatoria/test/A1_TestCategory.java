@@ -53,7 +53,7 @@ public class A1_TestCategory {
 
 	private void listarCategoriasAlMomento(String mensaje){
 
-		ArrayList<PersonCategory> categories = (ArrayList<PersonCategory> )Facade.getInstance().selectPersonCategoryList();
+		ArrayList<PersonCategory> categories = (ArrayList<PersonCategory> )Facade.getInstance().selectPersonCategoryList(true);
 		System.out.println(mensaje);
 		if (categories!=null){
 		for(PersonCategory aux : categories){

@@ -65,7 +65,7 @@ import com.puriarte.convocatoria.persistence.result.PersonMovilResult;
 					" AND ((-1 IN ?1) or (t2.PRIORITY IN ?1)) "  + 
 					" AND ((-1 IN ?2) or (t0.idPerson IN (select idPerson from personpersoncategory where idPersoncategory in ?2)) ) "
 					+ ") AS q"
-					+ " order by "
+/*					+ " order by "
 					+ "		CASE WHEN(?3) = 'document_type,document_number' THEN document_number "
 					+ "		 WHEN(?3) =  'movil_number' THEN movil_number "
 					+ "		 WHEN(?3) =  'document_number' THEN document_number "
@@ -74,7 +74,7 @@ import com.puriarte.convocatoria.persistence.result.PersonMovilResult;
 					+ "		 WHEN(?3) =  'category_name' THEN category_name "
 					+ "		 WHEN(?3) =  'priority' THEN CAST (priority AS text)   "
 					+ " END "
-					, resultSetMapping = "PersonMovilResult"),
+	*/				, resultSetMapping = "PersonMovilResult"),
 })
 
 

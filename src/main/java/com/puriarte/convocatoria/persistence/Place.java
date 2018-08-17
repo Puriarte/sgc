@@ -11,8 +11,10 @@ import javax.persistence.NamedQuery;
 @NamedQueries({
 	  @NamedQuery(name="SelectPlace",
 		  query="SELECT pl FROM Place pl WHERE pl.id = :id"),
-	  @NamedQuery(name="SelectPlaceList",
-	  	query="SELECT pl FROM Place pl order by pl.name"),
+	  @NamedQuery(name="Place.SelectPlaceList",
+	  	query="SELECT pl FROM Place pl "
+	  			+ "where ((:includeDeleted = 1) or (pl.deleted = false)) "
+	  			+ "order by pl.name"),
 	})
 public class Place {
 
@@ -22,6 +24,7 @@ public class Place {
     private String name;
     private String address;
     private String phone;
+    private boolean deleted;
 
     public Place(){}
 
@@ -55,6 +58,14 @@ public class Place {
 
 	public void setPhone(String phone) {
 		this.phone = phone;
+	}
+
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
 	}
 
 

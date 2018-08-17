@@ -20,12 +20,16 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import javax.persistence.NoResultException;
+import javax.persistence.NonUniqueResultException;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
 
 import com.puriarte.convocatoria.core.exceptions.MovilException;
+import com.puriarte.convocatoria.core.exceptions.PersonCategoryException;
 import com.puriarte.convocatoria.core.exceptions.PersonException;
+import com.puriarte.convocatoria.core.exceptions.PlaceException;
 import com.puriarte.convocatoria.core.exceptions.SMSException;
 import com.puriarte.convocatoria.persistence.Assignment;
 import com.puriarte.convocatoria.persistence.AssignmentStatus;
@@ -407,7 +411,7 @@ public class Facade {
 			try {
 				
 				// Leo el template
-				String path= System.getenv("OPENSHIFT_DATA_DIR") + "templates/email_sms.html";
+				String path= System.getenv("GCP_DATA_DIR") + "templates/email_sms.html";
 
 				PropertiesConfiguration config = new PropertiesConfiguration(com.puriarte.gcp.web.Constantes.PATHAPPCONFIG);
 				String[] mailTo = config.getString("mail.nodispatch.to").split(";");
@@ -475,7 +479,7 @@ public class Facade {
 				
 			Object[] messageArguments = {nroMovil , persona, text};
 			String path;
-			path =   System.getenv("OPENSHIFT_DATA_DIR") + "templates/email_sms";
+			path =   System.getenv("GCP_DATA_DIR") + "templates/email_sms";
 
 			mail.setMessageHtmlFile(path,messageArguments);
 			smtp.sendMail(mail);
@@ -753,15 +757,31 @@ public class Facade {
 	}
 
 	// CATEGORY
-	public List<PersonCategory> selectPersonCategoryList() {
-		return this.personCategoryService.selectList();
+	public List<PersonCategory> selectPersonCategoryList(boolean includeDeleted) {
+		return this.personCategoryService.selectList(includeDeleted);
 	}
 
 	public PersonCategory selectPersonCategory(int id) {
 		return this.personCategoryService.select(id);
 	}
 
-	public int insertPersonCategory(PersonCategory cat) throws SQLException {
+	public int insertPersonCategory(PersonCategory cat) throws SQLException, PersonCategoryException, Exception {
+		PersonCategory pc =null;
+		try{
+			pc = this.personCategoryService.selectByName(cat.getName());
+		}catch(NoResultException nrex){
+			pc=null;
+		}catch(NonUniqueResultException nex ){
+			// Si hay mas de una categoría con este nombre aviso 
+			throw new PersonCategoryException(PersonCategoryException.DUPLICATED_MORE_THAN_ONCE);
+		}
+		
+		if ((cat==null)  ||(cat.getName()==null))
+			throw new PersonCategoryException(PersonCategoryException.NAME_REQUIRED);
+		
+		if ((pc!=null) && (pc.getName()!=null) && (pc.getName().toLowerCase().trim().equals(cat.getName().toLowerCase().trim())))
+			throw new PersonCategoryException(PersonCategoryException.DUPLICATED);
+		
 		return this.personCategoryService.insert(cat);
 	}
 
@@ -848,19 +868,19 @@ public class Facade {
 
 	
 	// PLACES
-	public List<Place> selectPlaceList() {
-		return this.placeService.selectList();
+	public List<Place> selectPlaceList(boolean includeDeleted) {
+		return this.placeService.selectList(includeDeleted);
 	}
 
 	public Place selectPlace(int id) {
 		return this.placeService.select(id);
 	}
 
-	public int insertPlace(Place cat) throws SQLException {
+	public int insertPlace(Place cat) throws SQLException, PlaceException {
 		return this.placeService.insert(cat);
 	}
 
-	public void updatePlace(Place cat) {
+	public void updatePlace(Place cat) throws SQLException, PlaceException {
 		this.placeService.update(cat);
 	}
 

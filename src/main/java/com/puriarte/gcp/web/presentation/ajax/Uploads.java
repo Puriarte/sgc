@@ -34,7 +34,7 @@ public class Uploads extends HttpServlet {
 		  for (Part part : request.getParts()) {
 	        InputStream is = request.getPart(part.getName()).getInputStream();
 	        String fileName = getFileName(part);
-	        FileOutputStream os = new FileOutputStream(System.getenv("OPENSHIFT_DATA_DIR") + fileName);
+	        FileOutputStream os = new FileOutputStream(System.getenv("GCP_DATA_DIR") + fileName);
 	        byte[] bytes = new byte[BUFFER_LENGTH];
 	        int read = 0;
 	        while ((read = is.read(bytes, 0, BUFFER_LENGTH)) != -1) {
@@ -43,7 +43,7 @@ public class Uploads extends HttpServlet {
 	        os.flush();
 	        is.close();
 	        os.close();
-	        out.println(fileName + " was uploaded to " + System.getenv("OPENSHIFT_DATA_DIR"));
+	        out.println(fileName + " was uploaded to " + System.getenv("GCP_DATA_DIR"));
 		    }
 	    }catch(Exception e){
 	    }
@@ -56,7 +56,7 @@ public class Uploads extends HttpServlet {
 	    String contextFacesPath;
 	    
 //	    if (getServletContext().getRealPath("")==null){
-	    	contextFacesPath =System.getenv("OPENSHIFT_DATA_DIR") + "/faces/" + filePath.substring(filePath.lastIndexOf("/")+1);
+	    	contextFacesPath =System.getenv("GCP_DATA_DIR") + "/faces/" + filePath.substring(filePath.lastIndexOf("/")+1);
 	/*	}else{
 	        contextFacesPath = getServletContext().getRealPath("")+ "/images/faces/" ;
 	        contextFacesPath = getServletContext().getRealPath("")+ "/images/faces/" + filePath.substring(filePath.lastIndexOf("/")+1);

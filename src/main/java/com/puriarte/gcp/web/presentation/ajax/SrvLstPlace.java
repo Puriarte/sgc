@@ -30,7 +30,7 @@ public class SrvLstPlace extends RestrictionServlet {
         PrintWriter out = response.getWriter();
 
         try {
-        	List<Place> listItems = Facade.getInstance().selectPlaceList();
+        	List<Place> listItems = Facade.getInstance().selectPlaceList(false);
         	String strXml = "<select>";
         	for ( Place place : listItems ) {
         		strXml += "<option value='" + place.getId() +"'>" + place.getName().trim()  + "</option>";

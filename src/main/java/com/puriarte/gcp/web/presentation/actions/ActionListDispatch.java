@@ -51,7 +51,7 @@ public class ActionListDispatch extends RestrictionAction {
 		dynaForm.set("fechaHasta", DateUtils.formatDate(calendar.getTime(),   Constants.FORMATO_FECHA_HTML5));
 
 		try{
-			List<PersonCategory > categories = new ArrayList<PersonCategory>(Facade.getInstance().selectPersonCategoryList());
+			List<PersonCategory > categories = new ArrayList<PersonCategory>(Facade.getInstance().selectPersonCategoryList(false));
 			dynaForm.set("categories", categories);
 		}catch(Exception e ){
 

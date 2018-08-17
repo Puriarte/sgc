@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NonUniqueResultException;
 import javax.persistence.Query;
 
 import com.puriarte.convocatoria.persistence.EntityManagerHelper;
@@ -48,15 +49,30 @@ public class PersonCategoryService {
 		}catch(Exception e){
 			return null;
 		}
-
 	}
 
+	public PersonCategory selectByName(String name) throws NonUniqueResultException, Exception{
+		final EntityManager em = getEntityManager();
 
-	public List<PersonCategory> selectList() {
+		Query query = em.createNamedQuery("PersonCategory.SelectPersonCategoryByName")
+				.setParameter("name", name);
+
+		PersonCategory a = (PersonCategory) query.getSingleResult();
+		
+		return a;
+	}
+	
+	public List<PersonCategory> selectList(boolean includeDeleted) {
 		final EntityManager em = getEntityManager();
 
 		try{
 			Query query = em.createNamedQuery("PersonCategory.SelectPersonCategoryList");
+			
+			if (includeDeleted)
+				query.setParameter("includeDeleted", 1);
+			else
+				query.setParameter("includeDeleted", 0);
+			
 			query.setHint("javax.persistence.cache.storeMode", "REFRESH");
 			query.setHint("eclipselink.refresh", "true");
 			query.setHint("eclipselink.refresh.cascade", "CascadeAllParts");
@@ -114,6 +130,5 @@ public class PersonCategoryService {
 		em.getTransaction().commit();
 
 	}
-
 
 }

@@ -189,7 +189,7 @@ public class ActAddToCategoryDispatch extends RestrictionAction {
 				}
 				
 				try{
-					List<PersonCategory > categories = new ArrayList<PersonCategory>(Facade.getInstance().selectPersonCategoryList());
+					List<PersonCategory > categories = new ArrayList<PersonCategory>(Facade.getInstance().selectPersonCategoryList(false));
 					dynaForm.set("categories", categories);
 				}catch(Exception e ){
 

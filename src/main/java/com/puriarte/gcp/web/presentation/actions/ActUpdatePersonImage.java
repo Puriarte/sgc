@@ -58,7 +58,7 @@ public class ActUpdatePersonImage extends RestrictionAction {
 				
 			    String contextFacesPath;
 			    if (this.getServlet().getServletContext().getRealPath("")==null){
-		        	contextFacesPath = System.getenv("OPENSHIFT_DATA_DIR") + "faces/";
+		        	contextFacesPath = System.getenv("GCP_DATA_DIR") + "faces/";
 		    	}else{
 		            contextFacesPath = this.getServlet().getServletContext().getRealPath("")+ "/images/faces/";
 		    	}

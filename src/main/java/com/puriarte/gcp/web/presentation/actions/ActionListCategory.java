@@ -2,6 +2,7 @@ package com.puriarte.gcp.web.presentation.actions;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -45,8 +46,11 @@ public class ActionListCategory extends RestrictionAction {
 		Logger  logger = Logger.getLogger(this.getClass().getName());
 
 		try{
-			List<PersonCategory > categories = new ArrayList<PersonCategory>(Facade.getInstance().selectPersonCategoryList());
-			dynaForm.set("categories", categories);
+			HashMap colStatus= new HashMap<Integer, String>();
+			colStatus.put(0,"Activo");
+			colStatus.put(1,"Todos");
+
+			dynaForm.set("colCategoryStatus", colStatus);
 		}catch(Exception e ){
 
 		}

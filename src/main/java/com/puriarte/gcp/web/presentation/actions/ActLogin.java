@@ -4,6 +4,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionError;
 import org.apache.struts.action.ActionErrors;
@@ -50,7 +51,8 @@ public class ActLogin extends ActionBase {
 			}
 
 			if(errors.isEmpty()) {
-				User usuario = Facade.getInstance().selectUser(usuarioForm.get("nombre").toString(), usuarioForm.get("password").toString());
+				
+				User usuario = Facade.getInstance().selectUser(usuarioForm.get("nombre").toString(), DigestUtils.sha256Hex(usuarioForm.get("password").toString()));
 				if (usuario == null){
 					errors.add("error", new ActionError("login.error.usuario.inexistente"));
 				} else {

@@ -36,6 +36,7 @@ public class SrvLstGridPersonCategory extends RestrictionServlet {
 	private  Long totalRegistros=null;
 	private NumberFormat nF;
 
+	private boolean includeDeleted;
 
 	public void init(ServletConfig config) throws ServletException {
 		super.init(config);
@@ -66,6 +67,11 @@ public class SrvLstGridPersonCategory extends RestrictionServlet {
 		strRows = Integer.parseInt(request.getParameter("rows"));
 		strSort = request.getParameter("sidx");
 		strOrder = request.getParameter("sord");
+		
+		//	Datos de filtors para la consulta
+		if ((request.getParameter("categoryStatus")!=null) && (request.getParameter("categoryStatus").equals("1")))
+			includeDeleted =true;
+
 	}
 
 	public void _doProcess(HttpServletRequest request, HttpServletResponse response)
@@ -78,7 +84,7 @@ public class SrvLstGridPersonCategory extends RestrictionServlet {
 
 		try {
 			cargarParametros(request);
-			jSonItems=procesar();
+			jSonItems=procesar(includeDeleted );
 			out.print(jSonItems);
 
 		} catch(Exception e) {
@@ -89,8 +95,8 @@ public class SrvLstGridPersonCategory extends RestrictionServlet {
 
 	}
 
-	private String procesar() throws Exception {
-		List<PersonCategory> resultados = Facade.getInstance().selectPersonCategoryList();
+	private String procesar(boolean includeDeleted) throws Exception {
+		List<PersonCategory> resultados = Facade.getInstance().selectPersonCategoryList(includeDeleted);
 
 		String jSonItems="";
 		int i=0;
@@ -100,6 +106,7 @@ public class SrvLstGridPersonCategory extends RestrictionServlet {
 
 			jSonItems += "{\"Id\": \"" +item.getId()+ "\",";
 			jSonItems += "\"Pos\": \"" + i++ + "\",";
+			jSonItems += "\"Deleted\": \"" + item.isDeleted() + "\",";
 
 			if (item.getName()!=null)
 				jSonItems += "\"Name\": \"" + item.getName() + "\"},";

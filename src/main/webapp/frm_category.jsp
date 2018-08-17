@@ -60,10 +60,10 @@
 	
 
 	</style>
-	<script
-	src="js/personGrid.js?var=<%=com.jcabi.manifests.Manifests.read("App-Version")%>"
-	type="text/javascript"></script>
+
 </head>
+
+
 
  <body >
 
@@ -81,6 +81,14 @@
                     <td><label class="col-md-2 control-label input-sm" for="NOMBRE">Nombre</label></td>
                     <td colspan="3"><input id="NOMBRE" name="NOMBRE" type="text" placeholder="" class="form-control input-md" value="${stNombre}"></td>
                 </tr>
+                
+				<logic:notEmpty name="frmAdmCategory" property="ID" >
+                <tr>
+                    <td><label class="col-md-2 control-label input-sm">Inactivo</label></td>
+                    <td colspan="3"><html:checkbox property="DELETED" value="ON" ></html:checkbox></td>
+                </tr>
+				</logic:notEmpty>
+                
             </tbody>
         </table>
 		</div>

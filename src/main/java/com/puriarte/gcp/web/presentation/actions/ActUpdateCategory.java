@@ -18,6 +18,7 @@ import org.apache.struts.action.DynaActionForm;
 
 import com.puriarte.convocatoria.core.domain.Constants;
 import com.puriarte.convocatoria.core.domain.services.Facade;
+import com.puriarte.convocatoria.core.exceptions.PersonCategoryException;
 import com.puriarte.convocatoria.persistence.Dispatch;
 import com.puriarte.convocatoria.persistence.Movil;
 import com.puriarte.convocatoria.persistence.Person;
@@ -52,11 +53,13 @@ public class ActUpdateCategory extends RestrictionAction {
 						
 						dynaForm.set("ID", Integer.toString(category.getId())); 
 						dynaForm.set("NOMBRE", category.getName());
+						if (category.isDeleted()) dynaForm.set("DELETED", "on");
+						
 					}					
 					dynaForm.set("accion", "send");
 
 				} catch (Exception e) {
-					errors.add("error", new ActionError("dispatch.error.db.ingresar"));
+					errors.add("error", new ActionError("category.error.db.ingresar"));
 				}
 				if (!errors.isEmpty()) {
 					saveErrors(request, errors);
@@ -70,33 +73,39 @@ public class ActUpdateCategory extends RestrictionAction {
 
 					PersonCategory category = Facade.getInstance().selectPersonCategory(Integer.parseInt((String) dynaForm.get("ID")));
 
-					if (dynaForm.get("NOMBRE")!=null) category.setName((String) dynaForm.get("NOMBRE"));
+					if ((dynaForm.get("NOMBRE")!=null) && (!dynaForm.get("NOMBRE").equals(""))){
+						category.setName((String) dynaForm.get("NOMBRE"));
+						category.setDeleted(((String) dynaForm.get("DELETED")).toUpperCase().equals("ON"));
 
-					Facade.getInstance().updatePersonCategory(category);
+						Facade.getInstance().updatePersonCategory(category);
+					}else{
+						errors.add("error", new ActionError("category.error.nombre.vacio"));
+					}
+						
 				}else{
 
 					PersonCategory category = new PersonCategory();
-					if (dynaForm.get("NOMBRE")!=null) {
+					if ((dynaForm.get("NOMBRE")!=null) && (!dynaForm.get("NOMBRE").equals(""))){
 						category.setName((String) dynaForm.get("NOMBRE"));
 						Facade.getInstance().insertPersonCategory(category);
 					}else{
-						errors.add("error", new ActionError("person.error.db.ingresar"));
+						errors.add("error", new ActionError("category.error.nombre.vacio"));
 					}
 				}
 			}
 
-
-
+		} catch (PersonCategoryException pe) {
+			errors.add("error", new ActionError(pe.getMessage()));
 		} catch (Exception e) {
-			errors.add("error", new ActionError("person.error.db.ingresar"));
+			errors.add("error", new ActionError("category.error.db.ingresar"));
 		}
 
 		if (!errors.isEmpty()) {
 			saveErrors(request, errors);
 			return mapping.findForward("failure");
 		} else {
-//			messages.add("msg", new ActionMessage("person.update.ok"));
-//			saveMessages(request, messages);
+			messages.add("msg", new ActionMessage("category.update.ok"));
+			saveMessages(request, messages);
 			return mapping.findForward("success");
 		}
 	}

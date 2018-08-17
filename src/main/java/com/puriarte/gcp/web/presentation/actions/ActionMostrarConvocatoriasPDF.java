@@ -98,9 +98,9 @@ public class ActionMostrarConvocatoriasPDF  extends HttpServlet {
 
         String contextPath, contextOutputPath, contextFacesPath;
     	if (getServletContext().getRealPath("")==null){
-        	contextPath = System.getenv("OPENSHIFT_REPO_DIR") + "/src/main/webapp/";
-        	contextOutputPath = System.getenv("OPENSHIFT_DATA_DIR") + "reportes/";
-        	contextFacesPath = System.getenv("OPENSHIFT_DATA_DIR") + "faces/";
+        	contextPath = System.getenv("GCP_REPO_DIR") + "src/main/webapp/";
+        	contextOutputPath = System.getenv("GCP_DATA_DIR") + "reportes/";
+        	contextFacesPath = System.getenv("GCP_DATA_DIR") + "faces/";
     	}else{
             contextPath = getServletContext().getRealPath("") + "/";//.getRealPath(File.separator);
             contextOutputPath =  getServletContext().getRealPath("")+ "/";

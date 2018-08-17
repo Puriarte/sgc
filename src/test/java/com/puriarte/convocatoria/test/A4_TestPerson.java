@@ -71,11 +71,22 @@ public class A4_TestPerson {
 
 	@Test
 	public void TestPerson() throws SQLException{
-		modificarDatosPersona(1);
+		// Listar personas
+		try{
+			List<PersonMovilResult> resultados = Facade.getInstance().selectPersonMovilList(new ArrayList(), new ArrayList() , 0 ,"person_name", "asc",   null,null);
+			if (resultados == null)
+				fail("La lista de personas vino con valor nulo");
+		}catch(Exception e){
+			fail(e.getMessage());
+		}
+
+		
+//		modificarDatosPersona(1);
 //		listarPersonAlMomento("LISTA DE PERSONAS AL INICIO");
 /*		modificarDatosPersona(37);
 	*/}
 
+	
 	
 	private void crearPersona(){
 		

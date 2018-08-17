@@ -2,11 +2,13 @@ package com.puriarte.gcp.web.presentation.actions;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.collections.map.HashedMap;
 import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionForm;
@@ -46,8 +48,11 @@ public class ActionListPlace extends RestrictionAction {
 		Logger  logger = Logger.getLogger(this.getClass().getName());
 
 		try{
-			List<Place> places= new ArrayList<Place>(Facade.getInstance().selectPlaceList());
-			dynaForm.set("categories", places);
+			HashMap colStatus= new HashMap<Integer, String>();
+			colStatus.put(0,"Activo");
+			colStatus.put(1,"Todos");
+
+			dynaForm.set("colPlaceStatus", colStatus);
 		}catch(Exception e ){
 
 		}

@@ -73,6 +73,9 @@
 			<version>1.2.8</version>
 		</dependency>
 
+	<!-- 
+	DRIVERS DE BASE DE DATOS -->
+
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
@@ -83,6 +86,15 @@
 			<artifactId>mysql-connector-java</artifactId>
 			<version>5.1.25</version>
 		</dependency>
+		<dependency>
+    		<groupId>com.microsoft.sqlserver</groupId>
+    		<artifactId>sqljdbc4</artifactId>
+    		<version>4.1</version>
+		</dependency>
+
+	<!-- 
+	FIN DRIVERS DE BASE DE DATOS -->
+		
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
@@ -243,6 +255,13 @@
 			<artifactId>mail</artifactId>
 			<version>1.4</version>
 		</dependency>
+
+		<dependency>
+    		<groupId>commons-codec</groupId>
+    		<artifactId>commons-codec</artifactId>
+    		<version>1.11</version>
+		</dependency>
+
 	</dependencies>
 	<profiles>
 		<profile>

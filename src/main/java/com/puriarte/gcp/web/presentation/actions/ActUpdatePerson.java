@@ -64,7 +64,7 @@ public class ActUpdatePerson extends RestrictionAction {
 				try{
 					// NUEVO
 					if (((dynaForm.get("ID")==null)||(dynaForm.get("ID").equals(0)))==true){
-						ArrayList<PersonCategory> colCategories =(ArrayList<PersonCategory>)Facade.getInstance().selectPersonCategoryList();
+						ArrayList<PersonCategory> colCategories =(ArrayList<PersonCategory>)Facade.getInstance().selectPersonCategoryList(false);
 						dynaForm.set("FOTO", Constants.PICTURE_EMPTY_MEDIA);
 						dynaForm.set("COLCATEGORIAS", colCategories);
 						dynaForm.set("CATEGORIA PREFERIDA", -1);
@@ -89,7 +89,7 @@ public class ActUpdatePerson extends RestrictionAction {
 							if (category.getIdPersonCategory()!=idPreferedCategory)
 								categories.add(category);
 						}
-						ArrayList<PersonCategory> colCategories =(ArrayList<PersonCategory>)Facade.getInstance().selectPersonCategoryList();
+						ArrayList<PersonCategory> colCategories =(ArrayList<PersonCategory>)Facade.getInstance().selectPersonCategoryList(false);
 	
 						dynaForm.set("CATEGORIAS", categories);
 						dynaForm.set("COLCATEGORIAS", colCategories);
@@ -235,8 +235,8 @@ public class ActUpdatePerson extends RestrictionAction {
 		    
 		        int BUFFER_LENGTH = 4096;
 		        
-	//	        System.out.println(System.getenv("OPENSHIFT_DATA_DIR") + "faces/"+ fileName);
-		        FileOutputStream os = new FileOutputStream(System.getenv("OPENSHIFT_DATA_DIR") + "faces/"+ fileName);
+	//	        System.out.println(System.getenv("GCP_DATA_DIR") + "faces/"+ fileName);
+		        FileOutputStream os = new FileOutputStream(System.getenv("GCP_DATA_DIR") + "faces/"+ fileName);
 		        byte[] bytes = new byte[BUFFER_LENGTH];
 		        int read = 0;
 		        while ((read = is.read(bytes, 0, BUFFER_LENGTH)) != -1) {

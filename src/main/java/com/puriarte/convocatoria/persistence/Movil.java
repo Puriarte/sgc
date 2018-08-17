@@ -13,7 +13,7 @@ import javax.persistence.NamedQuery;
 
 @NamedQueries({
 	  @NamedQuery(name="SelectMovils",
-        query="SELECT m FROM Movil m WHERE m.number LIKE :number and ((:status is null) or (m.movilStatus.id = :status)) order by :order "),
+        query="SELECT m FROM Movil m WHERE m.number LIKE :number and ((:status is null) or (m.movilStatus.id = :status))"), // order by :order "),
       @NamedQuery(name="SelectMovil",
 		query="SELECT m FROM Movil m WHERE m.number = :number and m.movilStatus.id = :movilStatus "),
 })

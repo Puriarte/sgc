@@ -10,8 +10,12 @@ import javax.persistence.*;
 @NamedQueries({
 	  @NamedQuery(name="SelectPersonCategory",
 		  query="SELECT pc FROM PersonCategory pc WHERE pc.id = :id"),
+	  @NamedQuery(name="PersonCategory.SelectPersonCategoryByName",
+	  	query="SELECT pc FROM PersonCategory pc WHERE pc.name like :name"),
 	  @NamedQuery(name="PersonCategory.SelectPersonCategoryList",
-	  	query="SELECT pc FROM PersonCategory pc order by pc.name " ),
+	  	query="SELECT pc FROM PersonCategory pc "
+	  			+ " WHERE ((:includeDeleted = 1) or (pc.deleted=false)) "
+	  			+ "order by pc.name " ),
 	  @NamedQuery(name="PersonCategory.SelectPersonCategoryByPersonList",
 		query="SELECT pc FROM PersonCategory pc where pc.id = :category order by pc.name "),
 	})
@@ -23,9 +27,12 @@ public class PersonCategory implements Serializable {
 	@GeneratedValue
 	private int id;
 
+	@Column(unique=true)
 	private String name;
 
 	private String prefix;
+	
+    private boolean deleted;
 
 	@OneToMany(mappedBy = "personCategory" , cascade = CascadeType.PERSIST , orphanRemoval = true )
 	private List<PersonCategoryAsociation> persons;
@@ -75,6 +82,14 @@ public class PersonCategory implements Serializable {
 
 	public void setPrefix(String prefix) {
 		this.prefix = prefix;
+	}
+
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
 	}
 
 }

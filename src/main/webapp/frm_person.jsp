@@ -58,10 +58,9 @@
     	height: 26px;
 	}    
 	
-
 	</style>
 	<script
-	src="js/personGrid.js?var=<%=com.jcabi.manifests.Manifests.read("App-Version")%>"
+	src="js/personGrid.js?var=1233<%=com.jcabi.manifests.Manifests.read("App-Version")%>"
 	type="text/javascript"></script>
 </head>
 
@@ -132,7 +131,7 @@
 							type="button" onclick="deleteCategoryRow(this);return false;" >Quitar</button></td>
                     <td>
 	                    <select class="form-control input-sm" name="CATEGORIA_${counter}" id="CATEGORIA_${counter}">
-							<logic:iterate  name="frmAdmPereson" property="COLCATEGORIAS" id="item" indexId="idx">
+							<logic:iterate  name="frmAdmPereson" property="COLCATEGORIAS" id="item" indexId="idx1">
 								<c:if test="${personCategory.personCategory.id == item.id}">
 									<option value="${item.id}" selected="selected">${item.name}</option>
 								</c:if>	

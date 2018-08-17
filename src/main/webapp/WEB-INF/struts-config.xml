@@ -88,6 +88,9 @@
 		<form-property name="allIds" type="java.lang.Integer[]" />
 		<form-property name="maxResults" type="java.lang.Integer" />
 
+		<form-property name="colCategoryStatus" type="java.util.HashMap" />
+		<form-property name="categoryStatus" type="java.lang.Integer" />
+
 		<form-property name="id" type="java.lang.Integer" />
 		<form-property name="name" type="java.lang.String" />
 	</form-bean>
@@ -96,12 +99,16 @@
 		<form-property name="accion" type="java.lang.String" />
 		<form-property name="NOMBRE" type="java.lang.String" />
 		<form-property name="ID" type="java.lang.String" />
+		<form-property name="DELETED" type="java.lang.String" />
 	</form-bean>
 
 	<form-bean dynamic="true" name="frmLstPlace" type="org.apache.struts.action.DynaActionForm">
 		<form-property name="accion" type="java.lang.String" />
 		<form-property name="allIds" type="java.lang.Integer[]" />
 		<form-property name="maxResults" type="java.lang.Integer" />
+
+		<form-property name="colPlaceStatus" type="java.util.HashMap" />
+		<form-property name="placeStatus" type="java.lang.Integer" />
 
 		<form-property name="id" type="java.lang.Integer" />
 		<form-property name="name" type="java.lang.String" />
@@ -112,6 +119,7 @@
 		<form-property name="NOMBRE" type="java.lang.String" />
 		<form-property name="DIRECCION" type="java.lang.String" />
 		<form-property name="TELEFONO" type="java.lang.String" />
+		<form-property name="DELETED" type="java.lang.String" />
 		<form-property name="ID" type="java.lang.String" />
 	</form-bean>
 

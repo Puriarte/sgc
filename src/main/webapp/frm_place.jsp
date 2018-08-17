@@ -7,7 +7,7 @@
 <%@ taglib uri="/WEB-INF/fmt-rt.tld" prefix="fmt-rt" %>
 <%@ taglib uri="/WEB-INF/fn.tld" prefix="fn" %>
 
-
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//ES" "http://www.w3.org/TR/xhtml2/DTD/xhtml1-strict.dtd">
 <html lang="es">
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -31,7 +31,6 @@
       <script src="js/respond.min.js"></script>
     <![endif]-->	
     	<script src="http://cdn.jsdelivr.net/webshim/1.12.4/polyfiller.js"></script>
-
 	<script>
 	  webshims.setOptions('waitReady', false);
 	  webshims.setOptions('forms-ext', {types: 'date'});
@@ -73,6 +72,7 @@
 	<bean:define id="stNombre" name="frmAdmPlace" property="NOMBRE" />
 	<bean:define id="stDireccion" name="frmAdmPlace" property="DIRECCION" />
 	<bean:define id="stTelefono" name="frmAdmPlace" property="TELEFONO" />
+	<bean:define id="stDeleted" name="frmAdmPlace" property="DELETED" />
 
 	<div class="row" id="categoryRowModel">
 		<div class="table-responsive"> 
@@ -83,13 +83,19 @@
                     <td colspan="3"><input id="NOMBRE" name="NOMBRE" type="text" placeholder="" class="form-control input-md" value="${stNombre}"></td>
                 </tr>
                 <tr>
-                    <td><label class="col-md-2 control-label input-sm" for="NOMBRE">Direcci&oacute;n</label></td>
+                    <td><label class="col-md-2 control-label input-sm">Direcci&oacute;n</label></td>
                     <td colspan="3"><input id="DIRECCION" name="DIRECCION" type="text" placeholder="" class="form-control input-md" value="${stDireccion}"></td>
                 </tr>
                 <tr>
-                    <td><label class="col-md-2 control-label input-sm" for="NOMBRE">Tel&eacute;fono</label></td>
+                    <td><label class="col-md-2 control-label input-sm">Tel&eacute;fono</label></td>
                     <td colspan="3"><input id="TELEFONO" name="TELEFONO" type="text" placeholder="" class="form-control input-md" value="${stTelefono}"></td>
                 </tr>
+				<logic:notEmpty name="frmAdmPlace" property="ID" >
+                <tr>
+                    <td><label class="col-md-2 control-label input-sm">Inactivo</label></td>
+                    <td colspan="3"><html:checkbox property="DELETED" value="ON" ></html:checkbox></td>
+                </tr>
+				</logic:notEmpty>
             </tbody>
         </table>
 		</div>

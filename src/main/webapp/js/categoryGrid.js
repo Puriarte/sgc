@@ -14,26 +14,22 @@ Number.prototype.format = function(){
 
 jQuery(document).ready(function(){
 
-	//--- Botonoes ---------------------------------------------------------
-	$(function(){
-	});
-	//--- Fin Botonoes ---------------------------------------------------------
- 
-
 	//--- FIN Validacion Formulario -----------------------------------------------------
 	jQuery("#gridArticulos").jqGrid({
 	   	url:urlReload,
 	   	postData: {
+	   		categoryStatus: function() { return $("#categoryStatus").val(); },
 			primeraVez:primeraVez
 	   	},
 	   	loadonce:false,
 	   	mtype: 'GET',
 	   	datatype: "local", // se usa local para que no cargue registros en el primer acceso a la grilla
-	   	colNames:['POS','ID','NOMBRE'],
+	   	colNames:['POS','ID','NOMBRE','HABILITADA'],
 	   	colModel:[
    			{name:"POS",index:"1", key: false, jsonmap:"Pos", align:"center", hidden:true, width:10, sortable:false},
    			{name:'ID',index:'2',key: true, jsonmap:"Id", width:55,editable:true,editoptions:{readonly:true,size:10},hidden:true},
 			{name:"NOMBRE",index:"3", editable: true,  key: false, jsonmap:"Name", align:"center", fixed:true, width:150, resizable:false, sortable:true,hidden:false},
+			{name:"HABILITADA",index:"5", editable: true,  key: false, jsonmap:"Deleted", align:"center", fixed:true, width:150, resizable:false, sortable:true,hidden:false, formatter:'select', formatoptions : {value:"true:No;false:Si"}},
 			],
 	   	rowNum:60,
 	   	scrollOffset:50,
@@ -93,7 +89,7 @@ jQuery(document).ready(function(){
 			}
 			}
 		}
-	}).navGrid('#pagerArticulos',{edit:true,add:true,del:false, search: false} );
+	}).navGrid('#pagerArticulos',{edit:false,add:false,del:false, search: false});
 
 	$("#bedata").click(function(){
 		var gr = jQuery("#gridArticulos").jqGrid('getGridParam','selrow');
@@ -179,8 +175,6 @@ jQuery(document).ready(function(){
 		return false;
 	});
 	
-	
-	
 	function modificarCategory(){
 		try{
 			$("#accion").val("cargar");
@@ -194,7 +188,7 @@ jQuery(document).ready(function(){
 			
 			refDialogIframe = $('<iframe id="ifModCliente" frameborder="0" marginwidth="0px" marginheight="0px" style="overflow-y:hidden; overflow-x:scroll;" src="updateCategory.do?accion=load&ID=' + personId + '"/>').dialog({
 				resizable: true,
-				width:320,
+				width:420,
 				height:160,
 				modal: true,
 				title: "Modificar Categoria",
@@ -209,18 +203,20 @@ jQuery(document).ready(function(){
 					"Aceptar": function() {
 						refDialogIframe["0"].contentDocument.getElementById("btnEnviar").click();
 						refDialogIframe.dialog("option",'buttons',cerrarBtns);
+						$( this ).height( 140 ).css({cursor: "auto"});
 					},
 					"Cancelar": function() {
 						$( this ).dialog( "close" );
 					}
 				}
-			}).width(300).height(140);
+			}).width(400).height(140);
 		}catch(Exception){
 			alert(Exception.message);
 		}
 		return false;
 	}
 
+	
 	function addCategory(){
 		try{
 			$("#accion").val("cargar");
@@ -233,7 +229,7 @@ jQuery(document).ready(function(){
 	            };
 			refDialogIframe = $('<iframe id="ifModCliente" frameborder="0" marginwidth="0px" marginheight="0px" src="updateCategory.do?accion=load&ID=' + '"/>').dialog({
 				resizable: true,
-				width:320,
+				width:420,
 				height:160,
 				modal: true,
 				title: "Agregar Categoria",
@@ -248,18 +244,18 @@ jQuery(document).ready(function(){
 					"Aceptar": function() {
 						refDialogIframe["0"].contentDocument.getElementById("btnEnviar").click();
 						refDialogIframe.dialog("option",'buttons',cerrarBtns);
+						$( this ).height( 140 ).css({cursor: "auto"});
 					},
 					"Cancelar": function() {
 						$( this ).dialog( "close" );
 					}
 				}
-			}).width(300).height(140);
+			}).width(400).height(140);
 		}catch(Exception){
 			alert(Exception.message);
 		}
 		return false;
 	}
-
 });
 
 function removeOptions(selectbox)
@@ -270,4 +266,3 @@ function removeOptions(selectbox)
         selectbox.remove(i);
     }
 }
-

@@ -9,6 +9,7 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+
 <meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -24,6 +25,7 @@
 	<link href="css/dashboard.css" rel="stylesheet">
 	
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  	<link rel="stylesheet" href="/resources/demos/style.css">
   	
   	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 
@@ -40,20 +42,25 @@
     <!-- The link to the CSS that the grid needs -->
     <link rel="stylesheet" type="text/css"  href="css/ui.jqgrid.css?a=<%= (int) (Math.random() * 100) %>" />
 	
-	<script src="js/dist/rx.lite.compat.js"></script>
+ 	<script src="js/dist/rx.lite.compat.js"></script>
 	<script src="js/bootstrap-notify-master/bootstrap-notify.min.js"></script>
 
 	<script src="js/autocomplete.js?a=<%= (int) (Math.random() * 100) %>"></script>
 
+	<script src="js/placeGrid.js?var=<%= com.jcabi.manifests.Manifests.read("App-Version") %><%= (int) (Math.random() * 100) %>" type="text/javascript"></script>
+	
 	<style>
 	.ui-jqgrid tr.jqgrow td {
 		white-space: normal
 	}
+	.nav-sidebar{
+		margin-bottom: 5px;
+	}
+	.btn{
+		padding: 3px 6px
+	}
 	</style>
-
-	<script src="js/placeGrid.js?var=<%= com.jcabi.manifests.Manifests.read("App-Version") %><%= (int) (Math.random() * 100) %>" type="text/javascript"></script>
 	
-
 </head>
 
 <body>
@@ -65,6 +72,20 @@
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col-sm-3 col-md-2 sidebar">
+					<ul class="nav nav-sidebar">
+						<li><label class="control-label">Estado</label></li>
+						<li><select class="form-control" name="placeStatus" id="placeStatus">
+								<logic:iterate name="frmLstPlace" property="colPlaceStatus" id="item" indexId="idx">
+									<logic:equal name="frmLstPlace" property="placeStatus" value="${item.key}">
+										<option selected="selected" value="${item.key}">${item.value}</option>
+									</logic:equal>
+									<logic:notEqual name="frmLstPlace" property="placeStatus" value="${item.key}">
+										<option value="${item.key}">${item.value}</option>
+									</logic:notEqual>
+								</logic:iterate>
+						</select></li>
+					</ul>
+				
 					<ul class="nav nav-sidebar">
 						<li><button id="lk_actualizar" class="btn btn-primary">Refrescar</button></li>
 					</ul>
@@ -94,12 +115,6 @@
 		</div>
 
 	</html:form>
-	
-	<!-- Bootstrap core JavaScript
-    ================================================== -->
-	<!-- Placed at the end of the document so the pages load faster -->
-	<script src="js/bootstrap.min.js"></script>
-	<!-- Just to make our placeholder images work. Don't actually copy the next line! -->
-	<script src="js/holder.js"></script>
+
 </body>
 </html>

@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.puriarte.convocatoria.core.domain.services.Facade;
+import com.puriarte.convocatoria.core.exceptions.PersonCategoryException;
 import com.puriarte.convocatoria.persistence.Dispatch;
 import com.puriarte.convocatoria.persistence.Job;
 import com.puriarte.convocatoria.persistence.PersonCategory;
@@ -32,7 +33,7 @@ public class A3_TestJob {
 	Dispatch dispatch2;
 
 	@Before
-	public void setup() throws SQLException{
+	public void setup() throws PersonCategoryException, Exception{
 		 cat1 = new PersonCategory();
 		cat1.setName(categoryNombre1);;
 		Facade.getInstance().insertPersonCategory(cat1);

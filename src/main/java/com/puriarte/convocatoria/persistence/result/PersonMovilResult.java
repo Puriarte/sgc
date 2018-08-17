@@ -36,6 +36,7 @@ public class PersonMovilResult implements javax.persistence.EntityResult{
 		this.id = id;
 	}
 	
+
 	public PersonMovilResult(int id, int personId, String movilNumber,
 			String personDocumentNumber, String documentTypeName,
 			String personName, String personNickName, String personPicture,

@@ -48,7 +48,18 @@
 	<script src="js/autocomplete.js?a=<%= (int) (Math.random() * 100) %>"></script>
 
 	<script src="js/categoryGrid.js?var=<%= com.jcabi.manifests.Manifests.read("App-Version") %><%= (int) (Math.random() * 100) %>" type="text/javascript"></script>
-
+	
+	<style>
+	.ui-jqgrid tr.jqgrow td {
+		white-space: normal
+	}
+	.nav-sidebar{
+		margin-bottom: 5px;
+	}
+	.btn{
+		padding: 3px 6px
+	}
+	</style>
 
 </head>
 
@@ -61,6 +72,19 @@
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col-sm-3 col-md-2 sidebar">
+					<ul class="nav nav-sidebar">
+						<li><label class="control-label">Estado</label></li>
+						<li><select class="form-control" name="categoryStatus" id="categoryStatus">
+								<logic:iterate name="frmLstCategory" property="colCategoryStatus" id="item" indexId="idx">
+									<logic:equal name="frmLstCategory" property="categoryStatus" value="${item.key}">
+										<option selected="selected" value="${item.key}">${item.value}</option>
+									</logic:equal>
+									<logic:notEqual name="frmLstCategory" property="categoryStatus"	value="${item.key}">
+										<option value="${item.key}">${item.value}</option>
+									</logic:notEqual>
+								</logic:iterate>
+						</select></li>
+					</ul>
 					<ul class="nav nav-sidebar">
 						<li><button id="lk_actualizar" class="btn btn-primary">Refrescar</button></li>
 					</ul>

@@ -1,10 +1,12 @@
 package com.puriarte.convocatoria.core.domain.services;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
+import com.puriarte.convocatoria.core.exceptions.PlaceException;
 import com.puriarte.convocatoria.persistence.DocumentType;
 import com.puriarte.convocatoria.persistence.EntityManagerHelper;
 import com.puriarte.convocatoria.persistence.PersonCategory;
@@ -52,12 +54,18 @@ public class PlaceService {
 	}
 
 
-	public List<Place> selectList() {
+	public List<Place> selectList(boolean includeDeleted) {
 		final EntityManager em = getEntityManager();
 
 		try{
-			Query query = em.createNamedQuery("SelectPlaceList");
-			
+			Query query = em.createNamedQuery("Place.SelectPlaceList");
+
+			if (includeDeleted)
+				query.setParameter("includeDeleted", 1);
+			else
+				query.setParameter("includeDeleted", 0);
+				
+							 
 			query.setHint("javax.persistence.cache.storeMode", "REFRESH");
 			query.setHint("eclipselink.refresh", "true");
 			query.setHint("eclipselink.refresh.cascade", "CascadeAllParts");
@@ -70,7 +78,7 @@ public class PlaceService {
 		}
 	}
 
-	public int insert(Place dt) {
+	public int insert(Place dt) throws SQLException, PlaceException  {
 		final EntityManager em = getEntityManager();
 
 		em.getTransaction().begin();
@@ -80,7 +88,6 @@ public class PlaceService {
 		return 0;
 	}
 
-
 	public void delete(Place dt) {
 		final EntityManager em = getEntityManager();
 
@@ -89,14 +96,12 @@ public class PlaceService {
 		em.getTransaction().commit();
 	}
 
-	public void update(Place dt) {
+	public void update(Place dt) throws SQLException, PlaceException  {
 		final EntityManager em = getEntityManager();
 
 		em.getTransaction().begin();
 		em.persist(dt);
 		em.getTransaction().commit();
-
 	}
-
 
 }

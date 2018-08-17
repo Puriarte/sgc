@@ -131,10 +131,10 @@
 					<ul class="nav nav-sidebar">
 						<li><button id="lk_addDispatch" class="btn btn-primary">Agregar a Convocatoria</button></li>
 					</ul>
-					<ul class="nav nav-sidebar">
+<!-- 					<ul class="nav nav-sidebar">
 						<li><button id="lk_report" class="btn btn-primary">Informes</button></li>
 					</ul>
-
+ -->
 				</div>
 
 				<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">

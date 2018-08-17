@@ -104,274 +104,240 @@ var addOptions={
 };
 
 
-jQuery(document).ready(function(){
 
-	//--- Botonoes ---------------------------------------------------------
-	$(function(){
-	});
-	//--- Fin Botonoes ---------------------------------------------------------
+try{
+	
+	jQuery(document).ready(function(){
 
-	//--- Mascaras ---------------------------------------------------------
-/*	$.mask.masks = $.extend($.mask.masks,{
-		importe:{ mask : '99.999999', type : 'reverse' },
-		fecha:{ mask : '19-39-9999'  }
-	});
-	*///--- Fin Mascaras ---------------------------------------------------------
-
-	//--- Inputs ---------------------------------------------------------
-/*  	$(function(){
-    	$("input:text").setMask();
-  	});
-  */	//--- Fin Inputs ---------------------------------------------------------
-  //--- Validacion Formulario -----------------------------------------------------
-/*	$.validator.addMethod(
-			"dateUY",
-			function (value, element) {
-				return Date.parseExact(value, "dd-MM-yyyy");
+		//--- FIN Validacion Formulario -----------------------------------------------------
+		jQuery("#gridArticulos").jqGrid({
+		   	url:urlReload,
+		   	postData: {
+				fechaDesde: function() {
+					return $("#fechaDesde").val();
+					},
+					fechaHasta: function() { return $("#fechaHasta").val(); },
+					estado: function() { return $("#estado").val(); },
+					category: function() { return $("#category").val(); },
+					priority: function() { return $("#priority").val(); },
+				primeraVez:primeraVez
+		   	},
+		   	loadonce:false,
+		   	mtype: 'GET',
+		   	datatype: "local", // se usa local para que no cargue registros en el primer acceso a la grilla
+		 	colNames:['POS','ID', 'FOTO' ,'NUMERO','TIPO DOC.','NRO DOCUMENTO','NOMBRE','SOBRENOMBRE', 'CATEGORIA PREFERIDA', 'ORDEN PRELACION', 'OTRAS CATEGORIAS', 'IMG', 'RNDNAME'],
+		   	colModel:[
+	   			{name:"POS",			index:"1", key: false, jsonmap:"Pos", 		align:"center", 			width:10, hidden:true, sortable:false},
+	   			{name:'ID',				index:'2', key: true,  jsonmap:"Id",									width:55, hidden:true},
+	   			{name:'FOTO', 			index:'3', key: false, jsonmap:"Picture", 	width: 15, 	align:"center", formatter: function (cell, options) { 
+	   				return '<img width="25px" src="./uploads/flag_chica_' +  cell + '.jpg"/>'; 
+	   				}},
+	   			{name:"NUMERO",			index:"4", key: false, jsonmap:"Numero", 	align:"center", fixed:true, width:80,  resizable:false, sortable:true, sorttype:'number' , hidden:false},
+				{name:"TIPO DOC.",		index:"5", key: false, jsonmap:"FechaEnvio",align:"center", fixed:true, width:80,  sortable:true, resizable:false,  hidden:false},
+				{name:"NRO DOCUMENTO",	index:"6", key: false, jsonmap:"Texto", 	align:"left", 	fixed:true, width:120, resizable:false, sortable:true, sorttype:'number', hidden:false },
+				{name:"NOMBRE",			index:"7", key: false, jsonmap:"Name", 		align:"center", fixed:true, width:150, resizable:false, sortable:true,hidden:false },
+				{name:"SOBRENOMBRE",	index:"8", key: false, jsonmap:"Nickname", 	align:"center", fixed:true, width:100, resizable:false, sortable:true,hidden:false},
+				{name:"CATEGORIA PREFERIDA",index:"10", key: false, jsonmap:"PreferedCategory", width:90},
+				{name:"ORDEN PRELACION",index:"11",key: false, jsonmap:"Priority", 	align:"center", fixed:true, resizable:false, width:140 ,sortable:true,hidden:false},
+				{name:"OTRAS CATEGORIAS",		index:"9", key: false, jsonmap:"Category", width:90},
+				{name:'IMG', 			index:"12", align: 'left', width:1,  search: false }, 
+				{name:'RNDNAME', 		index:"13", align: 'left', jsonmap:"Picture",  hidden:true, width:0}, 
+			],
+			rowNum:1300,
+		   	scrollOffset:50,
+			multiselect: false,
+			caption: null,
+			forceFit: true,
+			height:$(window).height() * 0.70,
+			width: $(window).width() * 0.81,
+			pager: "pagerArticulos",
+			gridview: true,
+			viewrecords: true,
+			multiselect: true,
+	        multiboxonly: true,
+			footerrow: false,
+			closeAfterEdit:true,
+			editurl:"updatePerson.do",
+			jsonReader: { repeatitems : false, root:"rows" },
+			loadComplete: function(data) {
 			},
-			"Ingrese una fecha en el formato dd-mm-yyyy"
-	);
-	var validator = $(formName).validate({
-		onfocusout: false,
-		onkeyup: false,
-		onclick: false,
-		ignore: ":hidden",
-		wrapper: "li",
-		errorClass: "ui-state-error-text",
-		errorPlacement: function(error, element) {
-			error.appendTo(element.parent());
-		},
-		rules: {
-		},
-		messages: {
-		}
-	});
-*/
-	
-	//--- FIN Validacion Formulario -----------------------------------------------------
-	jQuery("#gridArticulos").jqGrid({
-	   	url:urlReload,
-	   	postData: {
-			fechaDesde: function() {
-				return $("#fechaDesde").val();
-				},
-				fechaHasta: function() { return $("#fechaHasta").val(); },
-				estado: function() { return $("#estado").val(); },
-				category: function() { return $("#category").val(); },
-				priority: function() { return $("#priority").val(); },
-			primeraVez:primeraVez
-	   	},
-	   	loadonce:false,
-	   	mtype: 'GET',
-	   	datatype: "local", // se usa local para que no cargue registros en el primer acceso a la grilla
-	 	colNames:['POS','ID', 'FOTO' ,'NUMERO','TIPO DOC.','NRO DOCUMENTO','NOMBRE','SOBRENOMBRE', 'CATEGORIA PREFERIDA', 'ORDEN PRELACION', 'OTRAS CATEGORIAS', 'IMG', 'RNDNAME'],
-	   	colModel:[
-   			{name:"POS",			index:"1", key: false, jsonmap:"Pos", 		align:"center", 			width:10, hidden:true, sortable:false},
-   			{name:'ID',				index:'2', key: true,  jsonmap:"Id",									width:55, hidden:true},
-   			{name:'FOTO', 			index:'3', key: false, jsonmap:"Picture", 	width: 15, 	align:"center", formatter: function (cell, options) { 
-   				return '<img width="25px" src="./uploads/flag_chica_' +  cell + '.jpg"/>'; 
-   				}},
-   			{name:"NUMERO",			index:"4", key: false, jsonmap:"Numero", 	align:"center", fixed:true, width:80,  resizable:false, sortable:true, sorttype:'number' , hidden:false},
-			{name:"TIPO DOC.",		index:"5", key: false, jsonmap:"FechaEnvio",align:"center", fixed:true, width:80,  sortable:true, resizable:false,  hidden:false},
-			{name:"NRO DOCUMENTO",	index:"6", key: false, jsonmap:"Texto", 	align:"left", 	fixed:true, width:120, resizable:false, sortable:true, sorttype:'number', hidden:false },
-			{name:"NOMBRE",			index:"7", key: false, jsonmap:"Name", 		align:"center", fixed:true, width:150, resizable:false, sortable:true,hidden:false },
-			{name:"SOBRENOMBRE",	index:"8", key: false, jsonmap:"Nickname", 	align:"center", fixed:true, width:100, resizable:false, sortable:true,hidden:false},
-			{name:"CATEGORIA PREFERIDA",index:"10", key: false, jsonmap:"PreferedCategory", width:90},
-			{name:"ORDEN PRELACION",index:"11",key: false, jsonmap:"Priority", 	align:"center", fixed:true, resizable:false, width:140 ,sortable:true,hidden:false},
-			{name:"OTRAS CATEGORIAS",		index:"9", key: false, jsonmap:"Category", width:90},
-			{name:'IMG', 			index:"12", align: 'left', width:1,  search: false }, 
-			{name:'RNDNAME', 		index:"13", align: 'left', jsonmap:"Picture",  hidden:true, width:0}, 
-		],
-		rowNum:1300,
-	   	scrollOffset:50,
-		multiselect: false,
-		caption: null,
-		forceFit: true,
-		height:$(window).height() * 0.70,
-		width: $(window).width() * 0.81,
-		pager: "pagerArticulos",
-		gridview: true,
-		viewrecords: true,
-		multiselect: true,
-        multiboxonly: true,
-		footerrow: false,
-		closeAfterEdit:true,
-		editurl:"updatePerson.do",
-		jsonReader: { repeatitems : false, root:"rows" },
-		loadComplete: function(data) {
-		},
-		beforeSelectRow: function(id){
-			jQuery("#gridArticulos").setSelection (id, true);
-			return false;
-//			$("#idsValesSel").val(id);
-		},
-		ondblClickRow: function(id){
-			jQuery("#gridArticulos").jqGrid('setSelection',id,false);
-			$('#btnVerFactura').trigger('click');
-		},
-		ajaxGridOptions: {dataFilter:function(data,dataType){
-			var msg = eval('(' + data + ')');
-			if ((msg.error != undefined) &&  (msg.error.length>0)){
-				hmtlError = "";
-				for(var i=0;i<msg.error.length;i++){
-					var obj = msg.error[i];
-					hmtlError += obj["errtext"]+ "<br/>";
-				}
-		    	$("#dialogo_resultados").html(hmtlError);
-				$("#dialogo_resultados").dialog({
-					resizable: false,
-					height:150,
-					modal: true,
-					open: function(event, ui){
-						$('body').css('overflow','hidden');
-						$('.ui-widget-overlay').css('width','100%');
-					},
-					close: function(event, ui) {
-						$('body').css('overflow','auto');
-					},
-					buttons: {
-						"Aceptar": function() {
-							$( this ).dialog( "close" );
-						}
+			beforeSelectRow: function(id){
+				jQuery("#gridArticulos").setSelection (id, true);
+				return false;
+//				$("#idsValesSel").val(id);
+			},
+			ondblClickRow: function(id){
+				jQuery("#gridArticulos").jqGrid('setSelection',id,false);
+				$('#btnVerFactura').trigger('click');
+			},
+			ajaxGridOptions: {dataFilter:function(data,dataType){
+				var msg = eval('(' + data + ')');
+				if ((msg.error != undefined) &&  (msg.error.length>0)){
+					hmtlError = "";
+					for(var i=0;i<msg.error.length;i++){
+						var obj = msg.error[i];
+						hmtlError += obj["errtext"]+ "<br/>";
 					}
-				});
-				$("#dialogo_resultados").dialog("open");
-				return "";
-			}else {
-				return data;
+			    	$("#dialogo_resultados").html(hmtlError);
+					$("#dialogo_resultados").dialog({
+						resizable: false,
+						height:150,
+						modal: true,
+						open: function(event, ui){
+							$('body').css('overflow','hidden');
+							$('.ui-widget-overlay').css('width','100%');
+						},
+						close: function(event, ui) {
+							$('body').css('overflow','auto');
+						},
+						buttons: {
+							"Aceptar": function() {
+								$( this ).dialog( "close" );
+							}
+						}
+					});
+					$("#dialogo_resultados").dialog("open");
+					return "";
+				}else {
+					return data;
+				}
+				}
 			}
+		}).navGrid('#pagerArticulos',{edit:false,add:false,del:false,search: false}, editOptions , addOptions);
+
+		$("#bedata").click(function(){
+			var gr = jQuery("#gridArticulos").jqGrid('getGridParam','selrow');
+			if( gr != null ) jQuery("#gridArticulos").jqGrid('editGridRow',gr,{height:280,reloadAfterSubmit:true, closeAfterEdit: true});
+			else alert("Seleccione una persona");
+		});
+
+		function verEscolaridad(gr){
+			try{
+
+				var x=800;
+				var y=600;
+				var x1=(screen.width - x) /2;
+				var y1=(screen.height - y) /2;
+
+				var params="'location=0,toolbar=0,directories=0,status=0,menubar=0,scrollbars=1,copyhistory=0,resizable=0," +
+				"position: absolute, top=" + y1 + ", left=" + x1 + ", height=" + y + ", width=" + x + "'"
+
+				var win = window.open("school.do?idPerson=" + gr,"modVer",params);
+
+			}catch(Exception){
+				alert(Exception.message);
 			}
+			return false;
 		}
-	}).navGrid('#pagerArticulos',{edit:false,add:false,del:false,search: false}, editOptions , addOptions);
-
-	$("#bedata").click(function(){
-		var gr = jQuery("#gridArticulos").jqGrid('getGridParam','selrow');
-		if( gr != null ) jQuery("#gridArticulos").jqGrid('editGridRow',gr,{height:280,reloadAfterSubmit:true, closeAfterEdit: true});
-		else alert("Seleccione una persona");
-	});
-
-	function verEscolaridad(gr){
-		try{
-
-			var x=800;
-			var y=600;
-			var x1=(screen.width - x) /2;
-			var y1=(screen.height - y) /2;
-
-			var params="'location=0,toolbar=0,directories=0,status=0,menubar=0,scrollbars=1,copyhistory=0,resizable=0," +
-			"position: absolute, top=" + y1 + ", left=" + x1 + ", height=" + y + ", width=" + x + "'"
-
-			var win = window.open("school.do?idPerson=" + gr,"modVer",params);
-
-		}catch(Exception){
-			alert(Exception.message);
-		}
-		return false;
-	}
 
 
-    function parseXMLAutocomplete(xml) {
-        var results = [];
-        $(xml).find('item').each(function() {
-            var text = $.trim($(this).find('text').text());
-            var value = $.trim($(this).find('value').text());
-            results[results.length] = { 'data': { text: text, value: value },
-                'result': text, 'value': value
-            };
-        });
-        return results;
-    };
+	    function parseXMLAutocomplete(xml) {
+	        var results = [];
+	        $(xml).find('item').each(function() {
+	            var text = $.trim($(this).find('text').text());
+	            var value = $.trim($(this).find('value').text());
+	            results[results.length] = { 'data': { text: text, value: value },
+	                'result': text, 'value': value
+	            };
+	        });
+	        return results;
+	    };
 
-    function formatItemAutocomplete(data) {
-        return data.text;
-    };
+	    function formatItemAutocomplete(data) {
+	        return data.text;
+	    };
 
-    function formatResultAutocomplete(data) {
-		return data.value;
-    };
+	    function formatResultAutocomplete(data) {
+			return data.value;
+	    };
 
-	//--- FIN - Filtros -----------------------------------------------------
+		//--- FIN - Filtros -----------------------------------------------------
 
-	//Para acutalizar la grilla
-	$("#lk_actualizar").click(function(){
-		try {
-			primeraVez=false;
-		    $("#gridArticulos").setGridParam({datatype:'json', page:1}).trigger('reloadGrid');
-		    return false;
-		} catch(Exception){
-		  alert(Exception.message);
-		}
-	});
+		//Para acutalizar la grilla
+		$("#lk_actualizar").click(function(){
+			try {
+				primeraVez=false;
+			    $("#gridArticulos").setGridParam({datatype:'json', page:1}).trigger('reloadGrid');
+			    return false;
+			} catch(Exception){
+			  alert(Exception.message);
+			}
+		});
 
 
-	//Para acutalizar la grilla
-	$("#lk_edit").click(function(){
-		try{
-			var id = jQuery("#gridArticulos").jqGrid('getGridParam','selrow');
-			if (id)	{
-		    	modificarCliente();
-			}else alert("Seleccione una persona");
+		//Para acutalizar la grilla
+		$("#lk_edit").click(function(){
+			try{
+				var id = jQuery("#gridArticulos").jqGrid('getGridParam','selrow');
+				if (id)	{
+			    	modificarCliente();
+				}else alert("Seleccione una persona");
+				
+			}catch(Exception){
+				alert(Exception.message);
+			}
+			return false;
+
+		});
+		//Para acutalizar la grilla
+		$("#lk_add").click(function(){
+			try{
+		    	agregarCliente();
+			}catch(Exception){
+				alert(Exception.message);
+			}
+			return false;
+		});
+
+		//Crear Convocatoria
+		$("#lk_dispatch").click(function(){
+			try{
+				ingresarListaSMS();
+			}catch(Exception){
+				alert(Exception.message);
+			}
+
+			return false;
+		});
 			
-		}catch(Exception){
-			alert(Exception.message);
-		}
-		return false;
+		//Para acutalizar la grilla
+		$("#lk_addDispatch").click(function(){
+			try{
+				agregarADispatch();
+			}catch(Exception){
+				alert(Exception.message);
+			}
 
-	});
-	//Para acutalizar la grilla
-	$("#lk_add").click(function(){
-		try{
-	    	agregarCliente();
-		}catch(Exception){
-			alert(Exception.message);
-		}
-		return false;
-	});
+			return false;
+		});
 
-	//Crear Convocatoria
-	$("#lk_dispatch").click(function(){
-		try{
-			ingresarListaSMS();
-		}catch(Exception){
-			alert(Exception.message);
-		}
+		//Para acutalizar la grilla
+		$("#lk_report").click(function(){
+			var gr = jQuery("#gridArticulos").jqGrid('getGridParam','selrow');
+			if( gr != null )
+				verEscolaridad(gr);
+			else alert("Seleccione una persona");
 
-		return false;
-	});
+			return false;
+		});
+
+		//Para acutalizar la grilla
+		$("#lk_message").click(function(){
+			try{
+				ingresarMensajeSMS();
+			}catch(Exception){
+				alert(Exception.message);
+			}
+			return false;
+
+		});
 		
-	//Para acutalizar la grilla
-	$("#lk_addDispatch").click(function(){
-		try{
-			agregarADispatch();
-		}catch(Exception){
-			alert(Exception.message);
-		}
-
-		return false;
 	});
 
-	//Para acutalizar la grilla
-	$("#lk_report").click(function(){
-		var gr = jQuery("#gridArticulos").jqGrid('getGridParam','selrow');
-		if( gr != null )
-			verEscolaridad(gr);
-		else alert("Seleccione una persona");
-
-		return false;
-	});
-
-	//Para acutalizar la grilla
-	$("#lk_message").click(function(){
-		try{
-			ingresarMensajeSMS();
-		}catch(Exception){
-			alert(Exception.message);
-		}
-		return false;
-
-	});
+}catch(e){
 	
-});
+}
+
 
 
 function ingresarMensajeSMS(){

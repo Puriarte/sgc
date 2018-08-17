@@ -37,6 +37,7 @@ public class SrvLstGridPlace extends RestrictionServlet {
 	private  Long totalRegistros=null;
 	private NumberFormat nF;
 
+	private boolean includeDeleted;
 
 	public void init(ServletConfig config) throws ServletException {
 		super.init(config);
@@ -67,6 +68,13 @@ public class SrvLstGridPlace extends RestrictionServlet {
 		strRows = Integer.parseInt(request.getParameter("rows"));
 		strSort = request.getParameter("sidx");
 		strOrder = request.getParameter("sord");
+		
+		//	Datos de filtors para la consulta
+		if ((request.getParameter("placeStatus")==null)||(request.getParameter("placeStatus").equals("1")))
+			includeDeleted =true;
+		else
+			includeDeleted =false;
+
 	}
 
 	public void _doProcess(HttpServletRequest request, HttpServletResponse response)
@@ -79,7 +87,7 @@ public class SrvLstGridPlace extends RestrictionServlet {
 
 		try {
 			cargarParametros(request);
-			jSonItems=procesar();
+			jSonItems=procesar(includeDeleted);
 			out.print(jSonItems);
 
 		} catch(Exception e) {
@@ -90,8 +98,8 @@ public class SrvLstGridPlace extends RestrictionServlet {
 
 	}
 
-	private String procesar() throws Exception {
-		List<Place> resultados = Facade.getInstance().selectPlaceList();
+	private String procesar(boolean includeDeleted) throws Exception {
+		List<Place> resultados = Facade.getInstance().selectPlaceList(includeDeleted);
 
 		String jSonItems="";
 		int i=0;
@@ -111,6 +119,8 @@ public class SrvLstGridPlace extends RestrictionServlet {
 				jSonItems += "\"Phone\": \"" + item.getPhone() + "\",";
 			else
 				jSonItems += "\"Phone\": \",";
+
+			jSonItems += "\"Deleted\": \"" + item.isDeleted() + "\",";
 
 			if (item.getName()!=null)
 				jSonItems += "\"Name\": \"" + item.getName() + "\"},";
