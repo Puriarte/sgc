@@ -9,8 +9,6 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
-import com.puriarte.gcp.web.Constantes;
-
 
 public abstract class RestrictionAction extends Action  {
 
@@ -47,13 +45,6 @@ public abstract class RestrictionAction extends Action  {
     	return sessionObj;
   	}
 
-  	protected void setSessionObject(HttpServletRequest req, String attrName,Object attrValue) {
-	    HttpSession session = req.getSession(false);
-	    if (session != null) {
-	       	session.setAttribute(attrName,attrValue);
-    	}
-  	}
-
 	protected void setApplicationObject(String attrName,Object attrValue) {
 	    servlet.getServletContext().setAttribute(attrName,attrValue);
   	}
@@ -72,12 +63,7 @@ public abstract class RestrictionAction extends Action  {
 
   	// Verifica si el usuario en sesion tiene permisos para efectuar una accion
   	protected boolean isAuthorized(HttpServletRequest request,int idComponente,int idOpMenu) {
-  		try {
-  			return true;
-  		} catch(Exception e){
-  		}
-
-  		return false;
+  		return true;
   	}
 
 }

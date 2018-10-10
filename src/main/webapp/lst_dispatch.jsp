@@ -15,7 +15,8 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="description" content="">
 	<meta name="author" content="">
-	<link rel="icon" href="http://getbootstrap.com/favicon.ico">
+    <link rel="icon" href="images/icon.png">
+
 	<title>G.C.P.</title>
 
   	<!-- Bootstrap core CSS -->
@@ -24,7 +25,6 @@
 	<link href="css/dashboard.css" rel="stylesheet">
 	
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-	<link rel="stylesheet" href="/resources/demos/style.css">
   	
   	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 
@@ -43,7 +43,7 @@
 	<script src="js/dist/rx.lite.compat.js"></script>
 	<script src="js/bootstrap-notify-master/bootstrap-notify.min.js"></script>
 
-	<script src="js/autocomplete.js?a=<%= (int) (Math.random() * 100) %>"></script>
+	<script src="js/autocomplete.js?var=<%=com.jcabi.manifests.Manifests.read("App-Version")%>"></script>
 
 	<script
 		src="js/dispatchGrid.js?var=<%=com.jcabi.manifests.Manifests.read("App-Version")%>"
@@ -107,9 +107,9 @@
 					<ul class="nav nav-sidebar">
 						<li><button id="lk_edit" class="btn btn-primary">Modificar</button></li>
 					</ul>
-					<ul class="nav nav-sidebar">
+<!-- 					<ul class="nav nav-sidebar">
 						<li><button id="export" class="btn btn-primary">Exportar a Excel</button></li>
-					</ul>
+					</ul> -->
 				</div>
 
 				<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">

@@ -12,12 +12,12 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 
 import com.puriarte.convocatoria.core.domain.services.Facade;
-import com.puriarte.convocatoria.persistence.PersonCategory;
 import com.puriarte.convocatoria.persistence.Place;
-
 
 public class SrvLstPlace extends RestrictionServlet {
 
+	private static final long serialVersionUID = 12156990156951396L;
+	private static final Logger logger = Logger.getLogger(SrvLstPlace.class.getName());
 
     public void init(ServletConfig config) throws ServletException {
 		super.init(config);
@@ -26,7 +26,6 @@ public class SrvLstPlace extends RestrictionServlet {
     public void _doProcess(HttpServletRequest request, HttpServletResponse response)
                    throws IOException, ServletException {
 
-    	Logger  logger = Logger.getLogger(SrvLstPlace.class.getName());
         PrintWriter out = response.getWriter();
 
         try {
@@ -37,7 +36,6 @@ public class SrvLstPlace extends RestrictionServlet {
         	}
 
         	strXml += "</select>";
-        //	System.out.println(strXml);
         	out.print(strXml);
 
         } catch(Exception e) {

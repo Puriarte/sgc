@@ -59,7 +59,7 @@
 							<fo:block margin="6pt" font-size="8pt">Nombre: <![CDATA[{1}]]></fo:block>
 						</fo:table-cell>
 						<fo:table-cell>
-							<fo:block margin="6pt" font-size="8pt">Sobrenombre: <![CDATA[{2}]]></fo:block>
+							<fo:block margin="6pt" font-size="8pt">Nro.Funcionario: <![CDATA[{2}]]></fo:block>
 						</fo:table-cell>
 					</fo:table-row>
 					<fo:table-row>

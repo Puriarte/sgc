@@ -7,8 +7,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
- 
-
 
 import javax.activation.MimetypesFileTypeMap;
 import javax.servlet.ServletException;
@@ -18,66 +16,77 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
+
+import org.apache.commons.configuration.PropertiesConfiguration;
+
+import com.puriarte.convocatoria.core.domain.Constants;
  
 @WebServlet(name = "uploads",urlPatterns = {"/uploads/*"})
 @MultipartConfig
 public class Uploads extends HttpServlet {
  
+	private static final long serialVersionUID = 2857847752169838915L;
  
-  private static final long serialVersionUID = 2857847752169838915L;
-  int BUFFER_LENGTH = 4096;
- 
-  protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
  
 	  try{
-		  PrintWriter out = response.getWriter();
-		  for (Part part : request.getParts()) {
-	        InputStream is = request.getPart(part.getName()).getInputStream();
-	        String fileName = getFileName(part);
-	        FileOutputStream os = new FileOutputStream(System.getenv("GCP_DATA_DIR") + fileName);
-	        byte[] bytes = new byte[BUFFER_LENGTH];
-	        int read = 0;
-	        while ((read = is.read(bytes, 0, BUFFER_LENGTH)) != -1) {
-	            os.write(bytes, 0, read);
-	        }
-	        os.flush();
-	        is.close();
-	        os.close();
-	        out.println(fileName + " was uploaded to " + System.getenv("GCP_DATA_DIR"));
+			int BUFFER_LENGTH = 4096;
+
+			PropertiesConfiguration config = new PropertiesConfiguration(com.puriarte.gcp.web.Constantes.PATHAPPCONFIG);
+			String path= config.getString("data.folder") ;
+
+			PrintWriter out = response.getWriter();
+			for (Part part : request.getParts()) {
+				try (InputStream is = request.getPart(part.getName()).getInputStream()){
+					
+			        String fileName = getFileName(part);
+			        try( FileOutputStream os = new FileOutputStream(path  + fileName)){
+
+			        	byte[] bytes = new byte[BUFFER_LENGTH];
+				        int read = 0;
+				        while ((read = is.read(bytes, 0, BUFFER_LENGTH)) != -1) {
+				            os.write(bytes, 0, read);
+				        }
+				        os.flush();
+				        out.println(fileName + " was uploaded to " + path );
+			        }
+				}
 		    }
 	    }catch(Exception e){
 	    }
   }
+	
   protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	  int BUFFER_LENGTH = 4096;
+
 	  try{
-	    String filePath = request.getRequestURI();
-		
+		  PropertiesConfiguration config = new PropertiesConfiguration(com.puriarte.gcp.web.Constantes.PATHAPPCONFIG);
+		  String path= config.getString("data.folder") ;
+
+		  String filePath = request.getRequestURI();
+		  String fileName = filePath.substring(filePath.lastIndexOf("/")+1);
 	    
-	    String contextFacesPath;
+		  String contextFacesPath;
 	    
-//	    if (getServletContext().getRealPath("")==null){
-	    	contextFacesPath =System.getenv("GCP_DATA_DIR") + "/faces/" + filePath.substring(filePath.lastIndexOf("/")+1);
-	/*	}else{
-	        contextFacesPath = getServletContext().getRealPath("")+ "/images/faces/" ;
-	        contextFacesPath = getServletContext().getRealPath("")+ "/images/faces/" + filePath.substring(filePath.lastIndexOf("/")+1);
-		}
-*/
-	    File file = new File(contextFacesPath );
-	    InputStream input = new FileInputStream(file);
-	 
-	    response.setContentLength((int) file.length());
-	    response.setContentType(new MimetypesFileTypeMap().getContentType(file));
-	 
-	    OutputStream output = response.getOutputStream();
-	    byte[] bytes = new byte[BUFFER_LENGTH];
-	    int read = 0;
-	    while ((read = input.read(bytes, 0, BUFFER_LENGTH)) != -1) {
-	        output.write(bytes, 0, read);
-	        output.flush();
-	    }
-	 
-	    input.close();
-	    output.close();
+		  if ((fileName==null) || (fileName.equals("")))
+			  fileName=Constants.PICTURE_EMPTY_CHICA;
+
+		  contextFacesPath = path + "faces/" + fileName;
+
+		  File file = new File(contextFacesPath );
+		  try(InputStream input = new FileInputStream(file)){
+			    response.setContentLength((int) file.length());
+			    response.setContentType(new MimetypesFileTypeMap().getContentType(file));
+			 
+			    try(OutputStream output = response.getOutputStream()){
+				    byte[] bytes = new byte[BUFFER_LENGTH];
+				    int read = 0;
+				    while ((read = input.read(bytes, 0, BUFFER_LENGTH)) != -1) {
+				        output.write(bytes, 0, read);
+				        output.flush();
+				    }
+			    }
+		  }
 	  }catch(Exception e){
 		  
 	  }

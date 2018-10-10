@@ -5,29 +5,25 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
+import com.puriarte.convocatoria.core.domain.Constants;
 import com.puriarte.convocatoria.core.domain.services.Facade;
 import com.puriarte.convocatoria.persistence.Dispatch;
 import com.puriarte.convocatoria.persistence.SMS;
-import  com.puriarte.convocatoria.core.domain.Constants;
 
 public class SrvSelectDispatch extends RestrictionServlet {
 
-
-    public void init(ServletConfig config) throws ServletException {
-		super.init(config);
-    }
+	private static final long serialVersionUID = 9200145874478850543L;
+	private static final Logger logger = Logger.getLogger(SrvSelectDispatch.class.getName());
 
     public void _doProcess(HttpServletRequest request, HttpServletResponse response)
                    throws IOException, ServletException {
 
-    	Logger  logger = Logger.getLogger(SrvSelectDispatch.class.getName());
         PrintWriter out = response.getWriter();
 
         try {
@@ -43,7 +39,7 @@ public class SrvSelectDispatch extends RestrictionServlet {
         		
         	}
         	if ( listItems == null)
-        		listItems = new ArrayList<Dispatch>(Facade.getInstance().selectSimpleDispatchList(Constants.DISPATCH_STATUS_ACTIVE, "", 0, 1000));
+        		listItems = new ArrayList<Dispatch>(Facade.getInstance().selectSimpleDispatchList(Constants.DISPATCH_STATUS_ACTIVE, "", true, 0, 1000));
         	 	
         	String strXml = "<select>";
         	for ( Dispatch dispatch : listItems ) {
@@ -51,13 +47,11 @@ public class SrvSelectDispatch extends RestrictionServlet {
         		if (dispatch.getCode()!=null){
         			stCode= dispatch.getCode() + " ";
         		}
-//        		strXml += "<option value='" + dispatch.getId() +"'>" + dispatch.getName().trim().replaceAll("á", "&aamp;").replaceAll("é", "&eamp;").replaceAll("í", "&iamp;").replaceAll("ó", "&oamp;").replaceAll("ú", "&uamp;")      + "</option>";
         		strXml += "<option value='" + dispatch.getId() +"'>" +  stCode + dispatch.getName().trim()     + "</option>";
-        }
+        	}
 
- 	           strXml += "</select>";
-	    //       System.out.println(strXml);
-	           out.print(strXml);
+        	strXml += "</select>";
+        	out.print(strXml);
 
 
         } catch(Exception e) {

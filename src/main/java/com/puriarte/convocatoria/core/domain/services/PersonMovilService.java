@@ -17,43 +17,22 @@ import javax.persistence.criteria.Root;
 
 import org.eclipse.persistence.config.HintValues;
 import org.eclipse.persistence.config.QueryHints;
-import org.eclipse.persistence.jpa.config.NamedNativeQuery;
 
-import com.puriarte.convocatoria.persistence.EntityManagerHelper;
-import com.puriarte.convocatoria.persistence.Job;
-import com.puriarte.convocatoria.persistence.Movil;
 import com.puriarte.convocatoria.persistence.Person;
-import com.puriarte.convocatoria.persistence.PersonCategory;
-import com.puriarte.convocatoria.persistence.PersonCategoryAsociation;
 import com.puriarte.convocatoria.persistence.PersonMovil;
 import com.puriarte.convocatoria.persistence.result.PersonMovilResult;
 
-public class PersonMovilService {
-	static private PersonMovilService INSTANCE = null;
-
-	private static synchronized void createInstance(){
-		if(INSTANCE == null)
-			INSTANCE = new PersonMovilService();
-	}
+public class PersonMovilService extends Service{
 
 	public static PersonMovilService getInstance(){
-		if(INSTANCE == null) createInstance();
-		return INSTANCE;
+		if(instance == null)  instance =(PersonMovilService)createInstance(new PersonMovilService(), instance );
+		return  instance;
 	}
 
-	public synchronized void destroy(){
-		INSTANCE = null;
+	public void destroy() {
+		destroy(instance);
 	}
-
-	/**
-	 * Get EntityManager
-	 * @return EntityManager
-	 */
-	protected EntityManager getEntityManager() {
-		return EntityManagerHelper.getEntityManager();
-	}
-
-
+	
 	public int insertPerson(Person p) {
 		final EntityManager em = getEntityManager();
 
@@ -264,10 +243,9 @@ public class PersonMovilService {
 		final EntityManager em = getEntityManager();
 
 		try{
-			Query query = em.createNamedQuery("PersonMovil.SelectPersonMovils")
+			Query query = em.createNamedQuery("PersonMovil.SelectPersonMovilsByPriority")
 					.setParameter("status", status)
-					.setParameter("number", numero )
-					.setParameter("order", "priority");
+					.setParameter("number", numero );
 
 //			query.setHint("javax.persistence.cache.storeMode", "REFRESH");
 //			query.setHint("eclipselink.refresh", "true");
@@ -343,7 +321,7 @@ public class PersonMovilService {
 		final EntityManager em = getEntityManager();
 
 		em.getTransaction().begin();
-		em.createNativeQuery("DELETE FROM personpersoncategory where idPerson = "  + idperson).executeUpdate();
+		em.createNativeQuery("DELETE FROM personpersoncategory where idPerson = :id").setParameter("id",  idperson).executeUpdate();
 		em.getTransaction().commit();
 		
 	}
@@ -357,5 +335,7 @@ public class PersonMovilService {
 		em.getTransaction().commit();
 		
 	}
+
+	protected static PersonMovilService instance = null;
 
 }

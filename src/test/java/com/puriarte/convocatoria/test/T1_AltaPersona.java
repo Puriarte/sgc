@@ -10,7 +10,6 @@ import java.util.Locale;
 
 import org.junit.Test;
 
-import com.puriarte.convocatoria.core.domain.services.Facade;
 import com.puriarte.convocatoria.persistence.Person;
 
 // ESTE método simula la recepción de SMS de registro que se haría mandando
@@ -57,7 +56,6 @@ public class T1_AltaPersona {
 //				}
 //			}
 		}catch(Exception e){
-			e.printStackTrace();
 		}
 	}
 
@@ -83,11 +81,8 @@ public class T1_AltaPersona {
 			//else
 				//System.out.println("El movil " + nroDestinoSMS1 + " ya está asociado a la ceula" + cedulaPersona1);
 		} catch (SQLException e) {
-			e.printStackTrace();
 		} catch (SMSException e) {
-			e.printStackTrace();
 		}catch(PersonException pex){
-			pex.printStackTrace();
 		}
 
 	}

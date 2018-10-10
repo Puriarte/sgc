@@ -5,34 +5,17 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
-import com.puriarte.convocatoria.persistence.Dispatch;
 import com.puriarte.convocatoria.persistence.Job;
-import com.puriarte.convocatoria.persistence.EntityManagerHelper;
-import com.puriarte.convocatoria.persistence.Person;
 
-public class JobService {
-	static private JobService INSTANCE = null;
-
-	private static synchronized void createInstance(){
-		if(INSTANCE == null)
-			INSTANCE = new JobService();
-	}
+public class JobService extends Service{
 
 	public static JobService getInstance(){
-		if(INSTANCE == null) createInstance();
-		return INSTANCE;
+		if(instance == null)   instance =(JobService)createInstance(new JobService(), instance);
+		return instance;
 	}
-
-	public synchronized void destroy(){
-		INSTANCE = null;
-	}
-
-	/**
-	 * Get EntityManager
-	 * @return EntityManager
-	 */
-	protected EntityManager getEntityManager() {
-		return EntityManagerHelper.getEntityManager();
+	
+	public void destroy() {
+		destroy(instance);
 	}
 
 	public Job select(int id) {
@@ -103,7 +86,7 @@ public class JobService {
 		em.getTransaction().commit();
 	}
 
-	 
+	protected static JobService instance = null;
 
 
 }

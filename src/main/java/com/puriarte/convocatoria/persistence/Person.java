@@ -2,18 +2,16 @@ package com.puriarte.convocatoria.persistence;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.ColumnResult;
+import javax.persistence.ConstructorResult;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.FieldResult;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedNativeQueries;
 import javax.persistence.NamedNativeQuery;
@@ -23,10 +21,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.SqlResultSetMapping;
 import javax.persistence.SqlResultSetMappings;
 import javax.persistence.Transient;
-import javax.persistence.ConstructorResult;
-import javax.persistence.ColumnResult;
 
-import com.puriarte.convocatoria.core.exceptions.MovilException;
 import com.puriarte.convocatoria.persistence.result.Report1;
 @SqlResultSetMappings({
 	@SqlResultSetMapping(name = "Report1Map", classes = { 
@@ -47,11 +42,9 @@ import com.puriarte.convocatoria.persistence.result.Report1;
 			  query="SELECT p FROM Person p WHERE p.documentType.id = :documentTypeId and p.documentNumber= :document "),
 	  @NamedQuery(name="SelectPersonById",
 	  	query="SELECT p FROM Person p WHERE p.id = :id "),
-/*      @NamedQuery(name="SelectPersonListWithPriority",
-      	query="SELECT p FROM Person p WHERE ((:category = 0) or (p.category.id = :category))   and p.priority in :priorities "),
-      @NamedQuery(name="SelectPersonList",
-      	query="SELECT p FROM Person p WHERE ((:category = 0) or (p.category.id = :category))  "),
-  */  @NamedQuery(name="Person.SelectPersonPersonCategoriesList",
+	  @NamedQuery(name="Person.SelectPersonPersonCategoriesList",
+      	query="SELECT p.categories FROM Person p WHERE (p.id = :idPerson)  "),
+      @NamedQuery(name="Person.SelectPersonPersonLocalList",
       	query="SELECT p.categories FROM Person p WHERE (p.id = :idPerson)  "),
       	
 	})
@@ -65,7 +58,7 @@ import com.puriarte.convocatoria.persistence.result.Report1;
 	  			" (select count(*) from assignment a left outer join job j on a.idJob = j.id left outer join dispatch d on j.idDispatch = d.id where idpersonmovil  = pm.id  and assignmentdate between ?1 and ?2  and a.IDASSIGNMENTSTATUS=2 ) as assigned " +
 	  			" from personmovil pm  left outer join person p on pm.idperson=p.id " +
 	  			" left outer join movil m on pm.idmovil=m.id "
-	  			+ " where p.deleted=false" + 
+	  			+ " where p.deleted=0" + 
 	  			" order by p.name ", resultSetMapping = "Report1Map"),
 	})
 @Entity
@@ -94,6 +87,15 @@ public class Person {
 	@Transient
 	private String selectedMovil;
 
+	@ManyToOne(cascade={CascadeType.REFRESH},fetch=FetchType.LAZY)
+	@JoinColumn(name="idPersonLocal")
+	private PersonLocal preferedLocal;
+
+	@ManyToOne(cascade={CascadeType.REFRESH},fetch=FetchType.LAZY)
+	@JoinColumn(name="idPersonSection")
+	private PersonSection preferedSection;
+
+	
 
     @OneToMany(mappedBy = "person" , cascade = CascadeType.PERSIST)
     private List<PersonCategoryAsociation> categories;
@@ -118,6 +120,8 @@ public class Person {
     	 }
     	 if (agregar) this.categories.add(association);
     }
+
+    
     
 	/*
 	@ManyToMany
@@ -163,10 +167,6 @@ public class Person {
 
 	public void setDescription(String description) {
 		this.description = description;
-	}
-
-	public synchronized boolean equalsSynch(Object obj){
-		return this.equals(obj);
 	}
 
 	public String getNickname() {
@@ -236,15 +236,5 @@ public class Person {
 	public void setPreferedCategory(PersonCategory preferedCategory) {
 		this.preferedCategory = preferedCategory;
 	}
-
-/*
-	public void updateCategories(List<PersonCategory> newCategories) {
-		for(PersonCategory cat:this.categories){
-			boolean exists=false;
-			for(PersonCategory cat1:newCategories){
-				if (cat.getId()==cat1)
-			}
-		}
-	}*/
 
 }

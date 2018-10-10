@@ -11,19 +11,23 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.log4j.Logger;
+
 import com.puriarte.convocatoria.core.domain.Constants;
 import com.puriarte.utils.date.DateUtils;
 
-
 public abstract class RestrictionServlet extends HttpServlet {
+
+	private static final long serialVersionUID = -8653474215539913050L;
 
 	protected Integer idComponente;
 	protected Integer idOpMenu;
-
+	protected static final Logger logger = Logger.getLogger(RestrictionServlet.class.getName());
+	
 	public void init(ServletConfig config) throws ServletException {
 		super.init(config);
-    	idComponente = Integer.parseInt(config.getInitParameter("idComponente"));
-    	idOpMenu = Integer.parseInt(config.getInitParameter("idOpMenu"));
+ //   	idComponente = Integer.parseInt(config.getInitParameter("idComponente"));
+//    	idOpMenu = Integer.parseInt(config.getInitParameter("idOpMenu"));
 	}
 
 	public  void doGet(HttpServletRequest request, HttpServletResponse  response)
@@ -35,7 +39,7 @@ public abstract class RestrictionServlet extends HttpServlet {
 
 	    	_doProcess(request, response);
     	} catch(Exception e) {
-    		throw new ServletException(e.getMessage());
+    		logger.error(e.getMessage());
     	}
     }
 
@@ -48,7 +52,7 @@ public abstract class RestrictionServlet extends HttpServlet {
 
 	    	_doProcess(request, response);
     	} catch(Exception e) {
-    		throw new ServletException(e.getMessage());
+    		logger.error(e.getMessage());
     	}
 
     }
@@ -72,12 +76,6 @@ public abstract class RestrictionServlet extends HttpServlet {
     	return sessionObj;
   	}
 
-  	protected void setSessionObject(HttpServletRequest req, String attrName,Object attrValue) {
-	    HttpSession session = req.getSession(false);
-	    if (session != null) {
-	       	session.setAttribute(attrName,attrValue);
-    	}
-  	}
 
 	protected void setApplicationObject(String attrName,Object attrValue) {
 		getServletContext().setAttribute(attrName,attrValue);
@@ -97,13 +95,7 @@ public abstract class RestrictionServlet extends HttpServlet {
 
   	// Verifica si el usuario en sesion tiene permisos para efectuar una accion
   	protected boolean isAuthorized(HttpServletRequest request,int idComponente,int idOpMenu) {
-  		try {
-  			return true;
-
-  		} catch(Exception e){
-  		}
-
-  		return false;
+  		return true;
   	}
 
   	protected Date getDateRequest(HttpServletRequest request, String parameter) {
@@ -123,7 +115,4 @@ public abstract class RestrictionServlet extends HttpServlet {
 			return null;
 		}
 	}
-
-
-
 }

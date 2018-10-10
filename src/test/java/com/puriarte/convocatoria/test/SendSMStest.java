@@ -1,12 +1,8 @@
 package com.puriarte.convocatoria.test;
 
-import static org.junit.Assert.*;
-
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import org.junit.Test;
 

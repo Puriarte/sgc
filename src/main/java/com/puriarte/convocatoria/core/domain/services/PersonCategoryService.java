@@ -7,35 +7,20 @@ import javax.persistence.EntityManager;
 import javax.persistence.NonUniqueResultException;
 import javax.persistence.Query;
 
-import com.puriarte.convocatoria.persistence.EntityManagerHelper;
 import com.puriarte.convocatoria.persistence.PersonCategory;
 import com.puriarte.convocatoria.persistence.PersonCategoryAsociation;
 
-public class PersonCategoryService {
-	static private PersonCategoryService INSTANCE = null;
-
-	private static synchronized void createInstance(){
-		if(INSTANCE == null)
-			INSTANCE = new PersonCategoryService();
-	}
-
+public class PersonCategoryService extends Service{
+	
 	public static PersonCategoryService getInstance(){
-		if(INSTANCE == null) createInstance();
-		return INSTANCE;
+		if(instance == null) instance =(PersonCategoryService)createInstance(new PersonCategoryService(), instance );
+		return instance;
 	}
-
-	public synchronized void destroy(){
-		INSTANCE = null;
+	
+	public void destroy() {
+		destroy(instance);
 	}
-
-	/**
-	 * Get EntityManager
-	 * @return EntityManager
-	 */
-	protected EntityManager getEntityManager() {
-		return EntityManagerHelper.getEntityManager();
-	}
-
+	
 	public PersonCategory select(int id) {
 		final EntityManager em = getEntityManager();
 
@@ -130,5 +115,8 @@ public class PersonCategoryService {
 		em.getTransaction().commit();
 
 	}
-
+	
+	protected static PersonCategoryService instance = null;
+	
+	
 }

@@ -2,17 +2,12 @@ package com.puriarte.gcp.web.presentation.ajax;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.math.BigDecimal;
 import java.text.NumberFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
+import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
 
-import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -22,61 +17,29 @@ import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.log4j.Logger;
 
-import com.puriarte.convocatoria.core.domain.Constants;
 import com.puriarte.convocatoria.core.domain.services.Facade;
 import com.puriarte.convocatoria.persistence.Assignment;
 import com.puriarte.convocatoria.persistence.Dispatch;
 import com.puriarte.convocatoria.persistence.Job;
-import com.puriarte.convocatoria.persistence.Person;
-import com.puriarte.convocatoria.persistence.PersonMovil;
-import com.puriarte.convocatoria.persistence.SMS;
-import com.puriarte.gcp.web.Constantes;
-import com.puriarte.utils.date.DateUtils;
 
 
-public class SrvLstDispatch extends HttpServlet {
+public class SrvLstDispatch extends RestrictionServlet {
 
-	private Integer strPage;
-	private Integer strRows;
-	private String strSort;
-	private String strOrder;
-	private String orderBy;
+	private static final long serialVersionUID = -4327178410685697386L;
+	private static final Logger logger = Logger.getLogger(SrvLstDispatch.class.getName());
 
-	private Integer dispatchStatus;
-	private boolean asc;
-	private  Long totalRegistros=null;
-	private NumberFormat nF;
-	private SimpleDateFormat dTF;
+	private HashMap<String,Object> cargarParametros(HttpServletRequest request){
 
-	public void init(ServletConfig config) throws ServletException {
-		super.init(config);
-		nF = NumberFormat.getNumberInstance(new Locale("ES"));
-		nF.setMinimumFractionDigits(2);
-		dTF = new SimpleDateFormat("dd/MM/yy HH:mm", new Locale("ES"));
-	
-	}
+		Integer strPage;
+		Integer strRows;
+		String strSort;
+		String strOrder;
+		String orderBy="";
 
-	public  void doGet(HttpServletRequest request, HttpServletResponse  response)
-			throws IOException, ServletException {
-		try {
-			_doProcess(request, response);
-		} catch(Exception e) {
-			throw new ServletException(e.getMessage());
-		}
-	}
-
-	public  void doPost(HttpServletRequest request, HttpServletResponse  response)
-			throws IOException, ServletException {
-		try {
-			_doProcess(request, response);
-		} catch(Exception e) {
-			throw new ServletException(e.getMessage());
-		}
-
-	}
-
-	private void cargarParametros(HttpServletRequest request){
-
+		Integer dispatchStatus;
+		boolean asc;
+		Long totalRegistros=null;
+		
 		strPage = Integer.parseInt(request.getParameter("page"));
 		strRows = Integer.parseInt(request.getParameter("rows"));
 		strSort = request.getParameter("sidx");
@@ -100,7 +63,18 @@ public class SrvLstDispatch extends HttpServlet {
 
 		//	Datos de filtors para la consulta
 		dispatchStatus = ((request.getParameter("dispatchStatus")!=null) && NumberUtils.isNumber(request.getParameter("dispatchStatus")))? Integer.parseInt(request.getParameter("dispatchStatus")) : 0;
-
+		
+		HashMap paramteros = new HashMap<String,Object>();
+		paramteros.put("strPage", strPage);
+		paramteros.put("strRows", strRows);
+		paramteros.put("strSort", strSort);
+		paramteros.put("strOrder", strOrder);
+		paramteros.put("orderBy", orderBy);
+		paramteros.put("dispatchStatus", dispatchStatus);
+		paramteros.put("asc", asc);
+		paramteros.put("totalRegistros", totalRegistros);
+		
+		return paramteros;
 	}
 
 	public void _doProcess(HttpServletRequest request, HttpServletResponse response)
@@ -112,8 +86,10 @@ public class SrvLstDispatch extends HttpServlet {
 		String jSonItems="";
 
 		try {
-			cargarParametros(request);
-			jSonItems=procesar();
+			HashMap<String,Object> parametros=cargarParametros(request);
+			jSonItems=procesar(parametros);
+			response.setContentType("text/plain");
+	        response.setCharacterEncoding("UTF-8");
 			out.print(jSonItems);
 
 		} catch(Exception e) {
@@ -123,13 +99,33 @@ public class SrvLstDispatch extends HttpServlet {
 		}
 
 	}
+	
+	private String procesar(HashMap<String, Object> parametros) throws Exception {
 
-	private String procesar() throws Exception {
-	 	int pos = (strPage-1) * strRows ;
+		Logger logger = Logger.getLogger(this.getServletName());
 
-		System.out.println((new Date()).toString());
-		List<Dispatch> resultados = Facade.getInstance().selectDispatchList(dispatchStatus, orderBy, asc, pos, strRows);
-		System.out.println((new Date()).toString());
+		NumberFormat nF = NumberFormat.getNumberInstance(new Locale("ES"));
+		SimpleDateFormat dTF=new SimpleDateFormat("dd/MM/yy HH:mm", new Locale("ES"));
+		nF.setMinimumFractionDigits(2);
+
+		int page= 1;
+		int rows= 100;
+		
+		try {
+			page=(int)parametros.get("strPage")-1;
+		}catch(Exception e) {
+		}
+
+		try {
+			rows=(int)parametros.get("strRows");
+		}catch(Exception e) {
+		}
+
+		int pos = page*rows;
+	 	
+		Collection<? extends Dispatch> resultados = Facade.getInstance().selectSimpleListWithAssignments((int)parametros.get("dispatchStatus"), (String) parametros.get("orderBy"), 
+				(boolean)parametros.get("asc"),pos, rows);
+
 		String jSonItems="";
 		int i=0;
 
@@ -196,7 +192,7 @@ public class SrvLstDispatch extends HttpServlet {
 
 			}
 			catch(Exception e){
-				e.printStackTrace();
+				logger.error(e.getMessage());
 			}
 		}
 
@@ -204,18 +200,15 @@ public class SrvLstDispatch extends HttpServlet {
 
 		if (jSonItems.lastIndexOf(",")>0) jSonItems=jSonItems.substring(0,jSonItems.lastIndexOf(","));
 
-		//totalRegistros=resultados.size();
-		totalRegistros=(long) 100;
+		long totalRegistros=(long) 100;
 		String strXml = "{\"total\": 1," ;
-		strXml +="\"page\": " + strPage + ",";
+		strXml +="\"page\": " + (int)parametros.get("strPage")+ ",";
 		strXml +="\"records\": " + totalRegistros + ",";
-		strXml +="\"total\": " + totalRegistros/strRows + ",";
+		strXml +="\"total\": " + totalRegistros/(int)parametros.get("strRows") + ",";
 		strXml +="\"rows\": " +"[" + jSonItems + "]}";
 
-	//	System.out.println(strXml);
 		return strXml;
 	}
- 
 
 	// Obtenemos un objeto del contexto de la aplicación por su nombre.
 	protected Object getApplicationObject(String attrName) {

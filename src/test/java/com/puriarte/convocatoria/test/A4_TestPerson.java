@@ -4,19 +4,13 @@ import static org.junit.Assert.fail;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.puriarte.convocatoria.core.domain.Constants;
 import com.puriarte.convocatoria.core.domain.services.Facade;
-import com.puriarte.convocatoria.persistence.Dispatch;
-import com.puriarte.convocatoria.persistence.Job;
-import com.puriarte.convocatoria.persistence.Movil;
-import com.puriarte.convocatoria.persistence.Person;
 import com.puriarte.convocatoria.persistence.PersonCategory;
 import com.puriarte.convocatoria.persistence.PersonMovil;
 import com.puriarte.convocatoria.persistence.result.PersonMovilResult;
@@ -102,7 +96,7 @@ public class A4_TestPerson {
 //			p.getPerson().addCategory(Facade.getInstance().selectPersonCategory(1));
 			Facade.getInstance().updatePersonMovil(p, "098312914");
 		}catch(Exception e ){
-			e.printStackTrace();
+
 		}
 		
 	}

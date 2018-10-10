@@ -5,36 +5,19 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
-import com.puriarte.convocatoria.persistence.EntityManagerHelper;
 import com.puriarte.convocatoria.persistence.SMSIn;
 
-public class SMSInService {
-	static private SMSInService INSTANCE = null;
-
-	private static synchronized void createInstance(){
-		if(INSTANCE == null)
-			INSTANCE = new SMSInService();
-	}
+public class SMSInService extends Service {
 
 	public static SMSInService getInstance(){
-		if(INSTANCE == null) createInstance();
-		return INSTANCE;
+		if(instance == null) instance =(SMSInService)createInstance(new SMSInService(), instance);
+		return instance;
 	}
-
-	public synchronized void destroy(){
-		INSTANCE = null;
-	}
-
-	/**
-	 * Get EntityManager
-	 * @return EntityManager
-	 */
-	protected EntityManager getEntityManager() {
-		return EntityManagerHelper.getEntityManager();
-	}
-
 	
-
+	public void destroy() {
+		destroy(instance);
+	}
+	
 	public void insert(SMSIn sms) {
 		final EntityManager em = getEntityManager();
 		em.getTransaction().begin();
@@ -78,5 +61,6 @@ public class SMSInService {
 
 		return a;
 	}
-
+	
+	protected static SMSInService instance = null;
 }

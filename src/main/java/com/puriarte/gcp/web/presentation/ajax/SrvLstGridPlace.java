@@ -2,67 +2,34 @@ package com.puriarte.gcp.web.presentation.ajax;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.math.BigDecimal;
-import java.text.NumberFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
-
-import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang.math.NumberUtils;
 import org.apache.log4j.Logger;
 
-import com.puriarte.convocatoria.core.domain.Constants;
 import com.puriarte.convocatoria.core.domain.services.Facade;
-import com.puriarte.convocatoria.persistence.PersonCategory;
-import com.puriarte.convocatoria.persistence.PersonMovil;
 import com.puriarte.convocatoria.persistence.Place;
-import com.puriarte.utils.date.DateUtils;
-
 
 public class SrvLstGridPlace extends RestrictionServlet {
 
-	private Integer strPage;
-	private Integer strRows;
-	private String strSort;
-	private String strOrder;
-	private String orderBy;
-	private  Long totalRegistros=null;
-	private NumberFormat nF;
+	private static final long serialVersionUID = -4570338988517779347L;
+	private static final Logger logger = Logger.getLogger(SrvLstGridPlace.class.getName());
 
-	private boolean includeDeleted;
+	private static final String ERROR_PLACE_TO_JSON = "Error al pasar el lugar a JSON";
+	
+	private HashMap<String,Object> cargarParametros(HttpServletRequest request){
 
-	public void init(ServletConfig config) throws ServletException {
-		super.init(config);
-	}
-
-	public  void doGet(HttpServletRequest request, HttpServletResponse  response)
-			throws IOException, ServletException {
-		try {
-			_doProcess(request, response);
-		} catch(Exception e) {
-			throw new ServletException(e.getMessage());
-		}
-	}
-
-	public  void doPost(HttpServletRequest request, HttpServletResponse  response)
-			throws IOException, ServletException {
-		try {
-			_doProcess(request, response);
-		} catch(Exception e) {
-			throw new ServletException(e.getMessage());
-		}
-
-	}
-
-	private void cargarParametros(HttpServletRequest request){
+		Integer strPage;
+		Integer strRows;
+		String strSort;
+		String strOrder;
+		String orderBy="";
+		
+		Long totalRegistros=null;
+		boolean includeDeleted=false;
 
 		strPage = Integer.parseInt(request.getParameter("page"));
 		strRows = Integer.parseInt(request.getParameter("rows"));
@@ -75,22 +42,35 @@ public class SrvLstGridPlace extends RestrictionServlet {
 		else
 			includeDeleted =false;
 
+		HashMap<String,Object> paramteros = new HashMap();
+		paramteros.put("strPage", strPage);
+		paramteros.put("strRows", strRows);
+		paramteros.put("strSort", strSort);
+		paramteros.put("strOrder", strOrder);
+		paramteros.put("orderBy", orderBy);
+		paramteros.put("totalRegistros", totalRegistros);
+		paramteros.put("includeDeleted", includeDeleted);
+		
+		return paramteros;
 	}
 
 	public void _doProcess(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
 
-		Logger  logger = Logger.getLogger(this.getServletName());
 		PrintWriter out = response.getWriter();
 		int i=0;
 		String jSonItems="";
 
 		try {
-			cargarParametros(request);
-			jSonItems=procesar(includeDeleted);
+			HashMap<String, Object> parametros =cargarParametros(request);
+			jSonItems=procesar(parametros );
+
+			response.setContentType("text/plain");
+	        response.setCharacterEncoding("UTF-8");
 			out.print(jSonItems);
 
 		} catch(Exception e) {
+			logger.error(e.getMessage());
 			out.print("{\"error\":[{\"errorID\": \""+ i +"\",\"errtext\": \"" + e.getMessage() + "\"}]}");
 		} finally {
 			out.close();
@@ -98,8 +78,9 @@ public class SrvLstGridPlace extends RestrictionServlet {
 
 	}
 
-	private String procesar(boolean includeDeleted) throws Exception {
-		List<Place> resultados = Facade.getInstance().selectPlaceList(includeDeleted);
+	private String procesar(HashMap<String, Object> parametros) throws Exception {
+		
+		List<Place> resultados = Facade.getInstance().selectPlaceList((boolean) parametros.get("includeDeleted"));
 
 		String jSonItems="";
 		int i=0;
@@ -107,45 +88,44 @@ public class SrvLstGridPlace extends RestrictionServlet {
 		for(Place item : resultados) {
 			try{
 
-			jSonItems += "{\"Id\": \"" +item.getId()+ "\",";
-			jSonItems += "\"Pos\": \"" + i++ + "\",";
+				jSonItems += "{\"Id\": \"" +item.getId()+ "\",";
+				jSonItems += "\"Pos\": \"" + i++ + "\",";
+	
+				if (item.getAddress()!=null)
+					jSonItems += "\"Address\": \"" + item.getAddress()+ "\",";
+				else
+					jSonItems += "\"Address\": \",";
+	
+				if (item.getPhone()!=null)
+					jSonItems += "\"Phone\": \"" + item.getPhone() + "\",";
+				else
+					jSonItems += "\"Phone\": \",";
+	
+				jSonItems += "\"Deleted\": \"" + item.isDeleted() + "\",";
+	
+				if (item.getName()!=null)
+					jSonItems += "\"Name\": \"" + item.getName() + "\"},";
+				else
+					jSonItems += "\"Name\": \"},";
 
-			if (item.getAddress()!=null)
-				jSonItems += "\"Address\": \"" + item.getAddress()+ "\",";
-			else
-				jSonItems += "\"Address\": \",";
-
-			if (item.getPhone()!=null)
-				jSonItems += "\"Phone\": \"" + item.getPhone() + "\",";
-			else
-				jSonItems += "\"Phone\": \",";
-
-			jSonItems += "\"Deleted\": \"" + item.isDeleted() + "\",";
-
-			if (item.getName()!=null)
-				jSonItems += "\"Name\": \"" + item.getName() + "\"},";
-			else
-				jSonItems += "\"Name\": \"},";
-
+			}catch(Exception e){
+				logger.error(ERROR_PLACE_TO_JSON + e.getMessage());
 			}
-			catch(Exception e){}
 		}
 
 		jSonItems = jSonItems.replaceAll(System.getProperty("line.separator"), "");
-
+	
 		if (jSonItems.lastIndexOf(",")>0) jSonItems=jSonItems.substring(0,jSonItems.lastIndexOf(","));
-
-		totalRegistros=(long) 100;
+	
+		long totalRegistros=(long) 100;
+		
 		String strXml = "{\"total\": 1," ;
-		strXml +="\"page\": " + strPage + ",";
+		strXml +="\"page\": " + (int) parametros.get("strPage") + ",";
 		strXml +="\"records\": " + totalRegistros + ",";
-		strXml +="\"total\": " + totalRegistros/strRows + ",";
+		strXml +="\"total\": " + totalRegistros/(int) parametros.get("strRows") + ",";
 		strXml +="\"rows\": " +"[" + jSonItems + "]";
 		strXml +="}";
-
-//		System.out.println(strXml);
+	
 		return strXml;
 	}
-
-
 }

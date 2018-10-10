@@ -1,25 +1,15 @@
 package com.puriarte.convocatoria.test;
 
-import static org.junit.Assert.*;
-
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-import org.junit.Before;
 import org.junit.Test;
 
-
-import com.puriarte.convocatoria.core.domain.Constants;
-import com.puriarte.convocatoria.core.domain.services.Facade;
 import com.puriarte.convocatoria.core.exceptions.MovilException;
 import com.puriarte.convocatoria.core.exceptions.PersonException;
 import com.puriarte.convocatoria.core.exceptions.SMSException;
-import com.puriarte.convocatoria.persistence.DocumentType;
-import com.puriarte.convocatoria.persistence.Movil;
 import com.puriarte.convocatoria.persistence.Person;
-import com.puriarte.convocatoria.persistence.SMS;
 
 
 public class TestSMS {
@@ -36,19 +26,16 @@ public class TestSMS {
 //			Facade.getInstance().insertSMSIncome("59898312914", "Saludos", new Date());
 //		} catch (Exception e) {
 //			// TODO Auto-generated catch block
-//			e.printStackTrace();
 //		}
 //		try {
 //			Facade.getInstance().insertSMSIncomeAndRegisterMovil("59898312914", "REGISTRO 36025670", new Date());
 //		} catch (Exception e) {
 //			// TODO Auto-generated catch block
-//			e.printStackTrace();
 //		}
 //		try {
 //			Facade.getInstance().insertSMSIncome("59899607218", "Hola amroso!!!!", new Date());
 //		} catch (Exception e) {
 //			// TODO Auto-generated catch block
-//			e.printStackTrace();
 //		}
 
 
@@ -59,9 +46,7 @@ public class TestSMS {
 		} catch (MovilException mexe) {
 			System.out.println("El movil ya est� asociado a la persona");
 		} catch (SMSException e) {
-			e.printStackTrace();
 		}catch(PersonException pex){
-			pex.printStackTrace();
 		}
 */
 		try{
@@ -101,7 +86,6 @@ public class TestSMS {
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 	}*/
 }

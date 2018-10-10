@@ -2,7 +2,6 @@ package com.puriarte.gcp.web.presentation.actions;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,8 +17,6 @@ import org.apache.struts.action.ActionMessages;
 import org.apache.struts.action.DynaActionForm;
 
 import com.puriarte.convocatoria.core.domain.services.Facade;
-import com.puriarte.convocatoria.persistence.Person;
-import com.puriarte.convocatoria.persistence.PersonCategory;
 import com.puriarte.convocatoria.persistence.PersonMovil;
 
 public class ActCreateDispatch extends RestrictionAction {

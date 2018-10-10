@@ -28,6 +28,9 @@ public class Place {
 
     public Place(){}
 
+    public Place(String name){
+    	this.name = name;
+    }
 	public Long getId() {
 		return id;
 	}

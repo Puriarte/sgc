@@ -3,34 +3,20 @@ package com.puriarte.convocatoria.core.domain.services;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
-import com.puriarte.convocatoria.persistence.EntityManagerHelper;
 import com.puriarte.convocatoria.persistence.User;
 
-public class UserService {
-
-	private static UserService INSTANCE = null;
-
-	private UserService() {
-	}
-
-	private static synchronized void createInstance(){
-		if(INSTANCE == null)
-			INSTANCE = new UserService();
-	}
+public class UserService extends Service {
 
 	public static UserService getInstance(){
-		if(INSTANCE == null) createInstance();
-		return INSTANCE;
+		if(instance == null) instance = (UserService) createInstance(new UserService(), instance);
+		return instance;
 	}
 
-	/**
-	 * Get EntityManager
-	 * @return EntityManager
-	 */
-	protected EntityManager getEntityManager() {
-		return EntityManagerHelper.getEntityManager();
+	public void destroy() {
+		destroy(instance);
 	}
 
+	
 	public User select(String name, String string) {
 		final EntityManager em = getEntityManager();
 
@@ -43,8 +29,6 @@ public class UserService {
 		return a;
 	}
 
+	protected static UserService instance = null;
 
-	public synchronized void destroy(){
-		INSTANCE = null;
-	}
 }

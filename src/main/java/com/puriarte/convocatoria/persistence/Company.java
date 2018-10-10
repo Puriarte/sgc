@@ -47,16 +47,6 @@ public class Company {
 		this.description = description;
 	}
 
-	public synchronized boolean equalsSynch(Object obj){
-		return this.equals(obj);
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		Company c = (Company)obj;
-		return (this.getName().equalsIgnoreCase(c.getName()));
-	}
-
 	@Override
 	public String toString() {
 		return this.getName();

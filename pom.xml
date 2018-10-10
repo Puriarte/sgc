@@ -4,7 +4,7 @@
 	<groupId>sgc</groupId>
 	<artifactId>sgc</artifactId>
 	<packaging>war</packaging>
-	<version>1.0.3</version>
+	<version>1.0.4.2</version>
 	<name>sgc</name>
 
 	<repositories>
@@ -44,7 +44,11 @@
 		<project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>
 		<maven.compiler.source>1.7</maven.compiler.source>
 		<maven.compiler.target>1.7</maven.compiler.target>
+
+	    <sonar.exclusions>src/main/webapp/js/**/*</sonar.exclusions>
+	    <sonar.dynamic>reuseReports</sonar.dynamic>
 	</properties>
+	
 	<dependencies>
 <!-- 		<dependency>
 			<groupId>net.sf.jasperreports</groupId>
@@ -262,6 +266,17 @@
     		<version>1.11</version>
 		</dependency>
 
+		<dependency>
+		    <groupId>org.apache.commons</groupId>
+		    <artifactId>commons-lang3</artifactId>
+		    <version>3.0</version>
+		</dependency>
+
+<dependency>
+    <groupId>org.apache.commons</groupId>
+    <artifactId>commons-lang3</artifactId>
+    <version>3.0</version>
+</dependency>
 	</dependencies>
 	<profiles>
 		<profile>

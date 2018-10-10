@@ -34,7 +34,6 @@ jQuery(document).ready(function(){
 			],
 	   	rowNum:60,
 	   	scrollOffset:50,
-		multiselect: false,
 		caption: null,
 		forceFit: true,
 		height:$(window).height() * 0.70,

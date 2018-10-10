@@ -1,8 +1,5 @@
 package com.puriarte.gcp.web.presentation.actions;
 
-import java.math.BigDecimal;
-import java.util.Date;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -16,16 +13,9 @@ import org.apache.struts.action.ActionMessage;
 import org.apache.struts.action.ActionMessages;
 import org.apache.struts.action.DynaActionForm;
 
-import com.puriarte.convocatoria.core.domain.Constants;
 import com.puriarte.convocatoria.core.domain.services.Facade;
 import com.puriarte.convocatoria.core.exceptions.PersonCategoryException;
-import com.puriarte.convocatoria.persistence.Dispatch;
-import com.puriarte.convocatoria.persistence.Movil;
-import com.puriarte.convocatoria.persistence.Person;
 import com.puriarte.convocatoria.persistence.PersonCategory;
-import com.puriarte.convocatoria.persistence.PersonMovil;
-import com.puriarte.convocatoria.persistence.Place;
-import com.puriarte.convocatoria.persistence.SMS;
 
 public class ActUpdateCategory extends RestrictionAction {
 
@@ -35,13 +25,13 @@ public class ActUpdateCategory extends RestrictionAction {
 		HttpServletRequest request,
 		HttpServletResponse response)
 		throws Exception {
-
+		
 		ActionErrors errors = new ActionErrors();
 		ActionMessages messages = new ActionMessages();
 		DynaActionForm dynaForm= (DynaActionForm) form;
 
 		Logger  logger = Logger.getLogger(ActUpdateCategory.class.getName());
-
+		
 		try {
 			if(dynaForm.get("accion").equals("load")){
 				try{

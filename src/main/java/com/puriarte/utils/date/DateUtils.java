@@ -12,11 +12,11 @@ import com.puriarte.gcp.web.Constantes;
 
 public class DateUtils {
 
-	private static String DATE_FORMAT_REGEX = Constantes.FORMATO_FECHA_REGEX;
-	private static String DATE_TIME_FORMAT_REGEX = Constantes.FORMATO_FECHA_HORA_REGEX;
+	public static final String DATE_FORMAT_REGEX = Constantes.FORMATO_FECHA_REGEX;
+	public static final String DATE_TIME_FORMAT_REGEX = Constantes.FORMATO_FECHA_HORA_REGEX;
 
-	private static String DATE_FORMAT = Constantes.FORMATO_FECHA;
-	private static String DATE_TIME_FORMAT = Constantes.FORMATO_FECHA_HORA;
+	public static final String DATE_FORMAT = Constantes.FORMATO_FECHA;
+	public static final String DATE_TIME_FORMAT = Constantes.FORMATO_FECHA_HORA;
 
 	public static Date parseDate(String strDate, String formatoRegEx, String formatoFecha ) throws ParseException {
 

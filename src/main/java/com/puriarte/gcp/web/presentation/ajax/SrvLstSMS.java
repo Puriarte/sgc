@@ -2,15 +2,14 @@ package com.puriarte.gcp.web.presentation.ajax;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
-import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -25,54 +24,28 @@ import com.puriarte.convocatoria.core.domain.services.Facade;
 import com.puriarte.convocatoria.persistence.SMS;
 import com.puriarte.utils.date.DateUtils;
 
-public class SrvLstSMS extends HttpServlet {
+public class SrvLstSMS extends RestrictionServlet {
 
-
-	private Integer strPage;
-	private Integer strRows;
-	private String strSort;
-	private String strOrder;
-	private String orderBy;
-	private int estado;
-	private int convocatoria;
-	private Date  fechaInicio;
-	private Date  fechaFin;
-	private boolean deleted;
-
-	private NumberFormat nF;
-	private SimpleDateFormat dTF;
-
-	public void init(ServletConfig config) throws ServletException {
-		super.init(config);
-		nF = NumberFormat.getNumberInstance(new Locale("ES"));
-		nF.setMinimumFractionDigits(2);
-		dTF = new SimpleDateFormat("dd/MM/yy HH:mm", new Locale("ES"));
-	}
-
-	public  void doGet(HttpServletRequest request, HttpServletResponse  response)
-			throws IOException, ServletException {
-		try {
-			_doProcess(request, response);
-		} catch(Exception e) {
-			throw new ServletException(e.getMessage());
-		}
-	}
-
-	public  void doPost(HttpServletRequest request, HttpServletResponse  response)
-			throws IOException, ServletException {
-		try {
-			_doProcess(request, response);
-		} catch(Exception e) {
-			throw new ServletException(e.getMessage());
-		}
-
-	}
-
+	private static final long serialVersionUID = 7514109531028703059L;
+	private static final Logger logger = Logger.getLogger(SrvLstSMS.class.getName());
 
 	/**
 	 * @param request
 	 */
-	private void cargarParametros(HttpServletRequest request){
+	private HashMap<String,Object> cargarParametros(HttpServletRequest request){
+
+
+		Integer strPage;
+		Integer strRows;
+		String strSort;
+		String strOrder;
+		String orderBy="";
+		
+		int estado;
+		int convocatoria;
+		Date  fechaInicio;
+		Date  fechaFin;
+		boolean deleted;
 
 		orderBy = "s.creationDate desc";
 
@@ -104,6 +77,22 @@ public class SrvLstSMS extends HttpServlet {
 
 		//TODO: Por ahora solo muestro los SMS que no están borrados. Debería poder ver el tarro de basura.
 		deleted = false;
+		
+		
+		HashMap parametros = new HashMap<String,Object>();
+		parametros.put("strPage", strPage);
+		parametros.put("strRows", strRows);
+		parametros.put("strSort", strSort);
+		parametros.put("strOrder", strOrder);
+		parametros.put("orderBy", orderBy);
+		parametros.put("estado", estado);
+		parametros.put("convocatoria", convocatoria);
+		parametros.put("fechaInicio", fechaInicio);
+		parametros.put("fechaFin", fechaFin);
+		parametros.put("deleted", deleted);
+		
+		return parametros;
+		
 	}
 
 	public void _doProcess(HttpServletRequest request, HttpServletResponse response)
@@ -115,11 +104,20 @@ public class SrvLstSMS extends HttpServlet {
 		String jSonItems="";
 
 		try {
-			cargarParametros(request);
+			HashMap<String, Object> parametros =cargarParametros(request);
 
-			int count = Facade.getInstance().selectCountSMS(fechaInicio,fechaFin,estado, convocatoria,deleted);
-			List<SMS> resultados = Facade.getInstance().selectSMSList(fechaInicio,fechaFin,estado, deleted, convocatoria,  orderBy, strOrder, (strPage-1)*strRows,strRows);
-			jSonItems= procesarItems2(resultados, count);
+			int strPage= (int) parametros.get("strPage");
+			int strRows= (int) parametros.get("strRows");
+			
+			int count = Facade.getInstance().selectCountSMS((Date)parametros.get("fechaInicio"),(Date)parametros.get("fechaFin"), (int)parametros.get("estado"), 
+					(int)parametros.get("convocatoria"),(boolean)parametros.get("deleted"));
+			
+			List<SMS> resultados = Facade.getInstance().selectSMSList((Date)parametros.get("fechaInicio"),(Date)parametros.get("fechaFin"), (int)parametros.get("estado"), 
+					(boolean)parametros.get("deleted"), (int)parametros.get("convocatoria"),  (String)parametros.get("orderBy"), (String)parametros.get("strOrder"), (strPage-1)*strRows,strRows);
+
+			jSonItems= procesarItems2(resultados, count, parametros);
+			response.setContentType("text/plain");
+	        response.setCharacterEncoding("UTF-8");
 			out.print(jSonItems);
 
 		} catch(Exception e) {
@@ -129,7 +127,13 @@ public class SrvLstSMS extends HttpServlet {
 		}
 	}
 
-	private String procesarItems2(List<SMS> resultados, int totalRegistros) {
+	private String procesarItems2(List<SMS> resultados, int totalRegistros, HashMap<String, Object> parametros) {
+
+		NumberFormat nF = NumberFormat.getNumberInstance(new Locale("ES"));
+		nF.setMinimumFractionDigits(2);
+
+		SimpleDateFormat dTF=new SimpleDateFormat("dd/MM/yy HH:mm", new Locale("ES"));
+
 		String jSonItems="";
 		int i=0;
 
@@ -188,27 +192,15 @@ public class SrvLstSMS extends HttpServlet {
 				jSonItems += "\"Dispatch\": \"" +   StringEscapeUtils.escapeHtml(item.getDispatch().getName()) + "\"},";
 			else
 				jSonItems += "\"Dispatch\": \"\"},";
-			}
-			
-			/*
-			 * 			if (item.getDispatch()!=null){
-				jSonItems += "\"Dispatch\": \"" + StringEscapeUtils.escapeHtml(item.getDispatch().getName()) + "\",";
-				if (item.getDispatch().getCode()!=null)
-					jSonItems += "\"DispatchCode\": \"" + item.getDispatch().getCode() + "\"}";
-				else
-					jSonItems += "\"DispatchCode\": \"" + item.getDispatch().getCode() + "\"}";
-			}else
-				jSonItems += "\"Dispatch\": \"\", \"DispatchCode\": \"\"}";
-			}
-
-			 */
-			catch(Exception e){}
+			}catch(Exception e){}
 		}
 
 		jSonItems = jSonItems.replaceAll(System.getProperty("line.separator"), "");
 
 		if (jSonItems.lastIndexOf(",")>0) jSonItems=jSonItems.substring(0,jSonItems.lastIndexOf(","));
 
+		int strPage= (int) parametros.get("strPage");
+		int strRows= (int) parametros.get("strRows");
 
 		int totalPaginas=  totalRegistros/strRows;
 		if ((totalRegistros % strRows)!=0) totalPaginas++;
@@ -218,11 +210,10 @@ public class SrvLstSMS extends HttpServlet {
 		strXml +="\"records\": " + totalRegistros + ",";
 		strXml +="\"rows\": " +"[" + jSonItems + "]}";
 
-//		System.out.println(strXml);
 		return strXml;
 	}
 
-	private Date getDateRequest(HttpServletRequest request, String parameter) {
+	protected Date getDateRequest(HttpServletRequest request, String parameter) {
 		try{
 			return DateUtils.parseDate(request.getParameter(parameter), Constants.FORMATO_FECHA_HTML5_REGEX,  Constants.FORMATO_FECHA_HTML5);
 		}catch(ParseException ex){
@@ -239,7 +230,6 @@ public class SrvLstSMS extends HttpServlet {
 			return null;
 		}
 	}
-
 
 	// Obtenemos un objeto del contexto de la aplicación por su nombre.
 	protected Object getApplicationObject(String attrName) {

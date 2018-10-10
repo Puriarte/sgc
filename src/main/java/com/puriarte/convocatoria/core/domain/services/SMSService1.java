@@ -14,41 +14,24 @@ import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
-import org.eclipse.persistence.internal.jpa.querydef.CriteriaQueryImpl;
-
 import com.puriarte.convocatoria.core.domain.Constants;
 import com.puriarte.convocatoria.persistence.Assignment;
 import com.puriarte.convocatoria.persistence.AssignmentStatus;
-import com.puriarte.convocatoria.persistence.EntityManagerHelper;
 import com.puriarte.convocatoria.persistence.PersonMovil;
 import com.puriarte.convocatoria.persistence.SMS;
 import com.puriarte.convocatoria.persistence.SmsStatus;
 
-public class SMSService1 {
-	static private SMSService1 INSTANCE = null;
-
-	private static synchronized void createInstance(){
-		if(INSTANCE == null)
-			INSTANCE = new SMSService1();
-	}
-
+public class SMSService1 extends Service{
+	
 	public static SMSService1 getInstance(){
-		if(INSTANCE == null) createInstance();
-		return INSTANCE;
+		if(instance == null) instance = (SMSService1) createInstance(new SMSService1(), instance);
+		return instance;
 	}
-
-	public synchronized void destroy(){
-		INSTANCE = null;
+	
+	public void destroy() {
+		destroy(instance);
 	}
-
-	/**
-	 * Get EntityManager
-	 * @return EntityManager
-	 */
-	protected EntityManager getEntityManager() {
-		return EntityManagerHelper.getEntityManager();
-	}
-
+	
 	public void insert(SMS sms){
 		final EntityManager em = getEntityManager();
 
@@ -251,7 +234,7 @@ public class SMSService1 {
 				.setParameter("personId", personId);
 
 		Object a = query.getSingleResult();
-		if (a.getClass().getName().equals("java.lang.Long"))
+		if (a instanceof java.lang.Long) 
 			return Integer.parseInt(a.toString());
 		else
 			return (Integer)a;
@@ -284,7 +267,7 @@ public class SMSService1 {
 		
 		Object a = em.createQuery(q).getSingleResult();
 		
-		if (a.getClass().getName().equals("java.lang.Long"))
+		if (a instanceof java.lang.Long) 
 			return Integer.parseInt(a.toString());
 		else
 			return (Integer)a;
@@ -301,7 +284,7 @@ public class SMSService1 {
 				.setParameter("personId", personId);
 
 		Object a = query.getSingleResult();
-		if (a.getClass().getName().equals("java.lang.Long"))
+		if (a instanceof java.lang.Long) 
 			return Integer.parseInt(a.toString());
 		else
 			return (Integer)a;
@@ -334,7 +317,7 @@ public class SMSService1 {
 		
 		Object a = em.createQuery(q).getSingleResult();
 		
-		if (a.getClass().getName().equals("java.lang.Long"))
+		if (a instanceof java.lang.Long) 
 			return Integer.parseInt(a.toString());
 		else
 			return (Integer)a;
@@ -471,31 +454,6 @@ public class SMSService1 {
 	}
 
 
-	/**
-	 * Busca los SMS filtrando por fecha
-	 *
-	 * @param from
-	 * @param to
-	 * @param order
-	 * @param pos
-	 * @param limit
-	 * @return
-	 */
-//	public boolean exist(String movilNumber, Date date){
-//		final EntityManager em = getEntityManager();
-//
-//		Query query = em.createNamedQuery("SelectSMS")
-//			.setParameter("movilNumber", movilNumber )
-//			.setParameter("creationDate", date);
-//		Vector e = (Vector) query.setMaxResults(1).getResultList();
-//		if (e.size()>0)
-//			return true;
-//		else
-//			return false;
-//
-//
-//	}
-
 	public boolean existSms( String uuid) {
 		final EntityManager em = getEntityManager();
 
@@ -547,7 +505,7 @@ public class SMSService1 {
 		
 	}
 
-
+	protected static SMSService1 instance = null;
 	
 
 }

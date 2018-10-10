@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.configuration.PropertiesConfiguration;
-import org.apache.commons.lang.time.DateUtils;
 import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionError;
 import org.apache.struts.action.ActionErrors;
@@ -21,12 +20,11 @@ import org.apache.struts.action.ActionMessage;
 import org.apache.struts.action.ActionMessages;
 import org.apache.struts.action.DynaActionForm;
 
+import com.puriarte.convocatoria.core.domain.Constants;
 import com.puriarte.convocatoria.core.domain.services.Facade;
-import com.puriarte.convocatoria.persistence.Person;
 import com.puriarte.convocatoria.persistence.PersonCategory;
 import com.puriarte.convocatoria.persistence.PersonMovil;
 import com.puriarte.convocatoria.persistence.Place;
-import com.puriarte.convocatoria.core.domain.Constants;
 
 public class ActCreateCategoryDispatch extends RestrictionAction {
 
@@ -46,6 +44,7 @@ public class ActCreateCategoryDispatch extends RestrictionAction {
 		String code = "";
 		String attribute1Name = config.getString("dispatch.attribute1");
 		String attribute2Name = config.getString("dispatch.attribute2");
+		String attribute3Name = config.getString("dispatch.attribute3");
 
 		Logger  logger = Logger.getLogger(ActCreateCategoryDispatch.class.getName());
 		if(dynaForm.get("accion").equals("load")){
@@ -65,6 +64,7 @@ public class ActCreateCategoryDispatch extends RestrictionAction {
 				
 				dynaForm.set("attribute1", attribute1Name);
 				dynaForm.set("attribute2", attribute2Name);
+				dynaForm.set("attribute3", attribute3Name);
 				
 				try{
 					List<Place> places= new ArrayList<Place>(Facade.getInstance().selectPlaceList(false));
@@ -100,7 +100,7 @@ public class ActCreateCategoryDispatch extends RestrictionAction {
 					String[] arPersonIds = dynaForm.get("nroDestino").toString().split(",");
 
 		//			String strName = (String) dynaForm.get("name");
-		//			String strMessage = (String) dynaForm.get("detalleIn");
+					String strMessage = (String) dynaForm.get("detalleIn");
 					String strDate = (String) dynaForm.get("eventDate") ;
 					String strHour = (String) dynaForm.get("eventHour");
 					String strEndHour = (String) dynaForm.get("eventEndHour");
@@ -137,8 +137,8 @@ public class ActCreateCategoryDispatch extends RestrictionAction {
 					}finally{}
 					
 					// Atributos extra
-					String strAttribute1, strAttribute2;
-					String xAttr1="",xAttr2 ="";
+					String strAttribute1, strAttribute2, strAttribute3 = "";
+					String xAttr1="",xAttr2 ="",xAttr3 ="";
 					
 					if ((attribute1Name!=null)&&(!attribute1Name.equals(""))){
 						if ( dynaForm.get("attribute1")!=null)  {
@@ -157,13 +157,26 @@ public class ActCreateCategoryDispatch extends RestrictionAction {
 							}finally{}
 						}
 					}
+					
+					if ((attribute3Name!=null)&&(!attribute3Name.equals(""))){
+						if ( dynaForm.get("attribute3")!=null)  {
+							strAttribute3= (String) dynaForm.get("attribute3");
+							try{
+								if (attribute3Name.equals(Constants.EXTRA_ATTRIBUTE_NO_LABEL))
+									xAttr3 =  ", " + strAttribute3.trim() ;
+								else
+									xAttr3 =  ", " + attribute3Name + " " + strAttribute3.trim() ;
+									
+							}finally{}
+						}
+					}
 						
-				 	String message  = prefix + " " +  code + " " +  xDate + xEndDate + " " + xPlace + " " + xAttr1 + xAttr2;
-				 	String name=  xDate + xEndDate + " " + xPlace + " " + xAttr1 + xAttr2;
+				 	String message  = prefix + " " +  code + " " +  xDate + xEndDate + " " + xPlace + " " + xAttr1 + xAttr2+ xAttr3;
+				 	String name=  xDate + xEndDate + " " + xPlace + " " + xAttr1 + xAttr2+ xAttr3;
 					
 					message = message.replace("á", "a").replace("é", "e").replace("í", "i").replace("ó", "o").replace("ú", "u");
 					name= name.replace("á", "a").replace("é", "e").replace("í", "i").replace("ó", "o").replace("ú", "u");
-					int id = Facade.getInstance().insertDispatch(message, name, code, place, creationDate, scheduledDate , scheduledEndDate, arPersonIds, arPersonCategory);
+					int id = Facade.getInstance().insertDispatch(message, name, code, place, creationDate, scheduledDate , scheduledEndDate, strAttribute3, arPersonIds, arPersonCategory);
 					
 					if (dynaForm.get("enviarSMS")!=null){
 						Facade.getInstance().sendDispatchSMS(id, null, null);

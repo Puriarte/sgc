@@ -1,11 +1,9 @@
 package com.puriarte.convocatoria.core.domain.services;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.text.MessageFormat;
 import java.util.Collection;
 import java.util.Date;
@@ -25,7 +23,9 @@ import javax.persistence.NonUniqueResultException;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
+import org.apache.log4j.Logger;
 
+import com.puriarte.convocatoria.core.domain.Constants;
 import com.puriarte.convocatoria.core.exceptions.MovilException;
 import com.puriarte.convocatoria.core.exceptions.PersonCategoryException;
 import com.puriarte.convocatoria.core.exceptions.PersonException;
@@ -50,11 +50,11 @@ import com.puriarte.convocatoria.persistence.SmsStatus;
 import com.puriarte.convocatoria.persistence.User;
 import com.puriarte.convocatoria.persistence.result.PersonMovilResult;
 import com.puriarte.convocatoria.persistence.result.Report1;
-import com.puriarte.convocatoria.core.domain.Constants;
+import com.puriarte.gcp.web.presentation.actions.ActDeleteSMS;
 
 public class Facade {
 
-	private static Facade INSTANCE = null;
+	private static Facade instance = null;
 	private UserService userService;
 	private SMSService1 smsService;
 	private PersonService personService;
@@ -70,9 +70,11 @@ public class Facade {
 	private SMSInService smsInService;
 	private SMSOutService smsOutService;
 	private DispatchStatusService dispatchStatusService;
-
+	
 	private ReportService reportService;
-
+	private Logger logger;
+	
+	
 	private Facade() {
 		this.userService = UserService.getInstance();
 		this.smsService = SMSService1.getInstance();
@@ -90,34 +92,49 @@ public class Facade {
 		this.smsOutService = SMSOutService.getInstance();
 		this.dispatchStatusService = DispatchStatusService.getInstance();
 		this.reportService = ReportService.getInstance();
+		this.logger=  Logger.getLogger(Facade.class.getName());
 	}
 
 	private static synchronized void createInstance() {
-		if (INSTANCE == null) {
-			INSTANCE = new Facade();
+		if (instance == null) {
+			instance = new Facade();
 			// Loader.loadInitialStructure(false);
 		}
 	}
 
 	public static Facade getInstance() {
-		if (INSTANCE == null)
+		if (instance == null)
 			createInstance();
-		return INSTANCE;
+		return instance;
 	}
 
 	public synchronized void stopAll() {
 		try {
 
 			UserService.getInstance().destroy();
-			Thread.sleep(500L);
+			SMSService1.getInstance().destroy();
+			PersonService.getInstance().destroy();
+			DocumentTypeService.getInstance().destroy();
+			MovilService.getInstance().destroy();
+			DispatchService1.getInstance().destroy();
+			PersonCategoryService.getInstance().destroy();
+			JobService.getInstance().destroy();
+			PersonMovilService.getInstance().destroy();
+			AssignmentStatusService.getInstance().destroy();
+			PlaceService.getInstance().destroy();
+			BulkSMSService.getInstance().destroy();
+			SMSInService.getInstance().destroy();
+			SMSOutService.getInstance().destroy();
+			DispatchStatusService.getInstance().destroy();
+			ReportService.getInstance().destroy();	
 
-			INSTANCE = null;
+			instance = null;
 		} catch (Exception e) {
 			this.userService = null;
-			e.printStackTrace();
+			logger.error(e.getMessage());
 		} catch (Throwable e) {
 			this.userService = null;
-			e.printStackTrace();
+			logger.error(e.getMessage());
 		}
 	}
 
@@ -222,7 +239,7 @@ public class Facade {
 	}
 
 	public List<PersonMovilResult> selectPersonMovilList(List<String> priorities,
-			List<String>  categories, int estado, String order, String asc, Integer pos, Integer limit) {
+			List<String>  categories, Integer estado, String order, String asc, Integer pos, Integer limit) {
 
 		
 		List<PersonMovilResult> values = personMovilService.selectList(priorities, categories, estado,
@@ -398,6 +415,7 @@ public class Facade {
 		props.put("mail.smtp.socketFactory.port", "465");
 		props.put("mail.smtp.socketFactory.class",
 				"javax.net.ssl.SSLSocketFactory");
+		props.put("mail.smtp.ssl.checkserveridentity", true); 
 		props.put("mail.smtp.auth", "true");
 		props.put("mail.smtp.port", "465");
 		
@@ -411,9 +429,9 @@ public class Facade {
 			try {
 				
 				// Leo el template
-				String path= System.getenv("GCP_DATA_DIR") + "templates/email_sms.html";
-
 				PropertiesConfiguration config = new PropertiesConfiguration(com.puriarte.gcp.web.Constantes.PATHAPPCONFIG);
+
+				String path= config.getString("data.folder") + "templates/email_sms.html";
 				String[] mailTo = config.getString("mail.nodispatch.to").split(";");
 
 				InternetAddress[] recipientsTo = new InternetAddress[mailTo.length];
@@ -451,44 +469,6 @@ public class Facade {
 			}
 		
 	}
-/*
-	private void enviarMail2(PersonMovil movil, String text) {
-		try {
-		
-			SMTPSession smtp = new SMTPSession(
-					"localhost",
-					"",
-					""
-					);
-			
-			SMTPMail mail = new SMTPMail(
-					"info@elenatejeira.com.uy",
-					"info@elenatejeira.com.uy",
-					"MENSAJE RECIBIDO - GESTION DE CONVOCATORIAS",
-					"");
-	
-			mail.addToAddress("puriarte@gmail.com", "puriarte@gmail.com");
-	
-			String persona = "";
-			String nroMovil = "";
-			if ((movil!=null)&&(movil.getPerson()!=null))
-				persona=movil.getPerson().getName();
-
-			if ((movil!=null)&&(movil.getMovil()!=null))
-				nroMovil=movil.getMovil().getNumber();
-				
-			Object[] messageArguments = {nroMovil , persona, text};
-			String path;
-			path =   System.getenv("GCP_DATA_DIR") + "templates/email_sms";
-
-			mail.setMessageHtmlFile(path,messageArguments);
-			smtp.sendMail(mail);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
-	}
-*/
 	// SI este mensaje
 	public void updateSMSAssignment(SMS sms, int dispatchId) {
 
@@ -688,10 +668,17 @@ public class Facade {
 	}
 
 	public Collection<? extends Dispatch> selectSimpleDispatchList(int estado,
-			String order, Integer pos, Integer limit) {
+			String order, boolean ascending, Integer pos, Integer limit) {
 		return dispatchService.selectSimpleList(estado, order, pos, limit);
 	}
 
+	public Collection<? extends Dispatch> selectSimpleListWithAssignments(int estado,
+			String order, boolean ascending, Integer pos, Integer limit) {
+		return dispatchService.selectSimpleListWithAssignments(estado, order, pos, limit);
+	}
+
+	
+	
 	public List<Dispatch> selectSimpleDispatchByPersonMovilList(int estado,
 			int idPersonMovil, String order, boolean ascending, Integer pos,
 			Integer limit) {
@@ -704,14 +691,14 @@ public class Facade {
 	}*/
 
 	public int insertDispatch(String message, String name, String code, Place place,
-			Date creationDate, Date scheduledDate, Date scheduledEndDate, String[] personMovilIds,
-			HashMap categories) {
+			Date creationDate, Date scheduledDate, Date scheduledEndDate, String strAttribute3, String[] personMovilIds,
+			HashMap categories) throws ConfigurationException {
 		SmsStatus status = selectSmsStatus(Constants.SMS_STATUS_EN_ESPERA_CIERRE_DISPATCH); //.SMS_STATUS_PENDIENTE);
 		return dispatchService.insert(message, name, code, place, creationDate,
-				scheduledDate, scheduledEndDate, personMovilIds, categories, status);
+				scheduledDate, scheduledEndDate, strAttribute3, personMovilIds, categories, status);
 	}
 
-	public void addToDispatch(Dispatch dispatch, String message, Date creationDate,  String[] personMovilIds, HashMap categories) {
+	public void addToDispatch(Dispatch dispatch, String message, Date creationDate,  String[] personMovilIds, HashMap categories) throws ConfigurationException {
 		dispatchService.addToDispatch(dispatch, message, creationDate,  personMovilIds, categories);
 	}
 
@@ -719,7 +706,7 @@ public class Facade {
 	public int updateDispatch(int id, String mensaje, String name, Place place,
 			Date creationDate, Date scheduledDate, Integer dispatchStatus,
 			HashMap personIds, HashMap categories, HashMap arStatusIds,
-			HashMap arAssignmentIds, HashMap arForwardIds) {
+			HashMap arAssignmentIds, HashMap arForwardIds) throws ConfigurationException {
 		return dispatchService.update(id, mensaje, name, place, creationDate,
 				scheduledDate, dispatchStatus, personIds, categories,
 				arStatusIds, arAssignmentIds, arForwardIds);

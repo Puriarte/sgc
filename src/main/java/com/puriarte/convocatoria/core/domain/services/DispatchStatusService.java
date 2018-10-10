@@ -1,41 +1,24 @@
 package com.puriarte.convocatoria.core.domain.services;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
-import com.puriarte.convocatoria.persistence.AssignmentStatus;
 import com.puriarte.convocatoria.persistence.DispatchStatus;
-import com.puriarte.convocatoria.persistence.DocumentType;
-import com.puriarte.convocatoria.persistence.EntityManagerHelper;
-import com.puriarte.convocatoria.persistence.Place;
 
-public class DispatchStatusService {
-	static private DispatchStatusService INSTANCE = null;
-
-	private static synchronized void createInstance(){
-		if(INSTANCE == null)
-			INSTANCE = new DispatchStatusService();
-	}
+public class DispatchStatusService extends Service {
 
 	public static DispatchStatusService getInstance(){
-		if(INSTANCE == null) createInstance();
-		return INSTANCE;
+		if(instance == null)  instance=(DispatchStatusService)createInstance(new DispatchStatusService(), instance);
+		return instance;
 	}
 
-	public synchronized void destroy(){
-		INSTANCE = null;
+	public void destroy() {
+		destroy(instance);
 	}
-
-	/**
-	 * Get EntityManager
-	 * @return EntityManager
-	 */
-	protected EntityManager getEntityManager() {
-		return EntityManagerHelper.getEntityManager();
-	}
-
+	
 	public DispatchStatus select(int id) {
 		final EntityManager em = getEntityManager();
 
@@ -63,8 +46,10 @@ public class DispatchStatusService {
 
 			return a;
 		}catch(Exception e){
-			return null;
+			return new ArrayList();
 		}
 	}
+
+	protected static DispatchStatusService instance = null;
 
 }

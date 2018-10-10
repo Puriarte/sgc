@@ -2,7 +2,6 @@ package com.puriarte.gcp.web.presentation.ajax;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -24,83 +23,46 @@ import org.apache.log4j.Logger;
 import com.puriarte.convocatoria.core.domain.Constants;
 import com.puriarte.convocatoria.core.domain.services.Facade;
 import com.puriarte.convocatoria.persistence.Dispatch;
-import com.puriarte.convocatoria.persistence.Person;
-import com.puriarte.convocatoria.persistence.PersonMovil;
-import com.puriarte.convocatoria.persistence.SMS;
-import com.puriarte.gcp.web.Constantes;
 import com.puriarte.utils.date.DateUtils;
 
+public class SrvLstAssignment extends RestrictionServlet {
 
-public class SrvLstAssignment extends HttpServlet {
+	private static final long serialVersionUID = -1804619602485501036L;
+	private static final Logger logger = Logger.getLogger(SrvLstAssignment.class.getName());
 
-	private Integer strPage;
-	private Integer strRows;
-	private String strSort;
-	private String strOrder;
-	private String orderBy;
-	private boolean soloImpagos;
-	private Integer category;
-	private String idRazon;
-	private String nroComprobante;
-	private Integer nroComprobanteInt;
-	private Integer tipoComprobante;
-	private int estado;
-	private Date  fechaInicio;
-	private Date  fechaFin;
-	private Date  fechaVencimientoInicio;
-	private Date  fechaVencimientoFin;
-	private Date  fechaVista;
-	private boolean asc;
-	private  Long totalRegistros=null;
-	private  BigDecimal totalSaldo = new BigDecimal(0);
-	private  BigDecimal totalFacturas = new BigDecimal(0);
-	private  BigDecimal totalContados = new BigDecimal(0);
-	private  BigDecimal totalAFavor = new BigDecimal(0);
-	private NumberFormat nF;
-	private SimpleDateFormat dTF;
-	private String priority;
-	private List<String> priorities = new ArrayList<String>();
+	// Literals
+	private static final String PAR_SOLO_IMPAGO = "soloImpagos";
+	private static final String PAR_SOLO_IMPAGO_VALUE_TRUE = "TRUE";
 
-	public void init(ServletConfig config) throws ServletException {
-		super.init(config);
-		nF = NumberFormat.getNumberInstance(new Locale("ES"));
-		nF.setMinimumFractionDigits(2);
-		dTF = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss", new Locale("ES"));
-	}
+	private static final String PAR_PAGE = "page";
+	private static final String PAR_ROWS= "rows";
+	private static final String PAR_SIDX = "sidx";
+	private static final String PAR_SORD = "sord";
 
-	public  void doGet(HttpServletRequest request, HttpServletResponse  response)
-			throws IOException, ServletException {
-		try {
-			_doProcess(request, response);
-		} catch(Exception e) {
-			throw new ServletException(e.getMessage());
-		}
-	}
+	private  HashMap<String,Object> cargarParametros(HttpServletRequest request){
 
-	public  void doPost(HttpServletRequest request, HttpServletResponse  response)
-			throws IOException, ServletException {
-		try {
-			_doProcess(request, response);
-		} catch(Exception e) {
-			throw new ServletException(e.getMessage());
-		}
+		HashMap paramteros = new HashMap<String,Object>();
 
-	}
-
-
-	private void cargarParametros(HttpServletRequest request){
-
-	//	String orderBy = "fMov, ndoc";
-
-		strPage = Integer.parseInt(request.getParameter("page"));
-		strRows = Integer.parseInt(request.getParameter("rows"));
-		strSort = request.getParameter("sidx");
-		strOrder = request.getParameter("sord");
-
+		List<String> priorities = new ArrayList<String>();
+		
+		Integer strPage;
+		Integer strRows;
+		String strSort;
+		String strOrder;
+		String orderBy="";
+		boolean soloImpagos;
+		Integer category;
 		boolean asc=false;
+		Long totalRegistros=null;
+
+		strPage = Integer.parseInt(request.getParameter(PAR_PAGE));
+		strRows = Integer.parseInt(request.getParameter(PAR_ROWS));
+		strSort = request.getParameter(PAR_SIDX);
+		strOrder = request.getParameter(PAR_SORD);
+
 		if	 ((strOrder!=null)&&(strOrder.equals("asc"))) asc  = true;
 		request.getQueryString();
-		if ((request.getParameter("soloImpagos")==null ) || (request.getParameter("soloImpagos").toUpperCase().equals("TRUE"))) soloImpagos = true;
+		if ((request.getParameter(PAR_SOLO_IMPAGO)==null ) || (request.getParameter(PAR_SOLO_IMPAGO).toUpperCase().equals(PAR_SOLO_IMPAGO_VALUE_TRUE))) soloImpagos = true;
 		else soloImpagos =false;
 
 		//Armo el criterio en que se quiere ordenar
@@ -127,8 +89,20 @@ public class SrvLstAssignment extends HttpServlet {
 					priorities.add(auxPriority);
 				}
 			}
-
 		}
+
+		paramteros.put("strPage", strPage);
+		paramteros.put("strRows", strRows);
+		paramteros.put("strSort", strSort);
+		paramteros.put("strOrder", strOrder);
+		paramteros.put("orderBy", orderBy);
+		paramteros.put("soloImpagos", soloImpagos);
+		paramteros.put("category", category);
+		paramteros.put("asc", asc);
+		paramteros.put("totalRegistros", totalRegistros);
+		paramteros.put("priorities", priorities);
+		
+		return paramteros;
 	}
 
 	public void _doProcess(HttpServletRequest request, HttpServletResponse response)
@@ -140,8 +114,8 @@ public class SrvLstAssignment extends HttpServlet {
 		String jSonItems="";
 
 		try {
-			cargarParametros(request);
-			jSonItems=procesar();
+			HashMap<String,Object> paramteros = cargarParametros(request);
+			jSonItems=procesar(paramteros);
 			out.print(jSonItems);
 
 		} catch(Exception e) {
@@ -152,10 +126,16 @@ public class SrvLstAssignment extends HttpServlet {
 
 	}
 
-	private String procesar() throws Exception {
-	 	int pos = (strPage-1) * strRows ;
+	private String procesar(HashMap<String, Object> paramteros) throws Exception {
+	 	int pos = ((int)paramteros.get("strPage")-1)*((int)paramteros.get("strRows"));
 
-		List<Dispatch> resultados = Facade.getInstance().selectDispatchList(0, "", asc, pos,strRows);
+	 	NumberFormat nF = NumberFormat.getNumberInstance(new Locale("ES"));
+		nF.setMinimumFractionDigits(2);
+		
+		SimpleDateFormat dTF = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss", new Locale("ES"));
+
+	 	
+		List<Dispatch> resultados = Facade.getInstance().selectDispatchList(0, "", (boolean)paramteros.get("asc"), pos, (int)paramteros.get("strRows"));
 		String jSonItems="";
 		int i=0;
 
@@ -199,7 +179,7 @@ public class SrvLstAssignment extends HttpServlet {
 		if (jSonItems.lastIndexOf(",")>0) jSonItems=jSonItems.substring(0,jSonItems.lastIndexOf(","));
 
 		//totalRegistros=resultados.size();
-		totalRegistros=(long) 100;
+//		totalRegistros=(long) 100;
 //		String strXml = "{\"total\": 1," ;
 //		strXml +="\"page\": " + strPage + ",";
 //		strXml +="\"records\": " + totalRegistros + ",";
@@ -211,7 +191,7 @@ public class SrvLstAssignment extends HttpServlet {
 		return strXml;
 	}
 
-	private Date getDateRequest(HttpServletRequest request, String parameter) {
+	protected Date getDateRequest(HttpServletRequest request, String parameter) {
 		try{
 			return DateUtils.parseDate(request.getParameter(parameter), Constants.FORMATO_FECHA_HTML5_REGEX,  Constants.FORMATO_FECHA_HTML5);
 		}catch(ParseException ex){

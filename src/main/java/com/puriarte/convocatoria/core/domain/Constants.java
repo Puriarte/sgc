@@ -2,7 +2,12 @@ package com.puriarte.convocatoria.core.domain;
 
 public final class Constants {
 
+	private Constants() {
+	    throw new IllegalStateException("Utility class");
+	}
+	
 	public static final  int PERSON_TYPE_CI = 1;
+	public static final  int PERSON_STATUS_ALL = 0;
 
 	//  ESTADOS DE SMS
 	public static final int SMS_STATUS_RECIBIDO = 1;			// Activo es recibido o ya enviado
@@ -51,6 +56,34 @@ public final class Constants {
 	public static final int DISPATCH_STATUS_CLOSED = 2;
 
 	public static final String PICTURE_EMPTY_MEDIA = "flag_mediana_.jpg"; 
-	public static final String PICTURE_EMPTY_CHICA = "flag_chica_.jpg"; 
- 
+	public static final String PICTURE_EMPTY_CHICA = "flag_chica_.jpg";
+
+	public static final String PICTURE_PREFIX_MEDIA = "fm_"; 
+	public static final String PICTURE_PREFIX_CHICA = "fc_";
+
+	public static final String DEFAULT_IMAGE_NAME = null;
+
+	public static final int PICTURE_WIDTH_CHICA = 30; 
+	public static final int PICTURE_HEIGHT_CHICA = 30; 
+	
+	public static final int PICTURE_WIDTH_MEDIA = 30; 
+	public static final int PICTURE_HEIGHT_MEDIA = 30;
+
+	public static final String EXTRA_ATTRIBUTE_NO_LABEL = "NOLABEL";
+
+	
+	// Mensajes de error 
+	public static final String ERROR_PARSE_DATE  = "Error al parsear la fecha";
+	public static final String ERROR_CONFIRM_SMS = "Error confirmando SMS";
+
+	public static final String RESULTADO_CONFIRM_SMS_OK = "0";
+	public static final String RESULTADO_CONFIRM_SMS_FALLA = "1";
+
+	
+	public static final String ERROR_GET_SMS = "Error enviando SMS";
+	
+	public static final String RESULTADO_GET_SMS_OK = "0";
+	public static final String RESULTADO_GET_SMS_FALLA = "1";
+
+	
 }

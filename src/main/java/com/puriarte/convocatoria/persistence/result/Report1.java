@@ -1,13 +1,5 @@
 package com.puriarte.convocatoria.persistence.result;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.NamedNativeQueries;
-import javax.persistence.NamedNativeQuery;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 
 
 public class Report1 {
@@ -22,6 +14,17 @@ public class Report1 {
 	
     public Report1(){}
  
+	public Report1(String name, String phone, Integer convened, Integer accepted,
+			Integer rejected, Integer cancelled, Integer assigned) {
+		super();
+		this.name = name;
+		this.phone = phone;
+		this.convened = convened.longValue();
+		this.accepted = accepted.longValue();
+		this.rejected = rejected.longValue();
+		this.cancelled=cancelled.longValue();
+		this.assigned=assigned.longValue();
+	}
 
 	public Report1(String name, String phone, Long convened, Long accepted,
 			Long rejected, Long cancelled, Long assigned) {

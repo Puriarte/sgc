@@ -4,10 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
-import java.util.SortedSet;
-import java.util.TreeSet;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -33,7 +30,8 @@ import javax.persistence.TemporalType;
 	  @NamedQuery(name="SelectDispatchList",
 		      query="SELECT d FROM Dispatch d  WHERE ((:estado = 0) or (d.dispatchStatus.id = :estado)) "),
 	  @NamedQuery(name="Dispatch.SelectSimpleDispatchList",
-      query="SELECT d.id, d.name, d.code FROM Dispatch d  WHERE ((:estado = 0) or (d.dispatchStatus.id = :estado)) ")
+      query="SELECT d.id, d.name, d.code , d.place.name, d.scheduledDate, d.scheduledEndDate, d.dispatchStatus.name"
+      		+ " FROM Dispatch d  WHERE ((:estado = 0) or (d.dispatchStatus.id = :estado)) ")
 	})
 @Entity
 public class Dispatch implements Serializable {
@@ -44,7 +42,8 @@ public class Dispatch implements Serializable {
 	private int id;
 	private String name;
 	private String code;
-
+	private String attribute3;
+	
 	@Temporal(TemporalType.TIMESTAMP)
 	private java.util.Date scheduledDate;
 
@@ -208,6 +207,14 @@ public class Dispatch implements Serializable {
 		}
 
 		return false;
+	}
+
+	public String getAttribute3() {
+		return attribute3;
+	}
+
+	public void setAttribute3(String attribute3) {
+		this.attribute3 = attribute3;
 	}
 
 }

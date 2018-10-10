@@ -6,6 +6,7 @@ var documento_nc=3;
 var documento_fav=11;
 var documento_pag=21;
 var counter = 0;
+
 var urlReload = "lstPerson";
 var formName = "#frmLstPerson";
 var rndNAme= "";
@@ -31,11 +32,6 @@ var editOptions={
 		closeAfterAdd:true,
 		closeAfterEdit:true,
 		modal: true,
-		beforeInitData: function () {
-			var cm = jQuery("#gridArticulos").jqGrid('getColProp','FOTO');
-			var selRowId = jQuery("#gridArticulos").jqGrid('getGridParam','selrow');	
-//            cm.editoptions.src = './uploads/flag_mediana_' + $('#gridArticulos').getCell(selRowId, 'RNDNAME') + '.jpg';
-        },
         onInitializeForm : function(formid){
         	$(formid).attr('method','POST');
             $(formid).attr('action','""');
@@ -80,7 +76,6 @@ var addOptions={
 		modal: true,
 		beforeInitData: function () {
 			var cm = jQuery("#gridArticulos").jqGrid('getColProp','FOTO');
-			var selRowId = jQuery("#gridArticulos").jqGrid('getGridParam','selrow');
             cm.editoptions.src = './uploads/persona.jpg';
         },
         onInitializeForm : function(formid){
@@ -104,9 +99,6 @@ var addOptions={
 };
 
 
-
-try{
-	
 	jQuery(document).ready(function(){
 
 		//--- FIN Validacion Formulario -----------------------------------------------------
@@ -125,12 +117,12 @@ try{
 		   	loadonce:false,
 		   	mtype: 'GET',
 		   	datatype: "local", // se usa local para que no cargue registros en el primer acceso a la grilla
-		 	colNames:['POS','ID', 'FOTO' ,'NUMERO','TIPO DOC.','NRO DOCUMENTO','NOMBRE','SOBRENOMBRE', 'CATEGORIA PREFERIDA', 'ORDEN PRELACION', 'OTRAS CATEGORIAS', 'IMG', 'RNDNAME'],
+		 	colNames:['POS','ID', 'FOTO' ,'NUMERO','TIPO DOC.','NRO DOCUMENTO','NOMBRE','NRO.FUNCIONARIO', 'CATEGORIA PREFERIDA', 'ORDEN PRELACION', 'OTRAS CATEGORIAS', 'IMG', 'RNDNAME'],
 		   	colModel:[
 	   			{name:"POS",			index:"1", key: false, jsonmap:"Pos", 		align:"center", 			width:10, hidden:true, sortable:false},
 	   			{name:'ID',				index:'2', key: true,  jsonmap:"Id",									width:55, hidden:true},
 	   			{name:'FOTO', 			index:'3', key: false, jsonmap:"Picture", 	width: 15, 	align:"center", formatter: function (cell, options) { 
-	   				return '<img width="25px" src="./uploads/flag_chica_' +  cell + '.jpg"/>'; 
+	   				return '<img width="25px" src="./uploads/' +  cell + '"/>'; 
 	   				}},
 	   			{name:"NUMERO",			index:"4", key: false, jsonmap:"Numero", 	align:"center", fixed:true, width:80,  resizable:false, sortable:true, sorttype:'number' , hidden:false},
 				{name:"TIPO DOC.",		index:"5", key: false, jsonmap:"FechaEnvio",align:"center", fixed:true, width:80,  sortable:true, resizable:false,  hidden:false},
@@ -138,14 +130,13 @@ try{
 				{name:"NOMBRE",			index:"7", key: false, jsonmap:"Name", 		align:"center", fixed:true, width:150, resizable:false, sortable:true,hidden:false },
 				{name:"SOBRENOMBRE",	index:"8", key: false, jsonmap:"Nickname", 	align:"center", fixed:true, width:100, resizable:false, sortable:true,hidden:false},
 				{name:"CATEGORIA PREFERIDA",index:"10", key: false, jsonmap:"PreferedCategory", width:90},
-				{name:"ORDEN PRELACION",index:"11",key: false, jsonmap:"Priority", 	align:"center", fixed:true, resizable:false, width:140 ,sortable:true,hidden:false},
+				{name:"ORDEN PRELACION",index:"11",key: false, jsonmap:"Priority", 	align:"center", fixed:true, resizable:false, width:140 ,sortable:true,hidden:true},
 				{name:"OTRAS CATEGORIAS",		index:"9", key: false, jsonmap:"Category", width:90},
 				{name:'IMG', 			index:"12", align: 'left', width:1,  search: false }, 
 				{name:'RNDNAME', 		index:"13", align: 'left', jsonmap:"Picture",  hidden:true, width:0}, 
 			],
 			rowNum:1300,
 		   	scrollOffset:50,
-			multiselect: false,
 			caption: null,
 			forceFit: true,
 			height:$(window).height() * 0.70,
@@ -173,7 +164,7 @@ try{
 			ajaxGridOptions: {dataFilter:function(data,dataType){
 				var msg = eval('(' + data + ')');
 				if ((msg.error != undefined) &&  (msg.error.length>0)){
-					hmtlError = "";
+					var hmtlError = "";
 					for(var i=0;i<msg.error.length;i++){
 						var obj = msg.error[i];
 						hmtlError += obj["errtext"]+ "<br/>";
@@ -333,10 +324,6 @@ try{
 		});
 		
 	});
-
-}catch(e){
-	
-}
 
 
 

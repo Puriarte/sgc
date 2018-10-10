@@ -20,15 +20,29 @@
 	<title>G.C.P.</title>
 	
 	
-	<!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
-	<!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
-	<script src="js/ie-emulation-modes-warning.js"></script>
-	
 	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
 	<!--[if lt IE 9]>
 	      <script src="js/html5shiv.min.js"></script>
 	      <script src="js/respond.min.js"></script>
 	    <![endif]-->
+	
+	<script type="text/javascript">
+	
+	
+	$('#select-all').click(function(event) {   
+	    if(this.checked) {
+	        // Iterate each checkbox
+	        $(':checkbox').each(function() {
+	            this.checked = true;                        
+	        });
+	    } else {
+	        $(':checkbox').each(function() {
+	            this.checked = false;                       
+	        });
+	    }
+	});
+	
+	</script>
 	
 	<style>
 	 
@@ -68,6 +82,8 @@
 			<bean:define id="stEventEndHour" name="frmAdmDispatch"	property="eventEndHour" />
 			<bean:define id="stEventDate" name="frmAdmDispatch"	property="eventDate" />
 			<bean:define id="stEventDateAlt2" name="frmAdmDispatch"	property="eventDateAlt2" />
+			<bean:define id="stAttribute3" name="frmAdmDispatch"	property="attribute3" />
+
 			<input type="hidden" value="${stPrefix}" name="prefix" id="prefix" />
 			<input type="hidden" value="${stCode}" name="code" id="code" />
 			
@@ -168,7 +184,7 @@
 							</div>
 						</div>
 					</logic:notEmpty>
-		
+			
 					<div class="col-md-1">
 						<label class="control-label input-sm">Estado</label>
 					</div>
@@ -188,6 +204,19 @@
 						</select>
 					</div>
 				</div>
+					<logic:notEmpty name="frmAdmDispatch" property="attribute3"  > 
+						<div class="row">	
+					<div class="col-md-12">&nbsp;</div>
+						</div>
+						<div class="row">	
+							<div class="col-md-2">
+								<label class="control-label input-sm">Mensaje</label>
+							</div>
+							<div class="col-md-10">
+								<input type="text" class="form-control input-sm" name="attribute3" disabled="disabled"  value="${stAttribute3}" id="attribute3">
+							</div>
+						</div>
+					</logic:notEmpty>
 				<div class="row">
 					<div class="col-md-12">&nbsp;</div>
 				</div>
@@ -208,10 +237,11 @@
 					</div>
 					<div class="col-md-5">
 					</div>
-					<div class="col-md-3">
+					<div class="col-md-2">
 					</div>
-					<div class="col-md-1">&nbsp;</div>
-					<div class="col-md-1"><label class="control-label input-sm">Enviar</label></div>
+					<div class="col-md-2" style="text-align: right"><label class="control-label input-sm">Enviar&nbsp;&nbsp;</label>
+					</div>
+					<div class="col-md-1" style="text-align: right"><input type="checkbox" name="select-all" id="select-all" /></div>
 				</div>
 
 				<div class="row" id="assignmentRowContainer">

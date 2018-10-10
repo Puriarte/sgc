@@ -1,38 +1,19 @@
 package com.puriarte.convocatoria.core.domain.services;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
-import com.puriarte.convocatoria.persistence.Dispatch;
 import com.puriarte.convocatoria.persistence.Category;
-import com.puriarte.convocatoria.persistence.EntityManagerHelper;
-import com.puriarte.convocatoria.persistence.Person;
 
-public class CategoryService {
-	static private CategoryService INSTANCE = null;
+import javax.persistence.EntityManager;
 
-	private static synchronized void createInstance(){
-		if(INSTANCE == null)
-			INSTANCE = new CategoryService();
-	}
+public class CategoryService extends Service{
 
 	public static CategoryService getInstance(){
-		if(INSTANCE == null) createInstance();
-		return INSTANCE;
-	}
-
-	public synchronized void destroy(){
-		INSTANCE = null;
-	}
-
-	/**
-	 * Get EntityManager
-	 * @return EntityManager
-	 */
-	protected EntityManager getEntityManager() {
-		return EntityManagerHelper.getEntityManager();
+		if(instance == null) createInstance(new CategoryService(), instance);
+		return  instance;
 	}
 
 	public Category select(int id) {
@@ -42,27 +23,22 @@ public class CategoryService {
 			Query query = em.createNamedQuery("SelectCategory")
 					.setParameter("id", id);
 
-			Category a = (Category) query.getSingleResult();
-
-			return a;
+			return (Category) query.getSingleResult();
 		}catch(Exception e){
 			return null;
 		}
 
 	}
 	
-
 	public List<Category> selectList() {
 		final EntityManager em = getEntityManager();
 
 		try{
 			Query query = em.createNamedQuery("SelectCategoryList");
 
-			List<Category> a = query.getResultList();
-
-			return a;
+			return  query.getResultList();
 		}catch(Exception e){
-			return null;
+			return new ArrayList ();
 		}
 	}
 	
@@ -75,7 +51,6 @@ public class CategoryService {
 
 		return 0;
 	}
-
 
 	public void delete(Category dt) {
 		final EntityManager em = getEntityManager();
@@ -93,5 +68,8 @@ public class CategoryService {
 		em.getTransaction().commit();
 
 	}
+	
+	protected static CategoryService instance = null;
+
 
 }

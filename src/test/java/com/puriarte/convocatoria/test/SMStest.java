@@ -1,7 +1,5 @@
 package com.puriarte.convocatoria.test;
 
-import static org.junit.Assert.*;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -47,7 +45,6 @@ public class SMStest {
 						Facade.getInstance().selectAssingmentStatus(Constants.ASSIGNMENT_STATUS_ASSIGNED),
 						new Date(), 0, 1);
 		}catch(Exception e){
-			e.printStackTrace();
 		}
 	}
 

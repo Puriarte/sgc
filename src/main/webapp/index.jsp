@@ -21,10 +21,6 @@
     <!-- Custom styles for this template -->
     <link href="css/signin.css" rel="stylesheet">
 
-    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
-    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
-    <script src="js/ie-emulation-modes-warning.js"></script>
-
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
       <script src="js/html5shiv.min.js"></script>
@@ -37,11 +33,14 @@
     <div class="container">
 
 	<html:form action="/login.do" method="post" styleClass="form-signin" >
-		<img src="images/sms.png" >
-        <h2></h2>
+		<div align="center">
+		<img src="https://atma.com.uy/wp-content/themes/atma_new/imagenes/logo2.png" width="201" height="74" alt="Atma" >
+		</div>
+		<div style="height: 100px; vertical-align: middle; text-align: center  ">
+		    <h3>Plataforma de Mensajer&iacute;a</h3>
+		</div>
         <input type="text" class="form-control" name="nombre" id="nombre" placeholder="Usuario" required="" autofocus="">
         <input type="password" class="form-control" name="password" id="password" placeholder="Clave" required="">
-        <label class="checkbox"><input type="checkbox" value="remember-me">Recordar</label>
         <button class="btn btn-lg btn-primary btn-block" type="submit">Entrar</button>
 		<logic:messagesPresent property="error">
 					<div class="ui-state-error" align="left" style="margin:5px;">
@@ -56,6 +55,5 @@
 
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="js/ie10-viewport-bug-workaround.js"></script>
-
 
 </body></html>

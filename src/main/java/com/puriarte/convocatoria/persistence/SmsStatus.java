@@ -1,10 +1,11 @@
 package com.puriarte.convocatoria.persistence;
 
 import java.io.Serializable;
-import javax.persistence.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 
 @NamedQueries({
 	  @NamedQuery(name="SelectSmsStatus",

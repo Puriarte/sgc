@@ -1,8 +1,13 @@
 package com.puriarte.convocatoria.persistence;
 
-import java.io.Serializable;
-
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.IdClass;
+import javax.persistence.ManyToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.Table;
 
 import com.puriarte.convocatoria.persistence.Pk.PersonAssociationId;
 

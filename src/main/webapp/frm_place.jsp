@@ -1,4 +1,3 @@
-<%@ page contentType="text/html; charset=UTF-8"%>
 <%@ page language="java"%>
 <%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean" %>
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
@@ -10,6 +9,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//ES" "http://www.w3.org/TR/xhtml2/DTD/xhtml1-strict.dtd">
 <html lang="es">
 <head>
+
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
@@ -20,10 +20,6 @@
 
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
-    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
-    <script src="js/ie-emulation-modes-warning.js"></script>
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -66,7 +62,7 @@
  <body >
 
  <div align="center" class="container" >
-	<html:form action="/updatePlace.do" method="post" styleId="frmAdmPlace" style="margin: 0px 0px 0px 0px;" enctype="multipart/form-data">
+	<html:form action="/updatePlace.do" method="post" styleId="frmAdmPlace" style="margin: 0px 0px 0px 0px;">
 	<html:hidden  property="accion" styleId="accion"/>
 	<html:hidden property="ID" />
 	<bean:define id="stNombre" name="frmAdmPlace" property="NOMBRE" />

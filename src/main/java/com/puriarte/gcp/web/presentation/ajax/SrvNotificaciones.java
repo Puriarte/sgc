@@ -3,9 +3,6 @@ package com.puriarte.gcp.web.presentation.ajax;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.math.BigDecimal;
-import java.text.NumberFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedHashMap;
@@ -13,56 +10,22 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang.math.NumberUtils;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
 
-import com.puriarte.convocatoria.core.domain.Constants;
 import com.puriarte.convocatoria.core.domain.services.Facade;
 import com.puriarte.convocatoria.persistence.SMS;
-import com.puriarte.utils.date.DateUtils;
 
-public class SrvNotificaciones extends HttpServlet {
+public class SrvNotificaciones extends RestrictionServlet {
 
-	private SimpleDateFormat dTF;
-	private Date fechaUltimaNotificacion;
-	
-	public void init(ServletConfig config) throws ServletException {
-		super.init(config);
-		dTF = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss", new Locale("ES"));
-	}
-	
-	public  void doGet(HttpServletRequest request, HttpServletResponse  response)
-			throws IOException, ServletException {
-		try {
-			_doProcess(request, response);
-		} catch(Exception e) {
-			throw new ServletException(e.getMessage());
-		}
-	}
+	private static final long serialVersionUID = -3004459801062075913L;
+	private static final Logger logger = Logger.getLogger(SrvNotificaciones.class.getName());
 
-	public  void doPost(HttpServletRequest request, HttpServletResponse  response)
-			throws IOException, ServletException {
-		try {
-			_doProcess(request, response);
-		} catch(Exception e) {
-			throw new ServletException(e.getMessage());
-		}
-
-	}
-
-	private void cargarParametros(HttpServletRequest request){
-		if (getServletContext().getAttribute("fechaUntlimaNotificacion")== null) 
-			actualizarFechaUltimaNotificacion();
-				
-		fechaUltimaNotificacion= (Date) getServletContext().getAttribute("fechaUntlimaNotificacion");
-	}
 
 	private void actualizarFechaUltimaNotificacion() {
 		getServletContext().setAttribute("fechaUntlimaNotificacion", new Date());
@@ -71,13 +34,18 @@ public class SrvNotificaciones extends HttpServlet {
 	public void _doProcess(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
 
-		Logger  logger = Logger.getLogger(this.getServletName());
+		SimpleDateFormat dTF;
+		dTF = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss", new Locale("ES"));
+
+		Date fechaUltimaNotificacion;
 		PrintWriter out = response.getWriter();
-		int i=0;
-		String jSonItems="";
 
 		try {
-			cargarParametros(request);
+			if (getServletContext().getAttribute("fechaUntlimaNotificacion")== null) 
+				actualizarFechaUltimaNotificacion();
+					
+			fechaUltimaNotificacion= (Date) getServletContext().getAttribute("fechaUntlimaNotificacion");
+
 			JSONArray list = new JSONArray();
 			
 			List<SMS> smsOutList = Facade.getInstance().getIncomingSMS(fechaUltimaNotificacion);
@@ -97,6 +65,7 @@ public class SrvNotificaciones extends HttpServlet {
 			out.print(wrt.toString());
 
 		} catch(Exception e) {
+			logger.error(e.getMessage());
 			out.print("");
 		} finally {
 			out.close();

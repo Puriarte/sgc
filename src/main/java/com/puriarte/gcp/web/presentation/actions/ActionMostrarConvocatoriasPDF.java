@@ -1,21 +1,5 @@
 package com.puriarte.gcp.web.presentation.actions;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-
-
-
-
-
-
-
-
-
-
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -24,22 +8,24 @@ import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.sql.Connection;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import net.sf.jasperreports.engine.JRExporter;
 import net.sf.jasperreports.engine.JRExporterParameter;
-import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.export.JRPdfExporter;
-import net.sf.jasperreports.engine.export.JRXlsExporter;
-import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
 import net.sf.jasperreports.engine.util.JRLoader;
 
+import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.log4j.Logger;
 
 import com.puriarte.convocatoria.core.domain.Constants;
@@ -50,7 +36,8 @@ import com.puriarte.utils.date.DateUtils;
 public class ActionMostrarConvocatoriasPDF  extends HttpServlet {
 
 	private static Charset encodingImp = Charset.forName("UTF-8");
-
+	private static Logger  logger = Logger.getLogger(ActionMostrarConvocatoriasPDF.class.getName());
+	
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
@@ -68,7 +55,11 @@ public class ActionMostrarConvocatoriasPDF  extends HttpServlet {
 
 			devolverClienteComoPDF(response, Integer.parseInt(request.getParameter("idPerson")),fechaDesde,fechaHasta);
 		}catch(Exception e){
-			response.sendRedirect("error.html");
+			try {
+				response.sendRedirect("error.html");
+			}catch(Exception re) {
+				logger.error(re.getMessage());
+			}
 		}
 	}
 
@@ -82,7 +73,11 @@ public class ActionMostrarConvocatoriasPDF  extends HttpServlet {
 
 			devolverClienteComoPDF(response, Integer.parseInt(request.getParameter("idPerson")),fechaDesde,fechaHasta);
 		}catch(Exception e){
-			response.sendRedirect("error.html");
+			try {
+				response.sendRedirect("error.html");
+			}catch(Exception re) {
+				logger.error(re.getMessage());
+			}
 		}
 	}
 
@@ -97,10 +92,15 @@ public class ActionMostrarConvocatoriasPDF  extends HttpServlet {
 			int idPerson, Date fechaDesde, Date fechaHasta) throws Exception {
 
         String contextPath, contextOutputPath, contextFacesPath;
-    	if (getServletContext().getRealPath("")==null){
-        	contextPath = System.getenv("GCP_REPO_DIR") + "src/main/webapp/";
-        	contextOutputPath = System.getenv("GCP_DATA_DIR") + "reportes/";
-        	contextFacesPath = System.getenv("GCP_DATA_DIR") + "faces/";
+		PropertiesConfiguration config = new PropertiesConfiguration(com.puriarte.gcp.web.Constantes.PATHAPPCONFIG);
+		String path= config.getString("data.folder") ;
+        String path_repo = config.getString("repo.folder") ;
+        
+ 
+        if (getServletContext().getRealPath("")==null){
+        	contextPath = path_repo + "src/main/webapp/";
+        	contextOutputPath = path  + "reportes/";
+        	contextFacesPath = path  + "faces/";
     	}else{
             contextPath = getServletContext().getRealPath("") + "/";//.getRealPath(File.separator);
             contextOutputPath =  getServletContext().getRealPath("")+ "/";

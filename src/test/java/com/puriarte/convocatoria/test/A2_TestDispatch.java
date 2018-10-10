@@ -8,10 +8,8 @@ import java.util.List;
 
 import org.junit.Test;
 
-import com.puriarte.convocatoria.core.domain.Constants;
 import com.puriarte.convocatoria.core.domain.services.Facade;
 import com.puriarte.convocatoria.persistence.Dispatch;
-import com.puriarte.convocatoria.persistence.Movil;
 import com.puriarte.convocatoria.persistence.Person;
 
 public class A2_TestDispatch {
@@ -25,7 +23,7 @@ public class A2_TestDispatch {
 		try{
 			enviarDispatch(356);
 		}catch(Exception e){
-			e.printStackTrace();
+
 		}
 		/*
 		listarDispatchAlMomento("LISTA DE CONVOCATORIAS AL INICIO");
@@ -80,7 +78,7 @@ public class A2_TestDispatch {
 			Date scheduledDate = new Date();
 			Date creationDate = new Date();
 
-			int id = Facade.getInstance().insertDispatch(strMensaje, strName, "", null, creationDate, creationDate, scheduledDate , arPersonIds, null);
+			int id = Facade.getInstance().insertDispatch(strMensaje, strName, "", null, creationDate, creationDate, scheduledDate , strName, arPersonIds, null);
 
 		}catch(Exception e){
 			fail(e.getMessage());

@@ -1,47 +1,27 @@
 package com.puriarte.convocatoria.core.domain.services;
 
 import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
 
 import com.puriarte.convocatoria.core.domain.Constants;
-import com.puriarte.convocatoria.persistence.Assignment;
-import com.puriarte.convocatoria.persistence.AssignmentStatus;
 import com.puriarte.convocatoria.persistence.BulkSMS;
 import com.puriarte.convocatoria.persistence.Dispatch;
-import com.puriarte.convocatoria.persistence.EntityManagerHelper;
-import com.puriarte.convocatoria.persistence.Job;
-import com.puriarte.convocatoria.persistence.Person;
-import com.puriarte.convocatoria.persistence.PersonCategory;
 import com.puriarte.convocatoria.persistence.PersonMovil;
 import com.puriarte.convocatoria.persistence.SMS;
 import com.puriarte.convocatoria.persistence.SmsStatus;
 
-public class BulkSMSService {
-	static private BulkSMSService INSTANCE = null;
-
-	private static synchronized void createInstance(){
-		if(INSTANCE == null)
-			INSTANCE = new BulkSMSService();
-	}
-
+public class BulkSMSService extends Service {
+	
 	public static BulkSMSService getInstance(){
-		if(INSTANCE == null) createInstance();
-		return INSTANCE;
+		if(instance == null)  instance =(BulkSMSService) createInstance(new BulkSMSService(), instance);
+		return instance;
 	}
-
-	public synchronized void destroy(){
-		INSTANCE = null;
+	
+	public void destroy() {
+		destroy(instance);
 	}
-
-	protected EntityManager getEntityManager() {
-		return EntityManagerHelper.getEntityManager();
-	}
-
-
+	
 	public void crear(SMS sms){
 		final EntityManager em = getEntityManager();
 
@@ -49,7 +29,6 @@ public class BulkSMSService {
 		em.persist(sms);
 		em.getTransaction().commit();
 	}
-
 
 	public int insert(BulkSMS bulkSMS) {
 		final EntityManager em = getEntityManager();
@@ -60,7 +39,6 @@ public class BulkSMSService {
 
 		return 0;
 	}
-
 
 	public int insert(String message, String name, Date creationDate, Date scheduledDate, String[] personIds, SmsStatus status) {
 
@@ -104,5 +82,7 @@ public class BulkSMSService {
 		em.remove(item1);
 		em.getTransaction().commit();
 	}
+
+	protected static BulkSMSService instance = null;
 
 }

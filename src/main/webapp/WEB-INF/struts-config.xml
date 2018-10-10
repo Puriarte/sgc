@@ -146,6 +146,7 @@
 		
 		<form-property name="attribute1" type="java.lang.String" />
 		<form-property name="attribute2" type="java.lang.String" />
+		<form-property name="attribute3" type="java.lang.String" />
 
 		<form-property name="dispatch" type="com.puriarte.convocatoria.persistence.Dispatch" />
 		<form-property name="dispatchId" type="java.lang.Integer" />

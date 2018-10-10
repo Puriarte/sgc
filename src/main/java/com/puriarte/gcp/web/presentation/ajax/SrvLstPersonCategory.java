@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
-import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,18 +13,14 @@ import org.apache.log4j.Logger;
 import com.puriarte.convocatoria.core.domain.services.Facade;
 import com.puriarte.convocatoria.persistence.PersonCategory;
 
-
 public class SrvLstPersonCategory extends RestrictionServlet {
 
-
-    public void init(ServletConfig config) throws ServletException {
-		super.init(config);
-    }
+	private static final long serialVersionUID = -2398570886633035660L;
+	private static final Logger logger = Logger.getLogger(SrvLstPersonCategory.class.getName());
 
     public void _doProcess(HttpServletRequest request, HttpServletResponse response)
                    throws IOException, ServletException {
 
-    	Logger  logger = Logger.getLogger(SrvLstPersonCategory.class.getName());
         PrintWriter out = response.getWriter();
 
         try {

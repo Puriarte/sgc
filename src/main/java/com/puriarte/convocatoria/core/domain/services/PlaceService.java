@@ -7,36 +7,19 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
 import com.puriarte.convocatoria.core.exceptions.PlaceException;
-import com.puriarte.convocatoria.persistence.DocumentType;
-import com.puriarte.convocatoria.persistence.EntityManagerHelper;
-import com.puriarte.convocatoria.persistence.PersonCategory;
 import com.puriarte.convocatoria.persistence.Place;
 
-public class PlaceService {
-	static private PlaceService INSTANCE = null;
-
-	private static synchronized void createInstance(){
-		if(INSTANCE == null)
-			INSTANCE = new PlaceService();
-	}
+public class PlaceService extends Service{
 
 	public static PlaceService getInstance(){
-		if(INSTANCE == null) createInstance();
-		return INSTANCE;
+		if(instance == null) instance =(PlaceService) createInstance(new PlaceService(), instance);
+		return  instance;
 	}
-
-	public synchronized void destroy(){
-		INSTANCE = null;
+	
+	public void destroy() {
+		destroy(instance);
 	}
-
-	/**
-	 * Get EntityManager
-	 * @return EntityManager
-	 */
-	protected EntityManager getEntityManager() {
-		return EntityManagerHelper.getEntityManager();
-	}
-
+	
 	public Place select(int id) {
 		final EntityManager em = getEntityManager();
 
@@ -103,5 +86,6 @@ public class PlaceService {
 		em.persist(dt);
 		em.getTransaction().commit();
 	}
-
+	
+	protected static PlaceService instance = null;
 }

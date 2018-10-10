@@ -4,8 +4,6 @@ import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
-import com.puriarte.convocatoria.core.domain.services.Facade;
-
 
 
 public class TestUser {

@@ -1,38 +1,22 @@
 package com.puriarte.convocatoria.core.domain.services;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
 import com.puriarte.convocatoria.persistence.AssignmentStatus;
-import com.puriarte.convocatoria.persistence.DocumentType;
-import com.puriarte.convocatoria.persistence.EntityManagerHelper;
-import com.puriarte.convocatoria.persistence.Place;
 
-public class AssignmentStatusService {
-	static private AssignmentStatusService INSTANCE = null;
-
-	private static synchronized void createInstance(){
-		if(INSTANCE == null)
-			INSTANCE = new AssignmentStatusService();
-	}
+public class AssignmentStatusService extends Service{
 
 	public static AssignmentStatusService getInstance(){
-		if(INSTANCE == null) createInstance();
-		return INSTANCE;
+		if(instance == null)  instance =(AssignmentStatusService) createInstance(new AssignmentStatusService(),instance);
+		return instance;
 	}
-
-	public synchronized void destroy(){
-		INSTANCE = null;
-	}
-
-	/**
-	 * Get EntityManager
-	 * @return EntityManager
-	 */
-	protected EntityManager getEntityManager() {
-		return EntityManagerHelper.getEntityManager();
+	
+	public void destroy() {
+		destroy(instance);
 	}
 
 	public AssignmentStatus select(int id) {
@@ -42,28 +26,27 @@ public class AssignmentStatusService {
 			Query query = em.createNamedQuery("SelectAssignmentStatus")
 					.setParameter("id", id);
 
-			AssignmentStatus a = (AssignmentStatus) query.getSingleResult();
+			return (AssignmentStatus) query.getSingleResult();
 
-			return a;
 		}catch(Exception e){
 			return null;
 		}
 
 	}
 	
-
 	public List<AssignmentStatus> selectList() {
 		final EntityManager em = getEntityManager();
 
 		try{
 			Query query = em.createNamedQuery("SelectAsignmentStatusList");
 
-			List<AssignmentStatus> a = query.getResultList();
-
-			return a;
+			return query.getResultList();
 		}catch(Exception e){
-			return null;
+			return new ArrayList ();
 		}
 	}
+	
+
+	protected static AssignmentStatusService instance = null;
 
 }

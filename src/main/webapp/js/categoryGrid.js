@@ -6,6 +6,8 @@ var documento_nc=3;
 var documento_fav=11;
 var documento_pag=21;
 var urlReload = "lstGridPersonCategory";
+
+//var urlReload = "categorias.json";
 var formName = "#frmLstPerson";
 
 Number.prototype.format = function(){
@@ -33,7 +35,6 @@ jQuery(document).ready(function(){
 			],
 	   	rowNum:60,
 	   	scrollOffset:50,
-		multiselect: false,
 		caption: null,
 		forceFit: true,
 		height:$(window).height() * 0.70,
@@ -46,6 +47,7 @@ jQuery(document).ready(function(){
 		footerrow: false,
 		closeAfterEdit:true,
 		editurl:"updateCategory.do",
+		autoencode:true,
 		jsonReader: { repeatitems : false, root:"rows" },
 		loadComplete: function(data) {
 		},

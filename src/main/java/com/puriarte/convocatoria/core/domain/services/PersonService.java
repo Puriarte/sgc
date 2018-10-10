@@ -6,39 +6,20 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
-import com.puriarte.convocatoria.persistence.EntityManagerHelper;
-import com.puriarte.convocatoria.persistence.Job;
-import com.puriarte.convocatoria.persistence.Movil;
 import com.puriarte.convocatoria.persistence.Person;
-import com.puriarte.convocatoria.persistence.PersonCategory;
-import com.puriarte.convocatoria.persistence.PersonCategoryAsociation;
 
-public class PersonService {
-	static private PersonService INSTANCE = null;
-
-	private static synchronized void createInstance(){
-		if(INSTANCE == null)
-			INSTANCE = new PersonService();
-	}
+public class PersonService extends Service{
+ 
 
 	public static PersonService getInstance(){
-		if(INSTANCE == null) createInstance();
-		return INSTANCE;
+		if(instance == null) instance =(PersonService)createInstance(new PersonService(), instance);
+		return instance;
 	}
-
-	public synchronized void destroy(){
-		INSTANCE = null;
+	
+	public void destroy() {
+		destroy(instance);
 	}
-
-	/**
-	 * Get EntityManager
-	 * @return EntityManager
-	 */
-	protected EntityManager getEntityManager() {
-		return EntityManagerHelper.getEntityManager();
-	}
-
-
+	
 	public int insertPerson(Person p) {
 		final EntityManager em = getEntityManager();
 
@@ -152,5 +133,6 @@ public class PersonService {
 		return a;
 	}
 
+	protected static PersonService instance = null;
 
 }

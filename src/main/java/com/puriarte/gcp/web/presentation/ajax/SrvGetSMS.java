@@ -2,77 +2,42 @@ package com.puriarte.gcp.web.presentation.ajax;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.math.BigDecimal;
-import java.text.NumberFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
-import java.util.Locale;
 
-import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang.math.NumberUtils;
 import org.apache.log4j.Logger;
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
 import com.puriarte.convocatoria.core.domain.Constants;
 import com.puriarte.convocatoria.core.domain.services.Facade;
-import com.puriarte.convocatoria.persistence.SMS;
 import com.puriarte.convocatoria.persistence.SMSIn;
 import com.puriarte.utils.date.DateUtils;
 //http://localhost:8083/ROOT/getSMS?data={"id":"88901","encoding":"7","gateway_id":"myModem","message_date":"2017-09-22 17:00:19.665","original_receive_date":null,"original_ref_no":null,"originator":"098312914","process":"0","receive_date":"2017-09-22 17:00:39.805","text":"Si","type":"I","uu_id":"b2c1ffe7-f15c-481e-9b27-387a2961a9a3"}
-public class SrvGetSMS extends HttpServlet {
+public class SrvGetSMS extends RestrictionServlet {
 
-	private String data;
-	private SimpleDateFormat dTF;
-	
-	public void init(ServletConfig config) throws ServletException {
-		super.init(config);
-		dTF = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss", new Locale("ES"));
-	}
-
-	public  void doGet(HttpServletRequest request, HttpServletResponse  response)
-			throws IOException, ServletException {
-		try {
-			_doProcess(request, response);
-		} catch(Exception e) {
-			throw new ServletException(e.getMessage());
-		}
-	}
-
-	public  void doPost(HttpServletRequest request, HttpServletResponse  response)
-			throws IOException, ServletException {
-		try {
-			_doProcess(request, response);
-		} catch(Exception e) {
-			throw new ServletException(e.getMessage());
-		}
-
-	}
+	private static final long serialVersionUID = 3958917298766805392L;
+	private static final Logger logger = Logger.getLogger(SrvGetSMS.class.getName());
 
 	/**
 	 * @param request
 	 */
-	private void cargarParametros(HttpServletRequest request){
-		data =  request.getParameter("data");
+	private String cargarParametros(HttpServletRequest request){
+		return  request.getParameter("data");
 	}
 
 	public void _doProcess(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
 
-		Logger  logger = Logger.getLogger(this.getServletName());
 		PrintWriter out = response.getWriter();
-		int i=0;
-		String jSonItems="";
+		
 		try {
-			cargarParametros(request);
+			String data=cargarParametros(request);
 			try{
 				  Object obj=JSONValue.parse(data);
 				  JSONObject jsonObj=(JSONObject)obj;
@@ -110,14 +75,16 @@ public class SrvGetSMS extends HttpServlet {
 							  "NO , YA TENGO , YA TGO, NO PUEDO ".split(","),
 							  "YA TENGO , YA TGO, NO PUEDO ".split(","));
 				  }
-				  out.print("0");
+
+				  out.print(Constants.RESULTADO_GET_SMS_OK);
 				  
 			}catch(Exception e){
-				out.print("1");
+				logger.error(Constants.ERROR_GET_SMS + e.getMessage());
+				out.print(Constants.RESULTADO_GET_SMS_FALLA);
 			}
-
 		} catch(Exception e) {
-			out.print("1");
+			logger.error(Constants.ERROR_GET_SMS + e.getMessage());
+			out.print(Constants.RESULTADO_GET_SMS_FALLA);
 		} finally {
 			out.close();
 		}
@@ -128,8 +95,10 @@ public class SrvGetSMS extends HttpServlet {
 		try{
 			return DateUtils.parseDate(date, Constants.FORMATO_FECHA_HORA_HTML5_REGEX,  Constants.FORMATO_FECHA_HORA_HTML5);
 		}catch(ParseException ex){
+			logger.error(Constants.ERROR_PARSE_DATE + ex.getMessage());
 			return null;
 		}catch(NullPointerException ex){
+			logger.error(Constants.ERROR_PARSE_DATE + ex.getMessage());
 			return null;
 		}
 	}

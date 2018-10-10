@@ -2,11 +2,10 @@ package com.puriarte.gcp.web.presentation.ajax;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.NumberFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
-import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,48 +13,27 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 
 import com.puriarte.convocatoria.core.domain.services.Facade;
-import com.puriarte.convocatoria.persistence.Place;
 import com.puriarte.convocatoria.persistence.result.Report1;
 
 
 public class SrvLstReport1 extends RestrictionServlet {
 
-	private Integer strPage;
-	private Integer strRows;
-	private String strSort;
-	private String strOrder;
-	private String orderBy;
-	private  Long totalRegistros=null;
-	private NumberFormat nF;
-	private Date from;
-	private Date to;
+	private static final long serialVersionUID = -2855094236826058758L;
+	private static final Logger logger = Logger.getLogger(SrvLstReport1.class.getName());
 
 
-	public void init(ServletConfig config) throws ServletException {
-		super.init(config);
-	}
+	private HashMap<String,Object> cargarParametros(HttpServletRequest request){
 
-	public  void doGet(HttpServletRequest request, HttpServletResponse  response)
-			throws IOException, ServletException {
-		try {
-			_doProcess(request, response);
-		} catch(Exception e) {
-			throw new ServletException(e.getMessage());
-		}
-	}
+		Integer strPage;
+		Integer strRows;
+		String strSort;
+		String strOrder;
+		String orderBy="";
 
-	public  void doPost(HttpServletRequest request, HttpServletResponse  response)
-			throws IOException, ServletException {
-		try {
-			_doProcess(request, response);
-		} catch(Exception e) {
-			throw new ServletException(e.getMessage());
-		}
-
-	}
-
-	private void cargarParametros(HttpServletRequest request){
-
+		Date from;
+		Date to;
+		String strReport;
+		
 		strPage = Integer.parseInt(request.getParameter("page"));
 		strRows = Integer.parseInt(request.getParameter("rows"));
 		strSort = request.getParameter("sidx");
@@ -64,7 +42,16 @@ public class SrvLstReport1 extends RestrictionServlet {
 		from= getDateRequest(request, "fechaDesde");
 		to = getDateRequest(request, "fechaHasta");
 
-
+		HashMap paramteros = new HashMap<String,Object>();
+		paramteros.put("strPage", strPage);
+		paramteros.put("strRows", strRows);
+		paramteros.put("strSort", strSort);
+		paramteros.put("strOrder", strOrder);
+		
+		paramteros.put("from", from);
+		paramteros.put("to", to);
+		
+		return paramteros;
 	}
 
 	public void _doProcess(HttpServletRequest request, HttpServletResponse response)
@@ -76,8 +63,8 @@ public class SrvLstReport1 extends RestrictionServlet {
 		String jSonItems="";
 
 		try {
-			cargarParametros(request);
-			jSonItems=procesar();
+			HashMap<String, Object> parametros =cargarParametros(request);
+			jSonItems=procesar(parametros);
 			out.print(jSonItems);
 
 		} catch(Exception e) {
@@ -88,8 +75,12 @@ public class SrvLstReport1 extends RestrictionServlet {
 
 	}
 
-	private String procesar() throws Exception {
+	private String procesar(HashMap<String, Object> parametros) throws Exception {
 
+		Date from = (Date)parametros.get("from");
+		Date to = (Date)parametros.get("to");
+		String orderBy= (String)parametros.get("orderBy");
+		
 		List<Report1> resultados = Facade.getInstance().selectReport1(from, to, orderBy);
 
 		String jSonItems="";
@@ -125,15 +116,13 @@ public class SrvLstReport1 extends RestrictionServlet {
 
 		if (jSonItems.lastIndexOf(",")>0) jSonItems=jSonItems.substring(0,jSonItems.lastIndexOf(","));
 
-		totalRegistros=(long) 100;
+		long totalRegistros=(long) 100;
 		String strXml = "{\"total\": 1," ;
-		strXml +="\"page\": " + strPage + ",";
+		strXml +="\"page\": " + (int)parametros.get("strPage")+ ",";
 		strXml +="\"records\": " + totalRegistros + ",";
-		strXml +="\"total\": " + totalRegistros/strRows + ",";
-		strXml +="\"rows\": " +"[" + jSonItems + "]";
-		strXml +="}";
-
-//		System.out.println(strXml);
+		strXml +="\"total\": " + totalRegistros/(int)parametros.get("strRows") + ",";
+		strXml +="\"rows\": " +"[" + jSonItems + "]}";
+		
 		return strXml;
 	}
 

@@ -2,17 +2,14 @@ package com.puriarte.gcp.web.presentation.actions;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import net.coobird.thumbnailator.Thumbnails;
 
+import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.log4j.Logger;
-import org.apache.struts.action.ActionError;
 import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -21,19 +18,6 @@ import org.apache.struts.action.ActionMessage;
 import org.apache.struts.action.ActionMessages;
 import org.apache.struts.action.DynaActionForm;
 import org.apache.struts.upload.FormFile;
-
-import com.puriarte.convocatoria.core.domain.Constants;
-import com.puriarte.convocatoria.core.domain.services.Facade;
-import com.puriarte.convocatoria.core.exceptions.MovilException;
-import com.puriarte.convocatoria.core.exceptions.PersonException;
-import com.puriarte.convocatoria.persistence.Dispatch;
-import com.puriarte.convocatoria.persistence.DocumentType;
-import com.puriarte.convocatoria.persistence.Movil;
-import com.puriarte.convocatoria.persistence.Person;
-import com.puriarte.convocatoria.persistence.PersonCategory;
-import com.puriarte.convocatoria.persistence.PersonMovil;
-import com.puriarte.convocatoria.persistence.Place;
-import com.puriarte.convocatoria.persistence.SMS;
 
 public class ActUpdatePersonImage extends RestrictionAction {
 
@@ -57,8 +41,11 @@ public class ActUpdatePersonImage extends RestrictionAction {
 				String rndNro = dynaForm.get("ID") + (String) dynaForm.get("RNDNAME");
 				
 			    String contextFacesPath;
+				PropertiesConfiguration config = new PropertiesConfiguration(com.puriarte.gcp.web.Constantes.PATHAPPCONFIG);
+				String path= config.getString("data.folder") ;
+			    
 			    if (this.getServlet().getServletContext().getRealPath("")==null){
-		        	contextFacesPath = System.getenv("GCP_DATA_DIR") + "faces/";
+		        	contextFacesPath = path  + "faces/";
 		    	}else{
 		            contextFacesPath = this.getServlet().getServletContext().getRealPath("")+ "/images/faces/";
 		    	}
@@ -78,11 +65,11 @@ public class ActUpdatePersonImage extends RestrictionAction {
 			    if(!("").equals(fileName)){  
 			        File newFile = new File(contextFacesPath, fileName);
 		 
-			        FileOutputStream fos = new FileOutputStream(newFile, false);
-			        fos.write(file.getFileData());
-			        fos.flush();
-			        fos.close();
-		 
+			        try (FileOutputStream fos = new FileOutputStream(newFile, false)){
+				        fos.write(file.getFileData());
+				        fos.flush();
+			        }
+
 			        request.setAttribute("uploadedFilePath",newFile.getAbsoluteFile());
 			        request.setAttribute("uploadedFileName",newFile.getName());
 
@@ -101,7 +88,7 @@ public class ActUpdatePersonImage extends RestrictionAction {
 			    }
 			}
 		} catch (Exception e) {
-			errors.add("error", new ActionError("person.error.db.ingresar"));
+			errors.add("error", new ActionMessage("person.error.db.ingresar"));
 		}
 
 		if (!errors.isEmpty()) {

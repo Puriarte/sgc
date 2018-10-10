@@ -6,37 +6,19 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
-import com.puriarte.convocatoria.persistence.DocumentType;
-import com.puriarte.convocatoria.persistence.EntityManagerHelper;
-import com.puriarte.convocatoria.persistence.PersonCategory;
-import com.puriarte.convocatoria.persistence.Place;
 import com.puriarte.convocatoria.persistence.result.Report1;
 
-public class ReportService {
-	static private ReportService INSTANCE = null;
-
-	private static synchronized void createInstance(){
-		if(INSTANCE == null)
-			INSTANCE = new ReportService();
-	}
+public class ReportService extends Service{
 
 	public static ReportService getInstance(){
-		if(INSTANCE == null) createInstance();
-		return INSTANCE;
+		if(instance == null) instance = (ReportService)createInstance(new ReportService(), instance);
+		return instance;
 	}
-
-	public synchronized void destroy(){
-		INSTANCE = null;
+	
+	public void destroy() {
+		destroy(instance);
 	}
-
-	/**
-	 * Get EntityManager
-	 * @return EntityManager
-	 */
-	protected EntityManager getEntityManager() {
-		return EntityManagerHelper.getEntityManager();
-	}
-
+	
 	public List<Report1> report1(Date from, Date to, String orderBy) {
 		final EntityManager em = getEntityManager();
 
@@ -51,4 +33,7 @@ public class ReportService {
 			return null;
 		}
 	}
+	
+	protected static ReportService instance = null;
+	
 }

@@ -16,7 +16,7 @@
 	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 	<meta name="description" content="">
 	<meta name="author" content="">
-	<link rel="icon" href="http://getbootstrap.com/favicon.ico">
+    <link rel="icon" href="images/icon.png">
 	<title>G.C.P.</title>
 
 		<!-- Bootstrap core CSS -->
@@ -25,7 +25,6 @@
 	<link href="css/dashboard.css" rel="stylesheet">
 	
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-  	<link rel="stylesheet" href="/resources/demos/style.css">
   	
   	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 

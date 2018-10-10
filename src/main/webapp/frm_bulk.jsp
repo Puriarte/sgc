@@ -20,10 +20,6 @@
 
     <title>G.C.P.</title>
 
-    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
-    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
-    <script src="js/ie-emulation-modes-warning.js"></script>
-
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
       <script src="js/html5shiv.min.js"></script>
@@ -49,18 +45,7 @@
 	<div class="row">
 			<div class="col-md-12">&nbsp;</div>
 		</div>
-<!-- 		<div class="row">
-			<div class="col-md-2">
-				<label class="control-label">Nombre</label>
-			</div>
-			<div class="col-md-10">
-				<input type="hidden" class="form-control" name="name"  id="name" required rows="3"></textarea>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-md-12">&nbsp;</div>
-		</div>
- -->
+
 		<div class="row">
 			<div class="col-md-2">
 				<label class="control-label">Mensaje</label>
@@ -69,14 +54,13 @@
 				<textarea  class="form-control" name="detalleIn"  value="" id="detalleIn" required rows="3"></textarea>
 			</div>
 		</div>
-		<div class="row">
-			<div class="col-md-5">&nbsp;</div>
+		<div class="row">	
+			<div class="col-md-12"><label class="control-label input-sm">DESTINATARIOS</label></div>
 		</div>
+
+
 		<div class="row">
-			<div class="col-md-2">
-				<label class="control-label">Destinatarios</label>
-			</div>
-			<div class="col-md-10">
+			<div class="col-md-12">
 				<logic:present name="frmAdmDispatch" property="colPerson">
 					<bean:define id="listaPerson" name="frmAdmDispatch" property="colPerson"/>
 					<logic:iterate id="person" name="listaPerson" indexId="index">

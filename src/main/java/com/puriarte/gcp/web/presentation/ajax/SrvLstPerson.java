@@ -2,17 +2,12 @@ package com.puriarte.gcp.web.presentation.ajax;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.math.BigDecimal;
-import java.text.NumberFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 
-import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -23,79 +18,31 @@ import org.apache.log4j.Logger;
 
 import com.puriarte.convocatoria.core.domain.Constants;
 import com.puriarte.convocatoria.core.domain.services.Facade;
-import com.puriarte.convocatoria.persistence.Person;
-import com.puriarte.convocatoria.persistence.PersonMovil;
-import com.puriarte.convocatoria.persistence.SMS;
 import com.puriarte.convocatoria.persistence.result.PersonMovilResult;
-import com.puriarte.gcp.web.Constantes;
 import com.puriarte.utils.date.DateUtils;
 
+public class SrvLstPerson extends RestrictionServlet {
 
-public class SrvLstPerson extends HttpServlet {
+	private static final long serialVersionUID = -4522900707705266638L;
+	private static final Logger logger = Logger.getLogger(SrvLstPerson.class.getName());
 
-	private Integer strPage;
-	private Integer strRows;
-	private String strSort;
-	private String strOrder;
-	private String orderBy;
-	private boolean soloImpagos;
-	//private Integer category;
-	private String idRazon;
-	private String nroComprobante;
-	private Integer nroComprobanteInt;
-	private Integer tipoComprobante;
-	private int estado;
-	private Date  fechaInicio;
-	private Date  fechaFin;
-	private Date  fechaVencimientoInicio;
-	private Date  fechaVencimientoFin;
-	private Date  fechaVista;
-//	private boolean asc;
-	private  Long totalRegistros=null;
-	private  BigDecimal totalSaldo = new BigDecimal(0);
-	private  BigDecimal totalFacturas = new BigDecimal(0);
-	private  BigDecimal totalContados = new BigDecimal(0);
-	private  BigDecimal totalAFavor = new BigDecimal(0);
-	private NumberFormat nF;
-	private SimpleDateFormat dTF;
-	private String priority;
-	private List<String> priorities = new ArrayList<String>();
-	private List<String> categories= new ArrayList<String>();
+	private HashMap<String,Object> cargarParametros(HttpServletRequest request){
 
-	public void init(ServletConfig config) throws ServletException {
-		super.init(config);
-		nF = NumberFormat.getNumberInstance(new Locale("ES"));
-		nF.setMinimumFractionDigits(2);
-		dTF = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss", new Locale("ES"));
-	}
+		Integer strPage;
+		Integer strRows;
+		String strSort;
+		String strOrder;
+		String orderBy="";
+		boolean soloImpagos;
 
-	public  void doGet(HttpServletRequest request, HttpServletResponse  response)
-			throws IOException, ServletException {
-		try {
-			_doProcess(request, response);
-		} catch(Exception e) {
-			throw new ServletException(e.getMessage());
-		}
-	}
-
-	public  void doPost(HttpServletRequest request, HttpServletResponse  response)
-			throws IOException, ServletException {
-		try {
-			_doProcess(request, response);
-		} catch(Exception e) {
-			throw new ServletException(e.getMessage());
-		}
-	}
-
-	private void cargarParametros(HttpServletRequest request){
+		List<String> priorities = new ArrayList<String>();
+		List<String> categories= new ArrayList<String>();
 
 		strPage = Integer.parseInt(request.getParameter("page"));
 		strRows = Integer.parseInt(request.getParameter("rows"));
 		strSort = request.getParameter("sidx");
 		strOrder = request.getParameter("sord");
 
-//		if	 ((strOrder!=null)&&(strOrder.equals("asc"))) asc  = true;
-//		else asc  = false;
 		request.getQueryString();
 		if ((request.getParameter("soloImpagos")==null ) || (request.getParameter("soloImpagos").toUpperCase().equals("TRUE"))) soloImpagos = true;
 		else soloImpagos =false;
@@ -111,9 +58,6 @@ public class SrvLstPerson extends HttpServlet {
 			else if (strSort.equals("11")) orderBy = "priority"; // + strOrder;
 			else  orderBy = "person_name"; // + strOrder;
 		}
-
-		//	Datos de filtors para la consulta
-//		category = ((request.getParameter("category")!=null) && NumberUtils.isNumber(request.getParameter("category")))? Integer.parseInt(request.getParameter("category")) : 0;
 
 		priorities =  new ArrayList<String>();
 		if (request.getParameter("priority")!=null){
@@ -135,6 +79,17 @@ public class SrvLstPerson extends HttpServlet {
 			}
 
 		}
+		
+		HashMap parametros = new HashMap<String,Object>();
+		parametros.put("strPage", strPage);
+		parametros.put("strRows", strRows);
+		parametros.put("strSort", strSort);
+		parametros.put("orderBy", orderBy);
+		parametros.put("soloImpagos", soloImpagos);
+		parametros.put("priorities", priorities);
+		parametros.put("categories", categories);
+
+		return parametros;
 
 	}
 
@@ -147,9 +102,12 @@ public class SrvLstPerson extends HttpServlet {
 		String jSonItems="";
 
 		try {
-			cargarParametros(request);
-			jSonItems=procesar();
-			out.print(jSonItems);
+			HashMap<String, Object> parametros =cargarParametros(request);
+			jSonItems=procesar(parametros);
+
+			response.setContentType("text/plain");
+	        response.setCharacterEncoding("UTF-8");
+	        out.print(jSonItems);
 
 		} catch(Exception e) {
 			out.print("{\"error\":[{\"errorID\": \""+ i +"\",\"errtext\": \"" + e.getMessage() + "\"}]}");
@@ -159,8 +117,14 @@ public class SrvLstPerson extends HttpServlet {
 
 	}
 
-	private String procesar() throws Exception {
-		List<PersonMovilResult> resultados = Facade.getInstance().selectPersonMovilList(priorities, categories ,estado,orderBy, strOrder,   null,null);
+	private String procesar(HashMap<String, Object> parametros) throws Exception {
+		
+		String parOrderBy = "";
+		
+		if (parametros.get("strOrder")!=null) parOrderBy= (String)parametros.get("strOrder");
+		
+		List<PersonMovilResult> resultados = Facade.getInstance().selectPersonMovilList((List<String>)parametros.get("priorities"), (List<String>)parametros.get("categories") ,
+				Constants.PERSON_STATUS_ALL, (String)parametros.get("orderBy"),parOrderBy,   null,null);
 		String jSonItems="";
 		int i=0;
 
@@ -178,7 +142,11 @@ public class SrvLstPerson extends HttpServlet {
 				jSonItems += "\"FechaEnvio\": \"" + item.getDocumentTypeName()+ "\",";
 				jSonItems += "\"Name\": \"" + item.getPersonName() + "\",";
 				jSonItems += "\"Nickname\": \"" + item.getPersonNickName()  + "\",";
-				jSonItems += "\"Picture\": \"" + item.getPersonPicture() + "\",";
+				if ((item.getPersonPicture()!=null)&&(!item.getPersonPicture().equals("")))
+					jSonItems += "\"Picture\": \"" + Constants.PICTURE_PREFIX_CHICA + item.getPersonPicture()  + "\",";
+				else
+					jSonItems += "\"Picture\": \"" + Constants.PICTURE_EMPTY_CHICA  + "\",";
+					
 				jSonItems += "\"Category\": \"" + item.getCategoryNames()  + "\",";
 				jSonItems += "\"PreferedCategory\": \"" + item.getPreferedCategoryName()  + "\",";
 				jSonItems += "\"Priority\": \"" + ((item.getPriority()<0)?"":item.getPriority().toString()) + "\",";
@@ -191,7 +159,7 @@ public class SrvLstPerson extends HttpServlet {
 
 		if (jSonItems.lastIndexOf(",")>0) jSonItems=jSonItems.substring(0,jSonItems.lastIndexOf(","));
 
-		totalRegistros=(long) resultados.size();
+		long totalRegistros=(long) resultados.size();
 
 	/*	String strXml = "{\"total\": 1," ;
 		strXml +="\"page\": " + strPage + ",";
@@ -201,91 +169,13 @@ public class SrvLstPerson extends HttpServlet {
 		strXml +="\"footer\": " +"[{\"saldo\":" + totalSaldo + ",\"facturas\":" + totalFacturas + ",\"contados\":" + totalContados + ",\"afavor\":" + totalAFavor + "}]}";
 */
 		String strXml = "{";
-		strXml +="\"rows\": " +"[" + jSonItems + "],";
-		strXml +="\"footer\": " +"[{\"saldo\":" + totalSaldo + ",\"facturas\":" + totalFacturas + ",\"contados\":" + totalContados + ",\"afavor\":" + totalAFavor + "}]}";
+		strXml +="\"rows\": " +"[" + jSonItems + "]}";
 
-		//		System.out.println(strXml);
 		return strXml;
 		
 	}
-/*	private String procesar() throws Exception {
-		List<PersonMovil> resultados = Facade.getInstance().selectPersonMovilList(priorities, category,estado,orderBy,  null,null);
 
-		String jSonItems="";
-		int i=0;
-
-		for(PersonMovil item : resultados) {
-			try{
-
-			jSonItems += "{\"Id\": \"" +item.getId()+ "\",";
-			jSonItems += "\"Pos\": \"" + i++ + "\",";
-			jSonItems += "\"Cliente\": \"" +item.getId()+ "\",";
-			jSonItems += "\"IdDoc\": \"" + item.getId() + "\",";
-			if (item.getPerson().getName()!=null)
-				jSonItems += "\"Fecha\": \"" + "\",";
-			else
-				jSonItems += "\"Fecha\": \"" + "\",";
-
-			if (item.getMovil()!=null)
-				jSonItems += "\"Numero\": \"" +  item.getMovil().getNumber() + "\",";
-			else
-				jSonItems += "\"Numero\": \"" + "SIN MOVIL ASIGNADO" + "\",";
-
-			jSonItems += "\"Texto\": \"" + item.getPerson().getDocumentNumber()+ "\",";
-
-			if (item.getPerson().getDocumentType() !=null)
-				jSonItems += "\"FechaEnvio\": \"" + item.getPerson().getDocumentType().getName() + "\",";
-			else
-				jSonItems += "\"\": \"" + "\",";
-
-			if (item.getPerson().getName()!=null)
-				jSonItems += "\"Name\": \"" + item.getPerson().getName() + "\",";
-			else
-				jSonItems += "\"Name\": \"\",";
-
-			if (item.getPerson().getNickname()!=null)
-				jSonItems += "\"Nickname\": \"" + item.getPerson().getNickname() + "\",";
-			else
-				jSonItems += "\"Nickname\": \"\",";
-
-			if (item.getPerson().getPicture()!=null)
-				jSonItems += "\"Picture\": \"" + item.getPerson().getPicture() + "\",";
-			else
-				jSonItems += "\"Picture\": \"\",";
-
-			if (item.getPerson().getCategory()!=null)
-				jSonItems += "\"Category\": \"" + item.getPerson().getCategory().getName() + "\",";
-			else
-				jSonItems += "\"Category\": \"\",";
-
-			jSonItems += "\"Priority\": \"" + item.getPerson().getPriority() + "\",";
-
-			jSonItems += "\"Saldo\": \"\"},";
-
-			}
-			catch(Exception e){}
-		}
-
-		jSonItems = jSonItems.replaceAll(System.getProperty("line.separator"), "");
-		System.out.println(jSonItems);
-
-		if (jSonItems.lastIndexOf(",")>0) jSonItems=jSonItems.substring(0,jSonItems.lastIndexOf(","));
-
-		//totalRegistros=resultados.size();
-		totalRegistros=(long) 100;
-		String strXml = "{\"total\": 1," ;
-		strXml +="\"page\": " + strPage + ",";
-		strXml +="\"records\": " + totalRegistros + ",";
-		strXml +="\"total\": " + totalRegistros/strRows + ",";
-		strXml +="\"rows\": " +"[" + jSonItems + "],";
-		strXml +="\"footer\": " +"[{\"saldo\":" + totalSaldo + ",\"facturas\":" + totalFacturas + ",\"contados\":" + totalContados + ",\"afavor\":" + totalAFavor + "}]}";
-
-		System.out.println(strXml);
-		return strXml;
-	}
-*/
-
-	private Date getDateRequest(HttpServletRequest request, String parameter) {
+	protected Date getDateRequest(HttpServletRequest request, String parameter) {
 		try{
 			return DateUtils.parseDate(request.getParameter(parameter), Constants.FORMATO_FECHA_HTML5_REGEX,  Constants.FORMATO_FECHA_HTML5);
 		}catch(ParseException ex){

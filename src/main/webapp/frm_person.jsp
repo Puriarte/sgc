@@ -7,6 +7,7 @@
 <%@ taglib uri="/WEB-INF/fmt-rt.tld" prefix="fmt-rt" %>
 <%@ taglib uri="/WEB-INF/fn.tld" prefix="fn" %>
 
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//ES" "http://www.w3.org/TR/xhtml2/DTD/xhtml1-strict.dtd">
 <html lang="es">
 <head>
@@ -20,10 +21,6 @@
 
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
-    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
-    <script src="js/ie-emulation-modes-warning.js"></script>
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -87,7 +84,7 @@
 			<table class="table-condensed" id="personTable">
             <tbody>
                 <tr >
-                	<td rowspan="3"><img width="120px" height="120px"  src="images/faces/flag_23soz0bpgb9.jpg" /></td>
+                	<td rowspan="3"><img width="120px" height="120px"  src="./uploads/${stFoto}" /></td>
                     <td><label class="col-md-2 control-label input-sm" for="NUMERO">Numero</label>  </td>
                     <td><input id="NUMERO" name="NUMERO" type="text" placeholder="" class="form-control input-md" value="${stNumero}"></td>
                     <td><label class="col-md-2 control-label input-sm" for="NRO DOCUMENTO">Documento</label>  </td>
@@ -98,8 +95,9 @@
                     <td colspan="3"><input id="NOMBRE" name="NOMBRE" type="text" placeholder="" class="form-control input-md" value="${stNombre}"></td>
                 </tr>
                 <tr>
-                    <td><label class="col-md-2 control-label input-sm" for="NOMBRE">Sobrenombre</label></td>
-                    <td colspan="3"><input id="SOBRENOMBRE" name="SOBRENOMBRE" type="text" placeholder="" class="form-control input-md" value="${stSobreNombre}"></td>
+                    <td><label class="col-md-2 control-label input-sm" for="NOMBRE">Nro.Funcionario</label></td>
+                    <td><input id="SOBRENOMBRE" name="SOBRENOMBRE" type="text" placeholder="" class="form-control input-md" value="${stSobreNombre}"></td>
+                    <td colspan="2"></td>
                 </tr>
                 <tr id="categoryModel" >
                 	<td><html:file property="IMG" style="width:140px;" value="Cambiar"/></td>

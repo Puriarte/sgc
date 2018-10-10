@@ -4,31 +4,16 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
 import com.puriarte.convocatoria.persistence.DocumentType;
-import com.puriarte.convocatoria.persistence.EntityManagerHelper;
 
-public class DocumentTypeService {
-	static private DocumentTypeService INSTANCE = null;
-
-	private static synchronized void createInstance(){
-		if(INSTANCE == null)
-			INSTANCE = new DocumentTypeService();
-	}
+public class DocumentTypeService extends Service {
 
 	public static DocumentTypeService getInstance(){
-		if(INSTANCE == null) createInstance();
-		return INSTANCE;
+		if(instance == null) instance =(DocumentTypeService) createInstance(new DocumentTypeService(), instance);
+		return instance;
 	}
-
-	public synchronized void destroy(){
-		INSTANCE = null;
-	}
-
-	/**
-	 * Get EntityManager
-	 * @return EntityManager
-	 */
-	protected EntityManager getEntityManager() {
-		return EntityManagerHelper.getEntityManager();
+	
+	public void destroy() {
+		destroy(instance);
 	}
 
 	public DocumentType select(int id) {
@@ -47,4 +32,6 @@ public class DocumentTypeService {
 
 	}
 
+	protected static DocumentTypeService instance = null;
+	
 }

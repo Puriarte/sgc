@@ -3,34 +3,19 @@ package com.puriarte.convocatoria.core.domain.services;
 
 import javax.persistence.EntityManager;
 
-import com.puriarte.convocatoria.persistence.EntityManagerHelper;
 import com.puriarte.convocatoria.persistence.SMSOut;
 
-public class SMSOutService {
-	static private SMSOutService INSTANCE = null;
-
-	private static synchronized void createInstance(){
-		if(INSTANCE == null)
-			INSTANCE = new SMSOutService();
-	}
+public class SMSOutService extends Service{
 
 	public static SMSOutService getInstance(){
-		if(INSTANCE == null) createInstance();
-		return INSTANCE;
+		if(instance == null)  instance =(SMSOutService) createInstance(new SMSOutService(), instance);
+		return instance;
 	}
-
-	public synchronized void destroy(){
-		INSTANCE = null;
+	
+	public void destroy() {
+		destroy(instance);
 	}
-
-	/**
-	 * Get EntityManager
-	 * @return EntityManager
-	 */
-	protected EntityManager getEntityManager() {
-		return EntityManagerHelper.getEntityManager();
-	}
-
+	
 	public void insert(SMSOut sms){
 		final EntityManager em = getEntityManager();
 
@@ -40,5 +25,6 @@ public class SMSOutService {
 
 	}
 
-
+	protected static SMSOutService instance = null;
+	
 }

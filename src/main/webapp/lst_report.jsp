@@ -15,7 +15,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="description" content="">
 	<meta name="author" content="">
-	<link rel="icon" href="http://getbootstrap.com/favicon.ico">
+    <link rel="icon" href="images/icon.png">
 	<title>G.C.P.</title>
 
   	<link href="css/bootstrap.min.css" rel="stylesheet">

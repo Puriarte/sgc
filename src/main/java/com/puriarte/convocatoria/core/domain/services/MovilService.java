@@ -9,54 +9,28 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 
-
-
-
-
-
-
-import org.apache.fop.fo.expr.PPColWidthFunction;
-
 import com.puriarte.convocatoria.core.domain.Constants;
 import com.puriarte.convocatoria.core.exceptions.MovilException;
 import com.puriarte.convocatoria.core.exceptions.PersonException;
 import com.puriarte.convocatoria.persistence.Company;
 import com.puriarte.convocatoria.persistence.DocumentType;
-import com.puriarte.convocatoria.persistence.EntityManagerHelper;
 import com.puriarte.convocatoria.persistence.Movil;
 import com.puriarte.convocatoria.persistence.MovilStatus;
 import com.puriarte.convocatoria.persistence.Person;
-import com.puriarte.convocatoria.persistence.PersonCategory;
 import com.puriarte.convocatoria.persistence.PersonCategoryAsociation;
 import com.puriarte.convocatoria.persistence.PersonMovil;
 
-public class MovilService {
-
-	static private MovilService INSTANCE = null;
-
-	private static synchronized void createInstance(){
-		if(INSTANCE == null)
-			INSTANCE = new MovilService();
-	}
+public class MovilService extends Service{
 
 	public static MovilService getInstance(){
-		if(INSTANCE == null) createInstance();
-		return INSTANCE;
+		if(instance == null) instance =(MovilService) createInstance(new MovilService(), instance);
+		return instance;
 	}
 
-	public synchronized void destroy(){
-		INSTANCE = null;
+	public void destroy() {
+		destroy(instance);
 	}
-
-	/**
-	 * Get EntityManager
-	 * @return EntityManager
-	 */
-	protected EntityManager getEntityManager() {
-		return EntityManagerHelper.getEntityManager();
-	}
-
-
+	
 	public void crear(Movil movil){
 		final EntityManager em = getEntityManager();
 
@@ -377,33 +351,6 @@ public class MovilService {
 		return m.getId();
 	}
 
-
-	/*public List<MovimientoDeudaResult> getMovimientosDeuda(Integer idCuenta, String idRazon,
-			Date fechaInicio, Date fechaFin, Date fechaVencimientoInicio, Date fechaVencimientoFin,
-			Integer nroComprobante, Integer tipoComprobante, boolean soloImpagos,
-			String orden, boolean ascending, Integer pos, Integer limit){
-
-		System.out.println("Inicio (getMovimientosDeudaJPA)  :" + (new Date()).getMinutes() + ":" +(new Date()).getSeconds() );
-
-		if (orden==null) orden ="dmv_fmov";
-
-		Query query = em.createNamedQuery("BuscarMovimientosDeudores")
-			.setParameter(1, idCuenta )
-			.setParameter(2, idRazon)
-			.setParameter(3, tipoComprobante )
-			.setParameter(4, nroComprobante)
-			.setParameter(5, fechaInicio)
-			.setParameter(6, fechaFin)
-			.setParameter(7, soloImpagos)
-			.setParameter(8, orden);
-
-		if((pos!=null) && (limit!=null)) query.setFirstResult(pos).setMaxResults(limit);
-
-		List<MovimientoDeudaResult> a = (List<MovimientoDeudaResult>) query.getResultList();
-
-		System.out.println("Fin (getMovimientosDeudaJPA): " +(new Date()).getMinutes() + ":" +(new Date()).getSeconds() );
-
-		return a;
-	}*/
+	protected static MovilService instance = null;
 
 }

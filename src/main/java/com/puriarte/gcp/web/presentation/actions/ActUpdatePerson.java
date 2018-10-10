@@ -1,23 +1,24 @@
 package com.puriarte.gcp.web.presentation.actions;
 
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
-import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.log4j.Logger;
-import org.apache.struts.action.ActionError;
 import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -31,16 +32,11 @@ import com.puriarte.convocatoria.core.domain.Constants;
 import com.puriarte.convocatoria.core.domain.services.Facade;
 import com.puriarte.convocatoria.core.exceptions.MovilException;
 import com.puriarte.convocatoria.core.exceptions.PersonException;
-import com.puriarte.convocatoria.persistence.Category;
-import com.puriarte.convocatoria.persistence.Dispatch;
 import com.puriarte.convocatoria.persistence.DocumentType;
-import com.puriarte.convocatoria.persistence.Movil;
 import com.puriarte.convocatoria.persistence.Person;
 import com.puriarte.convocatoria.persistence.PersonCategory;
 import com.puriarte.convocatoria.persistence.PersonCategoryAsociation;
 import com.puriarte.convocatoria.persistence.PersonMovil;
-import com.puriarte.convocatoria.persistence.Place;
-import com.puriarte.convocatoria.persistence.SMS;
 
 public class ActUpdatePerson extends RestrictionAction {
 
@@ -80,7 +76,7 @@ public class ActUpdatePerson extends RestrictionAction {
 						dynaForm.set("NRO DOCUMENTO", person.getPerson().getDocumentNumber());
 						dynaForm.set("ORDEN PRELACION", person.getPerson().getPriority());
 						dynaForm.set("NUMERO", person.getMovil().getNumber());
-						dynaForm.set("FOTO", ((person.getPerson().getPicture()==null) || (person.getPerson().getPicture().equals(""))) ?Constants.PICTURE_EMPTY_MEDIA:person.getPerson().getPicture());
+						dynaForm.set("FOTO", ((person.getPerson().getPicture()==null) || (person.getPerson().getPicture().equals(""))) ?Constants.PICTURE_EMPTY_MEDIA:Constants.PICTURE_PREFIX_MEDIA + person.getPerson().getPicture());
 						int idPreferedCategory=(person.getPerson().getPreferedCategory()==null)?-1:person.getPerson().getPreferedCategory().getId();
 						dynaForm.set("CATEGORIA PREFERIDA",idPreferedCategory );
 
@@ -98,7 +94,7 @@ public class ActUpdatePerson extends RestrictionAction {
 					dynaForm.set("accion", "send");
 
 				} catch (Exception e) {
-					errors.add("error", new ActionError("dispatch.error.db.ingresar"));
+					errors.add("error", new ActionMessage("dispatch.error.db.ingresar"));
 				}
 				if (!errors.isEmpty()) {
 					saveErrors(request, errors);
@@ -137,7 +133,7 @@ public class ActUpdatePerson extends RestrictionAction {
 					while (it.hasNext()) {
 						Map.Entry entry = (Entry) it.next();
 						int key = (int) entry.getKey();
-						Integer idCategory= new Integer((Integer) entry.getValue());
+						Integer idCategory= (Integer) entry.getValue();
 						int priority = 0;
 						try { 
 							priority=(int) arPriority.get(key);
@@ -178,7 +174,7 @@ public class ActUpdatePerson extends RestrictionAction {
 					while (it.hasNext()) {
 						Map.Entry entry = (Entry) it.next();
 						int key = (int) entry.getKey();
-						Integer idCategory= new Integer((Integer) entry.getValue());
+						Integer idCategory= (Integer) entry.getValue();
 						int priority = 0;
 						try { 
 							priority=(int) arPriority.get(key);
@@ -200,19 +196,19 @@ public class ActUpdatePerson extends RestrictionAction {
 						Facade.getInstance().insertPersonMovil(person, movilNumber);
 					}catch(MovilException me){
 						if (me.getIdException()==MovilException.ALREADY_IN_USE)
-							errors.add("error", new ActionError("movilperson.error.movil.inuse"));
+							errors.add("error", new ActionMessage("movilperson.error.movil.inuse"));
 						else if (me.getIdException()==MovilException.EMPTY)
-							errors.add("error", new ActionError("movilperson.error.movil.empty"));
+							errors.add("error", new ActionMessage("movilperson.error.movil.empty"));
 					}catch(PersonException pe){
 						if (pe.getIdException()==PersonException.DOCUMENT_EMPTY)
-							errors.add("error", new ActionError("movilperson.error.person.document.empty"));
+							errors.add("error", new ActionMessage("movilperson.error.person.document.empty"));
 						else if (pe.getIdException()==PersonException.PERSON_ALREADY_EXISTS)
-							errors.add("error", new ActionError("movilperson.error.person.alreadyexists"));
+							errors.add("error", new ActionMessage("movilperson.error.person.alreadyexists"));
 					}
 				}
 			}
 		} catch (Exception e) {
-			errors.add("error", new ActionError("person.error.db.ingresar"));
+			errors.add("error", new ActionMessage("person.error.db.ingresar"));
 		}
 
 		if (!errors.isEmpty()) {
@@ -227,30 +223,57 @@ public class ActUpdatePerson extends RestrictionAction {
 	
 	private String cargarFotoDePersona(FormFile foto) {
 		try{
+			PropertiesConfiguration config = new PropertiesConfiguration(com.puriarte.gcp.web.Constantes.PATHAPPCONFIG);
+		
 			if (foto.getFileName().equals("")){
 				return null;
 			}else{
-				String fileName    = RandomStringUtils.randomAlphanumeric(14);
-		    	InputStream is = foto.getInputStream();
-		    
-		        int BUFFER_LENGTH = 4096;
+
+				// Obtengo extension del archivo
+				String extension = foto.getFileName().toString();
+				extension=extension.substring(extension.lastIndexOf(".")+1);
+				
+				String fileName    = RandomStringUtils.randomAlphanumeric(14) + "." + extension;
+
+				String path= config.getString("data.folder") ;
+		    	
+				try(InputStream is = foto.getInputStream()){
+					int BUFFER_LENGTH = 4096;
+					
+					try(FileOutputStream os =new FileOutputStream(path  + "faces/"+ Constants.PICTURE_PREFIX_MEDIA +  fileName )){
+						byte[] bytes = new byte[BUFFER_LENGTH];
+				        int read = 0;
+				        while ((read = is.read(bytes, 0, BUFFER_LENGTH)) != -1) {
+				            os.write(bytes, 0, read);
+				        }
+				        os.flush();
+					}
+				}
 		        
-	//	        System.out.println(System.getenv("GCP_DATA_DIR") + "faces/"+ fileName);
-		        FileOutputStream os = new FileOutputStream(System.getenv("GCP_DATA_DIR") + "faces/"+ fileName);
-		        byte[] bytes = new byte[BUFFER_LENGTH];
-		        int read = 0;
-		        while ((read = is.read(bytes, 0, BUFFER_LENGTH)) != -1) {
-		            os.write(bytes, 0, read);
-		        }
-		        os.flush();
-		        is.close();
-		        os.close();
+		        BufferedImage originalImage = ImageIO.read(new File(path  + "faces/"+ Constants.PICTURE_PREFIX_MEDIA +  fileName));
+				int type = originalImage.getType() == 0? BufferedImage.TYPE_INT_ARGB : originalImage.getType();
+		        
+				BufferedImage resizeImageJpg = resizeImage(originalImage, type);
+				ImageIO.write(resizeImageJpg, extension , new File(path + "faces/"+ Constants.PICTURE_PREFIX_CHICA +  fileName)); 
+				
 		        return fileName;
 			}
 		}catch(Exception e){
 			return null;
 		}
 	}
+	
+	 private static BufferedImage resizeImage(BufferedImage originalImage, int type){
+		 
+		 float ratio = new Float(originalImage.getHeight()) / new Float(originalImage.getWidth());
+		 	
+		 BufferedImage resizedImage = new BufferedImage(Constants.PICTURE_WIDTH_CHICA, Math.round( Constants.PICTURE_WIDTH_CHICA * ratio), type);
+		 Graphics2D g = resizedImage.createGraphics();
+		 g.drawImage(originalImage, 0, 0, Constants.PICTURE_WIDTH_CHICA,  Math.round( Constants.PICTURE_WIDTH_CHICA * ratio) , null);
+		 g.dispose();
+				
+		 return resizedImage;
+	 }
 
 	/**
 	 * Carga las categorías seleccionadas en la página web

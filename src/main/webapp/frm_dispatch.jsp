@@ -30,10 +30,6 @@
 
     <!-- Bootstrap core CSS -->
 
-    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
-    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
-    <script src="js/ie-emulation-modes-warning.js"></script>
-
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
       <script src="js/html5shiv.min.js"></script>
@@ -159,14 +155,25 @@
 		</div>
 	</logic:notEmpty>
 
+	<logic:notEmpty name="frmAdmDispatch" property="attribute3"  > 
 		<div class="row">	
-			<div class="col-md-5">&nbsp;</div>
 		</div>
-		<div class="row">
-			<div class="col-md-1">
-				<label class="control-label input-sm">Destinatarios</label>
+		<div class="row">	
+			<div class="col-md-2">
+				<label class="control-label input-sm">Mensaje</label>
 			</div>
-			<div class="col-md-11">
+			<div class="col-md-10">
+				<input type="text" class="form-control input-sm" name="attribute3" value="" id="attribute3">
+			</div>
+		</div>
+	</logic:notEmpty>
+
+		<div class="row">	
+			<div class="col-md-12"><label class="control-label input-sm">DESTINATARIOS</label></div>
+		</div>
+
+		<div class="row">
+			<div class="col-md-12">
 				<logic:present name="frmAdmDispatch" property="colPerson">
 					<bean:define id="listaPerson" name="frmAdmDispatch" property="colPerson"/>
 					<logic:iterate id="person" name="listaPerson" indexId="index">

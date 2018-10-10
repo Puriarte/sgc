@@ -2,67 +2,35 @@ package com.puriarte.gcp.web.presentation.ajax;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.math.BigDecimal;
-import java.text.NumberFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 
-import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang.math.NumberUtils;
 import org.apache.log4j.Logger;
 
-import com.puriarte.convocatoria.core.domain.Constants;
 import com.puriarte.convocatoria.core.domain.services.Facade;
 import com.puriarte.convocatoria.persistence.PersonCategory;
-import com.puriarte.convocatoria.persistence.PersonMovil;
-import com.puriarte.utils.date.DateUtils;
-
 
 public class SrvLstGridPersonCategory extends RestrictionServlet {
 
-	private Integer strPage;
-	private Integer strRows;
-	private String strSort;
-	private String strOrder;
-	private String orderBy;
-	private  Long totalRegistros=null;
-	private NumberFormat nF;
+	private static final long serialVersionUID = 8826793012251485506L;
+	private static final Logger logger = Logger.getLogger(SrvLstGridPersonCategory.class.getName());
 
-	private boolean includeDeleted;
+	private HashMap<String,Object> cargarParametros(HttpServletRequest request){
 
-	public void init(ServletConfig config) throws ServletException {
-		super.init(config);
-	}
+		Integer strPage;
+		Integer strRows;
+		String strSort;
+		String strOrder;
+		String orderBy="";
+		
+		Long totalRegistros=null;
+		boolean includeDeleted=false;
 
-	public  void doGet(HttpServletRequest request, HttpServletResponse  response)
-			throws IOException, ServletException {
-		try {
-			_doProcess(request, response);
-		} catch(Exception e) {
-			throw new ServletException(e.getMessage());
-		}
-	}
-
-	public  void doPost(HttpServletRequest request, HttpServletResponse  response)
-			throws IOException, ServletException {
-		try {
-			_doProcess(request, response);
-		} catch(Exception e) {
-			throw new ServletException(e.getMessage());
-		}
-
-	}
-
-	private void cargarParametros(HttpServletRequest request){
-
+		
 		strPage = Integer.parseInt(request.getParameter("page"));
 		strRows = Integer.parseInt(request.getParameter("rows"));
 		strSort = request.getParameter("sidx");
@@ -72,21 +40,35 @@ public class SrvLstGridPersonCategory extends RestrictionServlet {
 		if ((request.getParameter("categoryStatus")!=null) && (request.getParameter("categoryStatus").equals("1")))
 			includeDeleted =true;
 
+		
+		HashMap paramteros = new HashMap<String,Object>();
+		paramteros.put("strPage", strPage);
+		paramteros.put("strRows", strRows);
+		paramteros.put("strSort", strSort);
+		paramteros.put("strOrder", strOrder);
+		paramteros.put("orderBy", orderBy);
+		paramteros.put("totalRegistros", totalRegistros);
+		paramteros.put("includeDeleted", includeDeleted);
+		
+		return paramteros;
 	}
 
 	public void _doProcess(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
 
-		Logger  logger = Logger.getLogger(this.getServletName());
 		PrintWriter out = response.getWriter();
+
 		int i=0;
 		String jSonItems="";
 
 		try {
-			cargarParametros(request);
-			jSonItems=procesar(includeDeleted );
-			out.print(jSonItems);
+			HashMap<String, Object> parametros =cargarParametros(request);
+			jSonItems=procesar(parametros );
 
+			response.setContentType("text/plain");
+	        response.setCharacterEncoding("UTF-8");
+			out.print(jSonItems);
+			
 		} catch(Exception e) {
 			out.print("{\"error\":[{\"errorID\": \""+ i +"\",\"errtext\": \"" + e.getMessage() + "\"}]}");
 		} finally {
@@ -95,8 +77,9 @@ public class SrvLstGridPersonCategory extends RestrictionServlet {
 
 	}
 
-	private String procesar(boolean includeDeleted) throws Exception {
-		List<PersonCategory> resultados = Facade.getInstance().selectPersonCategoryList(includeDeleted);
+	private String procesar(HashMap<String, Object> parametros) throws Exception {
+
+		List<PersonCategory> resultados = Facade.getInstance().selectPersonCategoryList((boolean) parametros.get("includeDeleted"));
 
 		String jSonItems="";
 		int i=0;
@@ -114,23 +97,23 @@ public class SrvLstGridPersonCategory extends RestrictionServlet {
 				jSonItems += "\"Name\": \"},";
 
 			}
-			catch(Exception e){}
+			catch(Exception e){
+				logger.error(e.getMessage());
+			}
 		}
-
+		
 		jSonItems = jSonItems.replaceAll(System.getProperty("line.separator"), "");
 
 		if (jSonItems.lastIndexOf(",")>0) jSonItems=jSonItems.substring(0,jSonItems.lastIndexOf(","));
 
-		//totalRegistros=resultados.size();
-		totalRegistros=(long) 100;
+		long totalRegistros=(long) 100;
 		String strXml = "{\"total\": 1," ;
-		strXml +="\"page\": " + strPage + ",";
+		strXml +="\"page\": " + (int)parametros.get("strPage") + ",";
 		strXml +="\"records\": " + totalRegistros + ",";
-		strXml +="\"total\": " + totalRegistros/strRows + ",";
+		strXml +="\"total\": " + totalRegistros/(int)parametros.get("strRows") + ",";
 		strXml +="\"rows\": " +"[" + jSonItems + "]";
 		strXml +="}";
 
-//		System.out.println(strXml);
 		return strXml;
 	}
 

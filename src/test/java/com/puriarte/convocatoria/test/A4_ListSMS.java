@@ -1,6 +1,6 @@
 package com.puriarte.convocatoria.test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.fail;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

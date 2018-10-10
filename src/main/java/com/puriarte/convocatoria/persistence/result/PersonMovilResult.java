@@ -2,15 +2,13 @@ package com.puriarte.convocatoria.persistence.result;
 
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
-import java.util.List;
 
-import javax.persistence.Entity;
 import javax.persistence.FieldResult;
-import javax.persistence.Id;
 
-import com.puriarte.convocatoria.persistence.Person;
-import com.puriarte.convocatoria.persistence.PersonCategory;
+import org.apache.log4j.Logger;
+
 import com.puriarte.convocatoria.persistence.PersonCategoryAsociation;
+import com.puriarte.gcp.web.presentation.actions.ActDeleteSMS;
 
 public class PersonMovilResult implements javax.persistence.EntityResult{
 
@@ -27,6 +25,7 @@ public class PersonMovilResult implements javax.persistence.EntityResult{
 	private String preferedCategoryName;
 	private Integer priority;
 	private ArrayList<PersonCategoryAsociation> categories;
+	private Logger  logger = Logger.getLogger(this.getClass().getName());
 
 	public PersonMovilResult(){
 	}
@@ -54,7 +53,7 @@ public class PersonMovilResult implements javax.persistence.EntityResult{
 				this.priority = priority;
 				this.preferedCategoryName=preferedCategoryName;
 		}catch (Exception e){
-		e.printStackTrace();	
+			logger.error(e.getMessage());
 		}
 	}
 

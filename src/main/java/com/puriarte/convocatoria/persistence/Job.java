@@ -13,6 +13,8 @@ import javax.persistence.*;
 			query="SELECT j FROM Job j WHERE j.id = :id"),
     @NamedQuery(name="SelectJobList",
   		query="SELECT j FROM Job j "),
+	@NamedQuery(name="Job.SelectJobListFromDispatch",
+  	  		query="SELECT j FROM Job j  where j.dispatch.id= :idDispatch"),
 	})
 public class Job implements Serializable {
 

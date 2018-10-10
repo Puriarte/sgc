@@ -1,6 +1,5 @@
 package com.puriarte.gcp.web.presentation.actions;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -15,7 +14,6 @@ import org.apache.struts.action.DynaActionForm;
 
 import com.puriarte.convocatoria.core.domain.services.Facade;
 import com.puriarte.convocatoria.persistence.User;
-import com.puriarte.gcp.web.Constantes;
 
 
 /**

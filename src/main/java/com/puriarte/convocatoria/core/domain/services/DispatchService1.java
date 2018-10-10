@@ -18,6 +18,8 @@ import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import org.apache.commons.configuration.ConfigurationException;
+import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.lang.RandomStringUtils;
 
 import com.puriarte.convocatoria.core.domain.Constants;
@@ -25,7 +27,6 @@ import com.puriarte.convocatoria.persistence.Assignment;
 import com.puriarte.convocatoria.persistence.AssignmentStatus;
 import com.puriarte.convocatoria.persistence.Dispatch;
 import com.puriarte.convocatoria.persistence.DispatchStatus;
-import com.puriarte.convocatoria.persistence.EntityManagerHelper;
 import com.puriarte.convocatoria.persistence.Job;
 import com.puriarte.convocatoria.persistence.PersonCategory;
 import com.puriarte.convocatoria.persistence.PersonMovil;
@@ -33,28 +34,17 @@ import com.puriarte.convocatoria.persistence.Place;
 import com.puriarte.convocatoria.persistence.SMS;
 import com.puriarte.convocatoria.persistence.SmsStatus;
 
-public class DispatchService1 {
-	static private DispatchService1 INSTANCE = null;
-
-	private static synchronized void createInstance(){
-		if(INSTANCE == null)
-			INSTANCE = new DispatchService1();
-	}
+public class DispatchService1 extends Service {
 
 	public static DispatchService1 getInstance(){
-		if(INSTANCE == null) createInstance();
-		return INSTANCE;
+		if(instance == null) instance =(DispatchService1) createInstance(new DispatchService1(), instance);
+		return instance;
 	}
 
-	public synchronized void destroy(){
-		INSTANCE = null;
+	public void destroy() {
+		destroy(instance);
 	}
-
-	protected EntityManager getEntityManager() {
-		return EntityManagerHelper.getEntityManager();
-	}
-
-
+	
 	public void crear(SMS sms){
 		final EntityManager em = getEntityManager();
 
@@ -87,7 +77,7 @@ public class DispatchService1 {
 			if(order.equals("dispatchStatus.name"))	q.orderBy(cb.desc(status.get("name")));
 		}
 		
-		List<Predicate> predicateList = new ArrayList<Predicate>();
+		List<Predicate> predicateList = new ArrayList();
 		if (estado>0) predicateList.add(cb.equal(status.get("id"), estado));
 		
 		Predicate[] predicates = new Predicate[predicateList.size()];
@@ -95,15 +85,14 @@ public class DispatchService1 {
 		q.where(predicates);
 		
 		Query query = em.createQuery(q);
-		query.setHint("javax.persistence.cache.storeMode", "REFRESH");
-		query.setHint("eclipselink.refresh", "true");
-		query.setHint("eclipselink.refresh.cascade", "CascadeAllParts");
-		if((pos!=null) && (limit!=null)) query.setFirstResult(pos).setMaxResults(limit);
+		
+		query.setHint(HINT_STORE_MODE_LABEL,HINT_STORE_MODE_LABEL_REFRESH);
+		query.setHint(HINT_STORE_REFRESH_LABEL, true);
+		query.setHint(HINT_STORE_REFRESH_CASCADE_LABEL, HINT_STORE_REFRESH_CASCADE_ALL_PARTS);
 		
 		if((pos!=null) && (limit!=null)) query.setFirstResult(pos).setMaxResults(limit);
-		List<Dispatch> a = query.getResultList();
+		return query.getResultList();
 	
-		return a;
 	}
 
 
@@ -118,9 +107,9 @@ public class DispatchService1 {
 
 		if((pos!=null) && (limit!=null)) query.setFirstResult(pos).setMaxResults(limit);
 
-		query.setHint("javax.persistence.cache.storeMode", "REFRESH");
-		query.setHint("eclipselink.refresh", "true");
-		query.setHint("eclipselink.refresh.cascade", "CascadeAllParts");
+		query.setHint(HINT_STORE_MODE_LABEL,HINT_STORE_MODE_LABEL_REFRESH);
+		query.setHint(HINT_STORE_REFRESH_LABEL, true);
+		query.setHint(HINT_STORE_REFRESH_CASCADE_LABEL, HINT_STORE_REFRESH_CASCADE_ALL_PARTS);
 
 		List<Object[]> a = query.getResultList();
 		List<Dispatch> dispatchList = new ArrayList<Dispatch>(); 	
@@ -131,6 +120,50 @@ public class DispatchService1 {
 			aux1.setCode(aux[2].toString());
 			dispatchList.add(aux1);
 		}
+		return dispatchList;
+	}
+	
+	
+	
+	public List<Dispatch> selectSimpleListWithAssignments(int estado,
+			String order, Integer pos, Integer limit) {
+		final EntityManager em = getEntityManager();
+
+		if (order==null) order ="";
+
+		Query query = em.createNamedQuery("Dispatch.SelectSimpleDispatchList")
+				.setParameter("estado", estado);
+
+		if((pos!=null) && (limit!=null)) query.setFirstResult(pos).setMaxResults(limit);
+
+		query.setHint(HINT_STORE_MODE_LABEL,HINT_STORE_MODE_LABEL_REFRESH);
+		query.setHint(HINT_STORE_REFRESH_LABEL, true);
+		query.setHint(HINT_STORE_REFRESH_CASCADE_LABEL, HINT_STORE_REFRESH_CASCADE_ALL_PARTS);
+
+		List<Object[]> a = query.getResultList();
+		
+		List<Dispatch> dispatchList = new ArrayList<Dispatch>(); 	
+
+		for (Object[] aux :a){
+
+			Dispatch aux1 = new Dispatch();
+			aux1.setId(Integer.parseInt(aux[0].toString()));
+			aux1.setName(aux[1].toString());
+			aux1.setCode(aux[2].toString());
+			aux1.setPlace(new Place (aux[3].toString()));
+			aux1.setScheduledDate((Date) aux[4]);
+			aux1.setScheduledEndDate((Date)aux[5]);
+			aux1.setDispatchStatus(new DispatchStatus(aux[6].toString()));
+	
+			Query query1 = em.createNamedQuery("Job.SelectJobListFromDispatch")
+					.setParameter("idDispatch", aux1.getId());
+
+			List<Job> jobList = query1.getResultList();
+	
+			aux1.setJobList(jobList);
+			dispatchList.add(aux1);
+		}
+
 		return dispatchList;
 	}
 	
@@ -148,9 +181,9 @@ public class DispatchService1 {
 
 		if((pos!=null) && (limit!=null)) query.setFirstResult(pos).setMaxResults(limit);
 
-		query.setHint("javax.persistence.cache.storeMode", "REFRESH");
-		query.setHint("eclipselink.refresh", "true");
-		query.setHint("eclipselink.refresh.cascade", "CascadeAllParts");
+		query.setHint(HINT_STORE_MODE_LABEL,HINT_STORE_MODE_LABEL_REFRESH);
+		query.setHint(HINT_STORE_REFRESH_LABEL, true);
+		query.setHint(HINT_STORE_REFRESH_CASCADE_LABEL, HINT_STORE_REFRESH_CASCADE_ALL_PARTS);
 
 		List<Object[]> a = query.getResultList();
 		List<Dispatch> dispatchList = new ArrayList<Dispatch>(); 	
@@ -199,17 +232,21 @@ public class DispatchService1 {
 	 * @param name
 	 * @param creationDate
 	 * @param scheduledDate
+	 * @param strAttribute3 
 	 * @param personIds			Lista de identificadores de PersonMovil
 	 * @param categories
 	 * @param status
 	 * @return
+	 * @throws ConfigurationException 
 	 */
 	public int insert(String message, String name, String code, Place place, Date creationDate, Date scheduledDate, Date scheduledEndDate,
-			String[] personMovilIds, HashMap categories, SmsStatus status) {
+			String attribute3, String[] personMovilIds, HashMap categories, SmsStatus status) throws ConfigurationException {
 
 		AssignmentStatus assignmentstatus = Facade.getInstance().selectAssingmentStatus(Constants.ASSIGNMENT_STATUS_PENDING);
 		DispatchStatus dispatchStatus = Facade.getInstance().selectDispatchStatus(Constants.DISPATCH_STATUS_ACTIVE);
-
+		PropertiesConfiguration config = new PropertiesConfiguration(com.puriarte.gcp.web.Constantes.PATHAPPCONFIG);
+		Boolean includeCatInMsg= config.getBoolean("include.category.in.msg");
+		
 		// Inicializo la convocatoria como ACTIVA
 		Dispatch dispatch = new Dispatch();
 		dispatch.setName(name);
@@ -218,6 +255,7 @@ public class DispatchService1 {
 		dispatch.setScheduledEndDate(scheduledEndDate);
 		dispatch.setPlace(place);
 		dispatch.setDispatchStatus(dispatchStatus);
+		dispatch.setAttribute3(attribute3);
 		
 		for(String idPersonMovil: personMovilIds){
 			PersonMovil person = Facade.getInstance().selectPersonMovil(Integer.parseInt(idPersonMovil));
@@ -235,9 +273,10 @@ public class DispatchService1 {
 					// Creo el SMS
 					SMS sms = new SMS();
 					sms.setMensaje(message.trim());
- 					if (category !=null)
-						sms.setMensaje(sms.getMensaje().trim() + " " + category.getName().trim());
 
+					if ((includeCatInMsg) && (category !=null))
+						sms.setMensaje(sms.getMensaje().trim() + " " + category.getName().trim());
+						
 					sms.setPersonMovil(person);
 					sms.setStatus(status);
 					sms.setAction(Constants.SMS_ACTION_OUTCOME);
@@ -262,12 +301,14 @@ public class DispatchService1 {
 		return this.insert(dispatch);
 	}
 
-	public void addToDispatch(Dispatch dispatch, String message, Date creationDate, String[] personMovilIds, HashMap categories) {
+	public void addToDispatch(Dispatch dispatch, String message, Date creationDate, String[] personMovilIds, HashMap categories) throws ConfigurationException {
 
 		SmsStatus status = Facade.getInstance().selectSmsStatus(Constants.SMS_STATUS_EN_ESPERA_CIERRE_DISPATCH); //.SMS_STATUS_PENDIENTE);
 		AssignmentStatus assignmentstatus = Facade.getInstance().selectAssingmentStatus(Constants.ASSIGNMENT_STATUS_PENDING);
 		DispatchStatus dispatchStatus = Facade.getInstance().selectDispatchStatus(Constants.DISPATCH_STATUS_ACTIVE);
-	
+		PropertiesConfiguration config = new PropertiesConfiguration(com.puriarte.gcp.web.Constantes.PATHAPPCONFIG);
+		Boolean includeCatInMsg= config.getBoolean("include.category.in.msg");
+		
 		for(String idstPersonMovil: personMovilIds){
 			int idPersonMovil=Integer.parseInt(idstPersonMovil);
 			PersonMovil person = Facade.getInstance().selectPersonMovil(idPersonMovil);
@@ -287,7 +328,7 @@ public class DispatchService1 {
 						// Creo el SMS
 						SMS sms = new SMS();
 						sms.setMensaje(message.trim());
-	 					if (category !=null)
+						if ((includeCatInMsg) && (category !=null))
 							sms.setMensaje(sms.getMensaje().trim() + " " + category.getName().trim());
 	
 						sms.setPersonMovil(person);
@@ -318,7 +359,7 @@ public class DispatchService1 {
 	
 	public int update(int id, String message, String name, Place place,
 			Date creationDate, Date scheduledDate, Integer dispatchStatusId, HashMap personIds,
-			HashMap categories, HashMap arStatus,HashMap arAssignmentIds, HashMap arForwardIds) {
+			HashMap categories, HashMap arStatus,HashMap arAssignmentIds, HashMap arForwardIds) throws ConfigurationException {
 
 		SmsStatus status = Facade.getInstance().selectSmsStatus(Constants.SMS_STATUS_EN_ESPERA_CIERRE_DISPATCH); 
 
@@ -361,8 +402,13 @@ public class DispatchService1 {
 						// Creo el SMS
 						SMS sms = new SMS();
 						sms.setMensaje(message.trim());
-	 					if (category !=null)
+
+						PropertiesConfiguration config = new PropertiesConfiguration(com.puriarte.gcp.web.Constantes.PATHAPPCONFIG);
+						Boolean includeCatInMsg= config.getBoolean("include.category.in.msg");
+
+						if ((category !=null) && includeCatInMsg){
 							sms.setMensaje(sms.getMensaje().trim() + " " + category.getName().trim());
+						}
 
 						sms.setPersonMovil(person);
 						sms.setStatus(status);
@@ -395,6 +441,10 @@ public class DispatchService1 {
 					PersonCategory pc = Facade.getInstance().selectPersonCategory(categoryId);
 					assignment1.getJob().setCategory(pc);
 				
+					PropertiesConfiguration config = new PropertiesConfiguration(com.puriarte.gcp.web.Constantes.PATHAPPCONFIG);
+					Boolean includeCatInMsg= config.getBoolean("include.category.in.msg");
+
+					if ((category !=null) && includeCatInMsg){
 					// Creo el SMS
 					SMS sms = new SMS();
 					sms.setMensaje(message.trim());
@@ -409,6 +459,7 @@ public class DispatchService1 {
 					List smsList = assignment1.getSmsList();
 					smsList.add(sms);
 					assignment1.setSmsList(smsList);
+					}
 				}else{
 					// Si hay que reenviar el mensaje
 /*					if (forward){
@@ -648,4 +699,7 @@ public class DispatchService1 {
 			return null;
 		}
 	}	
+	
+	protected static DispatchService1 instance = null;
+
 }

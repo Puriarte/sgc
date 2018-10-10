@@ -6,25 +6,24 @@
 <%@ taglib uri="/WEB-INF/c.tld" prefix="c"%>
 <%@ taglib uri="/WEB-INF/fmt-rt.tld" prefix="fmt-rt"%>
 <%@ taglib uri="/WEB-INF/fn.tld" prefix="fn"%>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//ES" "http://www.w3.org/TR/xhtml2/DTD/xhtml1-strict.dtd">
 <html lang="es">
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 	<meta name="description" content="">
 	<meta name="author" content="">
-	<link rel="icon" href="http://getbootstrap.com/favicon.ico">
+    <link rel="icon" href="images/icon.png">
 	<title>G.C.P.</title>
 	
-		<!-- Bootstrap core CSS -->
+	<!-- Bootstrap core CSS -->
 	<link href="css/bootstrap.min.css" rel="stylesheet">
 	<!-- Custom styles for this template -->
 	<link href="css/dashboard.css" rel="stylesheet">
 	
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-	<link rel="stylesheet" href="/resources/demos/style.css">
   	
   	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 

@@ -51,6 +51,7 @@ public class ActModifyCategoryDispatch extends RestrictionAction {
 		String prefix = config.getString("sms.prefix");
 		String attribute1Name = config.getString("dispatch.attribute1");
 		String attribute2Name = config.getString("dispatch.attribute2");
+		String attribute3Name = config.getString("dispatch.attribute3");
 
 		Logger  logger = Logger.getLogger(ActModifyCategoryDispatch.class.getName());
 		if(dynaForm.get("accion").equals("load")){
@@ -90,6 +91,14 @@ public class ActModifyCategoryDispatch extends RestrictionAction {
 						dynaForm.set("prefix", prefix);
 						dynaForm.set("code", code);
 						dynaForm.set("accion", "send");
+						
+						dynaForm.set("attribute1", attribute1Name);
+						dynaForm.set("attribute2", attribute2Name);
+						dynaForm.set("attribute3", attribute3Name);
+						
+						if ((attribute3Name!=null)&&(!attribute3Name.equals(""))){
+							dynaForm.set("attribute3", dispatch.getAttribute3());
+						}
 						
 						if (dispatch.getScheduledDate()!=null){
 							dynaForm.set("eventDate", DateUtils.formatDate(dispatch.getScheduledDate(), Constants.FORMATO_FECHA_HTML5));
@@ -206,8 +215,8 @@ public class ActModifyCategoryDispatch extends RestrictionAction {
 					}finally{}
 				
 					// Atributos extra
-					String strAttribute1, strAttribute2;
-					String xAttr1="",xAttr2 ="";
+					String strAttribute1, strAttribute2, strAttribute3;
+					String xAttr1="",xAttr2 ="", xAttr3 ="";
 					
 					if ((attribute1Name!=null)&&(!attribute1Name.equals(""))){
 						if ( dynaForm.get("attribute1")!=null)  {
@@ -225,11 +234,25 @@ public class ActModifyCategoryDispatch extends RestrictionAction {
 								xAttr2 =  ", " + attribute2Name + " " + strAttribute2.trim() ;
 							}finally{}
 						}
-					}					
+					}
+
+
+					if ((attribute3Name!=null)&&(!attribute3Name.equals(""))){
+						if ( dynaForm.get("attribute3")!=null)  {
+							strAttribute3= (String) dynaForm.get("attribute3");
+							try{
+								if (attribute3Name.equals(Constants.EXTRA_ATTRIBUTE_NO_LABEL))
+									xAttr3 =  ", " + strAttribute3.trim() ;
+								else
+									xAttr3 =  ", " + attribute3Name + " " + strAttribute3.trim() ;
+							}finally{}
+						}
+					}		
+					
 					String code = (String) dynaForm.get("code");
 				
-				 	String message  = prefix + " " + code + " " + xDate + xEndDate + " " + xPlace + " " + xAttr1 + xAttr2;
-				 	String name=  xDate + xEndDate + " " + xPlace + " " + xAttr1 + xAttr2;
+				 	String message  = prefix + " " + code + " " + xDate + xEndDate + " " + xPlace + " " + xAttr1 + xAttr2 + xAttr3;
+				 	String name=  xDate + xEndDate + " " + xPlace + " " + xAttr1 + xAttr2  + xAttr3;
 				
 					message = message.replace("á", "a").replace("é", "e").replace("í", "i").replace("ó", "o").replace("ú", "u");
 					name= name.replace("á", "a").replace("é", "e").replace("í", "i").replace("ó", "o").replace("ú", "u");
@@ -253,7 +276,7 @@ public class ActModifyCategoryDispatch extends RestrictionAction {
 							arPersonCategory1.put(as.getPersonMovil().getId(), categoryValue);
 						}
 					}
-					String[] arPersonIds = aux.split(",");
+					String[] arPersonIds = aux.split(",");	
 					
 					// Envio los mensajes 
 					Facade.getInstance().sendDispatchSMS(id, arPersonIds, arPersonCategory1 );
