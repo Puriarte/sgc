@@ -21,7 +21,7 @@
 		<!-- Bootstrap core CSS -->
 	<link href="css/bootstrap.min.css" rel="stylesheet">
 	<!-- Custom styles for this template -->
-	<link href="css/dashboard.css" rel="stylesheet">
+	<link href="css/dashboard.css?var=<%=com.jcabi.manifests.Manifests.read("App-Version")%>" rel="stylesheet">
 	
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
   	
@@ -120,6 +120,9 @@
 					</ul>
 					<ul class="nav nav-sidebar">
 						<li><button id="lk_edit" class="btn btn-primary">Modificar</button></li>
+					</ul>
+					<ul class="nav nav-sidebar">
+						<li><button id="lk_delete" class="btn btn-primary">Borrar</button></li>
 					</ul>
 					<ul class="nav nav-sidebar">
 						<li><button id="lk_message" class="btn btn-primary">Crear Mensaje</button></li>

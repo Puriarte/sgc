@@ -160,7 +160,7 @@ public class PersonMovilResult implements javax.persistence.EntityResult{
 	public String getCategoryNames() {
 		String value="";
 		for(PersonCategoryAsociation pc: categories){
-			if (pc!=null)
+			if ((pc!=null) && (pc.getPerson().getPreferedCategory().getId()!=pc.getPersonCategory().getId()))
 				value+=pc.getPersonCategory().getName() + "(" + pc.getPriority() + "), ";
 		}
 		if(value.length()>0) value=value.substring(0,value.length()-2);

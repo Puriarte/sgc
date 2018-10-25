@@ -24,7 +24,7 @@
 </tag>
 <tag>
 <name>put</name>
-<tagclass>org.apache.struts.taglib.template.PutTag</tagclass>
+<tagclass>org.apache.struts.taglib.tiles.PutTag</tagclass>
 <bodycontent>JSP</bodycontent>
 <attribute>
 <name>name</name>

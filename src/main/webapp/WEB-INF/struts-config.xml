@@ -433,6 +433,8 @@
 
 </action>
 
+<!-- PESRONAS _______________________________________________________________
+-->
 
 <action className="com.puriarte.gcp.web.presentation.actions.SecurityActionMapping"
 		path="/updatePerson"
@@ -447,7 +449,6 @@
 		<forward name="failure" path="/resultado_operacion.jsp"/>
 </action>
 
-
 <action className="com.puriarte.gcp.web.presentation.actions.SecurityActionMapping"
 		path="/updatePersonImage"
 		name="frmAdmPereson"
@@ -458,6 +459,19 @@
 		<set-property property="idComponente" value="13"/>
 		<forward name="success" path="/resultado_operacion_json.jsp"/>
 		<forward name="failure" path="/resultado_operacion_json.jsp"/>
+</action>
+
+<action className="com.puriarte.gcp.web.presentation.actions.SecurityActionMapping"
+		path="/deletePerson"
+		name="frmAdmPereson"
+		scope="request"
+		type="com.puriarte.gcp.web.presentation.actions.ActDeletePerson">
+
+		<set-property property="idOpMenu" value="502"/>
+		<set-property property="idComponente" value="13"/>
+		<forward name="load" path="/frm_del_person.jsp"/>
+		<forward name="success" path="/resultado_operacion.jsp"/>
+		<forward name="failure" path="/resultado_operacion.jsp"/>
 </action>
 
 <action className="com.puriarte.gcp.web.presentation.actions.SecurityActionMapping"

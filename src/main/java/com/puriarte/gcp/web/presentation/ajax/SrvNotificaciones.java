@@ -49,6 +49,7 @@ public class SrvNotificaciones extends RestrictionServlet {
 			JSONArray list = new JSONArray();
 			
 			List<SMS> smsOutList = Facade.getInstance().getIncomingSMS(fechaUltimaNotificacion);
+
 			actualizarFechaUltimaNotificacion();
 			
 			for(SMS sms : smsOutList){
@@ -59,7 +60,7 @@ public class SrvNotificaciones extends RestrictionServlet {
 				msg.put("createDate", dTF.format(sms.getCreationDate()));
 				list.add(msg);				
 			}
-			
+
 			StringWriter wrt = new StringWriter();
 			list.writeJSONString(wrt);
 			out.print(wrt.toString());

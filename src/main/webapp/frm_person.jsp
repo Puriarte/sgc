@@ -95,7 +95,7 @@
                     <td colspan="3"><input id="NOMBRE" name="NOMBRE" type="text" placeholder="" class="form-control input-md" value="${stNombre}"></td>
                 </tr>
                 <tr>
-                    <td><label class="col-md-2 control-label input-sm" for="NOMBRE">Nro.Funcionario</label></td>
+                    <td><label class="col-md-2 control-label input-sm" for="NOMBRE">Nro.Empleado</label></td>
                     <td><input id="SOBRENOMBRE" name="SOBRENOMBRE" type="text" placeholder="" class="form-control input-md" value="${stSobreNombre}"></td>
                     <td colspan="2"></td>
                 </tr>

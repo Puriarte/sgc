@@ -24,6 +24,7 @@ import javax.persistence.NonUniqueResultException;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.log4j.Logger;
+import org.jfree.util.Log;
 
 import com.puriarte.convocatoria.core.domain.Constants;
 import com.puriarte.convocatoria.core.exceptions.MovilException;
@@ -154,10 +155,29 @@ public class Facade {
 	 * 
 	 * @param id
 	 */
-	public void removePerson(Person person) throws SQLException {
-		this.personService.borrarPerson(person);
-	}
+//	public void removePerson(Person person) throws SQLException {
+	//	this.personService.borrarPerson(person);
+//	}
 
+
+	/**
+	 * @param idPerson 0 OK -1 NO ENCONTRADO -2 ERROR AL ACTUALIZAR DATOS
+	 */
+	public int deletePerson(int idPerson) {
+		try {
+			Person person = this.personService.getInstance().selectPerson(idPerson);
+			if (person==null)
+				return -1;
+			else {
+				this.personService.getInstance().deletePerson(person);
+				return 0;
+			}
+		}catch(Exception e) {
+			Log.error(e.getMessage());
+			return -2;
+		}
+	}
+	
 	/*
 	 * MOVIL
 	 */
@@ -622,9 +642,21 @@ public class Facade {
 				Constants.SMS_STATUS_PENDIENTE);
 	}
 
+	
+	/**
+	 * Busca los mensajes que se recibieron despues de una hora dada para que
+	 * se puedan mostrar al usuario en tiempo real. Los mensajes retornados se
+	 * marcan como vistos para que no se muestren más de una vez ( estro podría pasar
+	 * si por ejemlo se marca un mensaje con fecha de creado muy posterior a la fecha
+	 * del servidor web)
+	 */
 	public List<SMS> getIncomingSMS(Date fromDate) {
-		return SMSService1.getInstance().selectListByActionAndDate(
+		List<SMS> listaSms = SMSService1.getInstance().selectListByActionAndDate(
 				Constants.SMS_ACTION_INCOME, fromDate);
+		
+		SMSService1.getInstance().updateSMSListAsSeen(listaSms);
+		
+		return listaSms ;
 	}
 
 	public void updatePerson(Person person) {
@@ -902,5 +934,6 @@ public class Facade {
 	public List<Report1> selectReport1(Date from, Date to, String orderBy) {
 		return this.reportService.getInstance().report1(from, to, orderBy);
 	}
+
 
 }

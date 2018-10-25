@@ -73,7 +73,9 @@ public class Person {
 	private String nickname;
 	private String picture;
 	private int priority;
+    private boolean deleted;
 
+	
 	@ManyToOne(cascade={CascadeType.REFRESH},fetch=FetchType.LAZY)
 	@JoinColumn(name="idDocumentType")
 	private DocumentType documentType;
@@ -235,6 +237,18 @@ public class Person {
 
 	public void setPreferedCategory(PersonCategory preferedCategory) {
 		this.preferedCategory = preferedCategory;
+	}
+
+
+
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
 	}
 
 }

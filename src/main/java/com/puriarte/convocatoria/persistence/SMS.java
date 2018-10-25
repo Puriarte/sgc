@@ -55,7 +55,7 @@ import javax.persistence.TemporalType;
         query="SELECT count(s) FROM SMS s where s.personMovil.person.id = :personId and s.word = :word and s.sentDate BETWEEN :from AND :to  "),
         @NamedQuery(name="SelectCountExpiredSMS",
         query="SELECT count(s) FROM SMS s where s.personMovil.person.id = :personId and 1=0  and s.sentDate BETWEEN :from AND :to"),
-
+        @NamedQuery(name="SMS.SetSMSSeen", query="UPDATE SMS s SET s.seen = true WHERE s.id IN (?1)"),
 	})
 @Entity
 public class SMS {
@@ -84,7 +84,9 @@ public class SMS {
     private int action;
     
     private boolean deleted;
-    
+
+    private boolean seen;
+
     @Temporal(TemporalType.TIMESTAMP)
     protected java.util.Date sentDate;
 
@@ -171,6 +173,14 @@ public class SMS {
 
 	public void setDeleted(boolean deleted) {
 		this.deleted = deleted;
+	}
+
+	public boolean isSeen() {
+		return seen;
+	}
+
+	public void setSeen(boolean seen) {
+		this.seen = seen;
 	}
 
 	public java.util.Date getSentDate() {

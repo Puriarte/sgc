@@ -270,6 +270,21 @@ var addOptions={
 			return false;
 
 		});
+		
+		$("#lk_delete").click(function(){
+			try{
+				var id = jQuery("#gridArticulos").jqGrid('getGridParam','selrow');
+				if (id)	{
+			    	BorrarPersona();
+				}else alert("Seleccione una persona");
+				
+			}catch(Exception){
+				alert(Exception.message);
+			}
+			return false;
+
+		});
+		
 		//Para acutalizar la grilla
 		$("#lk_add").click(function(){
 			try{
@@ -575,6 +590,49 @@ function modificarCliente(){
 				}
 			}
 		}).width(775).height(500);
+	}catch(Exception){
+		alert(Exception.message);
+	}
+	return false;
+}
+
+
+function BorrarPersona(){
+	try{
+		$("#accion").val("cargar");
+		var personId = jQuery("#gridArticulos").jqGrid('getGridParam','selrow');
+		
+		var cerrarBtns = {
+                "Aceptar": function () {
+					$("#lk_actualizar").click();
+                    $(this).dialog("close");
+                }
+            };
+		
+		refDialogIframe = $('<iframe id="ifModCliente" frameborder="0" marginwidth="0px" marginheight="0px" style="overflow-y:hidden; overflow-x:scroll;" src="deletePerson.do?accion=load&ID=' + personId + '"/>').dialog({
+			resizable: true,
+			width:795,
+			height:320,
+			modal: true,
+			title: "Borrar Persona",
+			open: function(event, ui){
+				$('body').css('overflow','hidden');
+				$('.ui-widget-overlay').css('width','100%');
+			},
+			close: function(event, ui) {
+				$('body').css('overflow','auto');
+			},
+			buttons: {
+				"Borrar": function() {
+					if (!confirm('Confirma borrar la persona ? ')) return false;
+					refDialogIframe["0"].contentDocument.getElementById("btnEnviar").click();
+					refDialogIframe.dialog("option",'buttons',cerrarBtns);
+				},
+				"Cancelar": function() {
+					$( this ).dialog( "close" );
+				}
+			}
+		}).width(775).height(300);
 	}catch(Exception){
 		alert(Exception.message);
 	}

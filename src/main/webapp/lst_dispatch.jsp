@@ -22,7 +22,7 @@
   	<!-- Bootstrap core CSS -->
 	<link href="css/bootstrap.min.css" rel="stylesheet">
 	<!-- Custom styles for this template -->
-	<link href="css/dashboard.css" rel="stylesheet">
+	<link href="css/dashboard.css?var=<%=com.jcabi.manifests.Manifests.read("App-Version")%>" rel="stylesheet">
 	
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
   	

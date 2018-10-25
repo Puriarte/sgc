@@ -19,7 +19,7 @@
 	<title>G.C.P.</title>
 
   	<link href="css/bootstrap.min.css" rel="stylesheet">
-  	<link href="css/dashboard.css" rel="stylesheet">
+	<link href="css/dashboard.css?var=<%=com.jcabi.manifests.Manifests.read("App-Version")%>" rel="stylesheet">
 
     <script type="text/ecmascript" src="js/jquery-2.1.1.min.js"></script> 
     <script type="text/ecmascript" src="js/jquery.jqGrid-5.2.1.js"></script>

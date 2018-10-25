@@ -321,7 +321,7 @@ public class PersonMovilService extends Service{
 		final EntityManager em = getEntityManager();
 
 		em.getTransaction().begin();
-		em.createNativeQuery("DELETE FROM personpersoncategory where idPerson = :id").setParameter("id",  idperson).executeUpdate();
+		em.createNativeQuery("DELETE FROM personpersoncategory where idPerson = ?1").setParameter(1,  idperson).executeUpdate();
 		em.getTransaction().commit();
 		
 	}

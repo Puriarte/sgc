@@ -158,6 +158,10 @@ public class DispatchService1 extends Service {
 			Query query1 = em.createNamedQuery("Job.SelectJobListFromDispatch")
 					.setParameter("idDispatch", aux1.getId());
 
+			query1.setHint(HINT_STORE_MODE_LABEL,HINT_STORE_MODE_LABEL_REFRESH);
+			query1.setHint(HINT_STORE_REFRESH_LABEL, true);
+			query1.setHint(HINT_STORE_REFRESH_CASCADE_LABEL, HINT_STORE_REFRESH_CASCADE_ALL_PARTS);
+
 			List<Job> jobList = query1.getResultList();
 	
 			aux1.setJobList(jobList);

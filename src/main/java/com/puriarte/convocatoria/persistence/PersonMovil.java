@@ -48,6 +48,7 @@ import com.puriarte.convocatoria.persistence.result.PersonMovilResult;
 					" COALESCE(t2.NICKNAME, '' ) as PERSON_NICKNAME, COALESCE(t2.PICTURE, '' ) as PERSON_PICTURE, COALESCE(t2.PRIORITY , -1) as PRIORITY, COALESCE(T4.NAME, '' ) AS CATEGORY_NAME " +
 					" FROM PERSONCATEGORY t4, DOCUMENTTYPE t3, PERSON t2, MOVIL t1, PERSONMOVIL t0 " +
 					" WHERE (t2.ID = t0.idPerson) " +
+					" AND t2.deleted = 0 " + 
 					" AND (t1.ID = t0.idMovil) "+
 					" AND (t3.ID = t2.idDocumentType) " + 
 					" AND (t4.ID = t2.idPersonCategory) " +

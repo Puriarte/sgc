@@ -7,6 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
 import com.puriarte.convocatoria.persistence.Person;
+import com.puriarte.convocatoria.persistence.SMS;
 
 public class PersonService extends Service{
  
@@ -51,15 +52,6 @@ public class PersonService extends Service{
 
 	}
 
-
-	public void borrarPerson(Person p) {
-		final EntityManager em = getEntityManager();
-
-		em.getTransaction().begin();
-		em.remove(p);
-		em.getTransaction().commit();
-	}
-
 	public void updatePerson(Person person) {
 		final EntityManager em = getEntityManager();
 
@@ -69,6 +61,15 @@ public class PersonService extends Service{
 
 	}
 
+	public void deletePerson(Person person) {
+		final EntityManager em = getEntityManager();
+		person.setDeleted(true);
+		em.getTransaction().begin();
+		em.persist(person);
+		em.getTransaction().commit();
+	}
+
+	
 	public Person selectPerson(String document, int documentType) {
 		final EntityManager em = getEntityManager();
 
@@ -135,4 +136,5 @@ public class PersonService extends Service{
 
 	protected static PersonService instance = null;
 
+	
 }

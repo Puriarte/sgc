@@ -82,7 +82,9 @@
 			<bean:define id="stEventEndHour" name="frmAdmDispatch"	property="eventEndHour" />
 			<bean:define id="stEventDate" name="frmAdmDispatch"	property="eventDate" />
 			<bean:define id="stEventDateAlt2" name="frmAdmDispatch"	property="eventDateAlt2" />
-			<bean:define id="stAttribute3" name="frmAdmDispatch"	property="attribute3" />
+			<logic:notEmpty name="frmAdmDispatch" property="attribute3"  > 
+				<bean:define id="stAttribute3" name="frmAdmDispatch"	property="attribute3" />
+			</logic:notEmpty>	
 
 			<input type="hidden" value="${stPrefix}" name="prefix" id="prefix" />
 			<input type="hidden" value="${stCode}" name="code" id="code" />

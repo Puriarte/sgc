@@ -505,7 +505,20 @@ public class SMSService1 extends Service{
 		
 	}
 
-	protected static SMSService1 instance = null;
+	public void updateSMSListAsSeen(List<SMS> listaSms) {
+		final EntityManager em = getEntityManager();
+		List<Long> ids = new ArrayList<Long>(); 
+		for (SMS sms:listaSms) {
+			ids.add(sms.getId());
+		}
+		
+		em.createNamedQuery("SMS.SetSMSSeen")
+				.setParameter(1, ids)
+				.executeUpdate();
 	
+	}
+
+	
+	protected static SMSService1 instance = null;
 
 }

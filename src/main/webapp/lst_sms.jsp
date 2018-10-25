@@ -21,7 +21,7 @@
 	<!-- Bootstrap core CSS -->
 	<link href="css/bootstrap.min.css" rel="stylesheet">
 	<!-- Custom styles for this template -->
-	<link href="css/dashboard.css" rel="stylesheet">
+	<link href="css/dashboard.css?var=<%=com.jcabi.manifests.Manifests.read("App-Version")%>" rel="stylesheet">
 	
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
   	
@@ -46,7 +46,7 @@
 	<script src="js/autocomplete.js?a=<%= (int) (Math.random() * 100) %>"></script>
 
 	<script
-		src="js/implGrid.js?var=<%=com.jcabi.manifests.Manifests.read("App-Version")%><%= (int) (Math.random() * 100) %>"
+		src="js/implGrid.js?var=<%=com.jcabi.manifests.Manifests.read("App-Version")%>"
 		type="text/javascript"></script>
 
 	<style>
